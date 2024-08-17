@@ -2,7 +2,7 @@ import React from 'react'
 
 const Register = () => {
   return (
-    <div>Hello</div>
+    <div>23:01</div>
   )
 }
 
