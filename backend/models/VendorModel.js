@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Vendor Schema
 const vendorSchema = new mongoose.Schema({
