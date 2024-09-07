@@ -53,7 +53,7 @@ const Dashboard = () => {
         {/* cards */}
         <div className="flex gap-4 p-4 overflow-x-auto flex-wrap">
           {/* Revenue Card */}
-          <div className="bg-white shadow-lg w-[300px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Revenue</p>
               <HiOutlineCurrencyDollar className="text-gray-600 text-xl" />
@@ -72,7 +72,7 @@ const Dashboard = () => {
           </div>
 
           {/* Sales Card */}
-          <div className="bg-white shadow-lg w-[300px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Sales</p>
               <GrMoney className="text-gray-600 text-xl" />
@@ -91,7 +91,7 @@ const Dashboard = () => {
           </div>
 
           {/* Customer Card */}
-          <div className="bg-white shadow-lg w-[300px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Customer</p>
               <MdOutlinePeopleAlt className="text-gray-600 text-xl" />
@@ -110,7 +110,7 @@ const Dashboard = () => {
           </div>
 
           {/* Spending Card */}
-          <div className="bg-white shadow-lg w-[300px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Spending</p>
               <RiPassPendingLine className="text-gray-600 text-xl" />
@@ -130,8 +130,8 @@ const Dashboard = () => {
         </div>
 
         {/* charts */}
-        <div className="flex  gap-4 p-4 overflow-x-auto flex-wrap">
-          <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 w-full  max-w-[500px] max-md:hidden">
+        <div className="flex  gap-4 p-4 overflow-x-auto   justify-between">
+          <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 ">
             <LineChart 
               width={500}
               height={300}
@@ -159,7 +159,8 @@ const Dashboard = () => {
           </div>
 
           {/* Bar charts */}
-          <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 w-full max-w-[430px] max-md:hidden">
+          {/* w-full max-w-[430px] max-md:hidden */}
+          <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0  md:flex-1 ">
             <BarChart
               width={430}
               height={300}
@@ -193,7 +194,7 @@ const Dashboard = () => {
         {/* 3 cards */}
         <div className="flex gap-5 flex-wrap">
           {/* Recent Orders */}
-          <div className="mt-5 rounded-lg bg-white w-[500px] h-[300px] p-4  ">
+          <div className="mt-5 rounded-lg bg-white w-[500px] h-auto md:h-[100%] p-4  ">
             <div className="flex justify-between">
               <p className="font-semibold text-black/90">Recent Orders</p>
               <p className="flex gap-1 items-center p-1 rounded-lg bg-gray-200 cursor-pointer">
@@ -302,7 +303,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/* chat */}
-          <div className="border w-[300px] h-[300px] p-5 rounded-lg bg-white mt-5">
+          <div className="border max-md:w-full w-[300px] h-[300px] p-5 rounded-lg bg-white mt-5">
             <div className="flex gap-2 items-center mb-4">
               <MdOutlineChat className="text-lg" />
               <p className="font-semibold">Quick Chat</p>
@@ -365,7 +366,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/* Top Countries */}
-          <div className="mt-5 bg-white rounded-xl">
+          <div className="mt-5 bg-white rounded-xl max-md:hidden">
             <AreaChart
               width={430}
               height={300}
