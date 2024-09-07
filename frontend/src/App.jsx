@@ -1,16 +1,18 @@
-import React from 'react'
-import Nav from './Components/Nav'
-import Register from './Components/Register'
-import GetAllUser from './Components/GetAllUser'
+import React from "react";
+import Sidebar from "./Components/Sidebar";
+import Search from "./Components/Search";
+import Dashboard from "./Components/Dashboard";
 
 const App = () => {
   return (
-    <div>
-      {/* <Nav/>
-      <Register/> */}
-      <GetAllUser/>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-col w-full">
+        <Search />
+        <Dashboard />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
