@@ -3,7 +3,11 @@ import layout from "./Assets/layout.png";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { IoFileTrayOutline, IoChatboxOutline, IoDocumentTextOutline } from "react-icons/io5";
+import {
+  IoFileTrayOutline,
+  IoChatboxOutline,
+  IoDocumentTextOutline,
+} from "react-icons/io5";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { FiBox } from "react-icons/fi";
 import { FaWpforms } from "react-icons/fa";
@@ -13,32 +17,38 @@ const Sidebar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsCollapsed(prev => !prev);
+    setIsCollapsed((prev) => !prev);
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(prev => !prev);
+    setIsDropdownOpen((prev) => !prev);
   };
 
   return (
     <div
       className={`flex flex-col h-screen bg-white text-black px-4 py-4 border-r-2 sticky top-0 max-md:hidden transition-all duration-300 ${
-        isCollapsed ? 'w-20' : 'w-72 lg:w-80'
+        isCollapsed ? "w-20" : "w-72 lg:w-80"
       }`}
       aria-label="Sidebar"
     >
       {/* Toggle Button */}
+      <div className="flex justify-end">
       <button
         onClick={toggleSidebar}
-        className="mb-4 p-1 text-black border border-gray-300 rounded-md hover:bg-gray-200 transition duration-200"
+        className={`mb-4 p-1 text-black border border-gray-300 rounded-md hover:bg-gray-200 transition duration-200  ${
+          isCollapsed ? "w-11" : "w-11 "
+        }`}
         aria-expanded={!isCollapsed}
         aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
       >
-        {isCollapsed ? '▶' : '◀'}
+        {isCollapsed ? "▶" : "◀"}
       </button>
-
+      </div>
       {/* Logo */}
-      <div className="flex items-center gap-2 cursor-pointer mb-8 justify-center" aria-label="Dashboard Logo">
+      <div
+        className="flex items-center gap-2 cursor-pointer mb-8 justify-center"
+        aria-label="Dashboard Logo"
+      >
         <img src={layout} alt="Dashboard logo" className="w-10 h-10" />
         {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
@@ -54,7 +64,11 @@ const Sidebar = () => {
 
       {/* Apps */}
       <div className="mb-2">
-        <p className={`text-gray-500 mb-2 font-semibold text-sm ${isCollapsed ? 'hidden' : ''}`}>
+        <p
+          className={`text-gray-500 mb-2 font-semibold text-sm ${
+            isCollapsed ? "hidden" : ""
+          }`}
+        >
           Apps
         </p>
         <div
@@ -79,12 +93,23 @@ const Sidebar = () => {
         <ul
           id="apps-dropdown"
           className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
-            isDropdownOpen ? 'max-h-screen' : 'max-h-0'
+            isDropdownOpen ? "max-h-screen" : "max-h-0"
           }`}
         >
-          {['Orders', 'Order Details', 'Products', 'Sellers', 'Customers', 'Shops'].map(item => (
+          {[
+            "Orders",
+            "Order Details",
+            "Products",
+            "Sellers",
+            "Customers",
+            "Shops",
+          ].map((item) => (
             <li key={item}>
-              <a className={`text-sm flex justify-between py-1 cursor-pointer hover:text-blue-500 transition ${isCollapsed ? 'hidden' : ''}`}>
+              <a
+                className={`text-sm flex justify-between py-1 cursor-pointer hover:text-blue-500 transition ${
+                  isCollapsed ? "hidden" : ""
+                }`}
+              >
                 {item}
               </a>
             </li>
@@ -112,7 +137,11 @@ const Sidebar = () => {
 
       {/* Pages */}
       <div className="mt-4">
-        <p className={`text-gray-500 mb-2 font-semibold text-sm ${isCollapsed ? 'hidden' : ''}`}>
+        <p
+          className={`text-gray-500 mb-2 font-semibold text-sm ${
+            isCollapsed ? "hidden" : ""
+          }`}
+        >
           Pages
         </p>
         <div
@@ -126,7 +155,11 @@ const Sidebar = () => {
 
       {/* UI Showcase */}
       <div className="mt-4">
-        <p className={`text-gray-500 mb-2 font-semibold text-sm ${isCollapsed ? 'hidden' : ''}`}>
+        <p
+          className={`text-gray-500 mb-2 font-semibold text-sm ${
+            isCollapsed ? "hidden" : ""
+          }`}
+        >
           UI Showcase
         </p>
         <div
@@ -147,7 +180,11 @@ const Sidebar = () => {
 
       {/* Others */}
       <div className="mt-4">
-        <p className={`text-gray-500 mb-2 font-semibold text-sm ${isCollapsed ? 'hidden' : ''}`}>
+        <p
+          className={`text-gray-500 mb-2 font-semibold text-sm ${
+            isCollapsed ? "hidden" : ""
+          }`}
+        >
           Others
         </p>
         <div
