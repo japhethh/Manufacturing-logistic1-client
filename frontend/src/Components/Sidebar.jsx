@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import layout from "./Assets/layout.png";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
@@ -32,7 +32,7 @@ const Sidebar = () => {
       aria-label="Sidebar"
     >
       {/* Toggle Button */}
-      <div className="flex justify-end">
+      <div className="flex justify-e">
       <button
         onClick={toggleSidebar}
         className={`mb-4 p-1 text-black border border-gray-300 rounded-md hover:bg-gray-200 transition duration-200  ${
