@@ -22,7 +22,7 @@ import {
   Bar,
   Rectangle,
 } from "recharts";
-import { BsEye } from "react-icons/bs";
+// import { BsEye } from "react-icons/bs";
 
 const data = [
   {
@@ -53,7 +53,7 @@ const Dashboard = () => {
         {/* cards */}
         <div className="flex gap-4 p-4 overflow-x-auto flex-wrap">
           {/* Revenue Card */}
-          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Revenue</p>
               <HiOutlineCurrencyDollar className="text-gray-600 text-xl" />
@@ -72,7 +72,7 @@ const Dashboard = () => {
           </div>
 
           {/* Sales Card */}
-          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Sales</p>
               <GrMoney className="text-gray-600 text-xl" />
@@ -91,7 +91,7 @@ const Dashboard = () => {
           </div>
 
           {/* Customer Card */}
-          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Customer</p>
               <MdOutlinePeopleAlt className="text-gray-600 text-xl" />
@@ -110,7 +110,7 @@ const Dashboard = () => {
           </div>
 
           {/* Spending Card */}
-          <div className="bg-white shadow-lg w-[280px] p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+          <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-semibold text-sm">Spending</p>
               <RiPassPendingLine className="text-gray-600 text-xl" />
