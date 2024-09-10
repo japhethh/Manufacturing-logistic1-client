@@ -1,4 +1,7 @@
+import userModel from "../models/userModel.js";
 import User from "../models/userModel.js";
+import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
 
 const getUser = async (req, res) => {
   try {
@@ -27,4 +30,23 @@ const registerUser = async (req, res) => {
   res.status(201).json({ success: true, data: user });
 };
 
-export { getUser, registerUser };
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await userModel.findOne({ email });
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      token: createToken(user._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid Email or Password");
+  }
+});
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET);
+};
+
+export { getUser, registerUser, loginUser };
