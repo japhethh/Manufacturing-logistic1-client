@@ -33,16 +33,16 @@ const Sidebar = () => {
     >
       {/* Toggle Button */}
       <div className="flex justify-e">
-      <button
-        onClick={toggleSidebar}
-        className={`mb-4 p-1 text-black border border-gray-300 rounded-md hover:bg-gray-200 transition duration-200  ${
-          isCollapsed ? "w-11" : "w-11 "
-        }`}
-        aria-expanded={!isCollapsed}
-        aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-      >
-        {isCollapsed ? "▶" : "◀"}
-      </button>
+        <button
+          onClick={toggleSidebar}
+          className={`mb-4 p-1 text-black border border-gray-300 rounded-md hover:bg-gray-200 transition duration-200  ${
+            isCollapsed ? "w-11" : "w-11 "
+          }`}
+          aria-expanded={!isCollapsed}
+          aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+        >
+          {isCollapsed ? "▶" : "◀"}
+        </button>
       </div>
       {/* Logo */}
       <div
@@ -71,26 +71,43 @@ const Sidebar = () => {
         >
           Apps
         </p>
-        <div
-          className="flex gap-2 items-center cursor-pointer text-sm hover:text-blue-500 transition duration-200"
-          onClick={toggleDropdown}
-          aria-expanded={isDropdownOpen}
-          aria-controls="apps-dropdown"
-          aria-label="Ecommerce Apps"
-        >
-          <BsBoxSeam className="w-5 h-5" />
-          {!isCollapsed && <span>Ecommerce</span>}
-          {!isCollapsed && (
-            <div className="ml-auto">
-              {isDropdownOpen ? (
-                <IoIosArrowUp size={15} />
-              ) : (
-                <IoIosArrowDown size={15} />
-              )}
-            </div>
-          )}
-        </div>
-        <ul
+
+        {/* Dropdown */}
+        <ul className="menu w-56">
+          <li>
+            <a>Item 1</a>
+          </li>
+          <li>
+            <details open>
+              <summary>Procurement</summary>
+              <ul>
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+                <li>
+                  <details open>
+                    <summary>Parent</summary>
+                    <ul>
+                      <li>
+                        <a>Submenu 1</a>
+                      </li>
+                      <li>
+                        <a>Submenu 2</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <a>Item 3</a>
+          </li>
+        </ul>
+        {/* <ul
           id="apps-dropdown"
           className={`pl-6 mt-1 space-y-1 overflow-hidden transition-max-height duration-500 ease-in-out ${
             isDropdownOpen ? "max-h-screen" : "max-h-0"
@@ -114,7 +131,7 @@ const Sidebar = () => {
               </a>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
 
       {/* File Manager */}
