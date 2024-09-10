@@ -33,7 +33,7 @@ const registerUser = async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await userModel.FindOne({ email });
+  const user = await userModel.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -46,7 +46,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+  return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
 export { getUser, registerUser, loginUser };
