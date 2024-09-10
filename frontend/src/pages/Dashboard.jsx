@@ -8,8 +8,7 @@ import { IoCodeDownloadOutline } from "react-icons/io5";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { CiTrash } from "react-icons/ci";
 import { MdOutlineChat } from "react-icons/md";
-import Sidebar from "./Sidebar";
-import Search from "./Search";
+
 import {
   AreaChart,
   Area,
@@ -51,9 +50,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="flex">
-        <Sidebar />
         <div className="flex-col w-full">
-          <Search />
           <div className="bg-gray-200 text-black h-auto p-5">
             {/* 4 cards */}
             <p className="font-semibold">Overview</p>
