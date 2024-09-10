@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 
 const Register = () => {
   return (
-    <div className="h-screen py-6">
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-xl px-6 py-6 flex flex-col items-center">
-        <h1 className="text-lg font-bold text-center text-gray-700 mb-6">
-          Welcome to Logistic 1
+    <div className="h-screen flex items-center justify-center bg-gray-100 py-2">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg px-4 py-4 flex flex-col items-center">
+        <h1 className="text-xl font-semibold text-center text-gray-800 mb-3">
+          Sign Up for Logistic 1
         </h1>
-        <form className="w-full flex flex-col gap-3">
+        <form className="w-full flex flex-col gap-2">
           <div className="flex flex-col">
             <label htmlFor="firstName" className="text-sm text-gray-700 mb-1">
-              First Name:
+              First Name
             </label>
             <input
               type="text"
@@ -23,7 +23,7 @@ const Register = () => {
 
           <div className="flex flex-col">
             <label htmlFor="lastName" className="text-sm text-gray-700 mb-1">
-              Last Name:
+              Last Name
             </label>
             <input
               type="text"
@@ -35,7 +35,7 @@ const Register = () => {
 
           <div className="flex flex-col">
             <label htmlFor="username" className="text-sm text-gray-700 mb-1">
-              Username:
+              Username
             </label>
             <input
               type="text"
@@ -47,7 +47,7 @@ const Register = () => {
 
           <div className="flex flex-col">
             <label htmlFor="email" className="text-sm text-gray-700 mb-1">
-              Email:
+              Email
             </label>
             <input
               type="email"
@@ -59,7 +59,7 @@ const Register = () => {
 
           <div className="flex flex-col">
             <label htmlFor="password" className="text-sm text-gray-700 mb-1">
-              Password:
+              Password
             </label>
             <input
               type="password"
@@ -74,7 +74,7 @@ const Register = () => {
               htmlFor="confirmPassword"
               className="text-sm text-gray-700 mb-1"
             >
-              Confirm Password:
+              Confirm Password
             </label>
             <input
               type="password"
@@ -86,14 +86,14 @@ const Register = () => {
 
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm mt-4"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow-sm mt-3"
           >
             Register
           </button>
         </form>
 
-        <div className="mt-4 text-center">
-          <span className="text-sm text-gray-500">
+        <div className="mt-3 text-center">
+          <span className="text-sm text-gray-600">
             Already have an account?{" "}
           </span>
           <Link to="/" className="text-blue-500 hover:text-blue-600">
