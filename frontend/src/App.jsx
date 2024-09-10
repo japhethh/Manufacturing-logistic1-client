@@ -7,7 +7,7 @@ import Register from "./Components/Authentication/Register";
 import Log from "./Components/Authentication/Log";
 const App = () => {
   return (
-      <div className="flex">
+      <div className="flex" data-theme="light">
       
         <div className="flex-col w-full">
         
