@@ -10,7 +10,7 @@ const Log = () => {
     <div className="min-h-screen flex items-center justify-center w-full bg-gray-50">
       <div className="bg-white shadow-xl rounded-lg px-8 py-6 max-w-md">
         <h1 className="text-2xl font-bold text-center mb-4 text-gray-900">
-          Welcome Back!
+          Welcome Logistic 1
         </h1>
         <form>
           <div className="mb-4">
@@ -64,7 +64,10 @@ const Log = () => {
                 Remember me
               </label>
             </div>
-            <Link to="/register" className="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <Link
+              to="/register"
+              className="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
               Create Account
             </Link>
           </div>
