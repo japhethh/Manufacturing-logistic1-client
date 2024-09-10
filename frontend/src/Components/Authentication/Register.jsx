@@ -6,7 +6,7 @@ const Register = () => {
     <div className="h-screen py-6">
       <div className="max-w-md mx-auto bg-white rounded-lg shadow-xl px-6 py-6 flex flex-col items-center">
         <h1 className="text-lg font-bold text-center text-gray-700 mb-6">
-          Welcome to My Company
+          Welcome to Logistic 1
         </h1>
         <form className="w-full flex flex-col gap-3">
           <div className="flex flex-col">
