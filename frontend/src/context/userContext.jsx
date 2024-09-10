@@ -8,7 +8,11 @@ const UserContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    async function loadData() {}
+    async function loadData() {
+      if (localStorage.getItem("token")) {
+        setToken(localStorage.getItem);
+      }
+    }
     loadData();
   }, []);
 
