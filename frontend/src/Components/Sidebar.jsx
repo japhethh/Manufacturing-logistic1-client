@@ -76,9 +76,7 @@ const Sidebar = () => {
 
         {/*  */}
         <ul className="menu w-56">
-          <li>
-            <a>Item 1</a>
-          </li>
+       
           <li>
             <details open>
               <summary>Procurement</summary>
@@ -89,30 +87,29 @@ const Sidebar = () => {
                     className={({ isActive }) =>
                       isActive
                         ? "text-base-200 bg-blue-500 font-bold "
-                        : "text-gray-600 "
+                        : "text-black "
                     }
                   >
                     Order History
                   </NavLink>
-                  <a>Purchase Orders</a>
+                </li>
+                <li>
+                  <NavLink
+                    to="purchaseorder"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-base-200 bg-blue-500 font-bold "
+                        : "text-black "
+                    }
+                  >
+                    Purchase Order
+                  </NavLink>
                 </li>
                 <li>
                   <a>Supplier Management</a>
                 </li>
                 <li>
                   <a>Order History</a>
-                </li>
-                <li>
-                <NavLink
-                    to="purchaseorder"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "text-base-200 bg-blue-500 font-bold "
-                        : "text-gray-600 "
-                    }
-                  >
-                    Purchase Order
-                  </NavLink>
                 </li>
               </ul>
             </details>
