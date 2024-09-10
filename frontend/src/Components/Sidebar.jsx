@@ -3,6 +3,7 @@ import layout from "./Assets/layout.png";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { NavLink } from "react-router-dom";
 import {
   IoFileTrayOutline,
   IoChatboxOutline,
@@ -11,6 +12,7 @@ import {
 import { RiFilePaper2Line } from "react-icons/ri";
 import { FiBox } from "react-icons/fi";
 import { FaWpforms } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -75,10 +77,23 @@ const Sidebar = () => {
         {/*  */}
         <ul className="menu w-56">
           <li>
+            <a>Item 1</a>
+          </li>
+          <li>
             <details open>
               <summary>Procurement</summary>
               <ul>
                 <li>
+                  <NavLink
+                    to="orderhistory"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-base-200 bg-blue-500 font-bold "
+                        : "text-gray-600 "
+                    }
+                  >
+                    Order History
+                  </NavLink>
                   <a>Purchase Orders</a>
                 </li>
                 <li>
@@ -88,7 +103,16 @@ const Sidebar = () => {
                   <a>Order History</a>
                 </li>
                 <li>
-                  <a>Document Management</a>
+                <NavLink
+                    to="purchaseorder"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-base-200 bg-blue-500 font-bold "
+                        : "text-gray-600 "
+                    }
+                  >
+                    Purchase Order
+                  </NavLink>
                 </li>
               </ul>
             </details>
