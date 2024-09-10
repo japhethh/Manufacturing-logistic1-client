@@ -87,24 +87,21 @@ const Sidebar = () => {
                 <li>
                   <a>Submenu 2</a>
                 </li>
-                <li>
-                  <details open>
-                    <summary>Parent</summary>
-                    <ul>
-                      <li>
-                        <a>Submenu 1</a>
-                      </li>
-                      <li>
-                        <a>Submenu 2</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
               </ul>
             </details>
           </li>
           <li>
-            <a>Item 3</a>
+            <details open>
+              <summary>Audit Management</summary>
+              <ul>
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </details>
           </li>
         </ul>
         {/* <ul
