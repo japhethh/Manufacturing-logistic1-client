@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import axios from 'axios';
-
-
 const Log = () => {
-
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center w-full bg-gray-50">

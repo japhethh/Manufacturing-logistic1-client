@@ -65,7 +65,7 @@ const Sidebar = () => {
       {/* Apps */}
       <div className="mb-2">
         <p
-          className={`text-gray-500 mb-2 font-semibold text-sm ${
+          className={`text-gray-500 font-semibold text-sm ${
             isCollapsed ? "hidden" : ""
           }`}
         >
@@ -75,17 +75,20 @@ const Sidebar = () => {
         {/*  */}
         <ul className="menu w-56">
           <li>
-            <a>Item 1</a>
-          </li>
-          <li>
             <details open>
               <summary>Procurement</summary>
               <ul>
                 <li>
-                  <a>Submenu 1</a>
+                  <a>Purchase Orders</a>
                 </li>
                 <li>
-                  <a>Submenu 2</a>
+                  <a>Supplier Management</a>
+                </li>
+                <li>
+                  <a>Order History</a>
+                </li>
+                <li>
+                  <a>Document Management</a>
                 </li>
               </ul>
             </details>
