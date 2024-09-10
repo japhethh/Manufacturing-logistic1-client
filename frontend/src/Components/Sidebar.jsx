@@ -72,7 +72,7 @@ const Sidebar = () => {
           Apps
         </p>
 
-        {/* Dropdown */}
+        {/*  */}
         <ul className="menu w-56">
           <li>
             <a>Item 1</a>

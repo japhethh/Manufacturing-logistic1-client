@@ -1,17 +1,23 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
 import Dashboard from "./Components/Dashboard";
-
+import Register from "./Components/Authentication/Register";
+import Log from "./Components/Authentication/Log";
 const App = () => {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-col w-full">
-        <Search />
-        <Dashboard />
+      <div className="flex">
+      
+        <div className="flex-col w-full">
+        
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/log" element={<Log />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
       </div>
-    </div>
   );
 };
 
