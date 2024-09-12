@@ -1,6 +1,6 @@
 import express from 'express';
 import { getUser,registerUser,loginUser } from '../controllers/userController.js';
-
+import axios from 'axios';
 const userRouter = express.Router();
 
 userRouter.get("/getAllUsers",getUser);
