@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -12,8 +12,8 @@ const Log = () => {
   }
 
   const navigate = useNavigate();
-
   const { apiURL, setToken } = context;
+
   const {
     register,
     handleSubmit,
@@ -22,20 +22,26 @@ const Log = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
+
     if (!data.email || !data.password) {
-      toast.warning("Please Fill all the field");
+      toast.warning("Please fill all fields");
       return;
     }
 
     try {
       const response = await axios.post(`${apiURL}/api/user/login`, data);
 
-      setToken(localStorage.setItem("token", response.data.token));
+      // Set token in context and localStorage
+      setToken(response.data.token);
+      localStorage.setItem("token", response.data.token);
+
       console.log(response.data.token);
-      toast.success("Login Successfully");
+      toast.success("Login successful");
       navigate("/");
     } catch (error) {
-      toast.error(error);
+      toast.error(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
     }
   };
 
@@ -58,7 +64,7 @@ const Log = () => {
               id="email"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="your@email.com"
-              {...register("email", { required: "Email is Required" })}
+              {...register("email", { required: "Email is required" })}
             />
             {errors.email && (
               <span className="text-red-500">{errors.email.message}</span>
@@ -76,7 +82,7 @@ const Log = () => {
               id="password"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your password"
-              {...register("password", { required: "Email is Required" })}
+              {...register("password", { required: "Password is required" })}
             />
             {errors.password && (
               <span className="text-red-500">{errors.password.message}</span>
@@ -103,12 +109,6 @@ const Log = () => {
                 Remember me
               </label>
             </div>
-            <Link
-              to="/register"
-              className="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Create Account
-            </Link>
           </div>
           <button
             type="submit"

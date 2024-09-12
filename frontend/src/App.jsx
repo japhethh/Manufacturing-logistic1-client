@@ -49,7 +49,18 @@ const App = () => {
     );
   }
 
-  // Check if the current route is login, register
+  // Define valid paths
+  const validPaths = ["/", "/orderhistory", "/purchaseorder", "/login", "/register"];
+
+  // Check if the current route is valid or not
+  const isValidRoute = validPaths.includes(location.pathname);
+
+  // If the route is invalid, show the NotFound page and hide login/register
+  if (!isValidRoute) {
+    return <NotFoundWrapper />;
+  }
+
+  // Check if the current route is login or register
   const isAuthPage =
     location.pathname === "/register" || location.pathname === "/login";
 
@@ -57,19 +68,20 @@ const App = () => {
     <div className={`flex min-h-screen`} data-theme="light">
       <ToastContainer />
 
-      {/* Only render Sidebar and Search if not on login/register routes */}
-      {!isAuthPage && location.pathname !== "*" &&   <Sidebar />}
+      {/* Only render Sidebar if not on login/register routes */}
+      {!isAuthPage && <Sidebar />}
       <div className="flex-col w-full">
-        {!isAuthPage && location.pathname !== "*" && <Search />}
+        {/* Always render Search */}
+        {!isAuthPage && <Search />}
 
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/orderhistory" element={<Orderhistory />} />
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
-          <Route path="/register" element={<Register />} />
-          
-          {/* Explicitly handle NotFound */}
+          {/* <Route path="/register" element={<Register />} /> */}
+
+          {/* Catch-all route for NotFound */}
           <Route path="*" element={<NotFoundWrapper />} />
         </Routes>
       </div>

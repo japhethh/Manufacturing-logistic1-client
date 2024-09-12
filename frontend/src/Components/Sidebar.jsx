@@ -12,7 +12,6 @@ import {
 import { RiFilePaper2Line } from "react-icons/ri";
 import { FiBox } from "react-icons/fi";
 import { FaWpforms } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

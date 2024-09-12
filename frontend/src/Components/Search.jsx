@@ -11,13 +11,13 @@ const Search = () => {
   }
 
   return (
-    <div className="w-full p-5 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
+    <div className="w-full py-5 px-10 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
       <div className="flex justify-between max-md:flex max-md:justify-end">
         <div className="flex gap-5 items-center w-[600px] max-md:hidden">
           {/* Sidebar toggle button */}
 
           {/* Search form */}
-          <form className="flex items-center max-w-lg w-full ">
+          <form className="flex items-center max-w-lg w-full">
             <label htmlFor="voice-search" className="sr-only">
               Search
             </label>
