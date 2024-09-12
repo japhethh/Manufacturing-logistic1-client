@@ -9,10 +9,12 @@ const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadData() {
-      if (localStorage.getItem("token")) {
-        setToken(localStorage.getItem);
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
       }
     }
+
     loadData();
   }, []);
 

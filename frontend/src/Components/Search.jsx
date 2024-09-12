@@ -4,6 +4,12 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 const Search = () => {
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    window.location.href = "/login"    
+  }
+
   return (
     <div className="w-full p-5 bg-white text-black/70 h-[85px] rounded-l-sm sticky top-0 z-50">
       <div className="flex justify-between max-md:flex max-md:justify-end">
@@ -101,8 +107,8 @@ const Search = () => {
               <li>
                 <a>Settings</a>
               </li>
-              <li>
-                <a>Log out</a>
+              <li onClick={handleLogout}>
+                <a >Log out</a>
               </li>
             </ul>
           </div>

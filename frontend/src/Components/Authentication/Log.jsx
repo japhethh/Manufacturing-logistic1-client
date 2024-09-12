@@ -1,9 +1,43 @@
-import { Link } from "react-router-dom";
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
+
 const Log = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    return null;
+  }
 
+  const navigate = useNavigate();
 
-  
+  const { apiURL, setToken } = context;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    if (!data.email || !data.password) {
+      toast.warning("Please Fill all the field");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${apiURL}/api/user/login`, data);
+
+      setToken(localStorage.setItem("token", response.data.token));
+      console.log(response.data.token);
+      toast.success("Login Successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error(error);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center w-full bg-gray-50">
@@ -11,7 +45,7 @@ const Log = () => {
         <h1 className="text-2xl font-bold text-center mb-4 text-gray-900">
           Welcome Logistic 1
         </h1>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -24,8 +58,11 @@ const Log = () => {
               id="email"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="your@email.com"
-              required
+              {...register("email", { required: "Email is Required" })}
             />
+            {errors.email && (
+              <span className="text-red-500">{errors.email.message}</span>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -39,8 +76,11 @@ const Log = () => {
               id="password"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your password"
-              required
+              {...register("password", { required: "Email is Required" })}
             />
+            {errors.password && (
+              <span className="text-red-500">{errors.password.message}</span>
+            )}
             <a
               href="#"
               className="text-xs text-gray-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -71,10 +111,6 @@ const Log = () => {
             </Link>
           </div>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              alert("hello");
-            }}
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

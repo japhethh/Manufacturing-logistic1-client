@@ -36,7 +36,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await userModel.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    res.json({
+    res.json({success:true,
       token: createToken(user._id),
     });
   } else {
