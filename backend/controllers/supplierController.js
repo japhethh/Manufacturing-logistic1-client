@@ -25,7 +25,36 @@ const getSupplierById = asyncHandler(async (req, res) => {
 });
 
 const createSupplier = asyncHandler(async (req, res) => {
-  const {supplier}
+  const {
+    supplierName,
+    supplierCode,
+    contactPerson,
+    contactEmail,
+    contactPhone,
+    address,
+    paymentTerms,
+    rating,
+    materialsSupplied,
+  } = req.body;
+
+  const newSupplier = new supplierModel({
+    supplierName,
+    supplierCode,
+    contactPerson,
+    contactEmail,
+    contactPhone,
+    address,
+    paymentTerms,
+    rating,
+    materialsSupplied,
+  });
+
+  try {
+    const saveSuppliers = await newSupplier.save();
+    res.status(201).json(saveSuppliers);
+  } catch (err) {
+    res.status(400).json({ errors: err.message });
+  }
 });
 
 export { getAllSupplier, getSupplierById, createSupplier };
