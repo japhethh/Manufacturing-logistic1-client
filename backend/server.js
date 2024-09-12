@@ -5,7 +5,7 @@ import { ConnectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import axios from "axios";
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const app = express();
 app.use(cors());
