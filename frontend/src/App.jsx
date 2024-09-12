@@ -24,42 +24,43 @@ const App = () => {
     const verifyToken = () => {
       const storedToken = localStorage.getItem("token");
 
-   
-      if(!storedToken){
+      if (
+        !storedToken &&
+        location.pathname !== "/login" &&
+        location.pathname !== "/register"
+      ) {
         navigate("/login");
-      }else{
-        setIsTokenVerified(true)
+      } else {
+        setIsTokenVerified(true);
       }
     };
 
-  
-
     verifyToken();
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   // If token verification is not complete, show a loading screen
-  // if (!isTokenVerified) {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-screen">
-  //       <div className="text-center">
-  //         <p>Loading...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!isTokenVerified) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
-  // Check if the current route is login or register
+  // Check if the current route is login, register
   const isAuthPage =
-    location.pathname === "/register" || location.pathname === "/login" || location.pathname === "*";
+    location.pathname === "/register" || location.pathname === "/login";
 
   return (
-    <div className={`flex  min-h-screen`} data-theme="light">
+    <div className={`flex min-h-screen`} data-theme="light">
       <ToastContainer />
 
       {/* Only render Sidebar and Search if not on login/register routes */}
-      {!isAuthPage && <Sidebar />}
+      {!isAuthPage && location.pathname !== "*" &&   <Sidebar />}
       <div className="flex-col w-full">
-        {!isAuthPage && <Search />}
+        {!isAuthPage && location.pathname !== "*" && <Search />}
 
         <Routes>
           <Route path="/" element={<Dashboard />} />
@@ -67,9 +68,19 @@ const App = () => {
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
           <Route path="/register" element={<Register />} />
-          <Route path="*" element={<NotFound/>}/>
+          
+          {/* Explicitly handle NotFound */}
+          <Route path="*" element={<NotFoundWrapper />} />
         </Routes>
       </div>
+    </div>
+  );
+};
+
+const NotFoundWrapper = () => {
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <NotFound />
     </div>
   );
 };
