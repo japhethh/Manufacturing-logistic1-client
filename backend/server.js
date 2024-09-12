@@ -4,6 +4,7 @@ import "dotenv/config";
 import { ConnectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import axios from "axios";
+import rawmaterialRouter from "./routes/rawRoute.js";
 
 const port = process.env.PORT || 4000;
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/api/user", userRouter);
+app.use("/api/rawmaterial",rawmaterialRouter)
 
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
