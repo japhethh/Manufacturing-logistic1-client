@@ -45,7 +45,7 @@ const Sidebar = () => {
         className="flex items-center gap-2 cursor-pointer mb-8 justify-center"
         aria-label="Dashboard Logo"
       >
-        <img src={layout} alt="Dashboard logo" className="w-10 h-10" />
+        <img src={layout} alt="Dashboard logo" className="w-7 h-7" />
         {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
 
@@ -91,7 +91,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-lg font-semibold">Procurement</span>
+                    <span className="text-base font-semibold ml-2">Procurement</span>
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
@@ -141,9 +141,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-lg font-semibold">
-                      Audit Management
-                    </span>
+                    <span className="text-base font-semibold ml-2">Audit</span>
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
@@ -191,7 +189,7 @@ const Sidebar = () => {
             }`}
           />
           {!isCollapsed && (
-            <p className="text-lg font-semibold">File Manager</p>
+            <p className="text-base font-semibold ml-2">File Manager</p>
           )}
         </div>
 
@@ -205,7 +203,7 @@ const Sidebar = () => {
               isCollapsed ? "w-7 h-7" : "w-5 h-5"
             }`}
           />
-          {!isCollapsed && <p className="text-lg font-semibold">Chat</p>}
+          {!isCollapsed && <p className="text-base font-semibold ml-2">Chat</p>}
         </div>
 
         {/* Pages */}
@@ -226,7 +224,7 @@ const Sidebar = () => {
                 isCollapsed ? "w-7 h-7" : "w-5 h-5"
               }`}
             />
-            {!isCollapsed && <p className="text-lg font-semibold">Landing</p>}
+            {!isCollapsed && <p className="text-base font-semibold ml-2">Landing</p>}
           </div>
         </div>
 
@@ -249,7 +247,7 @@ const Sidebar = () => {
               }`}
             />
             {!isCollapsed && (
-              <p className="text-lg font-semibold">Components</p>
+              <p className="text-base font-semibold ml-2">Components</p>
             )}
           </div>
           <div
@@ -261,7 +259,7 @@ const Sidebar = () => {
                 isCollapsed ? "w-7 h-7" : "w-5 h-5"
               }`}
             />
-            {!isCollapsed && <p className="text-lg font-semibold">Forms</p>}
+            {!isCollapsed && <p className="text-base font-semibold ml-2">Forms</p>}
           </div>
         </div>
       </div>
@@ -285,7 +283,7 @@ const Sidebar = () => {
             }`}
           />
           {!isCollapsed && (
-            <p className="text-lg font-semibold">Documentation</p>
+            <p className="text-base font-semibold ml-2">Documentation</p>
           )}
         </div>
       </div>
