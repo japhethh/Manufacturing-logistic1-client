@@ -18,9 +18,8 @@ app.get("/", (req, res) => {
   res.send("Hello world ");
 });
 
-
 app.use("/api/user", userRouter);
-app.use("/api/rawmaterial",rawmaterialRouter)
+app.use("/api/rawmaterial", rawmaterialRouter);
 
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);

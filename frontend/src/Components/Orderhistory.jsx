@@ -11,6 +11,7 @@ const Orderhistory = () => {
       try {
         const response = await axios.get("http://localhost:4000/api/user/getAllUsers");
         setUsers(response.data.data);
+        console.log(response.data.data)
       } catch (error) {
         setError('Error fetching users. Please try again later.');
       } finally {
