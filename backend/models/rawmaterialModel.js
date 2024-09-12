@@ -16,7 +16,9 @@ const rawmaterialSchema = mongoose.Schema({
   },
   material:[{
     materialName:String,
-    materialId:{type:mongoose.Schema.Types.ObjectId, ref:"Material"},
+    materialId:{
+      type:mongoose.Schema.Types.ObjectId, 
+      ref:"Material"},
     quantity:Number,
     unit:String,
   }
