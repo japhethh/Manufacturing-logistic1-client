@@ -5,8 +5,7 @@ const requested = asyncHandler(async (req, res) => {
   try {
     const request = await rawmaterialModel
       .find()
-      .populate("material.materialId");
-
+      // .populate("material.materialId");
     res.status(200).json(request);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -14,11 +13,11 @@ const requested = asyncHandler(async (req, res) => {
 });
 
 const newRequested = asyncHandler(async (req, res) => {
-  const { requestBy, material, priority } = req.body;
+  const { requestedBy, material, priority } = req.body;
 
   const newRequest = new rawmaterialModel({
-    requestBy: requestBy,
-    materials: materials,
+    requestedBy: requestedBy,
+    material: material,
     priority: priority,
   });
 
