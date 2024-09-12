@@ -17,6 +17,14 @@ const getUser = async (req, res) => {
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
+
+  const exist = await User.findOne({email});
+
+
+  if(exist){
+  return res.status(400).json({success:false, message:"Existing Account!"})
+  }
+
   const newUser = new User({
     name: name,
     email: email,
