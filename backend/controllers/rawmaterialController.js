@@ -4,9 +4,8 @@ import asyncHandler from "express-async-handler";
 
 const requested = asyncHandler(async (req, res) => {
   try {
-    const request = await rawmaterialModel
-      .find()
-      // .populate("material.materialId");
+    const request = await rawmaterialModel.find();
+    // .populate("material.materialId");
     res.status(200).json(request);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -25,7 +24,9 @@ const newRequested = asyncHandler(async (req, res) => {
   try {
     const save = await newRequest.save();
 
-    save = await MaterialModel.populate()
+    save = await MaterialModel.populate(save, {
+      path: "material.materialId",
+    });
     res.status(201).json(save);
   } catch (error) {
     res.status(400).json({ error: err.message });

@@ -25,7 +25,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     return res.status(400).json("Enter all field!");
   }
 
-  const material = new MaterialModel({
+  const material =  new MaterialModel({
     materialName: materialName,
     materialCode: materialCode,
     description: description,
@@ -41,7 +41,7 @@ const createMaterial = asyncHandler(async (req, res) => {
 
 // Get all material
 const getAllMaterial = asyncHandler(async (req, res) => {
-  const materials = await MaterialModel.find({});
+  const materials = await MaterialModel.find({}).populate("supplier");
   res.status(200).json(materials);
 });
 // Get a single material ID
