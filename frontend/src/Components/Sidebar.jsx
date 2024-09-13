@@ -104,7 +104,7 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Order History</p>
+                      <p className="text-base">Raw Material Request</p>
                     </NavLink>
                   </li>
                   <li>
@@ -116,12 +116,12 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Purchase Order</p>
+                      <p className="text-base">Budget Request</p>
                     </NavLink>
                   </li>
                   <li>
                     <a href="#supplier-management" className="text-base">
-                      Supplier Management
+                      Purchase Orders
                     </a>
                   </li>
                 </ul>

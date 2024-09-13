@@ -65,7 +65,7 @@ const App = () => {
     location.pathname === "/register" || location.pathname === "/login";
 
   return (
-    <div className={`flex min-h-screen`} data-theme="light">
+    <div className={`flex min-h-screen  `} data-theme="light">
       <ToastContainer />
 
       {/* Only render Sidebar if not on login/register routes */}
