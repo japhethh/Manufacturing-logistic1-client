@@ -42,7 +42,7 @@ const Sidebar = () => {
 
       {/* Logo */}
       <div
-        className="flex items-center gap-2 cursor-pointer mb-8 justify-center"
+        className="flex items-center justify-center gap-2 mb-8 cursor-pointer"
         aria-label="Dashboard Logo"
       >
         <img src={layout} alt="Dashboard logo" className="w-7 h-7" />
@@ -54,7 +54,7 @@ const Sidebar = () => {
         {/* Dashboard */}
         <Link to="/">
           <div
-            className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 transition-all duration-300 p-2 rounded-md mb-4 cursor-pointer"
+            className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-gray-300"
             aria-label="Dashboard"
           >
             <MdOutlineScreenshotMonitor
@@ -77,7 +77,7 @@ const Sidebar = () => {
           >
             Apps
           </p>
-          <ul className="menu rounded-box w-full">
+          <ul className="w-full menu rounded-box">
             {/* Procurement */}
             <li>
               <details
@@ -91,13 +91,13 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold ml-2">Procurement</span>
+                    <span className="ml-2 text-base font-semibold">Procurement</span>
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li>
+                  <li className="mt-1">
                     <NavLink
-                      to="orderhistory"
+                      to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
                           ? "text-base-200 bg-blue-500 font-bold"
@@ -107,7 +107,7 @@ const Sidebar = () => {
                       <p className="text-base">Raw Material Request</p>
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="mt-1">
                     <NavLink
                       to="purchaseorder"
                       className={({ isActive }) =>
@@ -119,7 +119,7 @@ const Sidebar = () => {
                       <p className="text-base">Budget Request</p>
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="mt-1">
                     <a href="#supplier-management" className="text-base">
                       Purchase Orders
                     </a>
@@ -141,7 +141,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold ml-2">Audit</span>
+                    <span className="ml-2 text-base font-semibold">Audit</span>
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
@@ -180,7 +180,7 @@ const Sidebar = () => {
 
         {/* File Manager */}
         <div
-          className="flex gap-2 items-center text-base cursor-pointer mb-2 hover:text-blue-500 transition"
+          className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
           aria-label="File Manager"
         >
           <IoFileTrayOutline
@@ -189,13 +189,13 @@ const Sidebar = () => {
             }`}
           />
           {!isCollapsed && (
-            <p className="text-base font-semibold ml-2">File Manager</p>
+            <p className="ml-2 text-base font-semibold">File Manager</p>
           )}
         </div>
 
         {/* Chat */}
         <div
-          className="flex gap-2 items-center text-base cursor-pointer mb-2 hover:text-blue-500 transition"
+          className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
           aria-label="Chat"
         >
           <IoChatboxOutline
@@ -203,7 +203,7 @@ const Sidebar = () => {
               isCollapsed ? "w-7 h-7" : "w-5 h-5"
             }`}
           />
-          {!isCollapsed && <p className="text-base font-semibold ml-2">Chat</p>}
+          {!isCollapsed && <p className="ml-2 text-base font-semibold">Chat</p>}
         </div>
 
         {/* Pages */}
@@ -216,7 +216,7 @@ const Sidebar = () => {
             Pages
           </p>
           <div
-            className="flex gap-2 items-center text-base cursor-pointer mb-2 hover:text-blue-500 transition"
+            className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
             aria-label="Landing Page"
           >
             <RiFilePaper2Line
@@ -224,7 +224,7 @@ const Sidebar = () => {
                 isCollapsed ? "w-7 h-7" : "w-5 h-5"
               }`}
             />
-            {!isCollapsed && <p className="text-base font-semibold ml-2">Landing</p>}
+            {!isCollapsed && <p className="ml-2 text-base font-semibold">Landing</p>}
           </div>
         </div>
 
@@ -238,7 +238,7 @@ const Sidebar = () => {
             UI Showcase
           </p>
           <div
-            className="flex gap-2 items-center text-base cursor-pointer mb-2 hover:text-blue-500 transition"
+            className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
             aria-label="Components"
           >
             <FiBox
@@ -247,11 +247,11 @@ const Sidebar = () => {
               }`}
             />
             {!isCollapsed && (
-              <p className="text-base font-semibold ml-2">Components</p>
+              <p className="ml-2 text-base font-semibold">Components</p>
             )}
           </div>
           <div
-            className="flex gap-2 items-center text-base cursor-pointer mb-2 hover:text-blue-500 transition"
+            className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
             aria-label="Forms"
           >
             <FaWpforms
@@ -259,7 +259,7 @@ const Sidebar = () => {
                 isCollapsed ? "w-7 h-7" : "w-5 h-5"
               }`}
             />
-            {!isCollapsed && <p className="text-base font-semibold ml-2">Forms</p>}
+            {!isCollapsed && <p className="ml-2 text-base font-semibold">Forms</p>}
           </div>
         </div>
       </div>
@@ -274,7 +274,7 @@ const Sidebar = () => {
           Others
         </p>
         <div
-          className="flex gap-2 items-center text-base cursor-pointer mb-3 hover:text-blue-500 transition"
+          className="flex items-center gap-2 mb-3 text-base transition cursor-pointer hover:text-blue-500"
           aria-label="Documentation"
         >
           <IoDocumentTextOutline
@@ -283,7 +283,7 @@ const Sidebar = () => {
             }`}
           />
           {!isCollapsed && (
-            <p className="text-base font-semibold ml-2">Documentation</p>
+            <p className="ml-2 text-base font-semibold">Documentation</p>
           )}
         </div>
       </div>
