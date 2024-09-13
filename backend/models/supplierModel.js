@@ -6,7 +6,7 @@ const supplierSchema = mongoose.Schema(
     supplierCode: { type: String, required: true },
     contactPerson: { type: String, required: true },
     contactEmail: { type: String, required: true },
-    contactPhone: { type: Number, required: true },
+    contactPhone: { type: String, required: true },
     address: {
       street: String,
       city: String,

@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 
 const getAllSupplier = asyncHandler(async (req, res) => {
   try {
-    const suppliers = await supplierModel.find();
+    const suppliers = await supplierModel.find().populate("materialSupplied");
     // .populate('materialsSupplied');
     res.json(suppliers);
   } catch (error) {
@@ -33,8 +33,11 @@ const createSupplier = asyncHandler(async (req, res) => {
     contactPhone,
     address,
     paymentTerms,
+    materialSupplied,
     rating,
-    materialsSupplied,
+    email,
+    password,
+    // materialsSupplied,
   } = req.body;
 
   const newSupplier = new supplierModel({
@@ -46,7 +49,9 @@ const createSupplier = asyncHandler(async (req, res) => {
     address: address,
     paymentTerms: paymentTerms,
     rating: rating,
-    materialsSupplied: materialsSupplied,
+    materialSupplied: materialSupplied,
+    email: email,
+    password: password,
   });
 
   try {
