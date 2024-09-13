@@ -94,4 +94,6 @@ const updateSupplier = asyncHandler(async (req, res) => {
   }
 });
 
+// Supplier Delete
+
 export { getAllSupplier, getSupplierById, createSupplier, updateSupplier };
