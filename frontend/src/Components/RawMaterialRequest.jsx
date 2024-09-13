@@ -43,11 +43,12 @@ const RawMaterialRequest = () => {
             <thead>
               <tr className="bg-stone-200 text-black/70">
                 <th className="px-4 py-2 border"></th>
-                <th className="px-4 py-2 border">Request By</th>
+                <th className="px-4 py-2 border">Requested Data</th>
+                <th className="px-4 py-2 border">Requested Status</th>
+                <th className="px-4 py-2 border">Requested By</th>
                 <th className="px-4 py-2 border">Material</th>
-                <th className="px-4 py-2 border">Request Data</th>
                 <th className="px-4 py-2 border">Priority</th>
-                <th className="px-4 py-2 border">Request Status</th>
+                <th className="px-4 py-2 border">Financial Approval</th>
               </tr>
             </thead>
             <tbody>
@@ -55,11 +56,12 @@ const RawMaterialRequest = () => {
                 users.map((user, index) => (
                   <tr key={index} className="bg-base-100">
                     <td className="px-4 py-2 border">{index + 1}</td>
+                    <td className="px-4 py-2 border">{user.requestData}</td>
+                    <td className="px-4 py-2 border">{user.requestStatus}</td>
                     <td className="px-4 py-2 border">{user.requestedBy}</td>
                     <td className="px-4 py-2 border">{user.material}</td>
-                    <td className="px-4 py-2 border">{user.requestedData}</td>
                     <td className="px-4 py-2 border">{user.priority}</td>
-                    <td className="px-4 py-2 border">{user.requestedStatus}</td>
+                    <td className="px-4 py-2 border">{user.financeApproval}</td>
                   </tr>
                 ))
               ) : (

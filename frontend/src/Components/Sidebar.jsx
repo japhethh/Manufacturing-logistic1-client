@@ -95,7 +95,7 @@ const Sidebar = () => {
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li>
+                  <li className="mt-1">
                     <NavLink
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
@@ -107,7 +107,7 @@ const Sidebar = () => {
                       <p className="text-base">Raw Material Request</p>
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="mt-1">
                     <NavLink
                       to="purchaseorder"
                       className={({ isActive }) =>
@@ -119,7 +119,7 @@ const Sidebar = () => {
                       <p className="text-base">Budget Request</p>
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="mt-1">
                     <a href="#supplier-management" className="text-base">
                       Purchase Orders
                     </a>
