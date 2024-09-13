@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import Register from "./Components/Authentication/Register";
 import Log from "./Components/Authentication/Log";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/userContext";
@@ -11,6 +10,7 @@ import PurchaseOrder from "./Components/PurchaseOrder";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "./pages/NotFound";
+import SupplierList from "./Components/SupplierList";
 
 const App = () => {
   const { token } = useContext(UserContext); // Get the token from context
@@ -50,7 +50,7 @@ const App = () => {
   }
 
   // Define valid paths
-  const validPaths = ["/", "/rawmaterialrequest", "/purchaseorder", "/login", "/register"];
+  const validPaths = ["/", "/rawmaterialrequest","/supplierlist", "/purchaseorder", "/login", "/register"];
 
   // Check if the current route is valid or not
   const isValidRoute = validPaths.includes(location.pathname);
@@ -77,6 +77,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
+          <Route path="/supplierlist" element={<SupplierList />} />
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
           {/* <Route path="/register" element={<Register />} /> */}

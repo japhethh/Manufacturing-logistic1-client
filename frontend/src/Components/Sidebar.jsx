@@ -192,14 +192,23 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">Suppliers</span>
+                    <span className="ml-2 text-base font-semibold">
+                      Suppliers
+                    </span>
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li>
-                    <a href="#submenu1" className="text-base">
-                      Submenu 1
-                    </a>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Raw Material Request</p>
+                    </NavLink>
                   </li>
                   <li>
                     <a href="#submenu2" className="text-base">

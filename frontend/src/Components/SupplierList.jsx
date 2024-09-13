@@ -24,11 +24,6 @@ const SupplierList = () => {
     fetchUsers();
   }, []);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toISOString().split("T")[0];
-  };
-
 
   return (
     <div className="p-4">
@@ -49,30 +44,55 @@ const SupplierList = () => {
             <thead>
               <tr className="bg-stone-200 text-black/70">
                 <th className="px-4 py-2 border"></th>
-                <th className="px-4 py-2 border">Requested Date</th>
-                <th className="px-4 py-2 border">Requested Status</th>
-                <th className="px-4 py-2 border">Requested By</th>
-                <th className="px-4 py-2 border">Material</th>
-                <th className="px-4 py-2 border">Priority</th>
-                <th className="px-4 py-2 border">Financial Approval</th>
+                <th className="px-4 py-2 border">Supplier Name</th>
+                <th className="px-4 py-2 border">Supplier Code</th>
+                <th className="px-4 py-2 border">Contact Person</th>
+                <th className="px-4 py-2 border">Contact Email</th>
+                <th className="px-4 py-2 border">Contact Phone</th>
+                <th className="px-4 py-2 border">Address</th>
+                {/* new */}
+                <th className="px-4 py-2 border">Payment Terms</th>
+                <th className="px-4 py-2 border">Rating</th>
+                <th className="px-4 py-2 border">Material Supplied</th>
+                <th className="px-4 py-2 border">Email</th>
+                <th className="px-4 py-2 border">Password</th>
               </tr>
             </thead>
             <tbody>
               {suppliers.length > 0 ? (
-                suppliers.map((user, index) => (
+                suppliers.map((supplier, index) => (
                   <tr key={index} className="bg-base-100">
                     <td className="px-4 py-2 border">{index + 1}</td>
-                    <td className="px-4 py-2 border">{formatDate(user.requestDate)}</td>
-                    <td className="px-4 py-2 border">{user.requestStatus}</td>
-                    <td className="px-4 py-2 border">{user.requestedBy}</td>
-                    <td className="px-4 py-2 border">{user.material}</td>
-                    <td className="px-4 py-2 border">{user.priority}</td>
-                    <td className="px-4 py-2 border">{user.financeApproval}</td>
+                    <td className="px-4 py-2 border">
+                      {supplier.supplierName}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.supplierCode}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.contactPerson}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.contactEmail}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.contactPhone}
+                    </td>
+                    <td className="px-4 py-2 border">{supplier.address}</td>
+                    <td className="px-4 py-2 border">
+                      {supplier.paymentTerms}
+                    </td>
+                    <td className="px-4 py-2 border">{supplier.rating}</td>
+                    <td className="px-4 py-2 border">
+                      {supplier.materialSupplied}
+                    </td>
+                    <td className="px-4 py-2 border">{supplier.email}</td>
+                    <td className="px-4 py-2 border">{supplier.password}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="px-4 py-2 text-center border">
+                  <td colSpan="11" className="px-4 py-2 text-center border ">
                     No users found
                   </td>
                 </tr>
