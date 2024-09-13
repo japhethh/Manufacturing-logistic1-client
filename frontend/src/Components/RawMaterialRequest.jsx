@@ -10,10 +10,10 @@ const RawMaterialRequest = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/user/getAllUsers"
+          "http://localhost:4000/api/rawmaterial/request"
         );
-        setUsers(response.data.data);
-        console.log(response.data.data);
+        setUsers(response.data);
+        console.log(response.data);
       } catch (error) {
         setError("Error fetching users. Please try again later.");
       } finally {
@@ -43,7 +43,7 @@ const RawMaterialRequest = () => {
             <thead>
               <tr className="bg-stone-200 text-black/70">
                 <th className="px-4 py-2 border"></th>
-                <th className="px-4 py-2 border">Requested Data</th>
+                <th className="px-4 py-2 border">Requested Date</th>
                 <th className="px-4 py-2 border">Requested Status</th>
                 <th className="px-4 py-2 border">Requested By</th>
                 <th className="px-4 py-2 border">Material</th>
@@ -56,7 +56,7 @@ const RawMaterialRequest = () => {
                 users.map((user, index) => (
                   <tr key={index} className="bg-base-100">
                     <td className="px-4 py-2 border">{index + 1}</td>
-                    <td className="px-4 py-2 border">{user.requestData}</td>
+                    <td className="px-4 py-2 border">{user.requestDate}</td>
                     <td className="px-4 py-2 border">{user.requestStatus}</td>
                     <td className="px-4 py-2 border">{user.requestedBy}</td>
                     <td className="px-4 py-2 border">{user.material}</td>
