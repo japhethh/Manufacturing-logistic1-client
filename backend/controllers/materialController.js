@@ -36,11 +36,14 @@ const createMaterial = asyncHandler(async (req, res) => {
   });
 
   const result = await material.save();
-  res.status(201).json({success:true,data:result})
+  res.status(201).json({ success: true, data: result });
 });
 
 // Get all material
-
+const getAllMaterial = asyncHandler(async (req, res) => {
+  const materials = await MaterialModel.find({});
+  res.status(200).json(materials);
+});
 // Get a single material ID
 
-export { createMaterial };
+export { createMaterial, getAllMaterial };

@@ -31,6 +31,10 @@ const materialSchema = mongoose.Shema({
     required: true,
     default: 10,
   },
+  image:{
+    type:String,
+    required:false
+  }
 });
 
 const MaterialModel = mongoose.model("Material", materialSchema);
