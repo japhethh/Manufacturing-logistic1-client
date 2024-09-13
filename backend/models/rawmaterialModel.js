@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const rawmaterialSchema = mongoose.Schema({
-  requestData:{
+  requestDate:{
     type:Date,
     default:Date.now
   },
