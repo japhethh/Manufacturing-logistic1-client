@@ -24,6 +24,12 @@ const RawMaterialRequest = () => {
     fetchUsers();
   }, []);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
+
+
   return (
     <div className="p-4">
       <div className="flex justify-end w-full mb-2">
@@ -56,7 +62,7 @@ const RawMaterialRequest = () => {
                 users.map((user, index) => (
                   <tr key={index} className="bg-base-100">
                     <td className="px-4 py-2 border">{index + 1}</td>
-                    <td className="px-4 py-2 border">{user.requestDate}</td>
+                    <td className="px-4 py-2 border">{formatDate(user.requestDate)}</td>
                     <td className="px-4 py-2 border">{user.requestStatus}</td>
                     <td className="px-4 py-2 border">{user.requestedBy}</td>
                     <td className="px-4 py-2 border">{user.material}</td>
