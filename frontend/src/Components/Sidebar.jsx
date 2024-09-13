@@ -22,7 +22,7 @@ const Sidebar = () => {
   return (
     <div
       className={`flex flex-col h-screen bg-white text-black px-4 py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
-        isCollapsed ? "w-20" : "w-72 lg:w-80"
+        isCollapsed ? "w-20" : "w-96 lg:w-96"
       }`}
       aria-label="Sidebar"
     >
