@@ -57,4 +57,41 @@ const createSupplier = asyncHandler(async (req, res) => {
   }
 });
 
-export { getAllSupplier, getSupplierById, createSupplier };
+const updateSupplier = asyncHandler(async (req, res) => {
+  const {
+    supplierName,
+    contactPerson,
+    contactEmail,
+    contactPhone,
+    address,
+    paymentTerms,
+    rating,
+    materialsSupplied,
+  } = req.body;
+
+  try {
+    const updatedSupplier = await newSupplier.findByIdAndUpdate(
+      req.parms.id,
+      {
+        supplierName,
+        contactPerson,
+        contactEmail,
+        contactPhone,
+        address,
+        paymentTerms,
+        rating,
+        materialsSupplied,
+      },
+      true
+    );
+
+    if (!updatedSupplier)
+      return res.status(404).json({ errors: "Supplier not found" });
+
+    res.json(updatedSupplier);
+  } catch (error) {
+    res.status(400).json({ error: error.messages });
+  }
+});
+
+export { getAllSupplier, getSupplierById, createSupplier, updateSupplier };

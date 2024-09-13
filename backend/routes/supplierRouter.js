@@ -10,3 +10,4 @@ const supplierRouter = express.Router();
 supplierRouter.get("/suppliers", getAllSupplier);
 supplierRouter.get("/suppliers/:id", getSupplierById);
 supplierRouter.post("/suppliers", createSupplier);
+supplierRouter.post("/suppliers/:id",)
