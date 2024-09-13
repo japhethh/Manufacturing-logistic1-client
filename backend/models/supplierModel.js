@@ -1,39 +1,48 @@
 import mongoose from "mongoose";
 
-const supplierSchema = mongoose.Schema({
-  supplierName: { type: String, required: true },
-  supplierCode: { type: String, required: true },
-  contactPerson: { type: String, required: true },
-  contactEmail: { type: String, required: true },
-  contactPhone: { type: Number, required: true },
-  address: {
-    street: String,
-    city: String,
-    state: String,
-    zipCode: String,
-    country: String,
-  },
-  paymentTerms: {
-    type: String,
-    required: true,
-  },
-  rating: {
-    type: Number,
-    min: 1,
-    max: 5,
-    default: 3,
-  },
-  materialSupplied: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Material",
+const supplierSchema = mongoose.Schema(
+  {
+    supplierName: { type: String, required: true },
+    supplierCode: { type: String, required: true },
+    contactPerson: { type: String, required: true },
+    contactEmail: { type: String, required: true },
+    contactPhone: { type: Number, required: true },
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      zipCode: String,
+      country: String,
     },
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
+    paymentTerms: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5,
+      default: 3,
+    },
+    materialSupplied: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Material",
+      },
+    ],
+    // Authentication
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-});
+  { timestamps: true }
+);
 
 const supplierModel = mongoose.model("Supplier", supplierSchema);
 
