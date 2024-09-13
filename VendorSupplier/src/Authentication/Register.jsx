@@ -1,279 +1,290 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
+const inputClasses = "px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500";
+const labelClasses = "text-sm font-medium text-gray-700";
+const sectionTitleClasses = "mb-4 text-xl font-semibold text-gray-800";
+const buttonBaseClasses = "px-4 py-2 font-medium rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500";
+const submitButtonClasses = `${buttonBaseClasses} text-white bg-blue-500 hover:bg-blue-600`;
+const draftButtonClasses = `${buttonBaseClasses} text-blue-500 border border-blue-500 hover:bg-blue-50`;
 
 const Register = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    // Handle form submission logic here
+  };
+
   return (
     <div className="flex flex-col items-center max-w-4xl px-8 py-10 mx-auto bg-white rounded-lg shadow-lg">
       <h1 className="mb-8 text-2xl font-bold text-center text-gray-800">Supplier Registration</h1>
-      <form action="#" className="flex flex-col w-full gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full gap-6">
         {/* Basic Information */}
         <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Basic Information</h2>
+          <h2 className={sectionTitleClasses}>Basic Information</h2>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex flex-col">
-              <label htmlFor="companyName" className="text-sm font-medium text-gray-700">Company Name:</label>
-              <input 
-                type="text" 
-                id="companyName" 
-                name="companyName" 
-                className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label htmlFor="companyAddress" className="text-sm font-medium text-gray-700">Company Address:</label>
-              <input 
-                type="text" 
-                id="companyAddress" 
-                name="companyAddress" 
-                placeholder="Street Address"
-                className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <input 
-                type="text" 
-                id="city" 
-                name="city" 
-                placeholder="City"
-                className="px-3 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <input 
-                type="text" 
-                id="state" 
-                name="state" 
-                placeholder="State"
-                className="px-3 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <input 
-                type="text" 
-                id="zipCode" 
-                name="zipCode" 
-                placeholder="ZIP Code"
-                className="px-3 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <input 
-                type="text" 
-                id="country" 
-                name="country" 
-                placeholder="Country"
-                className="px-3 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
+          <div className="flex flex-col">
+            <label htmlFor="supplierName" className={labelClasses}>Supplier Name:</label>
+            <input 
+              type="text" 
+              id="supplierName" 
+              name="supplierName" 
+              className={inputClasses}
+              placeholder="Enter supplier name"
+              {...register('supplierName', { required: 'Supplier name is required' })}
+              aria-required="true"
+            />
+            {errors.supplierName && <p className="text-sm text-red-500">{errors.supplierName.message}</p>}
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="contactPerson" className="text-sm font-medium text-gray-700">Contact Person:</label>
+            <label htmlFor="supplierCode" className={labelClasses}>Supplier Code:</label>
             <input 
               type="text" 
-              id="contactName" 
-              name="contactName" 
-              placeholder="Name"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              id="supplierCode" 
+              name="supplierCode" 
+              className={inputClasses}
+              placeholder="Enter supplier code"
+              {...register('supplierCode', { required: 'Supplier code is required' })}
+              aria-required="true"
             />
+            {errors.supplierCode && <p className="text-sm text-red-500">{errors.supplierCode.message}</p>}
+          </div>
+          
+          <div className="flex flex-col mt-4">
+            <label htmlFor="contactPerson" className={labelClasses}>Contact Person:</label>
+            <input 
+              type="text" 
+              id="contactPerson" 
+              name="contactPerson" 
+              className={inputClasses}
+              placeholder="Enter contact person's name"
+              {...register('contactPerson', { required: 'Contact person is required' })}
+              aria-required="true"
+            />
+            {errors.contactPerson && <p className="text-sm text-red-500">{errors.contactPerson.message}</p>}
+          </div>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="contactEmail" className={labelClasses}>Contact Email:</label>
             <input 
               type="email" 
               id="contactEmail" 
               name="contactEmail" 
-              placeholder="Email"
-              className="px-3 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              className={inputClasses}
+              placeholder="Enter contact email"
+              {...register('contactEmail', { required: 'Contact email is required' })}
+              aria-required="true"
             />
+            {errors.contactEmail && <p className="text-sm text-red-500">{errors.contactEmail.message}</p>}
+          </div>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="contactPhone" className={labelClasses}>Contact Phone:</label>
             <input 
               type="tel" 
               id="contactPhone" 
               name="contactPhone" 
-              placeholder="Phone Number"
-              className="px-3 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              className={inputClasses}
+              placeholder="Enter contact phone number"
+              {...register('contactPhone', { required: 'Contact phone is required' })}
+              aria-required="true"
             />
+            {errors.contactPhone && <p className="text-sm text-red-500">{errors.contactPhone.message}</p>}
           </div>
-        </section>
-
-        {/* Business Details */}
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Business Details</h2>
-
-          <div className="flex flex-col">
-            <label htmlFor="businessType" className="text-sm font-medium text-gray-700">Business Type:</label>
-            <select 
-              id="businessType" 
-              name="businessType" 
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="">Select Business Type</option>
-              <option value="manufacturer">Manufacturer</option>
-              <option value="distributor">Distributor</option>
-              {/* Add more options as needed */}
-            </select>
-          </div>
-
+          
+          {/* Address */}
           <div className="flex flex-col mt-4">
-            <label htmlFor="taxId" className="text-sm font-medium text-gray-700">Tax ID or VAT Number:</label>
+            <label htmlFor="address.street" className={labelClasses}>Street Address:</label>
             <input 
               type="text" 
-              id="taxId" 
-              name="taxId" 
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-        </section>
-
-        {/* Compliance and Certifications */}
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Compliance and Certifications</h2>
-
-          <div className="flex flex-col">
-            <label htmlFor="certifications" className="text-sm font-medium text-gray-700">Certifications:</label>
-            <input 
-              type="text" 
-              id="certifications" 
-              name="certifications" 
-              placeholder="List relevant certifications"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              id="address.street" 
+              name="address.street" 
+              className={inputClasses}
+              placeholder="Enter street address"
+              {...register('address.street')}
             />
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="complianceDocuments" className="text-sm font-medium text-gray-700">Compliance Documents:</label>
-            <input 
-              type="file" 
-              id="complianceDocuments" 
-              name="complianceDocuments" 
-              className="p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              multiple
-            />
-          </div>
-        </section>
-
-        {/* Banking Information */}
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Banking Information</h2>
-
-          <div className="flex flex-col">
-            <label htmlFor="bankName" className="text-sm font-medium text-gray-700">Bank Name:</label>
+            <label htmlFor="address.city" className={labelClasses}>City:</label>
             <input 
               type="text" 
-              id="bankName" 
-              name="bankName" 
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              id="address.city" 
+              name="address.city" 
+              className={inputClasses}
+              placeholder="Enter city"
+              {...register('address.city')}
             />
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="accountNumber" className="text-sm font-medium text-gray-700">Account Number:</label>
+            <label htmlFor="address.state" className={labelClasses}>State:</label>
             <input 
               type="text" 
-              id="accountNumber" 
-              name="accountNumber" 
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              id="address.state" 
+              name="address.state" 
+              className={inputClasses}
+              placeholder="Enter state"
+              {...register('address.state')}
             />
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="swiftCode" className="text-sm font-medium text-gray-700">SWIFT/BIC Code:</label>
+            <label htmlFor="address.zipCode" className={labelClasses}>ZIP Code:</label>
             <input 
               type="text" 
-              id="swiftCode" 
-              name="swiftCode" 
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              id="address.zipCode" 
+              name="address.zipCode" 
+              className={inputClasses}
+              placeholder="Enter ZIP code"
+              {...register('address.zipCode')}
             />
-          </div>
-        </section>
-
-        {/* Contractual Information */}
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Contractual Information</h2>
-
-          <div className="flex flex-col">
-            <label htmlFor="contractTerms" className="text-sm font-medium text-gray-700">Contract Terms:</label>
-            <textarea 
-              id="contractTerms" 
-              name="contractTerms" 
-              rows="3" 
-              placeholder="Enter any specific terms or conditions"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="paymentTerms" className="text-sm font-medium text-gray-700">Preferred Payment Terms:</label>
+            <label htmlFor="address.country" className={labelClasses}>Country:</label>
+            <input 
+              type="text" 
+              id="address.country" 
+              name="address.country" 
+              className={inputClasses}
+              placeholder="Enter country"
+              {...register('address.country')}
+            />
+          </div>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="paymentTerms" className={labelClasses}>Payment Terms:</label>
             <input 
               type="text" 
               id="paymentTerms" 
               name="paymentTerms" 
-              placeholder="Specify payment terms"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClasses}
+              placeholder="Enter payment terms"
+              {...register('paymentTerms', { required: 'Payment terms are required' })}
+              aria-required="true"
             />
+            {errors.paymentTerms && <p className="text-sm text-red-500">{errors.paymentTerms.message}</p>}
           </div>
-        </section>
 
-        {/* Performance and Risk Management */}
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Performance and Risk Management</h2>
-
-          <div className="flex flex-col">
-            <label htmlFor="performanceMetrics" className="text-sm font-medium text-gray-700">Performance Metrics:</label>
+          <div className="flex flex-col mt-4">
+            <label htmlFor="rating" className={labelClasses}>Rating:</label>
             <input 
-              type="text" 
-              id="performanceMetrics" 
-              name="performanceMetrics" 
-              placeholder="Enter key performance indicators"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="number" 
+              id="rating" 
+              name="rating" 
+              min="1" 
+              max="5" 
+              className={inputClasses}
+              placeholder="Rate from 1 to 5"
+              {...register('rating')}
             />
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="riskAssessment" className="text-sm font-medium text-gray-700">Risk Assessment:</label>
-            <textarea 
-              id="riskAssessment" 
-              name="riskAssessment" 
-              rows="3" 
-              placeholder="Assess potential risks"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
-          </div>
-        </section>
-
-        {/* Documents and Attachments */}
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Documents and Attachments</h2>
-
-          <div className="flex flex-col">
-            <label htmlFor="uploadDocuments" className="text-sm font-medium text-gray-700">Upload Documents:</label>
+            <label htmlFor="materialSupplied" className={labelClasses}>Material Supplied (IDs):</label>
             <input 
-              type="file" 
-              id="uploadDocuments" 
-              name="uploadDocuments" 
-              multiple
-              className="p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="text" 
+              id="materialSupplied" 
+              name="materialSupplied" 
+              className={inputClasses}
+              placeholder="Enter material IDs"
+              {...register('materialSupplied')}
             />
           </div>
         </section>
 
-        {/* Approval Workflow */}
+        {/* Email and Password */}
+        <section>
+          <h2 className={sectionTitleClasses}>EMAIL AND PASSWORD</h2>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="email" className={labelClasses}>Email:</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              className={inputClasses}
+              placeholder="Enter email address"
+              {...register('email', { required: 'Email is required' })}
+              aria-required="true"
+            />
+            {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+          </div>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="password" className={labelClasses}>Password:</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              className={inputClasses}
+              placeholder="Enter password"
+              {...register('password', { required: 'Password is required' })}
+              aria-required="true"
+            />
+            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+          </div>
+        </section>
+
+        {/* Company Details */}
+        <section>
+          <h2 className={sectionTitleClasses}>Company Details</h2>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="companyName" className={labelClasses}>Company Name:</label>
+            <input 
+              type="text" 
+              id="companyName" 
+              name="companyName" 
+              className={inputClasses}
+              placeholder="Enter company name"
+              {...register('companyName')}
+            />
+          </div>
+
+          <div className="flex flex-col mt-4">
+            <label htmlFor="companyWebsite" className={labelClasses}>Company Website:</label>
+            <input 
+              type="url" 
+              id="companyWebsite" 
+              name="companyWebsite" 
+              className={inputClasses}
+              placeholder="Enter company website URL"
+              {...register('companyWebsite')}
+            />
+          </div>
+        </section>
+
+        {/* Tax ID Field */}
+        <section>
+          <div className="flex flex-col mt-4">
+            <label htmlFor="taxId" className={labelClasses}>Tax ID:</label>
+            <input 
+              type="text" 
+              id="taxId" 
+              name="taxId" 
+              className={inputClasses}
+              placeholder="Enter tax ID"
+              {...register('taxId')}
+            />
+          </div>
+        </section>
+
+        {/* Submit Buttons */}
         <section className="flex gap-4 mt-6">
           <button 
             type="submit" 
-            className="px-4 py-2 font-medium text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={submitButtonClasses}
           >
             Submit for Review
           </button>
           <button 
             type="button" 
-            className="px-4 py-2 font-medium text-blue-500 border border-blue-500 rounded-md shadow-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={draftButtonClasses}
           >
             Save as Draft
           </button>
@@ -281,19 +292,21 @@ const Register = () => {
 
         {/* Additional Notes */}
         <section>
-          <h2 className="mb-4 text-xl font-semibold text-gray-800">Additional Notes</h2>
+          <h2 className={sectionTitleClasses}>Additional Notes</h2>
 
           <div className="flex flex-col">
-            <label htmlFor="notes" className="text-sm font-medium text-gray-700">Notes:</label>
+            <label htmlFor="notes" className={labelClasses}>Notes:</label>
             <textarea 
               id="notes" 
               name="notes" 
               rows="3" 
               placeholder="Any additional information or comments"
-              className="px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClasses}
+              {...register('notes')}
             ></textarea>
           </div>
         </section>
+
       </form>
 
       <div className="mt-6 text-center">
@@ -302,6 +315,6 @@ const Register = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Register;
