@@ -52,7 +52,7 @@ const RawMaterialRequest = () => {
                 <th className="px-4 py-2 border">Requested Date</th>
                 <th className="px-4 py-2 border">Requested Status</th>
                 <th className="px-4 py-2 border">Requested By</th>
-                <th className="px-4 py-2 border">Material</th>
+                {/* <th className="px-4 py-2 border">Material</th> */}
                 <th className="px-4 py-2 border">Priority</th>
                 <th className="px-4 py-2 border">Financial Approval</th>
               </tr>
@@ -65,7 +65,7 @@ const RawMaterialRequest = () => {
                     <td className="px-4 py-2 border">{formatDate(user.requestDate)}</td>
                     <td className="px-4 py-2 border">{user.requestStatus}</td>
                     <td className="px-4 py-2 border">{user.requestedBy}</td>
-                    <td className="px-4 py-2 border">{user.material}</td>
+                    {/* <td className="px-4 py-2 border">{user.material}</td> */}
                     <td className="px-4 py-2 border">{user.priority}</td>
                     <td className="px-4 py-2 border">{user.financeApproval}</td>
                   </tr>

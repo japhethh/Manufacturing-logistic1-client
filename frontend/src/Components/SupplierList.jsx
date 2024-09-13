@@ -24,7 +24,6 @@ const SupplierList = () => {
     fetchUsers();
   }, []);
 
-
   return (
     <div className="p-4">
       <div className="flex justify-end w-full mb-2">
@@ -78,7 +77,11 @@ const SupplierList = () => {
                     <td className="px-4 py-2 border">
                       {supplier.contactPhone}
                     </td>
-                    <td className="px-4 py-2 border">{supplier.address}</td>
+                    {/* <td className="px-4 py-2 border">
+                      {supplier.address.street},{supplier.address.city},
+                      {supplier.address.state},{supplier.address.zipCode},
+                      {supplier.address.country},
+                    </td> */}
                     <td className="px-4 py-2 border">
                       {supplier.paymentTerms}
                     </td>
