@@ -1,3 +1,4 @@
+import MaterialModel from "../models/materialModel.js";
 import rawmaterialModel from "../models/rawmaterialModel.js";
 import asyncHandler from "express-async-handler";
 
@@ -23,6 +24,8 @@ const newRequested = asyncHandler(async (req, res) => {
 
   try {
     const save = await newRequest.save();
+
+    save = await MaterialModel.populate()
     res.status(201).json(save);
   } catch (error) {
     res.status(400).json({ error: err.message });

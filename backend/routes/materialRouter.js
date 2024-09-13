@@ -6,3 +6,6 @@ const materialRouter = express.Router();
 
 materialRouter.get("/getAllMaterial",getAllMaterial);
 materialRouter.post("/addMaterial",createMaterial)
+
+
+export default materialRouter;
