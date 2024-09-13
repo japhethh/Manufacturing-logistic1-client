@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const Orderhistory = () => {
+const RawMaterialRequest = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -77,4 +77,4 @@ const Orderhistory = () => {
   );
 };
 
-export default Orderhistory;
+export default RawMaterialRequest;

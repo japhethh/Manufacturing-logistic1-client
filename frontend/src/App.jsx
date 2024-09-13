@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/userContext";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
-import Orderhistory from "./Components/Orderhistory";
+import RawMaterialRequest from "./Components/RawMaterialRequest";
 import PurchaseOrder from "./Components/PurchaseOrder";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,7 +41,7 @@ const App = () => {
   // If token verification is not complete, show a loading screen
   if (!isTokenVerified) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <p>Loading...</p>
         </div>
@@ -50,7 +50,7 @@ const App = () => {
   }
 
   // Define valid paths
-  const validPaths = ["/", "/orderhistory", "/purchaseorder", "/login", "/register"];
+  const validPaths = ["/", "/rawmaterialrequest", "/purchaseorder", "/login", "/register"];
 
   // Check if the current route is valid or not
   const isValidRoute = validPaths.includes(location.pathname);
@@ -76,7 +76,7 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/orderhistory" element={<Orderhistory />} />
+          <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
           {/* <Route path="/register" element={<Register />} /> */}
@@ -91,7 +91,7 @@ const App = () => {
 
 const NotFoundWrapper = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen">
       <NotFound />
     </div>
   );
