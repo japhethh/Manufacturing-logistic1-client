@@ -38,15 +38,15 @@ const createSupplier = asyncHandler(async (req, res) => {
   } = req.body;
 
   const newSupplier = new supplierModel({
-    supplierName,
-    supplierCode,
-    contactPerson,
-    contactEmail,
-    contactPhone,
-    address,
-    paymentTerms,
-    rating,
-    materialsSupplied,
+    supplierName: supplierName,
+    supplierCode: supplierCode,
+    contactPerson: contactPerson,
+    contactEmail: contactEmail,
+    contactPhone: contactPhone,
+    address: address,
+    paymentTerms: paymentTerms,
+    rating: rating,
+    materialsSupplied: materialsSupplied,
   });
 
   try {

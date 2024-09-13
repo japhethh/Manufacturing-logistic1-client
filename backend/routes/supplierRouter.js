@@ -8,6 +8,9 @@ import {
 const supplierRouter = express.Router();
 
 supplierRouter.get("/suppliers", getAllSupplier);
+supplierRouter.post("/addsuppliers", createSupplier);
 supplierRouter.get("/suppliers/:id", getSupplierById);
-supplierRouter.post("/suppliers", createSupplier);
 supplierRouter.post("/suppliers/:id",)
+
+
+export default supplierRouter;
