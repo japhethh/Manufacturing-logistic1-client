@@ -7,7 +7,7 @@ const SupplierList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchSuppliers = async () => {
       try {
         const response = await axios.get(
           "http://localhost:4000/api/supplier/suppliers"
@@ -21,7 +21,7 @@ const SupplierList = () => {
       }
     };
 
-    fetchUsers();
+    fetchSuppliers();
   }, []);
 
   return (
@@ -32,14 +32,14 @@ const SupplierList = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-scroll ">
         {loading ? (
           <div className="py-4 text-center">Loading...</div>
         ) : error ? (
           <div className="py-4 text-center text-red-500">{error}</div>
         ) : (
           <table className="table w-full border-collapse table-xs">
-            {/* head */}
+            {/* Table Head */}
             <thead>
               <tr className="bg-stone-200 text-black/70">
                 <th className="px-4 py-2 border"></th>
@@ -49,10 +49,11 @@ const SupplierList = () => {
                 <th className="px-4 py-2 border">Contact Email</th>
                 <th className="px-4 py-2 border">Contact Phone</th>
                 <th className="px-4 py-2 border">Address</th>
-                {/* new */}
                 <th className="px-4 py-2 border">Payment Terms</th>
                 <th className="px-4 py-2 border">Rating</th>
                 <th className="px-4 py-2 border">Material Supplied</th>
+                <th className="px-4 py-2 border">Unit</th>
+                <th className="px-4 py-2 border">Available</th>
                 <th className="px-4 py-2 border">Email</th>
                 <th className="px-4 py-2 border">Password</th>
               </tr>
@@ -77,17 +78,30 @@ const SupplierList = () => {
                     <td className="px-4 py-2 border">
                       {supplier.contactPhone}
                     </td>
-                    {/* <td className="px-4 py-2 border">
-                      {supplier.address.street},{supplier.address.city},
-                      {supplier.address.state},{supplier.address.zipCode},
-                      {supplier.address.country},
-                    </td> */}
+                    <td className="px-4 py-2 border">
+                      {`${supplier.address.street}, ${supplier.address.city}, ${supplier.address.state}, ${supplier.address.zipCode}, ${supplier.address.country}`}
+                    </td>
                     <td className="px-4 py-2 border">
                       {supplier.paymentTerms}
                     </td>
                     <td className="px-4 py-2 border">{supplier.rating}</td>
                     <td className="px-4 py-2 border">
-                      {supplier.materialSupplied}
+                      {supplier.materialSupplied &&
+                        supplier.materialSupplied.map((material, idx) => (
+                          <div key={idx}>{material.materialName}</div>
+                        ))}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.materialSupplied &&
+                        supplier.materialSupplied.map((material, idx) => (
+                          <div key={idx}>{material.unit}</div>
+                        ))}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.materialSupplied &&
+                        supplier.materialSupplied.map((material, idx) => (
+                          <div key={idx}>{material.available}</div>
+                        ))}
                     </td>
                     <td className="px-4 py-2 border">{supplier.email}</td>
                     <td className="px-4 py-2 border">{supplier.password}</td>
@@ -95,8 +109,8 @@ const SupplierList = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="11" className="px-4 py-2 text-center border ">
-                    No users found
+                  <td colSpan="12" className="px-4 py-2 text-center border">
+                    No suppliers found
                   </td>
                 </tr>
               )}

@@ -13,20 +13,23 @@ const requested = asyncHandler(async (req, res) => {
 });
 
 const newRequested = asyncHandler(async (req, res) => {
-  const { requestedBy, material, priority } = req.body;
+  const { requestedBy, material,quantity, priority,unit } = req.body;
 
   const newRequest = new rawmaterialModel({
     requestedBy: requestedBy,
     material: material,
+    quantity: quantity,
     priority: priority,
+    unit: unit,
   });
 
   try {
     const save = await newRequest.save();
 
-    save = await MaterialModel.populate(save, {
-      path: "material.materialId",
-    });
+    save = await MaterialModel
+    // .populate(save, {
+    //   path: "material.materialId",
+    // });
     res.status(201).json(save);
   } catch (error) {
     res.status(400).json({ error: err.message });
