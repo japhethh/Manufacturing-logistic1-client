@@ -19,6 +19,23 @@ const App = () => {
   const [isTokenVerified, setIsTokenVerified] = useState(false);
 
   useEffect(() => {
+    const verifyToken = async() => {
+      const storedtoken = localStorage.getItem("token");
+
+      if(!storedtoken && location.pathname !== "/login"){
+        navigate("/login");
+      }else{
+        try {
+          
+        } catch (error) {
+          
+        }
+      }
+    }
+  })
+
+
+  useEffect(() => {
     const storedToken = localStorage.getItem("token");
 
     // If no token and not on login page, redirect to login
