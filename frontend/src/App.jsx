@@ -91,6 +91,7 @@ const App = () => {
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<MobileSidebar />} />
         </Routes>
       </div>
     </div>

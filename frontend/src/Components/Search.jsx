@@ -3,6 +3,7 @@ import { IoIosMenu } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
+
 const Search = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
