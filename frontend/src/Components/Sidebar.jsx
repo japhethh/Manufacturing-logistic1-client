@@ -88,7 +88,7 @@ const Sidebar = () => {
             {/* Procurement Dropdown */}
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -134,7 +134,7 @@ const Sidebar = () => {
             </li>
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -172,7 +172,7 @@ const Sidebar = () => {
             </li>
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -218,7 +218,7 @@ const Sidebar = () => {
             </li>
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -276,7 +276,7 @@ const Sidebar = () => {
             </li>
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -322,7 +322,7 @@ const Sidebar = () => {
             </li>
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -383,7 +383,7 @@ const Sidebar = () => {
             {/* Procurement Dropdown */}
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -431,7 +431,7 @@ const Sidebar = () => {
             {/* Supplier Management Dropdown */}
             <li>
               <details
-                open
+                
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
