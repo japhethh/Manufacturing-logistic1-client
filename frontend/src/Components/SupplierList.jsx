@@ -26,7 +26,7 @@ const SupplierList = () => {
   return (
     <div className="p-6">
       <div className="flex justify-end w-full mb-4">
-        <button className="px-3 py-2 text-blue-700 duration-150 border border-blue-700 rounded-full hover:bg-blue-700 hover:text-white">
+        <button className="px-4 py-2 text-sm text-blue-700 duration-150 border border-blue-700 rounded-full hover:bg-blue-700 hover:text-white">
           Create Request
         </button>
       </div>
