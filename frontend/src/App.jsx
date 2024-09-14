@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import MobileSidebar from "./Components/MobileSidebar";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -90,6 +91,9 @@ const App = () => {
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
           <Route path="*" element={<NotFound />} />
+
+          {/* EDIT */}
+          <Route path="*" element={<MobileSidebar />} />
         </Routes>
       </div>
     </div>
