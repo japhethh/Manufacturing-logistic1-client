@@ -26,13 +26,9 @@ const newRequested = asyncHandler(async (req, res) => {
   try {
     const save = await newRequest.save();
 
-    save = await MaterialModel
-    // .populate(save, {
-    //   path: "material.materialId",
-    // });
     res.status(201).json(save);
   } catch (error) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: error.message });
   }
 });
 
