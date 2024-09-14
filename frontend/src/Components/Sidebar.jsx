@@ -1,18 +1,16 @@
 import { useState } from "react";
 import layout from "./Assets/layout.png";
-import { MdOutlineScreenshotMonitor } from "react-icons/md";
+import { MdOutlineScreenshotMonitor, MdOutlineSupportAgent, MdOutlineCalculate, MdOutlineInventory2, MdOutlineHandshake } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
 import { RiContactsFill } from "react-icons/ri";
 import { GiTakeMyMoney } from "react-icons/gi";
-import { IoDocumentAttachOutline } from "react-icons/io5";
-import { FaChalkboardTeacher } from "react-icons/fa";
+import { IoDocumentAttachOutline, IoReturnUpForward } from "react-icons/io5";
+import { FaChalkboardTeacher, FaLuggageCart } from "react-icons/fa";
 import { VscServerEnvironment } from "react-icons/vsc";
-import { MdOutlineSupportAgent } from "react-icons/md";
 import { BiDollarCircle, BiPurchaseTagAlt } from "react-icons/bi";
-import { MdOutlineCalculate } from "react-icons/md";
-import { FaLuggageCart } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import { TbFileInvoice } from "react-icons/tb";
+
 
 
 const Sidebar = () => {
@@ -619,6 +617,204 @@ const Sidebar = () => {
                   <li>
                     <a href="#submenu2" className="text-base">
                       Dispute Resolutions Status
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+          {/* RETURN MANAGEMENT */}
+          {/* VENDOR */}
+          <p
+            className={`text-gray-500 font-semibold text-base ${
+              isCollapsed ? "hidden" : ""
+            }`}
+          >
+            Return Management
+          </p>
+          <ul className="w-full menu rounded-box">
+            {/* Return Authorization (RMA) */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <IoReturnUpForward 
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Return Authorization (RMA)
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="rawmaterialrequest"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Create Return Request</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Approvals & Denials</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Reverse Logistics */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <FaChalkboardTeacher
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Reverse Logistics
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Schedule Return Pickups</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Track Return Shipments
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Return Documentation */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <VscServerEnvironment
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Return Documentation
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Return Orders</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Reason codes & Notes
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Inventory Updates */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <MdOutlineInventory2
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Inventory Updates 
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Update Stock Levels</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Restocking Procedures
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Warranty & claims */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <MdOutlineHandshake
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Warranty & claims
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Warranty Status</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Claim Submission
                     </a>
                   </li>
                 </ul>
