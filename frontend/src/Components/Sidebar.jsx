@@ -158,28 +158,11 @@ const Sidebar = () => {
                       Submenu 2
                     </a>
                   </li>
-                  <li>
-                    <details open>
-                      <summary className="text-base">Parent</summary>
-                      <ul className="pl-4">
-                        <li>
-                          <a href="#submenu1" className="text-base">
-                            Submenu 1
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#submenu2" className="text-base">
-                            Submenu 2
-                          </a>
-                        </li>
-                      </ul>
-                    </details>
-                  </li>
                 </ul>
               </details>
             </li>
 
-            {/* Audit Management Dropdown */}
+            {/* Supplier Management Dropdown */}
             <li>
               <details
                 open
@@ -207,30 +190,13 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Raw Material Request</p>
+                      <p className="text-base">Supplier List</p>
                     </NavLink>
                   </li>
                   <li>
                     <a href="#submenu2" className="text-base">
                       Submenu 2
                     </a>
-                  </li>
-                  <li>
-                    <details open>
-                      <summary className="text-base">Parent</summary>
-                      <ul className="pl-4">
-                        <li>
-                          <a href="#submenu1" className="text-base">
-                            Submenu 1
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#submenu2" className="text-base">
-                            Submenu 2
-                          </a>
-                        </li>
-                      </ul>
-                    </details>
                   </li>
                 </ul>
               </details>
