@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`flex flex-col h-screen bg-white text-black px-4 py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
+      className={`lg:flex md:flex hidden flex-col h-screen bg-white text-black px-4 py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
         isCollapsed ? "w-20" : "w-96 lg:w-96"
       }`}
       aria-label="Sidebar"
@@ -197,117 +197,104 @@ const Sidebar = () => {
               </details>
             </li>
           </ul>
-        </div>
-
-        {/* File Manager Section */}
-        <div
-          className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
-          aria-label="File Manager"
-        >
-          <IoFileTrayOutline
-            className={`transition-all duration-300 ${
-              isCollapsed ? "w-7 h-7" : "w-5 h-5"
-            }`}
-          />
-          {!isCollapsed && (
-            <p className="ml-2 text-base font-semibold">File Manager</p>
-          )}
-        </div>
-
-        {/* Chat Section */}
-        <div
-          className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
-          aria-label="Chat"
-        >
-          <IoChatboxOutline
-            className={`transition-all duration-300 ${
-              isCollapsed ? "w-7 h-7" : "w-5 h-5"
-            }`}
-          />
-          {!isCollapsed && <p className="ml-2 text-base font-semibold">Chat</p>}
-        </div>
-
-        {/* Pages Section */}
-        <div className="mt-4">
+          {/* VENDOR */}
           <p
-            className={`text-gray-500 mb-2 font-semibold text-base ${
+            className={`text-gray-500 font-semibold text-base ${
               isCollapsed ? "hidden" : ""
             }`}
           >
-            Pages
+            Vendor
           </p>
-          <div
-            className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
-            aria-label="Landing Page"
-          >
-            <RiFilePaper2Line
-              className={`transition-all duration-300 ${
-                isCollapsed ? "w-7 h-7" : "w-5 h-5"
-              }`}
-            />
-            {!isCollapsed && (
-              <p className="ml-2 text-base font-semibold">Landing</p>
-            )}
-          </div>
-        </div>
+          <ul className="w-full menu rounded-box">
+            {/* Procurement Dropdown */}
+            <li>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <BsBoxSeam
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Raw Material Request
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  {/* Procurement Submenu Items */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="rawmaterialrequest"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Raw Material List</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Create Request</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </details>
+            </li>
 
-        {/* UI Showcase Section */}
-        <div className="mt-4">
-          <p
-            className={`text-gray-500 mb-2 font-semibold text-base ${
-              isCollapsed ? "hidden" : ""
-            }`}
-          >
-            UI Showcase
-          </p>
-          <div
-            className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
-            aria-label="Components"
-          >
-            <FiBox
-              className={`transition-all duration-300 ${
-                isCollapsed ? "w-7 h-7" : "w-5 h-5"
-              }`}
-            />
-            {!isCollapsed && (
-              <p className="ml-2 text-base font-semibold">Components</p>
-            )}
-          </div>
-          <div
-            className="flex items-center gap-2 mb-2 text-base transition cursor-pointer hover:text-blue-500"
-            aria-label="Forms"
-          >
-            <FaWpforms
-              className={`transition-all duration-300 ${
-                isCollapsed ? "w-7 h-7" : "w-5 h-5"
-              }`}
-            />
-            {!isCollapsed && (
-              <p className="ml-2 text-base font-semibold">Forms</p>
-            )}
-          </div>
-        </div>
-        <div className="mt-4">
-          <p
-            className={`text-gray-500 mb-2 font-semibold text-base ${
-              isCollapsed ? "hidden" : ""
-            }`}
-          >
-            Others
-          </p>
-          <div
-            className="flex items-center gap-2 mb-3 text-base transition cursor-pointer hover:text-blue-500"
-            aria-label="Documentation"
-          >
-            <IoDocumentTextOutline
-              className={`transition-all duration-300 ${
-                isCollapsed ? "w-7 h-7" : "w-5 h-5"
-              }`}
-            />
-            {!isCollapsed && (
-              <p className="ml-2 text-base font-semibold">Documentation</p>
-            )}
-          </div>
+            {/* Supplier Management Dropdown */}
+            <li>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <IoFileTrayOutline
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Suppliers
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Supplier List</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Create Suppliers
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+          
         </div>
       </div>
 
