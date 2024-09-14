@@ -11,29 +11,45 @@ import SupplierList from "./Components/SupplierList";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const App = () => {
-  const { token } = useContext(UserContext); // Get token from context
+  const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
   const navigate = useNavigate();
   const location = useLocation();
   const [isTokenVerified, setIsTokenVerified] = useState(false);
 
   useEffect(() => {
-    const verifyToken = async() => {
+    const verifyToken = async () => {
       const storedtoken = localStorage.getItem("token");
 
-      if(!storedtoken && location.pathname !== "/login"){
+      if (!storedtoken && location.pathname !== "/login") {
         navigate("/login");
-      }else{
+      } else {
         try {
-          
+          const response = await axios.post(`${apiURL}/api/verifyToken`, {
+            token: storedtoken,
+          });
+
+          if(response.data.valid){
+            setIsTokenVerified(true)
+          }else{
+            handleInvalidToken()
+          }
         } catch (error) {
-          
+          handleInvalidToken();
+          navigate("/login");
         }
       }
-    }
-  })
+    };
 
+    const handleInvalidToken = () => {
+      localStorage.removeItem("token");
+      setToken(null);
+    };
+
+    verifyToken();
+  }, [navigate, location.pathname, setToken]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
