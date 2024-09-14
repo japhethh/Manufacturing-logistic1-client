@@ -12,7 +12,7 @@ const Search = () => {
   };
 
   return (
-    <div className="w-full py-4 px-4 bg-[#202564] text-gray-800 shadow-md sticky top-0 z-50 ">
+    <div className="w-full py-4 px-4 bg-blueberry text-gray-800 shadow-md sticky top-0 z-50 ">
       <div className="flex items-center justify-between">
         {/* Sidebar toggle button */}
         <div className="lg:hidden flex items-center">
