@@ -9,8 +9,15 @@ import {
 } from "react-icons/io5";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { FiBox } from "react-icons/fi";
+import { RiContactsFill } from "react-icons/ri";
 import { FaWpforms } from "react-icons/fa";
+import { GiTakeMyMoney } from "react-icons/gi";
+
+import { BiPurchaseTagAlt } from "react-icons/bi";
+import { MdOutlineCalculate } from "react-icons/md";
+import { FaLuggageCart } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -85,14 +92,14 @@ const Sidebar = () => {
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
-                  <BsBoxSeam
+                  <BiPurchaseTagAlt
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
                     }`}
                   />
                   {!isCollapsed && (
                     <span className="ml-2 text-base font-semibold">
-                      Raw Material Request
+                      Purchase Requisitions
                     </span>
                   )}
                 </summary>
@@ -125,46 +132,13 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-
-            {/* Audit Management Dropdown
             <li>
               <details
                 open
                 className={`menu-item ${isCollapsed ? "hidden" : ""}`}
               >
                 <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoFileTrayOutline
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">Audit</span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li>
-                    <a href="#submenu1" className="text-base">
-                      Submenu 1
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Submenu 2
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li> */}
-
-            {/* Supplier Management Dropdown */}
-            <li>
-              <details
-                open
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoFileTrayOutline
+                  <BsBoxSeam
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
                     }`}
@@ -185,18 +159,218 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Supplier List</p>
+                      <p className="text-base">Approved Supplier List</p>
                     </NavLink>
                   </li>
                   <li>
                     <a href="#submenu2" className="text-base">
-                      Create Suppliers
+                      Performance Metrics
                     </a>
                   </li>
                 </ul>
               </details>
             </li>
+            <li>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <MdOutlineCalculate
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Quotation
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  {/* Procurement Submenu Items */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="rawmaterialrequest"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Request For Quotations (RFQ's)</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Compare Supplier Quotes</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <FaLuggageCart
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Purchase Orders
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  {/* Procurement Submenu Items */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="rawmaterialrequest"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Create Purchase Orders</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Track Orders</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Order Fulfillment Status</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <RiContactsFill
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Contact
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  {/* Procurement Submenu Items */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="rawmaterialrequest"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">View Contacts</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Renewals & Expirations</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <GiTakeMyMoney
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Budget Approval
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  {/* Procurement Submenu Items */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="rawmaterialrequest"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Submit For Approval</p>
+                    </NavLink>
+                  </li>
+                  <li className="mt-1">
+                    <NavLink
+                      to="purchaseorder"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Approval History</p>
+                    </NavLink>
+                  </li>
+                </ul>
+              </details>
+            </li>
           </ul>
+
+
+
+
           {/* VENDOR */}
           <p
             className={`text-gray-500 font-semibold text-base ${
@@ -294,7 +468,6 @@ const Sidebar = () => {
               </details>
             </li>
           </ul>
-          
         </div>
       </div>
 

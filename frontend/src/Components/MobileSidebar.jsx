@@ -1,33 +1,28 @@
-import React from 'react'
+import React from "react";
 
 const MobileSidebar = () => {
   return (
-    <div className="drawer lg:hidden">
-        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          {/* Page content here */}
-          <label htmlFor="my-drawer" className="drawer-button hidden">
-            <IoIosMenu size={24} />
-          </label>
-        </div>
-        <div className="drawer-side">
-          <label
-            htmlFor="my-drawer"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-            {/* Sidebar content here */}
-            <li>
-              <a>Sidebar Item 1</a>
-            </li>
-            <li>
-              <a>Sidebar Item 2</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-  )
-}
+    <div>
+      <ul className="menu bg-base-200 rounded-box w-56">
+        <li>
+          <a className="text-gray-500 font-semibold text-base">Procurement</a>
+        </li>
+        <li>
+          <details open>
+            <summary>Parent</summary>
+            <ul>
+              <li>
+                <a>Submenu 1</a>
+              </li>
+              <li>
+                <a>Submenu 2</a>
+              </li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
-export default MobileSidebar
+export default MobileSidebar;
