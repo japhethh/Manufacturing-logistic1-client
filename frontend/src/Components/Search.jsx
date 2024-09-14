@@ -49,11 +49,11 @@ const Search = () => {
         {/* Right-side icons and user profile */}
         <div className="flex items-center gap-3 md:gap-4">
           <MdOutlineDarkMode
-            className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
+            className="cursor-pointer text-xl md:text-2xl hover:text-base-300 text-[#FFFFFF]"
             aria-label="Toggle dark mode"
           />
           <IoMdNotificationsOutline
-            className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
+            className="cursor-pointer text-xl md:text-2xl hover:text-base-300 text-[#FFFFFF]"
             aria-label="Notifications"
           />
           <div className="relative dropdown dropdown-end">

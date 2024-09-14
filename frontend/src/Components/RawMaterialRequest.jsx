@@ -44,7 +44,7 @@ const RawMaterialRequest = () => {
         ) : (
           <table className="table w-full text-sm border-collapse">
             <thead>
-              <tr className="text-gray-700 bg-stone-200">
+              <tr className="text-gray-700 bg-base-100">
                 <th className="px-4 py-2 border"></th>
                 <th className="px-4 py-2 border">Requested Date</th>
                 <th className="px-4 py-2 border">Requested Status</th>
