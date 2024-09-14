@@ -1,99 +1,64 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import Log from "./Components/Authentication/Log";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/userContext";
+import Dashboard from "./pages/Dashboard";
+import Log from "./Components/Authentication/Log";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
 import RawMaterialRequest from "./Components/RawMaterialRequest";
 import PurchaseOrder from "./Components/PurchaseOrder";
+import SupplierList from "./Components/SupplierList";
+import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NotFound from "./pages/NotFound";
-import SupplierList from "./Components/SupplierList";
 
 const App = () => {
-  const { token } = useContext(UserContext); // Get the token from context
+  const { token } = useContext(UserContext); // Get token from context
   const navigate = useNavigate();
   const location = useLocation();
-
-  // State to control if we're still verifying token
   const [isTokenVerified, setIsTokenVerified] = useState(false);
 
   useEffect(() => {
-    const verifyToken = () => {
-      const storedToken = localStorage.getItem("token");
+    const storedToken = localStorage.getItem("token");
 
-      if (
-        !storedToken &&
-        location.pathname !== "/login" &&
-        location.pathname !== "/register"
-      ) {
-        navigate("/login");
-      } else {
-        setIsTokenVerified(true);
-      }
-    };
-
-    verifyToken();
+    // If no token and not on login page, redirect to login
+    if (!storedToken && location.pathname !== "/login") {
+      navigate("/login");
+    } else {
+      setIsTokenVerified(true); // Token is valid, allow access
+    }
   }, [navigate, location.pathname]);
 
-  // If token verification is not complete, show a loading screen
+  // Show loading while verifying token
   if (!isTokenVerified) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <p>Loading...</p>
-        </div>
+        <p>Loading...</p>
       </div>
     );
   }
 
-  // Define valid paths
-  const validPaths = ["/", "/rawmaterialrequest","/supplierlist", "/purchaseorder", "/login", "/register"];
-
-  // Check if the current route is valid or not
-  const isValidRoute = validPaths.includes(location.pathname);
-
-  // If the route is invalid, show the NotFound page and hide login/register
-  if (!isValidRoute) {
-    return <NotFoundWrapper />;
+  // Check if user is on the login page and already has a token
+  if (token && location.pathname === "/login") {
+    navigate("/"); // Redirect to dashboard or homepage if already logged in
   }
 
-  // Check if the current route is login or register
-  const isAuthPage =
-    location.pathname === "/register" || location.pathname === "/login";
-
+  // Define routes that should be rendered
   return (
-    <div className={`flex min-h-screen  `} data-theme="light">
+    <div className="flex min-h-screen" data-theme="light">
       <ToastContainer />
-
-      {/* Only render Sidebar if not on login/register routes */}
-      {!isAuthPage && <Sidebar />}
+      {!token && location.pathname === "/login" ? null : <Sidebar />}
       <div className="flex-col w-full">
-        {/* Always render Search */}
-        {!isAuthPage && <Search />}
-
+        {!token && location.pathname === "/login" ? null : <Search />}
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
           <Route path="/supplierlist" element={<SupplierList />} />
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
           <Route path="/login" element={<Log />} />
-          {/* <Route path="/register" element={<Register />} /> */}
-
-          {/* Catch-all route for NotFound */}
-          <Route path="*" element={<NotFoundWrapper />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-    </div>
-  );
-};
-
-const NotFoundWrapper = () => {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <NotFound />
     </div>
   );
 };
