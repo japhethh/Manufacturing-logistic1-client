@@ -75,7 +75,7 @@ const Sidebar = () => {
               isCollapsed ? "hidden" : ""
             }`}
           >
-            Apps
+            Procurement
           </p>
           <ul className="w-full menu rounded-box">
             {/* Procurement Dropdown */}
@@ -92,7 +92,7 @@ const Sidebar = () => {
                   />
                   {!isCollapsed && (
                     <span className="ml-2 text-base font-semibold">
-                      Procurement
+                      Raw Material Request
                     </span>
                   )}
                 </summary>
@@ -107,7 +107,7 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Raw Material Request</p>
+                      <p className="text-base">Raw Material List</p>
                     </NavLink>
                   </li>
                   <li className="mt-1">
@@ -119,19 +119,14 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Budget Request</p>
+                      <p className="text-base">Create Request</p>
                     </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <a href="#supplier-management" className="text-base">
-                      Purchase Orders
-                    </a>
                   </li>
                 </ul>
               </details>
             </li>
 
-            {/* Audit Management Dropdown */}
+            {/* Audit Management Dropdown
             <li>
               <details
                 open
@@ -160,7 +155,7 @@ const Sidebar = () => {
                   </li>
                 </ul>
               </details>
-            </li>
+            </li> */}
 
             {/* Supplier Management Dropdown */}
             <li>
@@ -195,7 +190,7 @@ const Sidebar = () => {
                   </li>
                   <li>
                     <a href="#submenu2" className="text-base">
-                      Submenu 2
+                      Create Suppliers
                     </a>
                   </li>
                 </ul>
