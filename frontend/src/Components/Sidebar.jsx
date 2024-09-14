@@ -2,21 +2,17 @@ import { useState } from "react";
 import layout from "./Assets/layout.png";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
-import {
-  IoFileTrayOutline,
-  IoChatboxOutline,
-  IoDocumentTextOutline,
-} from "react-icons/io5";
-import { RiFilePaper2Line } from "react-icons/ri";
-import { FiBox } from "react-icons/fi";
 import { RiContactsFill } from "react-icons/ri";
-import { FaWpforms } from "react-icons/fa";
 import { GiTakeMyMoney } from "react-icons/gi";
-
-import { BiPurchaseTagAlt } from "react-icons/bi";
+import { IoDocumentAttachOutline } from "react-icons/io5";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { VscServerEnvironment } from "react-icons/vsc";
+import { MdOutlineSupportAgent } from "react-icons/md";
+import { BiDollarCircle, BiPurchaseTagAlt } from "react-icons/bi";
 import { MdOutlineCalculate } from "react-icons/md";
 import { FaLuggageCart } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import { TbFileInvoice } from "react-icons/tb";
 
 
 const Sidebar = () => {
@@ -87,10 +83,8 @@ const Sidebar = () => {
           <ul className="w-full menu rounded-box">
             {/* Procurement Dropdown */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              {/*   Purchase Requisitions */}
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <BiPurchaseTagAlt
                     className={`transition-all duration-300 ${
@@ -132,11 +126,9 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+            {/*  Suppliers */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <BsBoxSeam
                     className={`transition-all duration-300 ${
@@ -170,11 +162,9 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+            {/* Quotation */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <MdOutlineCalculate
                     className={`transition-all duration-300 ${
@@ -198,7 +188,9 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Request For Quotations (RFQ's)</p>
+                      <p className="text-base">
+                        Request For Quotations (RFQ's)
+                      </p>
                     </NavLink>
                   </li>
                   <li className="mt-1">
@@ -216,11 +208,9 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+            {/* Purchase Orders */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <FaLuggageCart
                     className={`transition-all duration-300 ${
@@ -247,6 +237,7 @@ const Sidebar = () => {
                       <p className="text-base">Create Purchase Orders</p>
                     </NavLink>
                   </li>
+                  {/* Track Orders */}
                   <li className="mt-1">
                     <NavLink
                       to="purchaseorder"
@@ -274,11 +265,9 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+            {/* Contact */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <RiContactsFill
                     className={`transition-all duration-300 ${
@@ -320,11 +309,9 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+            {/* Budget Approval */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <GiTakeMyMoney
                     className={`transition-all duration-300 ${
@@ -368,9 +355,6 @@ const Sidebar = () => {
             </li>
           </ul>
 
-
-
-
           {/* VENDOR */}
           <p
             className={`text-gray-500 font-semibold text-base ${
@@ -380,12 +364,9 @@ const Sidebar = () => {
             Vendor
           </p>
           <ul className="w-full menu rounded-box">
-            {/* Procurement Dropdown */}
+            {/*   Supplier Onboarding */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <BsBoxSeam
                     className={`transition-all duration-300 ${
@@ -394,7 +375,7 @@ const Sidebar = () => {
                   />
                   {!isCollapsed && (
                     <span className="ml-2 text-base font-semibold">
-                      Raw Material Request
+                      Supplier Onboarding
                     </span>
                   )}
                 </summary>
@@ -409,7 +390,7 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Raw Material List</p>
+                      <p className="text-base">Registration Requests</p>
                     </NavLink>
                   </li>
                   <li className="mt-1">
@@ -421,28 +402,24 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Create Request</p>
+                      <p className="text-base">Compliance Verification</p>
                     </NavLink>
                   </li>
                 </ul>
               </details>
             </li>
-
-            {/* Supplier Management Dropdown */}
+            {/* Supplier Dashboard */}
             <li>
-              <details
-                
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoFileTrayOutline
+                  <FaChalkboardTeacher
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
                     }`}
                   />
                   {!isCollapsed && (
                     <span className="ml-2 text-base font-semibold">
-                      Suppliers
+                      Supplier Dashboard
                     </span>
                   )}
                 </summary>
@@ -456,12 +433,192 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Supplier List</p>
+                      <p className="text-base">Order Overview</p>
                     </NavLink>
                   </li>
                   <li>
                     <a href="#submenu2" className="text-base">
-                      Create Suppliers
+                      Payment Status
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Order Management */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <VscServerEnvironment
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Order Management
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">View Purchase Orders</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Confirm Delivery Dates
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Document Exchange */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <IoDocumentAttachOutline
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Document Exchange
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Upload/Download Documents</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Contract Agreement
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Bids & Tenders */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <BiDollarCircle
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Bids & Tenders
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Active Tenders</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Submit Bids/Quotations
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Invoice & Payments */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <TbFileInvoice
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Submit Invoices
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Payment Tracking</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Payment Tracking
+                    </a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            {/* Support & Disputes */}
+            <li>
+              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <summary className="flex items-center gap-2 cursor-pointer">
+                  <MdOutlineSupportAgent
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="ml-2 text-base font-semibold">
+                      Support & Disputes
+                    </span>
+                  )}
+                </summary>
+                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                  <li className="mt-1">
+                    <NavLink
+                      to="supplierlist"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-base-200 bg-blue-500 font-bold"
+                          : "text-black"
+                      }
+                    >
+                      <p className="text-base">Raise A Tickets</p>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a href="#submenu2" className="text-base">
+                      Dispute Resolutions Status
                     </a>
                   </li>
                 </ul>
