@@ -392,7 +392,7 @@ const Dashboard = () => {
               </div>
 
               {/* chat */}
-              <div className="border max-md:w-full w-[300px] h-[300px] p-5 rounded-lg bg-white mt-5 shadow-lg">
+              <div className="border max-md:w-full w-[300px] h-[300px] p-5 rounded-lg bg-white  shadow-lg">
                 <div className="flex gap-2 items-center mb-4">
                   <MdOutlineChat className="text-lg" />
                   <p className="font-semibold">Quick Chat</p>
@@ -455,52 +455,12 @@ const Dashboard = () => {
                 </div>
               </div>
               {/* Top Countries */}
-              <div className="mt-5 bg-white rounded-xl shadow-lg">
-                {/* Chart is hidden on small screens */}
-                <div className="hidden md:block">
-                  <AreaChart
-                    width={430}
-                    height={300}
-                    data={data}
-                    margin={{
-                      top: 10,
-                      right: 30,
-                      left: 0,
-                      bottom: 0,
-                    }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Area
-                      type="monotone"
-                      dataKey="uv"
-                      stackId="1"
-                      stroke="#8884d8"
-                      fill="#8884d8"
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="pv"
-                      stackId="1"
-                      stroke="#82ca9d"
-                      fill="#82ca9d"
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="amt"
-                      stackId="1"
-                      stroke="#ffc658"
-                      fill="#ffc658"
-                    />
-                  </AreaChart>
-                </div>
+              <div className="mt-5 md:mt-3 lg:mt-2 bg-white rounded-xl shadow-lg">
                 {/* Chart is visible on small screens */}
                 <div className="block">
                   <div className="w-full h-[200px]">
                     <AreaChart
-                      width={300}
+                      width={350}
                       height={200}
                       data={data}
                       margin={{
