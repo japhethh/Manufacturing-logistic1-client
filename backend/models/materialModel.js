@@ -12,7 +12,7 @@ const materialSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    required: false,
+    required: false, 
   },
   unit: {
     type: String,

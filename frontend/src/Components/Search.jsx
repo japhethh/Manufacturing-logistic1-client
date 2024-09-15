@@ -12,7 +12,7 @@ const Search = () => {
   };
 
   return (
-    <div className="w-full py-4 px-4 bg-blueberry text-gray-800 shadow-md sticky top-0 z-50 ">
+    <div className="w-full py-4 px-4 bg-white text-gray-800 shadow-md sticky top-0 z-50">
       <div className="flex items-center justify-between">
         {/* Sidebar toggle button */}
         <div className="lg:hidden flex items-center">
@@ -49,11 +49,11 @@ const Search = () => {
         {/* Right-side icons and user profile */}
         <div className="flex items-center gap-3 md:gap-4">
           <MdOutlineDarkMode
-            className="cursor-pointer text-xl md:text-2xl hover:text-base-300 text-[#FFFFFF]"
+            className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
             aria-label="Toggle dark mode"
           />
           <IoMdNotificationsOutline
-            className="cursor-pointer text-xl md:text-2xl hover:text-base-300 text-[#FFFFFF]"
+            className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
             aria-label="Notifications"
           />
           <div className="relative dropdown dropdown-end">

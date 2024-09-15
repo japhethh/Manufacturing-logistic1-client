@@ -24,7 +24,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`lg:flex md:flex hidden flex-col h-screen bg-luminescent text-black px-4 py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
+      className={`lg:flex md:flex hidden flex-col h-screen bg-white text-black px-4 py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
         isCollapsed ? "w-20" : "w-96 lg:w-96"
       }`}
       aria-label="Sidebar"
@@ -102,7 +102,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -114,7 +114,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -145,7 +145,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -182,7 +182,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -196,7 +196,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -228,7 +228,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -241,7 +241,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -253,7 +253,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -285,7 +285,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -297,7 +297,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -329,7 +329,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -341,7 +341,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -384,7 +384,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -396,7 +396,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -427,7 +427,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -463,7 +463,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -499,7 +499,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -535,7 +535,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -571,7 +571,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -607,7 +607,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -654,7 +654,7 @@ const Sidebar = () => {
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -666,7 +666,7 @@ const Sidebar = () => {
                       to="purchaseorder"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -697,7 +697,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -733,7 +733,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -769,7 +769,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
@@ -805,7 +805,7 @@ const Sidebar = () => {
                       to="supplierlist"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-base-200 bg-blueberry font-bold"
+                          ? "text-base-200 bg-blue-500 font-bold"
                           : "text-black"
                       }
                     >
