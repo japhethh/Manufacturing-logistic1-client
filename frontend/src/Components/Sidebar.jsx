@@ -624,7 +624,6 @@ const Sidebar = () => {
             </li>
           </ul>
           {/* RETURN MANAGEMENT */}
-          {/* VENDOR */}
           <p
             className={`text-gray-500 font-semibold text-base ${
               isCollapsed ? "hidden" : ""
