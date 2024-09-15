@@ -1,6 +1,12 @@
 import { useState } from "react";
 import layout from "./Assets/layout.png";
-import { MdOutlineScreenshotMonitor, MdOutlineSupportAgent, MdOutlineCalculate, MdOutlineInventory2, MdOutlineHandshake } from "react-icons/md";
+import {
+  MdOutlineScreenshotMonitor,
+  MdOutlineSupportAgent,
+  MdOutlineCalculate,
+  MdOutlineInventory2,
+  MdOutlineHandshake,
+} from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
 import { RiContactsFill } from "react-icons/ri";
 import { GiTakeMyMoney } from "react-icons/gi";
@@ -10,8 +16,6 @@ import { VscServerEnvironment } from "react-icons/vsc";
 import { BiDollarCircle, BiPurchaseTagAlt } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 import { TbFileInvoice } from "react-icons/tb";
-
-
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -69,8 +73,237 @@ const Sidebar = () => {
           </div>
         </Link>
 
+        {/* SHOWING ICONS WHEN HIDDEN */}
+        {/* BiPurchaseTagAlt */}
+        <div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <BiPurchaseTagAlt
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <BsBoxSeam
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <MdOutlineCalculate
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <FaLuggageCart
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <RiContactsFill
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <GiTakeMyMoney
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <BsBoxSeam
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <FaChalkboardTeacher
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <VscServerEnvironment
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <IoDocumentAttachOutline
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <BiDollarCircle
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <MdOutlineSupportAgent
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <IoReturnUpForward
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <FaChalkboardTeacher
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <VscServerEnvironment
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <MdOutlineInventory2
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <MdOutlineHandshake
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+        </div>
+
+
+
+
         {/* Apps Section */}
-        <div className="mb-2">
+        <div className="mb-2 ">
           <p
             className={`text-gray-500 font-semibold text-base ${
               isCollapsed ? "hidden" : ""
@@ -78,8 +311,10 @@ const Sidebar = () => {
           >
             Procurement
           </p>
+
           <ul className="w-full menu rounded-box">
             {/* Procurement Dropdown */}
+
             <li>
               {/*   Purchase Requisitions */}
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
@@ -636,7 +871,7 @@ const Sidebar = () => {
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoReturnUpForward 
+                  <IoReturnUpForward
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
                     }`}
@@ -758,7 +993,7 @@ const Sidebar = () => {
                   />
                   {!isCollapsed && (
                     <span className="ml-2 text-base font-semibold">
-                      Inventory Updates 
+                      Inventory Updates
                     </span>
                   )}
                 </summary>
