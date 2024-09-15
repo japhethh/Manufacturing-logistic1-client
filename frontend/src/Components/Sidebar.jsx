@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useDraggable } from "react-use-draggable-scroll";
 import layout from "./Assets/layout.png";
 import {
   MdOutlineScreenshotMonitor,
@@ -25,6 +26,9 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
+  // NPM useDraggable
+  const ref = useRef();
+  const { events } = useDraggable(ref);
 
   return (
     <div
@@ -55,7 +59,15 @@ const Sidebar = () => {
       </div>
 
       {/* Sidebar scrollable content */}
-      <div className="flex-1 overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300">
+      <div
+        {...events}
+        ref={ref}
+        className={`flex-1 transition-all duration-300 ${
+          isCollapsed
+            ? "overflow-y-hidden"
+            : "overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300"
+        }`}
+      >
         {/* Dashboard Link */}
         <Link to="/">
           <div
@@ -298,9 +310,6 @@ const Sidebar = () => {
             />
           </div>
         </div>
-
-
-
 
         {/* Apps Section */}
         <div className="mb-2 ">
