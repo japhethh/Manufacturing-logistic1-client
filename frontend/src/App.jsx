@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import MobileSidebar from "./Components/MobileSidebar";
 import Store from "./context/store";
+import User from "./Components/User";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -97,11 +98,14 @@ const App = () => {
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
           <Route path="/supplierlist" element={<SupplierList />} />
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
+          <Route path="/user" element={<User />} />
           <Route path="/login" element={<Log />} />
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
         </Routes>
       </div>
+
+      
     </div>
   );
 };
