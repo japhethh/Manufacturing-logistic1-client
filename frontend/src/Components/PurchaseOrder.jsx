@@ -22,7 +22,7 @@ const PurchaseOrder = () => {
         <div className="border-b-2 my-2">
           <div>
             <NavLink to="/user/createsupplier">
-            <button className="px-4 py-2 text-sm rounded-full bg-blue-700 text-white mb-2">
+            <button className="px-4 text-sm rounded-full bg-blue-700 text-white mb-2 flex justify-between items-center gap-2 py-3 font-semibold">
               Add Employee +
             </button>
             </NavLink>
