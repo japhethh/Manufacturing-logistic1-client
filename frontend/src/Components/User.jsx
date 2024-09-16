@@ -25,8 +25,8 @@ const User = () => {
       <div className="p-2 shadow-md ">
         <div className="border-b-2 my-2">
           <div>
-          <button className="px-4 py-2 text-sm text-blue-700 duration-150 border border-blue-700 rounded-full hover:bg-blue-700 hover:text-white">
-          Add Customer +
+          <button className="px-4 py-2 text-sm rounded-full bg-blue-700 text-white mb-2">
+          Add Employee +
         </button>
           </div>
         </div>
