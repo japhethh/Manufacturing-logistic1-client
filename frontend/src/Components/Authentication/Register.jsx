@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -34,7 +33,10 @@ const Register = () => {
       toast.success("Registration successful. Please log in.");
       navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Registration failed. Please try again.");
+      toast.error(
+        error.response?.data?.message ||
+          "Registration failed. Please try again."
+      );
     }
   };
 
@@ -56,7 +58,9 @@ const Register = () => {
               className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             {errors.firstName && (
-              <span className="text-red-500 text-sm">{errors.firstName.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.firstName.message}
+              </span>
             )}
           </div>
 
@@ -71,7 +75,9 @@ const Register = () => {
               className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             {errors.lastName && (
-              <span className="text-red-500 text-sm">{errors.lastName.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.lastName.message}
+              </span>
             )}
           </div>
 
@@ -86,7 +92,9 @@ const Register = () => {
               className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             {errors.username && (
-              <span className="text-red-500 text-sm">{errors.username.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.username.message}
+              </span>
             )}
           </div>
 
@@ -101,7 +109,9 @@ const Register = () => {
               className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             {errors.email && (
-              <span className="text-red-500 text-sm">{errors.email.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.email.message}
+              </span>
             )}
           </div>
 
@@ -116,7 +126,9 @@ const Register = () => {
               className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             {errors.password && (
-              <span className="text-red-500 text-sm">{errors.password.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.password.message}
+              </span>
             )}
           </div>
 
@@ -130,11 +142,15 @@ const Register = () => {
             <input
               type="password"
               id="confirmPassword"
-              {...register("confirmPassword", { required: "Please confirm your password" })}
+              {...register("confirmPassword", {
+                required: "Please confirm your password",
+              })}
               className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             {errors.confirmPassword && (
-              <span className="text-red-500 text-sm">{errors.confirmPassword.message}</span>
+              <span className="text-red-500 text-sm">
+                {errors.confirmPassword.message}
+              </span>
             )}
           </div>
 

@@ -21,10 +21,6 @@ app.get("/", (req, res) => {
   res.send("Hello world ");
 });
 
-app.use("/api/user", userRouter);
-app.use("/api/rawmaterial", rawmaterialRouter);
-app.use("/api/supplier", supplierRouter);
-app.use("/api/material", materialRouter);
 app.post("/api/verifyToken", (req, res) => {
   const { token } = req.body;
 
@@ -35,6 +31,11 @@ app.post("/api/verifyToken", (req, res) => {
     res.json({ valid: true, decoded });
   });
 });
+
+app.use("/api/user", userRouter);
+app.use("/api/rawmaterial", rawmaterialRouter);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/material", materialRouter);
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });
