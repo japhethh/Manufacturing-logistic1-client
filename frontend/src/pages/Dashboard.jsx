@@ -5,7 +5,12 @@ import { MdOutlinePeopleAlt } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
 
 import { MdOutlineChat } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { FaBoxes } from "react-icons/fa";
 
+import {UserContext} from "../context/userContext";
+import { useContext } from "react";
+import axios from "axios";
 import {
   AreaChart,
   Area,
@@ -44,18 +49,55 @@ const data = [
 ];
 
 const Dashboard = () => {
+  const [supplier, setSupplier] = useState(null);
+
+  const {apiURL} = useContext(UserContext);
+
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await axios.get(`${apiURL}/api/supplier/suppliers`);
+      setSupplier(response.data);
+    };
+    loadData();
+    console.log(supplier)
+  }, []);
   return (
     <>
       <div className="flex">
-
         <div className="flex-col w-full">
-        <iframe  src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917" width="100%" height="700px" frameBorder="0"
-        ></iframe>
+          <iframe
+            src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917"
+            width="100%"
+            height="700px"
+            frameBorder="0"
+          ></iframe>
           <div className="bg-gray-200 text-black h-auto p-5">
             {/* 4 cards */}
             <p className="font-semibold">Overview</p>
             {/* cards */}
             <div className="flex gap-4 p-4 overflow-x-auto flex-wrap">
+              {/* Suppliers Card */}
+              <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600 font-semibold text-sm">
+                    Totals Suppliers
+                  </p>
+                  <FaBoxes className="text-gray-600 text-xl" />
+                </div>
+                <div className="flex gap-3 my-3">
+                  <p className="text-3xl font-bold">{supplier.length }</p>
+                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+                    <IoIosArrowUp className="text-green-700" /> 10.8%
+                  </p>
+                </div>
+                <div className="my-3">
+                  <p className="text-green-700 font-semibold">
+                    +$128.58{" "}
+                    <span className="text-gray-500">than past week</span>
+                  </p>
+                </div>
+              </div>
               {/* Revenue Card */}
               <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
                 <div className="flex items-center justify-between">
@@ -501,9 +543,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-  
         </div>
-        
       </div>
     </>
   );
