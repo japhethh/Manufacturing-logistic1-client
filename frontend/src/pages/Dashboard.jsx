@@ -86,7 +86,7 @@ const Dashboard = () => {
                   <FaBoxes className="text-gray-600 text-xl" />
                 </div>
                 <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">{supplier.length }</p>
+                  <p className="text-3xl font-bold">{supplier?.length }</p>
                   <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
                     <IoIosArrowUp className="text-green-700" /> 10.8%
                   </p>
