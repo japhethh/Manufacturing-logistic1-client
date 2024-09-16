@@ -1,14 +1,17 @@
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { RiPassPendingLine } from "react-icons/ri";
-import { MdOutlinePeopleAlt } from "react-icons/md";
+import {
+  MdOutlinePeopleAlt,
+  MdOutlineYoutubeSearchedFor,
+} from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
 
 import { MdOutlineChat } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { FaBoxes } from "react-icons/fa";
 
-import {UserContext} from "../context/userContext";
+import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import axios from "axios";
 import {
@@ -51,8 +54,7 @@ const data = [
 const Dashboard = () => {
   const [supplier, setSupplier] = useState(null);
 
-  const {apiURL} = useContext(UserContext);
-
+  const { apiURL } = useContext(UserContext);
 
   useEffect(() => {
     const loadData = async () => {
@@ -60,19 +62,45 @@ const Dashboard = () => {
       setSupplier(response.data);
     };
     loadData();
-    console.log(supplier)
+    console.log(supplier);
   }, []);
+
+  const youtubelink = [
+    { link: "https://www.youtube.com/embed/pbNs7tAUFkk?si=xZzA2ymc841fmcKY",},
+    { link: "https://www.youtube.com/embed/b_hdoZL9240?si=nyjmqmPst8suiS-1" },
+    { link: "https://www.youtube.com/embed/FAXpzgqF0Aw?si=KZGTr1SDRst3lwmI" },
+    { link: "https://www.youtube.com/embed/pbNs7tAUFkk?si=xZzA2ymc841fmcKY" },
+    { link: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F100063468979340%2Fvideos%2F884240899853913%2F&show_text=false&width=560&t=0" },
+
+  ];
   return (
     <>
       <div className="flex">
-        <div className="flex-col w-full">
-        <iframe width="100%" height="500" src="https://www.youtube.com/embed/pbNs7tAUFkk?si=xZzA2ymc841fmcKY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          <iframe
+        <div className="flex-col w-full container-md mx-auto p-4 ">
+          <div className="flex flex-wrap gap-2">
+            {youtubelink.map((youtube, index) => (
+              <div key={index}>
+                <iframe
+                  className="rounded-md"
+                  width="350"
+                  height="250"
+                  src={`${youtube.link}`}
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            ))}
+          </div>
+
+          {/* <iframe
             src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917"
             width="100%"
             height="700px"
             frameBorder="0"
-          ></iframe>
+          ></iframe> */}
           <div className="bg-gray-200 text-black h-auto p-5">
             {/* 4 cards */}
             <p className="font-semibold">Overview</p>
@@ -87,7 +115,7 @@ const Dashboard = () => {
                   <FaBoxes className="text-gray-600 text-xl" />
                 </div>
                 <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">{supplier?.length }</p>
+                  <p className="text-3xl font-bold">{supplier?.length}</p>
                   <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
                     <IoIosArrowUp className="text-green-700" /> 10.8%
                   </p>

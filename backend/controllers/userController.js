@@ -6,7 +6,9 @@ import jwt from "jsonwebtoken";
 const getUser = async (req, res) => {
   try {
     const users = await User.find({});
-
+    if(!users){
+      return res.status(400).json("Errors")
+    }
     res.status(200).json({ success: true, data: users });
   } catch (error) {
     console.log("Error");
@@ -26,7 +28,7 @@ const getSpecificUser = asyncHandler(async(req,res) => {
 }) 
 
 const registerUser = async (req, res) => {
-  const { name, email, password,role,address,city } = req.body;
+  const { name, email, password,phone,role,address,city } = req.body;
 
 
   const exist = await User.findOne({email});
@@ -41,6 +43,7 @@ const registerUser = async (req, res) => {
     email: email,
     password: password,
     role:role,
+    phone:phone,
     address:address,
     city:city
   });

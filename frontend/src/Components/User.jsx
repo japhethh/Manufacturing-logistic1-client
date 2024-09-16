@@ -1,11 +1,27 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Store from "../context/Store";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const User = () => {
   const navigate = useNavigate();
+  const [selectedUser, setSelectedUser] = useState(null); // New state for the selected user
 
   const handleCreate = () => {
     navigate("/user/createuser");
   };
+
+  const { fetchAllUsers, allUsers } = Store();
+
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
+  const handleDetails = (user) => {
+    setSelectedUser(user); // Set the selected user when "Details" is clicked
+    document.getElementById("my_modal_1").showModal();
+  };
+
   return (
     <div className="container mx-auto px-4 ">
       <div className="breadcrumbs text-sm mb-5">
@@ -24,7 +40,10 @@ const User = () => {
       <div className="p-2 shadow-md ">
         <div className="border-b-2 my-2">
           <div>
-            <button onClick={handleCreate} className="px-4 py-3 font-semibold text-sm rounded-full bg-blue-700 text-white mb-2">
+            <button
+              onClick={handleCreate}
+              className="px-4 py-3 font-semibold text-sm rounded-full bg-blue-700 text-white mb-2"
+            >
               Add Employee +
             </button>
           </div>
@@ -57,165 +76,145 @@ const User = () => {
                   </label>
                 </th>
                 <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>role</th>
+                <th>action</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {/* row 1 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
+              {allUsers &&
+                allUsers.map((user, index) => (
+                  <tr key={index}>
+                    <th>
+                      <label>
+                        <input type="checkbox" className="checkbox" />
+                      </label>
+                    </th>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-12 w-12">
+                            <img
+                              src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                              alt="Avatar Tailwind CSS Component"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold">{user?.name}</div>
+                          <div className="text-sm opacity-50">
+                            United States
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Hart Hagerty</div>
-                      <div className="text-sm opacity-50">United States</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Zemlak, Daniel and Leannon
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Desktop Support Technician
-                  </span>
-                </td>
-                <td>Purple</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 2 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
+                    </td>
+                    <td>
+                      {user?.email}
+                      <br />
+                      <span className="badge badge-ghost badge-sm">
+                        Desktop Support Technician
+                      </span>
+                    </td>
+                    <td>{user?.phone}</td>
+                    <th>
+                      <button
+                        className={`btn btn-ghost btn-xs ${
+                          user?.role === "admin"
+                            ? "bg-green-400 text-white"
+                            : "bg-blue-400 text-white"
+                        }`}
+                      >
+                        {user?.role}
+                      </button>
+                    </th>
+                    <th>
+                      <div className="dropdown dropdown-left">
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className="btn btn-ghost btn-circle avatar"
+                        >
+                          <HiDotsHorizontal />
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w- p-2 shadow"
+                        >
+                          <li>
+                            <a
+                              className="justify-between font-medium"
+                              onClick={() => handleDetails(user)}
+                            >
+                              Details
+                            </a>
+                          </li>
+                          <li>
+                            <a className="text-blue-500 font-medium">Edit</a>
+                          </li>
+                          <li>
+                            <a className="text-red-500 font-medium">Delete</a>
+                          </li>
+                        </ul>
                       </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Brice Swyre</div>
-                      <div className="text-sm opacity-50">China</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Carroll Group
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Tax Accountant
-                  </span>
-                </td>
-                <td>Red</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 3 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Marjy Ferencz</div>
-                      <div className="text-sm opacity-50">Russia</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Rowe-Schoen
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Office Assistant I
-                  </span>
-                </td>
-                <td>Crimson</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
-              {/* row 4 */}
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">Yancy Tear</div>
-                      <div className="text-sm opacity-50">Brazil</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Wyman-Ledner
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Community Outreach Specialist
-                  </span>
-                </td>
-                <td>Indigo</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
-              </tr>
+                    </th>
+                  </tr>
+                ))}
             </tbody>
             {/* foot */}
             <tfoot>
               <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>role</th>
+                <th>action</th>
                 <th></th>
               </tr>
             </tfoot>
           </table>
         </div>
+
+        {/* Modal */}
+        <dialog id="my_modal_1" className="modal">
+          {selectedUser && (
+            <div className="modal-box">
+              <h3 className="font-bold text-lg pb-3">Details</h3>
+              <ul className="flex flex-col gap-2">
+                <li className="font-semibold">
+                  Name: <span className="text-black font-semibold">{selectedUser.name}</span>
+                </li>
+                {selectedUser?.email && (
+                  <li className="font-semibold">
+                    Email: <span className="text-black font-semibold">{selectedUser?.email}</span>
+                  </li>
+                )}
+                {selectedUser?.phone && (
+                  <li className="font-semibold">
+                    Phone: <span className="text-black font-semibold">{selectedUser?.phone}</span>
+                  </li>
+                )}
+                {selectedUser?.address && (
+                  <li className="font-semibold">
+                    Address: <span className="text-black font-semibold">{selectedUser?.address}</span>
+                  </li>
+                )}
+                {selectedUser?.city && (
+                  <li className="font-semibold">
+                    City: <span className="text-black font-semibold">{selectedUser?.city}</span>
+                  </li>
+                )}
+              </ul>
+              <div className="modal-action">
+                <form method="dialog">
+                  <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
+          )}
+        </dialog>
       </div>
     </div>
   );
