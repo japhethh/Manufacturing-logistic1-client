@@ -38,6 +38,7 @@ const MobileSidebar = () => {
         </div>
       </Link>
 
+      <p className="text-gray-500 font-semibold text-base">Vendor</p>
       <ul className="w-full menu rounded-box">
         {/* PROCUREMENT */}
         <li>

@@ -25,9 +25,9 @@ const User = () => {
       <div className="p-2 shadow-md ">
         <div className="border-b-2 my-2">
           <div>
-            <button onClick={handleCreate} className="bg-blue-500 text-white px-3 py-2 m-2 rounded-sm">
-              Add Employee +
-            </button>
+          <button className="px-4 py-2 text-sm text-blue-700 duration-150 border border-blue-700 rounded-full hover:bg-blue-700 hover:text-white">
+          Add Customer +
+        </button>
           </div>
         </div>
         <div className="flex justify-end">

@@ -310,6 +310,19 @@ const Sidebar = () => {
               }`}
             />
           </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <IoPeopleSharp
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
         </div>
 
         {/* Apps Section */}
