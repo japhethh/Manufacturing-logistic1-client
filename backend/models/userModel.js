@@ -3,11 +3,11 @@ import bcrypt from 'bcrypt';
 const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true,unique:true },
     password: { type: String, required: true },
     // pic: { type: String, required: true },
     pic: { type: String },
-    role: { type: String },
+    role: { type: String,enum:['admin','employee'], default:'employee' },
   },
   { timestamps: true }
 );

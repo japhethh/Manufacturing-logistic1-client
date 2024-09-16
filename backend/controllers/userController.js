@@ -14,8 +14,19 @@ const getUser = async (req, res) => {
   }
 };
 
+const getSpecificUser = asyncHandler(async(req,res) => {
+  const {userId} = req.body;
+
+  const user =  await User.findById(userId);
+  if(!user){
+    res.status(404).json({success:false, message:"User not found"});
+  }
+
+  res.status(200).json(user);
+}) 
+
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password,role } = req.body;
 
 
   const exist = await User.findOne({email});
@@ -29,6 +40,7 @@ const registerUser = async (req, res) => {
     name: name,
     email: email,
     password: password,
+    role:role
   });
 
   const getUser = await newUser.save();
@@ -57,4 +69,4 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
-export { getUser, registerUser, loginUser };
+export { getUser, registerUser, loginUser,getSpecificUser };

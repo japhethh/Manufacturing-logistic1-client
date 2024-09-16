@@ -13,12 +13,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import MobileSidebar from "./Components/MobileSidebar";
+import Store from "./context/store";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
   const navigate = useNavigate();
   const location = useLocation();
   const [isTokenVerified, setIsTokenVerified] = useState(false);
+  const { userData, fetchUserData} = Store();  // Access global state and actions
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -42,6 +44,7 @@ const App = () => {
           navigate("/login");
         }
       }
+      
     };
 
     const handleInvalidToken = () => {
@@ -50,7 +53,12 @@ const App = () => {
     };
 
     verifyToken();
-  }, [navigate, location.pathname, setToken]);
+    if(!userData){
+      fetchUserData();
+    }
+    console.log(userData);
+  }, [navigate, location.pathname, setToken,fetchUserData
+  ]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");

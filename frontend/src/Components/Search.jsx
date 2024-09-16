@@ -1,11 +1,13 @@
-import React from "react";
 import { IoIosMenu } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import MobileSidebar from "./MobileSidebar";
-
+import Store from "../context/store";
 
 const Search = () => {
+
+  const { userData } = Store();  // Access global state and actions
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.href = "/login";
@@ -20,7 +22,7 @@ const Search = () => {
             <IoIosMenu size={24} />
           </label>
         </div>
-        
+
         {/* Search form for medium and larger screens */}
         <form
           method="GET"
@@ -71,6 +73,11 @@ const Search = () => {
             >
               <li>
                 <a href="#profile" className="hover:bg-gray-100 p-2 rounded">
+                  {userData?.name}
+                </a>
+              </li>
+              <li>
+                <a href="#profile" className="hover:bg-gray-100 p-2 rounded">
                   Profile
                 </a>
               </li>
@@ -94,11 +101,7 @@ const Search = () => {
       </div>
 
       {/* Mobile Search Form (Hidden) */}
-      <form
-        method="GET"
-        action=""
-        className="md:hidden hidden"
-      >
+      <form method="GET" action="" className="md:hidden hidden">
         <div className="relative flex items-center w-full bg-white border rounded-full shadow-lg">
           <input
             name="episodequery"
@@ -135,7 +138,7 @@ const Search = () => {
           ></label>
           <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
             {/* Sidebar content here */}
-            <MobileSidebar/>
+            <MobileSidebar />
           </ul>
         </div>
       </div>
