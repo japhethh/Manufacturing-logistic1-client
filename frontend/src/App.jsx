@@ -23,7 +23,7 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isTokenVerified, setIsTokenVerified] = useState(false);
-  const { userData, fetchUserData} = Store();  // Access global state and actions
+  const { userData, fetchUserData } = Store(); // Access global state and actions
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -37,17 +37,16 @@ const App = () => {
             token: storedtoken,
           });
 
-          if(response.data.valid){
-            setIsTokenVerified(true)
-          }else{
-            handleInvalidToken()
+          if (response.data.valid) {
+            setIsTokenVerified(true);
+          } else {
+            handleInvalidToken();
           }
         } catch (error) {
           handleInvalidToken();
           navigate("/login");
         }
       }
-      
     };
 
     const handleInvalidToken = () => {
@@ -56,12 +55,11 @@ const App = () => {
     };
 
     verifyToken();
-    if(!userData){
+    if (!userData) {
       fetchUserData();
     }
     console.log(userData);
-  }, [navigate, location.pathname, setToken,fetchUserData
-  ]);
+  }, [navigate, location.pathname, setToken, fetchUserData]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -100,16 +98,16 @@ const App = () => {
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
           <Route path="/supplierlist" element={<SupplierList />} />
           <Route path="/purchaseorder" element={<PurchaseOrder />} />
-          <Route path="/user" element={<User />} />
           <Route path="/login" element={<Log />} />
+          <Route path="/user" element={<User />} />
           <Route path="/user/createuser" element={<CreateUser />} />
-          <Route path="/user/createsupplier" element={<CreateSupplier />} />
+          <Route path="/suppliers" element={<CreateSupplier />} />
+          <Route path="/suppliers/createsupplier" element={<CreateSupplier />} />
+    
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
         </Routes>
       </div>
-
-
     </div>
   );
 };

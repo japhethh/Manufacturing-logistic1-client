@@ -16,9 +16,8 @@ const User = () => {
             </NavLink>
           </li>
           <li>
-            <a>Documents</a>
+            <a>User</a>
           </li>
-          <li>Add Document</li>
         </ul>
       </div>
 
