@@ -927,7 +927,7 @@ const Sidebar = () => {
                           : "text-black"
                       }
                     >
-                      <p className="text-base">Approvals & Denials</p>
+                      <p className="text-base">Suppliers</p>
                     </NavLink>
                   </li>
                 </ul>

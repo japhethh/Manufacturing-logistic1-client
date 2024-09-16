@@ -16,6 +16,7 @@ import MobileSidebar from "./Components/MobileSidebar";
 import Store from "./context/store";
 import User from "./Components/User";
 import CreateUser from "./Components/CreateUser";
+import CreateSupplier from "./Components/CreateSupplier";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -102,6 +103,7 @@ const App = () => {
           <Route path="/user" element={<User />} />
           <Route path="/login" element={<Log />} />
           <Route path="/user/createuser" element={<CreateUser />} />
+          <Route path="/user/createsupplier" element={<CreateSupplier />} />
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
         </Routes>
