@@ -1,12 +1,9 @@
-import React, { PureComponent } from "react";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { RiPassPendingLine } from "react-icons/ri";
-import { MdOutlinePeopleAlt, MdRemoveRedEye } from "react-icons/md";
+import { MdOutlinePeopleAlt } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
-import { IoCodeDownloadOutline } from "react-icons/io5";
-import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { CiTrash } from "react-icons/ci";
+
 import { MdOutlineChat } from "react-icons/md";
 
 import {

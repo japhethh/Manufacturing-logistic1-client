@@ -1,4 +1,3 @@
-import React from "react";
 import layout from "./Assets/layout.png";
 import {
   MdOutlineScreenshotMonitor,
