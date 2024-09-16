@@ -1,8 +1,13 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
 
-  const navigate = Navigate();
+  const navigate = useNavigate();
+
+
+  const handleCreate = () => {
+    navigate("createUser")
+  }
   return (
     <div className="container mx-auto px-4 ">
       <div className="breadcrumbs text-sm mb-5">
@@ -20,7 +25,7 @@ const User = () => {
       <div className="p-2 shadow-md ">
         <div className="border-b-2 my-2">
           <div>
-            <button onClick={navigate("create-user")} className="bg-blue-500 text-white px-3 py-2 m-2 rounded-sm">
+            <button onClick={handleCreate} className="bg-blue-500 text-white px-3 py-2 m-2 rounded-sm">
               Add Employee +
             </button>
           </div>
