@@ -7,7 +7,8 @@ const userSchema = mongoose.Schema(
     password: { type: String, required: true },
     phone:{type:String},
     date:{type:String},
-    
+    address:{type:String},
+    city:{type:String},
     // pic: { type: String, required: true },
     pic: { type: String },
     role: { type: String,enum:['admin','employee'], default:'employee' },

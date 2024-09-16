@@ -24,7 +24,7 @@ const CreateUser = () => {
     console.log(data);
 
     try {
-      const response = await axios.post(`${apiURL}/api/user`, data);
+      const response = await axios.post(`${apiURL}/api/user/register`, data);
       toast.success("Created Successfully", response.data.data.name);
       navigate("/user");
     } catch (error) {
@@ -36,31 +36,31 @@ const CreateUser = () => {
   };
   return (
     <div className="container mx-auto px-4 ">
-      <div className="breadcrumbs text-sm mb-5">
-        <ul>
-          <li>
-            <Link to="/user">Users</Link>
-          </li>
-          <li>
-            <a>Create User</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="p-2 shadow-md ">
-        <div className="border-b-2 my-2">
-          <div>
-            <button className="px-4 text-sm rounded-full bg-blue-700 text-white mb-2 flex justify-between items-center gap-2 py-3 font-semibold">
-              <h1>Create Employee</h1>{" "}
-              <span>
-                <FaCheck />
-              </span>
-            </button>
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="breadcrumbs text-sm mb-5">
+          <ul>
+            <li>
+              <Link to="/user">Users</Link>
+            </li>
+            <li>
+              <a>Create User</a>
+            </li>
+          </ul>
         </div>
-        <div className="flex items-center justify-center p-12">
-          <div className="mx-auto w-full max-w-5/6 bg-white">
-            <form onSubmit={handleSubmit(onSubmit)}>
+
+        <div className="p-2 shadow-md ">
+          <div className="border-b-2 my-2">
+            <div>
+              <button className="px-4 text-sm rounded-full bg-blue-700 text-white mb-2 flex justify-between items-center gap-2 py-3 font-semibold">
+                <h1>Create Employee</h1>{" "}
+                <span>
+                  <FaCheck />
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center justify-center p-12">
+            <div className="mx-auto w-full max-w-5/6 bg-white">
               <div className="md:flex md:justify-between md:items-center md:gap-3">
                 <div className="mb-5 flex-1">
                   <label
@@ -112,7 +112,7 @@ const CreateUser = () => {
                     htmlFor="email"
                     className="mb-3 block text-base font-medium text-[#07074D]"
                   >
-                    Email Address <span className="text-red-500">*</span>
+                    Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -187,8 +187,8 @@ const CreateUser = () => {
                       <option value="" disabled selected>
                         Select
                       </option>
-                      <option value="Employee">Employee</option>
-                      <option value="Admin">Admin</option>
+                      <option value="employee">Employee</option>
+                      <option value="admin">Admin</option>
                     </select>
                     {errors.role && (
                       <span className="text-red-500">
@@ -208,10 +208,11 @@ const CreateUser = () => {
                     <div className="mb-5">
                       <input
                         type="text"
-                        name="area"
-                        id="area"
-                        placeholder="Enter area"
+                        name="address"
+                        id="address"
+                        placeholder="Enter address"
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        {...register("address")}
                       />
                     </div>
                   </div>
@@ -223,46 +224,16 @@ const CreateUser = () => {
                         id="city"
                         placeholder="Enter city"
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full px-3 sm:w-1/2">
-                    <div className="mb-5">
-                      <input
-                        type="text"
-                        name="state"
-                        id="state"
-                        placeholder="Enter state"
-                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full px-3 sm:w-1/2">
-                    <div className="mb-5">
-                      <input
-                        type="text"
-                        name="post-code"
-                        id="post-code"
-                        placeholder="Post Code"
-                        className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        {...register("city")}
                       />
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none"
-                >
-                  Book Appointment
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

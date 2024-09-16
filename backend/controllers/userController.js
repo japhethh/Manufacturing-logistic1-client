@@ -26,7 +26,7 @@ const getSpecificUser = asyncHandler(async(req,res) => {
 }) 
 
 const registerUser = async (req, res) => {
-  const { name, email, password,role } = req.body;
+  const { name, email, password,role,address,city } = req.body;
 
 
   const exist = await User.findOne({email});
@@ -40,7 +40,9 @@ const registerUser = async (req, res) => {
     name: name,
     email: email,
     password: password,
-    role:role
+    role:role,
+    address:address,
+    city:city
   });
 
   const getUser = await newUser.save();
