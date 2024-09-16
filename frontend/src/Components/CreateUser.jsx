@@ -32,10 +32,10 @@ const CreateUser = () => {
               <div className="flex justify-between items-center gap-3">
                 <div className="mb-5 flex-1">
                   <label
-                    for="name"
+                    htmlFor="name"
                     className="mb-3 block text-base font-medium text-[#07074D]"
                   >
-                    Full Name
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -43,14 +43,15 @@ const CreateUser = () => {
                     id="name"
                     placeholder="Full Name"
                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    required
                   />
                 </div>
                 <div className="mb-5 flex-1">
                   <label
-                    for="phone"
+                    htmlFor="phone"
                     className="mb-3 block text-base font-medium text-[#07074D]"
                   >
-                    Phone Number
+                    Phone Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -58,15 +59,16 @@ const CreateUser = () => {
                     id="phone"
                     placeholder="Enter your phone number"
                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    required
                   />
                 </div>
               </div>
               <div className="mb-5">
                 <label
-                  for="email"
+                  htmlFor="email"
                   className="mb-3 block text-base font-medium text-[#07074D]"
                 >
-                  Email Address
+                  Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -74,38 +76,75 @@ const CreateUser = () => {
                   id="email"
                   placeholder="Enter your email"
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  required
                 />
+              </div>
+              <div className="flex justify-between items-center gap-3">
+                <div className="mb-5 flex-1">
+                  <label
+                    htmlFor="userName"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="userName"
+                    id="userName"
+                    placeholder="Enter Username"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" 
+                    required
+                  />
+                </div>
+                <div className="mb-5 flex-1">
+                  <label
+                    htmlFor="phone"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                  Password <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    required
+                  />
+                </div>
               </div>
               <div className="-mx-3 flex flex-wrap">
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <label
-                      for="date"
+                      htmlFor="date"
                       className="mb-3 block text-base font-medium text-[#07074D]"
                     >
-                      Date
+                      Date <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="date"
                       name="date"
                       id="date"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      required
                     />
                   </div>
                 </div>
                 <div className="w-full px-3 sm:w-1/2">
                   <div className="mb-5">
                     <label
-                      for="time"
+                      htmlFor="time"
                       className="mb-3 block text-base font-medium text-[#07074D]"
                     >
-                      Time
+                      Time <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="time"
                       name="time"
                       id="time"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      required
                     />
                   </div>
                 </div>
@@ -113,7 +152,7 @@ const CreateUser = () => {
 
               <div className="mb-5 pt-3">
                 <label className="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
-                  Address Details
+                  Address Details 
                 </label>
                 <div className="-mx-3 flex flex-wrap">
                   <div className="w-full px-3 sm:w-1/2">
@@ -124,6 +163,7 @@ const CreateUser = () => {
                         id="area"
                         placeholder="Enter area"
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        required
                       />
                     </div>
                   </div>
@@ -135,6 +175,7 @@ const CreateUser = () => {
                         id="city"
                         placeholder="Enter city"
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        required
                       />
                     </div>
                   </div>
@@ -146,6 +187,7 @@ const CreateUser = () => {
                         id="state"
                         placeholder="Enter state"
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        required
                       />
                     </div>
                   </div>
@@ -157,6 +199,7 @@ const CreateUser = () => {
                         id="post-code"
                         placeholder="Post Code"
                         className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                        required
                       />
                     </div>
                   </div>
