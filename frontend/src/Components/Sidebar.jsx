@@ -1131,59 +1131,6 @@ const Sidebar = () => {
               </details>
             </li>
           </ul>
-          {/* RETURN MANAGEMENT */}
-          <p
-            className={`text-gray-500 font-semibold text-base ${
-              isCollapsed ? "hidden" : ""
-            }`}
-          >
-            Return Management
-          </p>
-          <ul className="w-full menu rounded-box">
-            {/* Return Authorization (RMA) */}
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoPeopleSharp
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
-                      Parties
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="user"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Customer</p>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <NavLink
-                      to="purchaseorder"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Approvals & Denials</p>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
         </div>
       </div>
 
