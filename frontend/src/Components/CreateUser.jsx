@@ -18,7 +18,7 @@ const CreateUser = () => {
       <div className="p-2 shadow-md ">
         <div className="border-b-2 my-2">
           <div>
-            <button className="bg-blue-500 text-white px-3 py-2 m-2 rounded-sm flex justify-center items-center gap-2">
+            <button className="px-4 text-sm rounded-full bg-blue-700 text-white mb-2 flex justify-between items-center gap-2 py-3 font-semibold">
               <h1>Create Employee</h1>{" "}
               <span>
                 <FaCheck />
