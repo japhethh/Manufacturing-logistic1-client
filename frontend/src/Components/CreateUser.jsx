@@ -27,37 +27,39 @@ const CreateUser = () => {
           </div>
         </div>
         <div className="flex items-center justify-center p-12">
-          <div className="mx-auto w-full max-w-[550px] bg-white">
+          <div className="mx-auto w-full max-w-5/6 bg-white">
             <form>
-              <div className="mb-5">
-                <label
-                  for="name"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  placeholder="Full Name"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
-              </div>
-              <div className="mb-5">
-                <label
-                  for="phone"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  id="phone"
-                  placeholder="Enter your phone number"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                />
+              <div className="flex justify-between items-center gap-3">
+                <div className="mb-5 flex-1">
+                  <label
+                    for="name"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Full Name"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  />
+                </div>
+                <div className="mb-5 flex-1">
+                  <label
+                    for="phone"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  />
+                </div>
               </div>
               <div className="mb-5">
                 <label
