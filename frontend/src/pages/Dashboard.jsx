@@ -66,6 +66,7 @@ const Dashboard = () => {
     <>
       <div className="flex">
         <div className="flex-col w-full">
+        <iframe width="100%" height="500" src="https://www.youtube.com/embed/pbNs7tAUFkk?si=xZzA2ymc841fmcKY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <iframe
             src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917"
             width="100%"
