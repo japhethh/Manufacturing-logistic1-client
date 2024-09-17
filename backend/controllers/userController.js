@@ -1,3 +1,4 @@
+import { IoEarSharp } from "react-icons/io5";
 import userModel from "../models/userModel.js";
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
@@ -57,7 +58,6 @@ const registerUser = async (req, res) => {
   res.status(201).json({ success: true, data: user });
 };
 
-
 // Delete User using POST with Params
 const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params; // Get the user ID from the URL params
@@ -67,11 +67,22 @@ const deleteUser = asyncHandler(async (req, res) => {
     return res.status(404).json({ success: false, message: "User not found" });
   }
 
-   // Remove the user
+  // Remove the user
 
   res.status(200).json({ success: true, message: "User deleted successfully" });
 });
 
+const getEdit = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  console.log(id)
+  const user = await User.findById(id);
+  if (!user) {
+    return res.status(400).json({ success: false, message: "User Not found" });
+  }
+
+  res.status(200).json({ user });
+});
 
 // Login
 const loginUser = asyncHandler(async (req, res) => {
@@ -91,4 +102,11 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
-export { getUser, registerUser, loginUser, getSpecificUser, deleteUser };
+export {
+  getUser,
+  registerUser,
+  loginUser,
+  getSpecificUser,
+  deleteUser,
+  getEdit,
+};

@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Store from "../context/Store";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -32,7 +32,7 @@ const User = () => {
       );
 
       if (response.data.success) {
-        toast.error("Deleted Successfully")
+        toast.error("Deleted Successfully");
         fetchAllUsers();
       } else {
         // toast error to delete
@@ -93,11 +93,6 @@ const User = () => {
             {/* head */}
             <thead>
               <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -110,11 +105,6 @@ const User = () => {
               {allUsers &&
                 allUsers.map((user, index) => (
                   <tr key={index}>
-                    <th>
-                      <label>
-                        <input type="checkbox" className="checkbox" />
-                      </label>
-                    </th>
                     <td>
                       <div className="flex items-center gap-3">
                         <div className="avatar">
@@ -174,7 +164,12 @@ const User = () => {
                             </a>
                           </li>
                           <li>
-                            <a className="text-blue-500 font-medium">Edit</a>
+                            <Link
+                              to={`/user/edit/${user._id}`}
+                              className="text-blue-500 font-medium"
+                            >
+                              Edit
+                            </Link>
                           </li>
                           <li>
                             <a
