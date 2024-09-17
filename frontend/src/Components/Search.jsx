@@ -29,18 +29,18 @@ const Search = () => {
           action=""
           className="hidden md:flex flex-grow mx-auto max-w-2xl"
         >
-          <div className="relative flex items-center w-full bg-white border rounded-full shadow-lg">
+          <div className="relative flex items-center w-full rounded-full shadow-lg">
             <input
               name="episodequery"
               id="title"
-              className="w-full p-2 pl-4 pr-12 border-0 outline-none rounded-full text-gray-700"
+              className="w-[590px] p-2 pl-4 pr-12 border border-stone-300 rounded-lg text-gray-70"
               type="text"
               placeholder="Search..."
               aria-label="Search"
             />
             <button
               type="submit"
-              className="absolute right-0 top-0 bottom-0 flex items-center px-4 text-white bg-black hover:bg-gray-700 rounded-full"
+              className="absolute right-0 top-0 bottom-0 flex items-center px-4 text-white bg-blue-700 hover:bg-blue-600 duration-150 rounded-lg"
               aria-label="Search"
             >
               <span className="text-sm font-semibold">Search</span>
