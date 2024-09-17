@@ -23,18 +23,19 @@ const EditUser = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log();
       try {
         const response = await axios.get(`${apiURL}/api/user/getEdit/${id}`);
         const userData = response.data;
+        console.log(userData);
         // Set form values with fetched data
-        setValue("name", userData.name);
-        setValue("phone", userData.phone);
-        setValue("email", userData.email);
-        setValue("role", userData.role);
-        setValue("address", userData.address);
-        setValue("city", userData.city);
-        setValue("date", userData.date);
+        setValue("name", userData?.name);
+        setValue("phone", userData?.phone);
+        setValue("email", userData?.email);
+        setValue("password", userData?.password);
+        setValue("role", userData?.role);
+        setValue("address", userData?.address);
+        setValue("city", userData?.city);
+        // setValue("date", userData?.date);
       } catch (error) {
         toast.error("Failed to fetch user data.");
       }
@@ -46,7 +47,7 @@ const EditUser = () => {
     console.log(data);
 
     try {
-      const response = await axios.post(`${apiURL}/api/user/update`, data);
+      const response = await axios.put(`${apiURL}/api/user/update/${id}`, data);
       toast.success("Created Successfully", response.data.data.name);
       navigate("/user");
     } catch (error) {
@@ -175,7 +176,7 @@ const EditUser = () => {
                 </div>
               </div>
               <div className="-mx-3 flex flex-wrap">
-                <div className="w-full px-3 sm:w-1/2 ">
+                {/* <div className="w-full px-3 sm:w-1/2 ">
                   <div className="mb-5">
                     <label
                       htmlFor="date"
@@ -198,7 +199,7 @@ const EditUser = () => {
                       </span>
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="w-full px-3 sm:w-1/2 ">
                   <div className="mb-5">
