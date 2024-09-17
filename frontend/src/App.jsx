@@ -103,6 +103,7 @@ const App = () => {
           <Route path="/user/createuser" element={<CreateUser />} />
           <Route path="/suppliers" element={<CreateSupplier />} />
           <Route path="/suppliers/createsupplier" element={<CreateSupplier />} />
+          <Route path="/user/edit/:id" />
     
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />

@@ -24,10 +24,17 @@ app.get("/", (req, res) => {
 app.post("/api/verifyToken", (req, res) => {
   const { token } = req.body;
 
+  if (!token) {
+    // If no token is provided, return an error response
+    return res.status(400).json({ valid: false, message: "Token is required" });
+  }
+
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      // If token verification fails, return a 401 Unauthorized error
       return res.status(401).json({ valid: false, message: "Invalid Token" });
     }
+    // If token is valid, return decoded data
     res.json({ valid: true, decoded });
   });
 });

@@ -2,11 +2,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Store from "../context/Store";
 import { HiDotsHorizontal } from "react-icons/hi";
-
+import axios from "axios";
+import { UserContext } from "../context/userContext";
+import { useContext } from "react";
+import { toast } from "react-toastify";
 const User = () => {
   const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState(null); // New state for the selected user
-
+  const { apiURL } = useContext(UserContext);
   const handleCreate = () => {
     navigate("/user/createuser");
   };
@@ -20,6 +23,26 @@ const User = () => {
   const handleDetails = (user) => {
     setSelectedUser(user); // Set the selected user when "Details" is clicked
     document.getElementById("my_modal_1").showModal();
+  };
+
+  const handleDelete = async (user) => {
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/user/delete/${user._id}`
+      );
+
+      if (response.data.success) {
+        toast.error("Deleted Successfully")
+        fetchAllUsers();
+      } else {
+        // toast error to delete
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Error deleting user");
+    }
+
+    // option i can append the new data to make realtime
   };
 
   return (
@@ -154,7 +177,12 @@ const User = () => {
                             <a className="text-blue-500 font-medium">Edit</a>
                           </li>
                           <li>
-                            <a className="text-red-500 font-medium">Delete</a>
+                            <a
+                              className="text-red-500 font-medium"
+                              onClick={() => handleDelete(user)}
+                            >
+                              Delete
+                            </a>
                           </li>
                         </ul>
                       </div>
@@ -184,26 +212,41 @@ const User = () => {
               <h3 className="font-bold text-lg pb-3">Details</h3>
               <ul className="flex flex-col gap-2">
                 <li className="font-semibold">
-                  Name: <span className="text-black font-semibold">{selectedUser.name}</span>
+                  Name:{" "}
+                  <span className="text-black font-semibold">
+                    {selectedUser.name}
+                  </span>
                 </li>
                 {selectedUser?.email && (
                   <li className="font-semibold">
-                    Email: <span className="text-black font-semibold">{selectedUser?.email}</span>
+                    Email:{" "}
+                    <span className="text-black font-semibold">
+                      {selectedUser?.email}
+                    </span>
                   </li>
                 )}
                 {selectedUser?.phone && (
                   <li className="font-semibold">
-                    Phone: <span className="text-black font-semibold">{selectedUser?.phone}</span>
+                    Phone:{" "}
+                    <span className="text-black font-semibold">
+                      {selectedUser?.phone}
+                    </span>
                   </li>
                 )}
                 {selectedUser?.address && (
                   <li className="font-semibold">
-                    Address: <span className="text-black font-semibold">{selectedUser?.address}</span>
+                    Address:{" "}
+                    <span className="text-black font-semibold">
+                      {selectedUser?.address}
+                    </span>
                   </li>
                 )}
                 {selectedUser?.city && (
                   <li className="font-semibold">
-                    City: <span className="text-black font-semibold">{selectedUser?.city}</span>
+                    City:{" "}
+                    <span className="text-black font-semibold">
+                      {selectedUser?.city}
+                    </span>
                   </li>
                 )}
               </ul>
