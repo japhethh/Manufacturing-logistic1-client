@@ -31,7 +31,7 @@ const EditUser = () => {
         setValue("name", userData?.name);
         setValue("phone", userData?.phone);
         setValue("email", userData?.email);
-        setValue("password", userData?.password);
+        // setValue("password", userData?.password);
         setValue("role", userData?.role);
         setValue("address", userData?.address);
         setValue("city", userData?.city);
@@ -139,10 +139,11 @@ const EditUser = () => {
                   </label>
                   <input
                     type="email"
+                    disabled
                     name="email"
                     id="email"
                     placeholder="Enter your email"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base-400 font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     {...register("email", { required: "Email is Required" })}
                   />
                   {errors.email && (
@@ -151,7 +152,7 @@ const EditUser = () => {
                     </span>
                   )}
                 </div>
-                <div className="mb-5 flex-1">
+                {/* <div className="mb-5 flex-1">
                   <label
                     htmlFor="phone"
                     className="mb-3 block text-base font-medium text-[#07074D]"
@@ -173,7 +174,7 @@ const EditUser = () => {
                       {errors.password.message}
                     </span>
                   )}
-                </div>
+                </div> */}
               </div>
               <div className="-mx-3 flex flex-wrap">
                 {/* <div className="w-full px-3 sm:w-1/2 ">

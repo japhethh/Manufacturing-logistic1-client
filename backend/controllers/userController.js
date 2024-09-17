@@ -74,26 +74,14 @@ const getEdit = asyncHandler(async (req, res) => {
 // Update the user
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { name, phone, email, password, role, address, city } = req.body;
+  const updatedData = req.body;
 
-  const user = await User.findById(id);
-  if (!user) {
+  const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
+    new: true,
+  });
+  if (!updatedUser) {
     return res.status(400).json({ success: false, message: "User not found" });
   }
-
-  // Update user Details
-  user.name = name || user.name;
-  user.phone = phone || user.phone;
-  user.email = email || user.email;
-
-  // 👽Back and fix this soon jap👽
-  user.password = password || user.password;
-  user.role = role || user.role;
-  user.address = address || user.address;
-  user.city = city || user.city;
-
-  const updatedUser = await user.save();
-
   // Return the updated user data;
   res.status(200).json({ success: true, data: updatedUser });
 });

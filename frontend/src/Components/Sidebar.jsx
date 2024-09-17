@@ -952,7 +952,7 @@ const Sidebar = () => {
               isCollapsed ? "hidden" : ""
             }`}
           >
-            Return Management
+            Maintenance
           </p>
           <ul className="w-full menu rounded-box">
             {/* Return Authorization (RMA) */}
