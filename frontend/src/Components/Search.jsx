@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IoIosMenu } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -5,12 +6,16 @@ import MobileSidebar from "./MobileSidebar";
 import Store from "../context/store";
 
 const Search = () => {
-
   const { userData } = Store();  // Access global state and actions
+  const [isModalOpen, setIsModalOpen] = useState(false);  // State to control modal visibility
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.href = "/login";
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);  // Toggle the modal's visibility
   };
 
   return (
@@ -89,7 +94,7 @@ const Search = () => {
               <li>
                 <a
                   href="#logout"
-                  onClick={handleLogout}
+                  onClick={toggleModal}  // Show the modal on click
                   className="hover:bg-gray-100 p-2 rounded"
                 >
                   Log out
@@ -142,6 +147,30 @@ const Search = () => {
           </ul>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {isModalOpen && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Logout</h3>
+            <p className="py-4">Are you sure you want to log out?</p>
+            <div className="modal-action">
+              <button
+                className="btn btn-primary"
+                onClick={handleLogout}  // Log out when confirmed
+              >
+                Yes, Log Out
+              </button>
+              <button
+                className="btn"
+                onClick={toggleModal}  // Close modal when canceled
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

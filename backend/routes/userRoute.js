@@ -12,13 +12,13 @@ import {
 import Auth from "../middleware/Auth.js";
 const userRouter = express.Router();
 
-userRouter.get("/getAllUsers", getUser);
-userRouter.post("/register", registerUser);
-userRouter.post("/login", loginUser);
 userRouter.get("/", Auth, getSpecificUser);
-userRouter.get("/getEdit/:id", getEdit);
+userRouter.post("/login", loginUser);
+userRouter.post("/register", registerUser);
 userRouter.put("/update/:id", updateUser);
 userRouter.post("/delete/:id", deleteUser);
-userRouter.post("/adminrequest",adminRequest);
+userRouter.post("/adminrequest", adminRequest);
+userRouter.get("/getAllUsers", getUser);
+userRouter.get("/getEdit/:id", getEdit);
 
 export default userRouter;
