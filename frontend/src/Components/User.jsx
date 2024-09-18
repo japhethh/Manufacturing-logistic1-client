@@ -6,10 +6,13 @@ import axios from "axios";
 import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+
 const User = () => {
   const navigate = useNavigate();
-  const [selectedUser, setSelectedUser] = useState(null); // New state for the selected user
+  const [selectedUser, setSelectedUser] = useState(null); // For Details Modal
+  const [selectedUserToDelete, setSelectedUserToDelete] = useState(null); // For Delete Confirmation Modal
   const { apiURL } = useContext(UserContext);
+  
   const handleCreate = () => {
     navigate("/user/createuser");
   };
@@ -18,49 +21,60 @@ const User = () => {
 
   useEffect(() => {
     fetchAllUsers();
-  }, []);
+  }, [fetchAllUsers]);
 
   const handleDetails = (user) => {
-    setSelectedUser(user); // Set the selected user when "Details" is clicked
-    document.getElementById("my_modal_1").showModal();
+    setSelectedUser(user); // Set the selected user for Details Modal
+    document.getElementById("details_modal").showModal();
   };
 
-  const handleDelete = async (user) => {
+  const openDeleteModal = (user) => {
+    setSelectedUserToDelete(user); // Set the selected user for Delete Modal
+    document.getElementById("delete_modal").showModal();
+  };
+
+  const confirmDelete = async () => {
+    if (!selectedUserToDelete) return;
+
     try {
       const response = await axios.post(
-        `${apiURL}/api/user/delete/${user._id}`
+        `${apiURL}/api/user/delete/${selectedUserToDelete._id}`
       );
 
       if (response.data.success) {
-        toast.error("Deleted Successfully");
+        toast.success("Deleted Successfully");
         fetchAllUsers();
+        setSelectedUserToDelete(null);
+        document.getElementById("delete_modal").close();
       } else {
-        // toast error to delete
+        toast.error(response.data.message || "Failed to delete user");
       }
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("Error deleting user");
+      toast.error("Error deleting user");
     }
+  };
 
-    // option i can append the new data to make realtime
+  const handleDelete = (user) => {
+    openDeleteModal(user);
   };
 
   return (
-    <div className="container mx-auto px-4 ">
+    <div className="container mx-auto px-4">
       <div className="breadcrumbs text-sm mb-5">
         <ul>
           <li>
             <NavLink to="/">
-              <a>Home</a>
+              <span>Home</span>
             </NavLink>
           </li>
           <li>
-            <a>User</a>
+            <span>User</span>
           </li>
         </ul>
       </div>
 
-      <div className="p-2 shadow-md ">
+      <div className="p-2 shadow-md">
         <div className="border-b-2 my-2">
           <div>
             <button
@@ -71,8 +85,8 @@ const User = () => {
             </button>
           </div>
         </div>
-        <div className="flex justify-end">
-          <label className="input input-bordered flex items-center gap-2 w-1/5 ">
+        <div className="flex justify-end mb-4">
+          <label className="input input-bordered flex items-center gap-2 w-1/5">
             <input type="text" className="grow" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -89,15 +103,15 @@ const User = () => {
           </label>
         </div>
         <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
+          <table className="table w-full">
+            {/* Head */}
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>role</th>
-                <th>action</th>
+                <th>Role</th>
+                <th>Action</th>
                 <th></th>
               </tr>
             </thead>
@@ -117,9 +131,7 @@ const User = () => {
                         </div>
                         <div>
                           <div className="font-bold">{user?.name}</div>
-                          <div className="text-sm opacity-50">
-                            United States
-                          </div>
+                          <div className="text-sm opacity-50">United States</div>
                         </div>
                       </div>
                     </td>
@@ -131,9 +143,7 @@ const User = () => {
                       </span>
                     </td>
                     <td>{user?.phone}</td>
-                    <th>
-                      {/* ? "bg-green-400 text-white"
-                    : "bg-blue-400 text-white" */}
+                    <td>
                       <button
                         className={`btn btn-ghost btn-xs ${
                           user?.role === "admin"
@@ -147,8 +157,8 @@ const User = () => {
                       >
                         {user?.role}
                       </button>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                       <div className="dropdown dropdown-left">
                         <div
                           tabIndex={0}
@@ -187,73 +197,81 @@ const User = () => {
                           </li>
                         </ul>
                       </div>
-                    </th>
+                    </td>
                   </tr>
                 ))}
             </tbody>
-            {/* foot */}
+            {/* Foot */}
             <tfoot>
               <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>role</th>
-                <th>action</th>
+                <th>Role</th>
+                <th>Action</th>
                 <th></th>
               </tr>
             </tfoot>
           </table>
         </div>
 
-        {/* Modal */}
-        <dialog id="my_modal_1" className="modal">
+        {/* Details Modal */}
+        <dialog id="details_modal" className="modal">
           {selectedUser && (
             <div className="modal-box">
               <h3 className="font-bold text-lg pb-3">Details</h3>
               <ul className="flex flex-col gap-2">
                 <li className="font-semibold">
-                  Name:{" "}
-                  <span className="text-black font-semibold">
-                    {selectedUser.name}
-                  </span>
+                  Name: <span className="text-black font-semibold">{selectedUser.name}</span>
                 </li>
                 {selectedUser?.email && (
                   <li className="font-semibold">
-                    Email:{" "}
-                    <span className="text-black font-semibold">
-                      {selectedUser?.email}
-                    </span>
+                    Email: <span className="text-black font-semibold">{selectedUser.email}</span>
                   </li>
                 )}
                 {selectedUser?.phone && (
                   <li className="font-semibold">
-                    Phone:{" "}
-                    <span className="text-black font-semibold">
-                      {selectedUser?.phone}
-                    </span>
+                    Phone: <span className="text-black font-semibold">{selectedUser.phone}</span>
                   </li>
                 )}
                 {selectedUser?.address && (
                   <li className="font-semibold">
-                    Address:{" "}
-                    <span className="text-black font-semibold">
-                      {selectedUser?.address}
-                    </span>
+                    Address: <span className="text-black font-semibold">{selectedUser.address}</span>
                   </li>
                 )}
                 {selectedUser?.city && (
                   <li className="font-semibold">
-                    City:{" "}
-                    <span className="text-black font-semibold">
-                      {selectedUser?.city}
-                    </span>
+                    City: <span className="text-black font-semibold">{selectedUser.city}</span>
                   </li>
                 )}
               </ul>
               <div className="modal-action">
                 <form method="dialog">
                   <button className="btn">Close</button>
+                </form>
+              </div>
+            </div>
+          )}
+        </dialog>
+
+        {/* Delete Confirmation Modal */}
+        <dialog id="delete_modal" className="modal">
+          {selectedUserToDelete && (
+            <div className="modal-box">
+              <h3 className="font-bold text-lg pb-3">Confirm Delete</h3>
+              <p className="py-4">
+                Are you sure you want to delete <strong>{selectedUserToDelete.name}</strong>?
+              </p>
+              <div className="modal-action">
+                <button
+                  className="btn btn-error"
+                  onClick={confirmDelete}
+                >
+                  Yes, Delete
+                </button>
+                <form method="dialog">
+                  <button className="btn">Cancel</button>
                 </form>
               </div>
             </div>
