@@ -1,36 +1,40 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcryptjs';
+
+// Define the user schema
 const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true,unique:true },
-    password: { type: String, required: true },
-    phone:{type:String},
-    date:{type:String},
-    address:{type:String},
-    city:{type:String},
-    // pic: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    userName: { type: String },
+    password: { type: String },
+    phone: { type: String },
+    date: { type: String },
+    address: { type: String },
+    city: { type: String },
     pic: { type: String },
-    role: { type: String,enum:['admin','employee'], default:'employee' },
+    role: { type: String, enum: ['admin', 'employee','pending'], default: 'pending' },
   },
   { timestamps: true }
 );
 
-// For login Purposes checking the password match in bcrypt password
+// Method for comparing passwords during login
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Register purposes
+// Pre-save hook for hashing the password during user registration
 userSchema.pre("save", async function (next) {
-  if (!this.isModified) {
+  if (!this.isModified("password")) {
     next();
   }
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  next(); // Ensure to call next() after the hash process
 });
 
+// Create the User model
 const userModel = mongoose.model("User", userSchema);
 
 export default userModel;

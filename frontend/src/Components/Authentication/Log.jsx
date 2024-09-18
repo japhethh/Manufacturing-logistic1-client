@@ -23,7 +23,7 @@ const Log = () => {
   const onSubmit = async (data) => {
     console.log(data);
 
-    if (!data.email || !data.password) {
+    if (!data.userName || !data.password) {
       toast.warning("Please fill all fields");
       return;
     }
@@ -57,17 +57,17 @@ const Log = () => {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Email Address
+              Username
             </label>
             <input
-              type="email"
-              id="email"
+              type="userName"
+              id="userName"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="your@email.com"
-              {...register("email", { required: "Email is required" })}
+              placeholder="Enter your username..."
+              {...register("userName", { required: "Username is required" })}
             />
-            {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
+            {errors.userName && (
+              <span className="text-red-500">{errors.userName.message}</span>
             )}
           </div>
           <div className="mb-4">

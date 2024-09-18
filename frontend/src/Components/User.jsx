@@ -132,11 +132,17 @@ const User = () => {
                     </td>
                     <td>{user?.phone}</td>
                     <th>
+                      {/* ? "bg-green-400 text-white"
+                    : "bg-blue-400 text-white" */}
                       <button
                         className={`btn btn-ghost btn-xs ${
                           user?.role === "admin"
-                            ? "bg-green-400 text-white"
-                            : "bg-blue-400 text-white"
+                            ? "bg-green-500 text-white"
+                            : user?.role === "employee"
+                            ? "bg-blue-500 text-white"
+                            : user?.role === "pending"
+                            ? "bg-red-500 text-white"
+                            : ""
                         }`}
                       >
                         {user?.role}

@@ -3,10 +3,12 @@ import userModel from "../models/userModel.js";
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 // Register
 const registerUser = async (req, res) => {
-  const { name, email, password, phone, role, address, city } = req.body;
+  const { name, email, userName, password, phone, role, address, city } =
+    req.body;
 
   const exist = await User.findOne({ email });
 
@@ -19,6 +21,7 @@ const registerUser = async (req, res) => {
   const newUser = new User({
     name: name,
     email: email,
+    userName: userName,
     password: password,
     role: role,
     phone: phone,
@@ -29,6 +32,30 @@ const registerUser = async (req, res) => {
   const getUser = await newUser.save();
 
   const user = await User.findById(getUser);
+
+  res.status(201).json({ success: true, data: user });
+};
+
+const adminRequest = async (req, res) => {
+  const { name, email, phone, address, city } = req.body;
+
+  const exist = await User.findOne({ email });
+  if (exist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Existing Account!" });
+  }
+
+  const newUser = new User({
+    name: name,
+    email: email,
+    phone: phone,
+    address: address,
+    city: city,
+  });
+
+  const getUser = await newUser.save();
+  const user = await User.findById(getUser._id);
 
   res.status(201).json({ success: true, data: user });
 };
@@ -71,20 +98,34 @@ const getEdit = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
-// Update the user
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
 
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(400).json({ success: false, message: "User not found" });
+  }
+
+  if (updatedData.password) {
+    const salt = await bcrypt.genSalt(10);
+    updatedData.password = await bcrypt.hash(updatedData.password, salt);
+  }
+
   const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
-    new: true,
+    new: true, 
   });
+
   if (!updatedUser) {
     return res.status(400).json({ success: false, message: "User not found" });
   }
-  // Return the updated user data;
   res.status(200).json({ success: true, data: updatedUser });
 });
+
+
+
+
 
 // Delete User using POST with Params
 const deleteUser = asyncHandler(async (req, res) => {
@@ -100,9 +141,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 // Login
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { userName, password } = req.body;
 
-  const user = await userModel.findOne({ email });
+  const user = await userModel.findOne({ userName });
 
   if (user && (await user.matchPassword(password))) {
     res.json({ success: true, token: createToken(user._id) });
@@ -124,4 +165,5 @@ export {
   deleteUser,
   getEdit,
   updateUser,
+  adminRequest,
 };

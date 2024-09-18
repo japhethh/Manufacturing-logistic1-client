@@ -31,10 +31,11 @@ const EditUser = () => {
         setValue("name", userData?.name);
         setValue("phone", userData?.phone);
         setValue("email", userData?.email);
-        // setValue("password", userData?.password);
+        setValue("password", userData?.password);
+        setValue("userName", userData?.userName);
         setValue("role", userData?.role);
-        setValue("address", userData?.address);
-        setValue("city", userData?.city);
+        // setValue("address", userData?.address);
+        // setValue("city", userData?.city);
         // setValue("date", userData?.date);
       } catch (error) {
         toast.error("Failed to fetch user data.");
@@ -50,6 +51,7 @@ const EditUser = () => {
       const response = await axios.put(`${apiURL}/api/user/update/${id}`, data);
       toast.success("Created Successfully", response.data.data.name);
       navigate("/user");
+      console.log(response.data.data)
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -152,31 +154,35 @@ const EditUser = () => {
                     </span>
                   )}
                 </div>
-                {/* <div className="mb-5 flex-1">
-                  <label
-                    htmlFor="phone"
-                    className="mb-3 block text-base font-medium text-[#07074D]"
-                  >
-                    Password <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="phone"
-                    id="phone"
-                    placeholder="Enter your phone number"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    {...register("password", {
-                      required: "Password is Required",
-                    })}
-                  />
-                  {errors.password && (
-                    <span className="text-red-500">
-                      {errors.password.message}
-                    </span>
+
+                <div className="w-full px-3 sm:w-1/2 ">
+                  <div className="mb-5">
+                    <label
+                      htmlFor="date"
+                      className="mb-3 block text-base font-medium text-[#07074D]"
+                    >
+                      Role <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="role"
+                      id="role"
+                      {...register("role", { required: "Role is required" })}
+                      className="select select-bordered w-full max-w-xs"
+                    >
+                      <option value="" disabled selected>
+                        Select
+                      </option>
+                      <option value="employee">Employee</option>
+                      <option value="admin">Admin</option>
+                      <option value="pending">pending</option>
+                    </select>
+                  </div>
+                  {errors.role && (
+                    <span className="text-red-500">{errors.role.message}</span>
                   )}
-                </div> */}
+                </div>
               </div>
-              <div className="-mx-3 flex flex-wrap">
+              <div className="md:flex md:justify-between md:items-center md:gap-3">
                 {/* <div className="w-full px-3 sm:w-1/2 ">
                   <div className="mb-5">
                     <label
@@ -202,34 +208,56 @@ const EditUser = () => {
                   </div>
                 </div> */}
 
-                <div className="w-full px-3 sm:w-1/2 ">
-                  <div className="mb-5">
-                    <label
-                      htmlFor="date"
-                      className="mb-3 block text-base font-medium text-[#07074D]"
-                    >
-                      Role <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      name="role"
-                      id="role"
-                      {...register("role", { required: "Role is required" })}
-                      className="select select-bordered w-full max-w-xs"
-                    >
-                      <option value="" disabled selected>
-                        Select
-                      </option>
-                      <option value="employee">Employee</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                  </div>
-                  {errors.role && (
-                    <span className="text-red-500">{errors.role.message}</span>
+                <div className="mb-5 flex-1">
+                  <label
+                    htmlFor="phone"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="userName"
+                    id="userName"
+                    placeholder="Enter your Username"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    {...register("userName", {
+                      required: "Username is Required",
+                    })}
+                  />
+                  {errors.userName && (
+                    <span className="text-red-500">
+                      {errors.userName.message}
+                    </span>
+                  )}
+                </div>
+
+                <div className="mb-5 flex-1">
+                  <label
+                    htmlFor="phone"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                    Password <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Enter your password"
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    {...register("password", {
+                      required: "Password is Required",
+                    })}
+                  />
+                  {errors.password && (
+                    <span className="text-red-500">
+                      {errors.password.message}
+                    </span>
                   )}
                 </div>
               </div>
 
-              <div className="mb-5 pt-3">
+              {/* <div className="mb-5 pt-3">
                 <label className="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
                   Address Details
                 </label>
@@ -263,7 +291,7 @@ const EditUser = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
