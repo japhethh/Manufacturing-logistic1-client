@@ -18,6 +18,7 @@ import User from "./Components/User";
 import CreateUser from "./Components/CreateUser";
 import CreateSupplier from "./Components/CreateSupplier";
 import EditUser from "./Components/EditUser";
+import CreatePurchaseOrder from "./Components/CreatePurchaseOrder";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -105,6 +106,7 @@ const App = () => {
           <Route path="/suppliers" element={<CreateSupplier />} />
           <Route path="/suppliers/createsupplier" element={<CreateSupplier />} />
           <Route path="/user/edit/:id" element={<EditUser/>}/>
+          <Route path="/createpurchaseorder" element={<CreatePurchaseOrder />} />
     
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
