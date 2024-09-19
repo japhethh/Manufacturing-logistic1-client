@@ -549,7 +549,7 @@ const Sidebar = () => {
                   </li>
                   <li className="mt-1">
                     <NavLink
-                      to="order-fulfillment-status"
+                      to="orderfulfillmentstatus"
                       className={({ isActive }) =>
                         `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
             ${

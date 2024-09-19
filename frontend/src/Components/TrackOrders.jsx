@@ -46,18 +46,16 @@ const TrackOrders = () => {
   }, []);
 
   return (
-    <div className="tracking-orders">
-      <h1 className="text-xl font-bold mb-4">Track Orders</h1>
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl font-bold text-gray-800">Track Orders</h1>
 
       {/* Alerts Section */}
       {alerts.length > 0 && (
-        <div className="alert-box bg-red-100 p-4 mb-4 rounded">
-          <h2 className="text-red-600 font-semibold">Alerts</h2>
-          <ul>
+        <div className="bg-red-100 border border-red-200 text-red-700 p-4 rounded-lg shadow-md">
+          <h2 className="font-semibold text-lg">Alerts</h2>
+          <ul className="list-disc list-inside mt-2">
             {alerts.map((alert, index) => (
-              <li key={index} className="text-red-500">
-                {alert}
-              </li>
+              <li key={index}>{alert}</li>
             ))}
           </ul>
         </div>
@@ -65,18 +63,18 @@ const TrackOrders = () => {
 
       {/* Order Details */}
       {orders.map(order => (
-        <div key={order.id} className="order-card border p-4 mb-4 rounded shadow-sm">
-          <h2 className="font-semibold">Order ID: {order.id}</h2>
-          <p>Status: <span className="font-bold">{order.status}</span></p>
-          <p>Shipment Tracking: {order.shipmentTracking}</p>
-          <p>Expected Delivery: {order.expectedDelivery}</p>
+        <div key={order.id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+          <h2 className="text-lg font-semibold text-gray-700">Order ID: {order.id}</h2>
+          <p className="text-gray-600">Status: <span className={`font-bold ${order.status === 'Shipped' ? 'text-blue-600' : 'text-yellow-600'}`}>{order.status}</span></p>
+          <p className="text-gray-600">Shipment Tracking: <a href={`https://tracking.example.com/${order.shipmentTracking}`} className="text-blue-500 hover:underline">{order.shipmentTracking}</a></p>
+          <p className="text-gray-600">Expected Delivery: {order.expectedDelivery}</p>
 
           {/* Communication Log */}
-          <div className="communication-log mt-3">
-            <h3 className="font-semibold">Communication Log:</h3>
-            <ul>
+          <div className="mt-4">
+            <h3 className="font-semibold text-gray-700">Communication Log:</h3>
+            <ul className="list-disc list-inside mt-2">
               {order.communicationLog.map((log, index) => (
-                <li key={index} className="text-sm">
+                <li key={index} className="text-gray-600">
                   <strong>{log.date}:</strong> {log.message}
                 </li>
               ))}
