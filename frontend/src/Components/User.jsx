@@ -129,6 +129,7 @@ const User = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Username</th>
                 <th>Role</th>
                 <th>Action</th>
                 <th></th>
@@ -161,6 +162,7 @@ const User = () => {
                     </span>
                   </td>
                   <td>{user?.phone}</td>
+                  <td>{user?.userName}</td>
                   <td>
                     <button
                       className={`btn btn-ghost btn-xs ${
@@ -226,6 +228,7 @@ const User = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Username</th>
                 <th>Role</th>
                 <th>Action</th>
                 <th></th>

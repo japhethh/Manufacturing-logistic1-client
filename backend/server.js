@@ -8,6 +8,7 @@ import rawmaterialRouter from "./routes/rawmaterialRoute.js";
 import supplierRouter from "./routes/supplierRouter.js";
 import materialRouter from "./routes/materialRouter.js";
 import jwt from "jsonwebtoken";
+import purchaseOrderRouter from "./routes/purchaseOrderRouter.js";
 
 const port = process.env.PORT || 4000;
 
@@ -41,6 +42,7 @@ app.post("/api/verifyToken", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/rawmaterial", rawmaterialRouter);
+app.use("/api/purchase-orders",purchaseOrderRouter)
 app.use("/api/supplier", supplierRouter);
 app.use("/api/material", materialRouter);
 app.listen(port, () => {

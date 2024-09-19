@@ -133,13 +133,36 @@ const CreateUser = () => {
                     htmlFor="phone"
                     className="mb-3 block text-base font-medium text-[#07074D]"
                   >
+                    Username <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="userName"
+                    id="userName"
+                    placeholder="Enter your Username "
+                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    {...register("userName", {
+                      required: "Username is Required",
+                    })}
+                  />
+                  {errors.userName && (
+                    <span className="text-red-500">
+                      {errors.userName.message}
+                    </span>
+                  )}
+                </div>
+                <div className="mb-5 flex-1">
+                  <label
+                    htmlFor="phone"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Password <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    name="phone"
-                    id="phone"
-                    placeholder="Enter your phone number"
+                    name="password"
+                    id="password"
+                    placeholder="Enter your Password"
                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     {...register("password", {
                       required: "Password is Required",

@@ -129,6 +129,7 @@ const getSearch = asyncHandler(async (req, res) => {
         $or: [
           { name: { $regex: req.query.search, $options: "i" } },
           { email: { $regex: req.query.search, $options: "i" } },
+          { role: { $regex: req.query.search, $options: "i" } },
         ],
       }
     : {};
