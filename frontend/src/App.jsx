@@ -21,6 +21,8 @@ import EditUser from "./Components/EditUser";
 import CreatePurchaseOrder from "./Components/CreatePurchaseOrder";
 import TrackOrders from "./Components/TrackOrders";
 import OrderFulfillmentStatus from "./Components/OrderFulfillmentStatus";
+import ViewContacts from "./Components/ViewContacts";
+import RenewalsExpirations from "./Components/RenewalsExpirations";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -111,6 +113,9 @@ const App = () => {
           <Route path="/createpurchaseorder" element={<CreatePurchaseOrder />} />
           <Route path="/trackorders" element={<TrackOrders />} />
           <Route path="/orderfulfillmentstatus" element={<OrderFulfillmentStatus />} />
+          <Route path="/viewcontacts" element={<ViewContacts />} />
+          <Route path="/renewalsexpirations" element={<RenewalsExpirations />} />
+
 
     
           <Route path="*" element={<NotFound />} />
