@@ -114,7 +114,7 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 
   const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
-    new: true, 
+    new: true,
   });
 
   if (!updatedUser) {
@@ -123,9 +123,19 @@ const updateUser = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: updatedUser });
 });
 
+const getSearch = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
 
-
-
+  const users = await User.find(keyword).find({ _id: { $ne: req._id } });
+  res.status(200).json(users);
+});
 
 // Delete User using POST with Params
 const deleteUser = asyncHandler(async (req, res) => {
@@ -166,4 +176,5 @@ export {
   getEdit,
   updateUser,
   adminRequest,
+  getSearch,
 };

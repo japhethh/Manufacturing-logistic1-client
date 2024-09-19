@@ -8,6 +8,7 @@ import {
   getEdit,
   updateUser,
   adminRequest,
+  getSearch,
 } from "../controllers/userController.js";
 import Auth from "../middleware/Auth.js";
 const userRouter = express.Router();
@@ -20,5 +21,6 @@ userRouter.post("/delete/:id", deleteUser);
 userRouter.post("/adminrequest", adminRequest);
 userRouter.get("/getAllUsers", getUser);
 userRouter.get("/getEdit/:id", getEdit);
+userRouter.get("/userSearch", getSearch);
 
 export default userRouter;

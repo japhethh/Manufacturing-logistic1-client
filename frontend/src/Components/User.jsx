@@ -11,17 +11,30 @@ const User = () => {
   const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState(null); // For Details Modal
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null); // For Delete Confirmation Modal
-  const { apiURL } = useContext(UserContext);
-  
-  const handleCreate = () => {
-    navigate("/user/createuser");
-  };
+  const [searchQuery, setSearchQuery] = useState(""); // For search input
 
-  const { fetchAllUsers, allUsers } = Store();
+  const { apiURL } = useContext(UserContext);
+
+  const { fetchAllUsers, allUsers, searchUsers } = Store();
 
   useEffect(() => {
     fetchAllUsers();
+    
   }, [fetchAllUsers]);
+
+  useEffect(() => {
+    console.log(allUsers)
+    if (searchQuery) {
+      searchUsers(searchQuery);
+    } else {
+      // If searchQuery is empty, show all users
+      fetchAllUsers();
+    }
+  }, [searchQuery, fetchAllUsers, searchUsers]);
+
+  const handleCreate = () => {
+    navigate("/user/createuser");
+  };
 
   const handleDetails = (user) => {
     setSelectedUser(user); // Set the selected user for Details Modal
@@ -87,7 +100,13 @@ const User = () => {
         </div>
         <div className="flex justify-end mb-4">
           <label className="input input-bordered flex items-center gap-2 w-1/5">
-            <input type="text" className="grow" placeholder="Search" />
+            <input
+              type="text"
+              className="grow"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -116,90 +135,89 @@ const User = () => {
               </tr>
             </thead>
             <tbody>
-              {allUsers &&
-                allUsers.map((user, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-12 w-12">
-                            <img
-                              src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                              alt="Avatar Tailwind CSS Component"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-bold">{user?.name}</div>
-                          <div className="text-sm opacity-50">United States</div>
+              {allUsers?.map((user, index) => (
+                <tr key={index}>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle h-12 w-12">
+                          <img
+                            src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                            alt="Avatar Tailwind CSS Component"
+                          />
                         </div>
                       </div>
-                    </td>
-                    <td>
-                      {user?.email}
-                      <br />
-                      <span className="badge badge-ghost badge-sm">
-                        Desktop Support Technician
-                      </span>
-                    </td>
-                    <td>{user?.phone}</td>
-                    <td>
-                      <button
-                        className={`btn btn-ghost btn-xs ${
-                          user?.role === "admin"
-                            ? "bg-green-500 text-white"
-                            : user?.role === "employee"
-                            ? "bg-blue-500 text-white"
-                            : user?.role === "pending"
-                            ? "bg-red-500 text-white"
-                            : ""
-                        }`}
+                      <div>
+                        <div className="font-bold">{user?.name}</div>
+                        <div className="text-sm opacity-50">United States</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {user?.email}
+                    <br />
+                    <span className="badge badge-ghost badge-sm">
+                      Desktop Support Technician
+                    </span>
+                  </td>
+                  <td>{user?.phone}</td>
+                  <td>
+                    <button
+                      className={`btn btn-ghost btn-xs ${
+                        user?.role === "admin"
+                          ? "bg-green-500 text-white"
+                          : user?.role === "employee"
+                          ? "bg-blue-500 text-white"
+                          : user?.role === "pending"
+                          ? "bg-red-500 text-white"
+                          : ""
+                      }`}
+                    >
+                      {user?.role}
+                    </button>
+                  </td>
+                  <td>
+                    <div className="dropdown dropdown-left">
+                      <div
+                        tabIndex={0}
+                        role="button"
+                        className="btn btn-ghost btn-circle avatar"
                       >
-                        {user?.role}
-                      </button>
-                    </td>
-                    <td>
-                      <div className="dropdown dropdown-left">
-                        <div
-                          tabIndex={0}
-                          role="button"
-                          className="btn btn-ghost btn-circle avatar"
-                        >
-                          <HiDotsHorizontal />
-                        </div>
-                        <ul
-                          tabIndex={0}
-                          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w- p-2 shadow"
-                        >
-                          <li>
-                            <a
-                              className="justify-between font-medium"
-                              onClick={() => handleDetails(user)}
-                            >
-                              Details
-                            </a>
-                          </li>
-                          <li>
-                            <Link
-                              to={`/user/edit/${user._id}`}
-                              className="text-blue-500 font-medium"
-                            >
-                              Edit
-                            </Link>
-                          </li>
-                          <li>
-                            <a
-                              className="text-red-500 font-medium"
-                              onClick={() => handleDelete(user)}
-                            >
-                              Delete
-                            </a>
-                          </li>
-                        </ul>
+                        <HiDotsHorizontal />
                       </div>
-                    </td>
-                  </tr>
-                ))}
+                      <ul
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w- p-2 shadow"
+                      >
+                        <li>
+                          <a
+                            className="justify-between font-medium"
+                            onClick={() => handleDetails(user)}
+                          >
+                            Details
+                          </a>
+                        </li>
+                        <li>
+                          <Link
+                            to={`/user/edit/${user._id}`}
+                            className="text-blue-500 font-medium"
+                          >
+                            Edit
+                          </Link>
+                        </li>
+                        <li>
+                          <a
+                            className="text-red-500 font-medium"
+                            onClick={() => handleDelete(user)}
+                          >
+                            Delete
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
             {/* Foot */}
             <tfoot>
@@ -240,16 +258,11 @@ const User = () => {
                     Address: <span className="text-black font-semibold">{selectedUser.address}</span>
                   </li>
                 )}
-                {selectedUser?.city && (
-                  <li className="font-semibold">
-                    City: <span className="text-black font-semibold">{selectedUser.city}</span>
-                  </li>
-                )}
               </ul>
               <div className="modal-action">
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
+                <button className="btn btn-sm" onClick={() => document.getElementById("details_modal").close()}>
+                  Close
+                </button>
               </div>
             </div>
           )}
@@ -259,20 +272,23 @@ const User = () => {
         <dialog id="delete_modal" className="modal">
           {selectedUserToDelete && (
             <div className="modal-box">
-              <h3 className="font-bold text-lg pb-3">Confirm Delete</h3>
-              <p className="py-4">
-                Are you sure you want to delete <strong>{selectedUserToDelete.name}</strong>?
+              <h3 className="font-bold text-lg pb-3">Are you sure you want to delete this user?</h3>
+              <p>
+                <strong>Name:</strong> {selectedUserToDelete.name}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedUserToDelete.email}
+              </p>
+              <p>
+                <strong>Phone:</strong> {selectedUserToDelete.phone}
               </p>
               <div className="modal-action">
-                <button
-                  className="btn btn-error"
-                  onClick={confirmDelete}
-                >
-                  Yes, Delete
+                <button className="btn btn-error" onClick={confirmDelete}>
+                  Delete
                 </button>
-                <form method="dialog">
-                  <button className="btn">Cancel</button>
-                </form>
+                <button className="btn btn-sm" onClick={() => document.getElementById("delete_modal").close()}>
+                  Cancel
+                </button>
               </div>
             </div>
           )}

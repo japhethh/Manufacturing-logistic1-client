@@ -1,16 +1,16 @@
 import { create } from "zustand";
 import axios from "axios";
-// import {toast} from 'toastify'
 
-// Zustand store for managing token and user data
+const apiUrl = "http://localhost:4000";
+
 const Store = create((set) => ({
-  token: localStorage.getItem("token") || null, // Get token from localStorage on app load
+  token: localStorage.getItem("token") || null,
   userData: null,
-  allUsers: null, // Holds fetched user data
-  loading: false, // Loading state
-  error: null, // Error message state
+  allUsers: null,
+  searchResults: [],
+  loading: false,
+  error: null,
 
-  // Fetch user data from the backend
   fetchUserData: async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -19,40 +19,53 @@ const Store = create((set) => ({
     }
 
     try {
-      set({ loading: true }); // Set loading state before fetching data
-      const response = await axios.get("http://localhost:4000/api/user", {
+      set({ loading: true });
+      const response = await axios.get(`${apiUrl}/api/user`, {
         headers: {
           token: token,
         },
       });
-      set({ userData: response.data, loading: false, error: null }); // Save data in store
+      set({ userData: response.data, loading: false, error: null });
     } catch (err) {
       set({ error: "Failed to fetch user data", loading: false });
     }
   },
   fetchAllUsers: async () => {
+    // getAllUsers
     try {
       set({ loading: true });
-      const response = await axios.get(
-        `http://localhost:4000/api/user/getAllUsers`
-      );
+      const response = await axios.get(`${apiUrl}/api/user/getAllUsers`);
 
       set({ allUsers: response.data.data, loading: false, error: null });
     } catch (error) {
       set({ error: "Failed to fetch all users" });
     }
   },
+  searchUsers: async (query) => {
+    if (!query) {
+      set({ allUsers: [], error: null });
+      return;
+    }
 
-  // Optionally, you can allow setting token explicitly and store it in both localStorage and Zustand
+    try {
+      set({ loading: true });
+
+      const response = await axios.get(
+        `${apiUrl}/api/user/userSearch?search=${query}`
+      );
+      set({ allUsers: response.data, loading: false, error: null });
+    } catch (error) {
+      set({ error: "Failed to search users", loading: false });
+    }
+  },
   setToken: (token) => {
-    localStorage.setItem("token", token); // Store token in localStorage
-    set({ token }); // Store token in Zustand
+    localStorage.setItem("token", token);
+    set({ token });
   },
 
-  // Logout function to clear the token and userData
   logout: () => {
-    localStorage.removeItem("token"); // Remove token from localStorage
-    set({ token: null, userData: null }); // Clear token and user data from Zustand
+    localStorage.removeItem("token");
+    set({ token: null, userData: null });
   },
 }));
 
