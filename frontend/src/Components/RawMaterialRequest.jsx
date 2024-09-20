@@ -62,7 +62,7 @@ const RawMaterialRequest = () => {
                 <th className="px-4 py-2 border">Material Name</th>
                 <th className="px-4 py-2 border">Unit</th>
                 <th className="px-4 py-2 border">Quantity</th>
-                <th className="px-4 py-2 border">Supplier Name</th>
+                {/* <th className="px-4 py-2 border">Supplier Name</th> */}
                 <th className="px-4 py-2 border">Price</th>
                 <th className="px-4 py-2 border">Finance Status</th>
                 <th className="px-4 py-2 border">Remarks</th>
@@ -97,14 +97,14 @@ const RawMaterialRequest = () => {
                         <div key={index}>{material.quantity}</div>
                       ))}
                     </td>
-                    <td className="px-4 py-2 border">
+                    {/* <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>
                           {material?.materialId?.supplier?.supplierName ||
                             "N/A"}
                         </div>
                       ))}
-                    </td>
+                    </td> */}
                     <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>

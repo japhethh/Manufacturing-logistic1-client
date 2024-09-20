@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Purchase Order Schema
 const purchaseOrderSchema = mongoose.Schema(
   {
     purchaseOrderNumber: {
@@ -7,20 +8,21 @@ const purchaseOrderSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
-    rawmaterialRequest: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "RawmaterialRequest",
-      required: true,
-    },
+    // rawmaterialRequest: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "RawmaterialRequest",
+    //   required: true,
+    // },
     items: [
       {
-        material: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Material",
-          required: true,
-        },
+        // material: {
+        //   type: mongoose.Schema.Types.ObjectId,
+        //   ref: "Material",
+        //   required: true,
+        // },
+        name:{type:String,required:true},
         quantity: { type: Number, required: true },
-        unitPrice: { type: Number, required: true },
+        price: { type: Number, required: true },
         totalPrice: {
           type: Number,
           required: true,

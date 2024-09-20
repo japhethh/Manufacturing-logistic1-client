@@ -42,7 +42,7 @@ app.post("/api/verifyToken", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/rawmaterial", rawmaterialRouter);
-app.use("/api/purchaseorder",purchaseOrderRouter)
+app.use("/api/purchase-order",purchaseOrderRouter)
 app.use("/api/supplier", supplierRouter);
 app.use("/api/material", materialRouter);
 app.listen(port, () => {
