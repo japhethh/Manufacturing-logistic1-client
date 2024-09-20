@@ -18,6 +18,11 @@ const requested = asyncHandler(async (req, res) => {
   }
 });
 
+
+const fetchPurchaseOrder = asyncHandler(async(req,res) => {
+
+})
+
 const newRequested = asyncHandler(async (req, res) => {
   const { requestedBy, material, quantity, priority, unit } = req.body;
 
@@ -38,4 +43,31 @@ const newRequested = asyncHandler(async (req, res) => {
   }
 });
 
-export { requested, newRequested };
+
+const getSpecificId = asyncHandler(async (req, res) => {
+  const { id } = req.params; // Extract ID from URL parameters
+
+  try {
+    // Find the specific raw material request by ID and populate necessary fields
+    const rawMaterialRequest = await rawmaterialModel.findById(id).populate({
+      path: "material.materialId", // Populate materialId
+      populate: {
+        path: "supplier", // Populate supplier inside materialId
+        model: "Supplier", // Ensure you reference the correct model name
+      },
+    });
+
+    // If no request is found, send a 404 error
+    if (!rawMaterialRequest) {
+      return res.status(404).json({ message: "Raw material request not found" });
+    }
+
+    // Send the found request as a response
+    res.status(200).json(rawMaterialRequest);
+  } catch (err) {
+    // Handle any errors that occur during the process
+    res.status(500).json({ error: err.message });
+  }
+});
+
+export { requested, newRequested,fetchPurchaseOrder,getSpecificId };

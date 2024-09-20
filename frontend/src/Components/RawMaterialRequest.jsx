@@ -6,7 +6,6 @@ const RawMaterialRequest = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [creatingPO, setCreatingPO] = useState(false); // New state for PO creation
   const navigate = useNavigate(); // for navigation
 
   useEffect(() => {
@@ -33,26 +32,9 @@ const RawMaterialRequest = () => {
     return date.toISOString().split("T")[0];
   };
 
-  const handleAutoFill = async (requestId) => {
-    setCreatingPO(true); // Start loading when creating PO
-    try {
-      const request = requests.find((req) => req._id === requestId);
-      if (!request) return;
-
-      // Send the selected request to the backend to create a Purchase Order
-      const response = await axios.post(
-        "http://localhost:4000/api/purchaseorder/create",
-        { request }
-      );
-
-      // Navigate to the newly created Purchase Order page for review/edit
-      const purchaseOrderId = response.data._id; // Assuming the response returns the new PO ID
-      navigate(`/purchase-order/${purchaseOrderId}`);
-    } catch (error) {
-      setError("Error creating purchase order. Please try again later.");
-    } finally {
-      setCreatingPO(false); // Stop loading after PO creation attempt
-    }
+  const handleAutoFill = (requestId) => {
+    // Instead of creating the PO here, navigate to the edit page with the request ID
+    navigate(`/purchase-order/edit/${requestId}`);
   };
 
   return (
@@ -80,10 +62,10 @@ const RawMaterialRequest = () => {
                 <th className="px-4 py-2 border">Material Name</th>
                 <th className="px-4 py-2 border">Unit</th>
                 <th className="px-4 py-2 border">Quantity</th>
-                <th className="px-4 py-2 border">Supplier Name</th> {/* New column */}
-                <th className="px-4 py-2 border">Price</th> {/* New column */}
-                <th className="px-4 py-2 border">Finance Status</th> {/* Clearer column */}
-                <th className="px-4 py-2 border">Remarks</th> {/* New column */}
+                <th className="px-4 py-2 border">Supplier Name</th>
+                <th className="px-4 py-2 border">Price</th>
+                <th className="px-4 py-2 border">Finance Status</th>
+                <th className="px-4 py-2 border">Remarks</th>
                 <th className="px-4 py-2 border">Action</th>
               </tr>
             </thead>
@@ -92,42 +74,37 @@ const RawMaterialRequest = () => {
                 requests.map((request, index) => (
                   <tr key={index}>
                     <td className="px-4 py-2 font-bold border">{index + 1}</td>
-                    <td className="px-4 py-2 border">{formatDate(request.requestDate)}</td>
-                    <td className="px-4 py-2 border">{request.requestStatus}</td>
+                    <td className="px-4 py-2 border">
+                      {formatDate(request.requestDate)}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {request.requestStatus}
+                    </td>
                     <td className="px-4 py-2 border">{request.requestedBy}</td>
                     <td className="px-4 py-2 border">{request.priority}</td>
-
-                    {/* Material Name */}
                     <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>{material.materialName}</div>
                       ))}
                     </td>
-
-                    {/* Unit */}
                     <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>{material.unit}</div>
                       ))}
                     </td>
-
-                    {/* Quantity */}
                     <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>{material.quantity}</div>
                       ))}
                     </td>
-
-                    {/* Supplier Name */}
                     <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>
-                          {material?.materialId?.supplier?.supplierName || "N/A"}
+                          {material?.materialId?.supplier?.supplierName ||
+                            "N/A"}
                         </div>
                       ))}
                     </td>
-
-                    {/* Price */}
                     <td className="px-4 py-2 border">
                       {request.material.map((material, index) => (
                         <div key={index}>
@@ -137,23 +114,26 @@ const RawMaterialRequest = () => {
                         </div>
                       ))}
                     </td>
-
-                    {/* Financial Approval */}
-                    <td className="px-4 py-2 border">
-                      {request.financeApproval ? "Approved" : "Pending"}
+                    <td className={`px-4 py-2 border text-white`}>
+                      <h1
+                        className={`rounded-full btn btn-ghost btn-xs ${
+                          request?.financeApproval
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      >
+                        {request.financeApproval ? "Approved" : "Pending"}
+                      </h1>
                     </td>
-
-                    {/* Remarks */}
-                    <td className="px-4 py-2 border">{request.remarks || "No remarks"}</td>
-
-                    {/* Action */}
+                    <td className="px-4 py-2 border">
+                      {request.remarks || "No remarks"}
+                    </td>
                     <td className="px-4 py-2 border">
                       <button
                         className="px-4 py-2 text-sm rounded-full bg-green-700 text-white"
                         onClick={() => handleAutoFill(request._id)}
-                        disabled={creatingPO}
                       >
-                        {creatingPO ? "Creating PO..." : "Create PO"}
+                        Create PO
                       </button>
                     </td>
                   </tr>

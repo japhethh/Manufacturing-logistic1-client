@@ -343,7 +343,10 @@ const Sidebar = () => {
 
             <li>
               {/*   Purchase Requisitions */}
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+              <details
+                open
+                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+              >
                 <summary className="flex items-center gap-2 cursor-pointer">
                   <BiPurchaseTagAlt
                     className={`transition-all duration-300 ${
@@ -394,11 +397,15 @@ const Sidebar = () => {
             {/*  Suppliers */}
             <li>
               <details
+                open
                 className={`menu-item transition-all duration-300 ${
                   isCollapsed ? "hidden" : ""
                 }`}
               >
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary
+                  open
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <BsBoxSeam
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -962,7 +969,8 @@ const Sidebar = () => {
               <ul className="w-full menu rounded-box">
                 {/* Return Authorization (RMA) */}
                 <li>
-                  <details open
+                  <details
+                    open
                     className={`menu-item ${isCollapsed ? "hidden" : ""}`}
                   >
                     <summary className="flex items-center gap-2 cursor-pointer">
