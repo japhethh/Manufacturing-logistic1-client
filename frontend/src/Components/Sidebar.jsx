@@ -504,7 +504,7 @@ const Sidebar = () => {
 
             {/* Purchase Orders */}
             <li>
-              <details
+              <details open
                 className={`menu-item transition-all duration-300 ${
                   isCollapsed ? "hidden" : ""
                 }`}
