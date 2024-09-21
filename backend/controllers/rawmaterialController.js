@@ -18,10 +18,7 @@ const requested = asyncHandler(async (req, res) => {
   }
 });
 
-
-const fetchPurchaseOrder = asyncHandler(async(req,res) => {
-
-})
+const fetchPurchaseOrder = asyncHandler(async (req, res) => {});
 
 const newRequested = asyncHandler(async (req, res) => {
   const { requestedBy, material, quantity, priority, unit } = req.body;
@@ -43,7 +40,6 @@ const newRequested = asyncHandler(async (req, res) => {
   }
 });
 
-
 const getSpecificId = asyncHandler(async (req, res) => {
   const { id } = req.params; // Extract ID from URL parameters
 
@@ -59,7 +55,9 @@ const getSpecificId = asyncHandler(async (req, res) => {
 
     // If no request is found, send a 404 error
     if (!rawMaterialRequest) {
-      return res.status(404).json({ message: "Raw material request not found" });
+      return res
+        .status(404)
+        .json({ message: "Raw material request not found" });
     }
 
     // Send the found request as a response
@@ -70,13 +68,41 @@ const getSpecificId = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-const deleteRequest = asyncHandler(async(req,res) => {
-  const {id} = req.params;
+const deleteRequest = asyncHandler(async (req, res) => {
+  const { id } = req.params;
   await rawmaterialModel.findByIdAndDelete(id);
 
-  res.status(200).json({success:true, message:"Deleted Successfully"});
-})
+  res.status(200).json({ success: true, message: "Deleted Successfully" });
+});
 
-export { requested, newRequested,fetchPurchaseOrder,getSpecificId,deleteRequest };
+const updateStatus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { requestStatus } = req.body;
+
+  try {
+    const updatedRequest = await rawmaterialModel.findByIdAndUpdate(
+      id,
+      { requestStatus },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Updated Successfully",
+        data: updatedRequest,
+      });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+export {
+  requested,
+  newRequested,
+  fetchPurchaseOrder,
+  getSpecificId,
+  deleteRequest,
+  updateStatus,
+};

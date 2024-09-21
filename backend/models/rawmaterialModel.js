@@ -28,10 +28,7 @@ const rawmaterialSchema = mongoose.Schema({
     enum:['High','Medium','Low'],
     default:'Medium'
   },
-  financeApproval:{
-    type:Boolean,
-    default:false
-  }
+
 });
 
   const rawmaterialModel = mongoose.model('RawmaterialRequest',rawmaterialSchema);

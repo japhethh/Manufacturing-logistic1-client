@@ -1,10 +1,13 @@
-import React from "react";
 
+
+import { useNavigate } from "react-router-dom";
 const PurchaseOrderList = ({ suppliers = [], loading, error }) => {
+
+  const navigate = useNavigate();
   return (
-    <div className="p-2">
-        <button className="px-4 bg-blue-700 text-white py-2 rounded-full mb-2">Create Purchase Order</button>
-      <div className="overflow-x-auto border border-lg">
+    <div className="p-2 ">
+        <button className="px-4 bg-blue-700 text-white py-2 rounded-full mb-2 mt-4" onClick={() => navigate("/createpurchaseorder")}>Create Purchase Order</button>
+      <div className="overflow-x-auto border border-lg my-5">
         <table className="table table-xs">
           <thead>
             <tr>

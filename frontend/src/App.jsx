@@ -111,20 +111,35 @@ const App = () => {
           <Route path="/user" element={<User />} />
           <Route path="/user/createuser" element={<CreateUser />} />
           <Route path="/suppliers" element={<CreateSupplier />} />
-          <Route path="/suppliers/createsupplier" element={<CreateSupplier />} />
-          <Route path="/user/edit/:id" element={<EditUser/>}/>
-          <Route path="/createpurchaseorder" element={<CreatePurchaseOrder />} />
+          <Route
+            path="/suppliers/createsupplier"
+            element={<CreateSupplier />}
+          />
+          <Route path="/user/edit/:id" element={<EditUser />} />
+          <Route
+            path="/createpurchaseorder"
+            element={<CreatePurchaseOrder />}
+          />
           <Route path="/trackorders" element={<TrackOrders />} />
-          <Route path="/orderfulfillmentstatus" element={<OrderFulfillmentStatus />} />
+          <Route
+            path="/orderfulfillmentstatus"
+            element={<OrderFulfillmentStatus />}
+          />
           <Route path="/viewcontacts" element={<ViewContacts />} />
-          <Route path="/renewalsexpirations" element={<RenewalsExpirations />} />
-          <Route path="/purchase-order/edit/:purchaseOrderId" element={<PurchaseOrderEdit/>}/>
-          <Route path="/purchase_orders/view_po/:id" element={<ViewPurchaseOrder />} />
+          <Route
+            path="/renewalsexpirations"
+            element={<RenewalsExpirations />}
+          />
+          <Route
+            path="/purchase-order/edit/:purchaseOrderId"
+            element={<PurchaseOrderEdit />}
+          />
+          <Route
+            path="/purchase_orders/view_po/:id"
+            element={<ViewPurchaseOrder />}
+          />
           <Route path="/purchaseorderlist" element={<PurchaseOrderList />} />
 
-
-
-    
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
         </Routes>

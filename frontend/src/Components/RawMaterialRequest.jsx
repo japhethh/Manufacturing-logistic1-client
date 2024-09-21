@@ -19,11 +19,10 @@ const RawMaterialRequest = () => {
     fetchRequests();
   }, []);
 
+  console.log(requests);
   const fetchRequests = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/rawmaterial/request"
-      );
+      const response = await axios.get(`${apiURL}/api/rawmaterial/request`);
       setRequests(response.data);
     } catch (error) {
       setError("Error fetching raw material requests. Please try again later.");
@@ -61,6 +60,24 @@ const RawMaterialRequest = () => {
       toast.error("Error deleting the request.");
     } finally {
       setModalOpen(false);
+    }
+  };
+
+  // Function to handle status change
+  const handleStatusChange = async (requestId, newStatus) => {
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/rawmaterial/updateStatus/${requestId}`,
+        {
+          requestStatus: newStatus,
+        }
+      );
+      if (response.data.success) {
+        fetchRequests(); // Refresh the list after updating
+        toast.success("Request status updated successfully.");
+      }
+    } catch (error) {
+      toast.error("Error updating request status.");
     }
   };
 
@@ -114,7 +131,6 @@ const RawMaterialRequest = () => {
                 <th className="px-4 py-2 border">Unit</th>
                 <th className="px-4 py-2 border">Quantity</th>
                 <th className="px-4 py-2 border">Price</th>
-                <th className="px-4 py-2 border">Finance Status</th>
                 <th className="px-4 py-2 border">Remarks</th>
                 <th className="px-4 py-2 border">Action</th>
               </tr>
@@ -128,7 +144,23 @@ const RawMaterialRequest = () => {
                       {formatDate(request.requestDate)}
                     </td>
                     <td className="px-4 py-2 border">
-                      {request.requestStatus}
+                      <select
+                        value={request.requestStatus}
+                        onChange={(e) =>
+                          handleStatusChange(request._id, e.target.value)
+                        }
+                        className={`rounded-full px-2 py-1 font-semibold text-base-200 ${
+                          request.requestStatus === "Pending"
+                            ? "bg-yellow-500"
+                            : request.requestStatus === "Approved"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
                     </td>
                     <td className="px-4 py-2 border">{request.requestedBy}</td>
                     <td className="px-4 py-2 border">{request.priority}</td>
@@ -156,17 +188,7 @@ const RawMaterialRequest = () => {
                         </div>
                       ))}
                     </td>
-                    <td className={`px-4 py-2 border text-white`}>
-                      <h1
-                        className={`rounded-full btn btn-ghost btn-xs ${
-                          request?.financeApproval
-                            ? "bg-green-500"
-                            : "bg-red-500"
-                        }`}
-                      >
-                        {request.financeApproval ? "Approved" : "Pending"}
-                      </h1>
-                    </td>
+
                     <td className="px-4 py-2 border">
                       {request.remarks || "No remarks"}
                     </td>
