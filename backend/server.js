@@ -17,10 +17,11 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://logistic1.jjm-manufacturing.com", // Allow requests from frontend
-    credentials: true, // Allow sending cookies with requests
+    origin: ["http://localhost:5173", "https://logistic1.jjm-manufacturing.com"], // Allow both local and production
+    credentials: true,
   })
 );
+
 app.use(express.json());
 
 ConnectDB();

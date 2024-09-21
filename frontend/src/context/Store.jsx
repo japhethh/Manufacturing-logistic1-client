@@ -1,7 +1,10 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const apiUrl = "https://manufacturing-logistic1-client-api.onrender.com";
+const apiURL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:4000"
+    : "https://logistic1.jjm-manufacturing.com";
 
 const Store = create((set) => ({
   token: localStorage.getItem("token") || null,
@@ -20,7 +23,7 @@ const Store = create((set) => ({
 
     try {
       set({ loading: true });
-      const response = await axios.get(`${apiUrl}/api/user`, {
+      const response = await axios.get(`${apiURL}/api/user`, {
         headers: {
           token: token,
         },
