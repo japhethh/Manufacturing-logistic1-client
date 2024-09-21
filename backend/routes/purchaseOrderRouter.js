@@ -18,13 +18,14 @@
 
 import express from "express";
 import { autoFillPurchaseOrder } from "../controllers/autoFill.js";
-import { createPurchaseOrder, getAllPurchaseOrder } from '../controllers/purchaseOrderController.js';
+import { createPurchaseOrder, getAllPurchaseOrder,fetchSpecificPo } from '../controllers/purchaseOrderController.js';
 import authMiddleware from "../middleware/Auth.js";
 
 const purchaseOrderRouter = express.Router();
 
 // Get all purchase orders
 purchaseOrderRouter.get("/", getAllPurchaseOrder);
+purchaseOrderRouter.get("/:id", fetchSpecificPo);
 purchaseOrderRouter.get("/auto-fill", autoFillPurchaseOrder);
 purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
 

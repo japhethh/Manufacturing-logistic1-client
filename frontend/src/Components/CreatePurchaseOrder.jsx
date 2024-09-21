@@ -3,7 +3,8 @@ import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { toast } from "react-toastify";
-
+import {useNavigate} from 'react-router-dom'
+import NotificationService from '../services/NotificationService'
 const CreatePurchaseOrder = () => {
   const [formData, setFormData] = useState({
     supplier: "",
@@ -16,6 +17,7 @@ const CreatePurchaseOrder = () => {
   });
   const [suppliers, setSuppliers] = useState([]);
   const { apiURL, token } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -84,15 +86,15 @@ const CreatePurchaseOrder = () => {
 
   const validateForm = () => {
     if (!formData.supplier) {
-      toast.warning("Please select a supplier." , {
-        position: "top-center"
+      NotificationService.warning("Please select a supplier.", {
+        position: "top-center",
       });
       return false;
     }
 
     if (!formData.orderDate) {
-      toast.warning("Please select an order date.", {
-        position: "top-center"
+      NotificationService.warning("Please select an order date.", {
+        position: "top-center",
       });
       return false;
     }
@@ -103,15 +105,15 @@ const CreatePurchaseOrder = () => {
         (item) => !item.name || item.quantity <= 0 || item.price <= 0
       )
     ) {
-      toast.warning("Please provide valid items with quantity and price.", {
-        position: "top-center"
+      NotificationService.warning("Please provide valid items with quantity and price.", {
+        position: "top-center",
       });
       return false;
     }
 
     if (!formData.paymentTerm) {
-      toast.warning("Please provide a payment term.", {
-        position: "top-center"
+      NotificationService.warning("Please provide a payment term.", {
+        position: "top-center",
       });
       return false;
     }
@@ -155,11 +157,14 @@ const CreatePurchaseOrder = () => {
           },
         }
       );
-      toast.success("Purchase Order Created");
+      NotificationService.success("Purchase Order Created");
       handleReset(); // Reset the form after successful submission
+
+      // navigate(`/purchase-order/${response.data._id}`); // Navigate to the purchase order view
+      navigate(`/purchase_orders/view_po/${response.data._id}`); // Navigate to the purchase order view
     } catch (error) {
       console.error("Error creating purchase order:", error);
-      toast.error("Error creating purchase order");
+      NotificationService.error("Error creating purchase order");
     }
   };
 

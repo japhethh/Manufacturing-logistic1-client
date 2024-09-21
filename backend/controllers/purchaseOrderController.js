@@ -68,4 +68,23 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
   }
 });
 
-export { createPurchaseOrder, getAllPurchaseOrder };
+const fetchSpecificPo = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    console.log(id);
+
+    const PO = await purchaseOrderModel.findById(id).populate("supplier", "supplierName contactEmail contactPhone paymentTerms address");
+
+    if (!PO) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Purchase order Not Found" });
+    }
+    
+    res.status(200).json(PO)
+  } catch (error) {
+    console.log("Errors");
+  }
+});
+
+export { createPurchaseOrder, getAllPurchaseOrder, fetchSpecificPo };
