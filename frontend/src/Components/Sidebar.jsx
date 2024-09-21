@@ -36,13 +36,13 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`lg:flex md:flex hidden flex-col h-screen bg-white text-black px-4 py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
-        isCollapsed ? "w-20" : "w-96 lg:w-96"
+      className={`lg:flex md:flex hidden flex-col h-screen bg-white text-black py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
+        isCollapsed ? "w-20 px-4" : "w-96 lg:w-96"
       }`}
       aria-label="Sidebar"
     >
       {/* Sidebar toggle button */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end m-1 mb-4">
         <button
           onClick={toggleSidebar}
           className="p-1 text-black transition duration-200 border border-gray-300 rounded-md hover:bg-gray-200 w-11"
@@ -69,7 +69,7 @@ const Sidebar = () => {
         className={`flex-1 transition-all duration-300 ${
           isCollapsed
             ? "overflow-y-hidden"
-            : "overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300"
+            : "overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 px-4 "
         }`}
       >
         {/* Dashboard Link */}
@@ -80,7 +80,7 @@ const Sidebar = () => {
           >
             <MdOutlineScreenshotMonitor
               className={`transition-all duration-300 ${
-                isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                isCollapsed ? "w-7 h-7 mx-auto" : "w-5 h-5"
               }`}
             />
             {!isCollapsed && (
