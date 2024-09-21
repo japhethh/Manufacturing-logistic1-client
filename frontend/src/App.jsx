@@ -13,7 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import MobileSidebar from "./Components/MobileSidebar";
-import Store from "./context/store";
+import Store from "./context/Store";
 import User from "./Components/User";
 import CreateUser from "./Components/CreateUser";
 import CreateSupplier from "./Components/CreateSupplier";
@@ -25,6 +25,7 @@ import ViewContacts from "./Components/ViewContacts";
 import RenewalsExpirations from "./Components/RenewalsExpirations";
 import PurchaseOrderEdit from "./Components/PurchaseOrderEdit";
 import ViewPurchaseOrder from "./Components/ViewPurchaseOrder";
+import PurchaseOrderList from "./Components/PurchaseOrderList";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -119,6 +120,8 @@ const App = () => {
           <Route path="/renewalsexpirations" element={<RenewalsExpirations />} />
           <Route path="/purchase-order/edit/:purchaseOrderId" element={<PurchaseOrderEdit/>}/>
           <Route path="/purchase_orders/view_po/:id" element={<ViewPurchaseOrder />} />
+          <Route path="/purchaseorderlist" element={<PurchaseOrderList />} />
+
 
 
     
