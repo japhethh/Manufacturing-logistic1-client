@@ -252,74 +252,78 @@ const CreatePurchaseOrder = () => {
             required
           />
         </div>
+{/* Item Selection and Quantity Entry */}
+<div className="mb-6">
+  <label className="block text-base font-medium text-[#07074D] mb-2">
+    Item Selection and Quantity Entry
+  </label>
+  {formData.items.map((item, index) => (
+    <div key={index} className="flex space-x-4 mb-4 items-center">
+      <div className="flex flex-col w-full">
+        <label className="text-sm font-medium text-[#6B7280]">Item Name</label>
+        <input
+          type="text"
+          placeholder="Item Name"
+          value={item.name}
+          onChange={(e) => handleInputChange(index, "name", e.target.value)}
+          className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          required
+        />
+      </div>
+      <div className="flex flex-col w-full">
+        <label className="text-sm font-medium text-[#6B7280]">Quantity</label>
+        <input
+          type="number"
+          placeholder="Quantity"
+          value={item.quantity}
+          onChange={(e) => handleInputChange(index, "quantity", e.target.value)}
+          className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          min="1"
+          required
+        />
+      </div>
+      <div className="flex flex-col w-full">
+        <label className="text-sm font-medium text-[#6B7280]">Price</label>
+        <input
+          type="number"
+          placeholder="Price"
+          value={item.price}
+          onChange={(e) => handleInputChange(index, "price", e.target.value)}
+          className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          min="0"
+          required
+        />
+      </div>
+      <div className="flex flex-col w-full">
+        <label className="text-sm font-medium text-[#6B7280]">Discount (%)</label>
+        <input
+          type="number"
+          placeholder="Discount (%)"
+          value={item.discount}
+          onChange={(e) => handleInputChange(index, "discount", e.target.value)}
+          className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+          min="0"
+          max="100"
+        />
+      </div>
+      <button
+        type="button"
+        onClick={() => handleRemoveItem(index)}
+        className="rounded-md bg-red-500 text-white py-1 px-3"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={handleAddItem}
+    className="mt-3 rounded-md bg-blue-500 text-white py-2 px-4"
+  >
+    Add Item
+  </button>
+</div>
 
-        {/* Item Selection and Quantity Entry */}
-        <div className="mb-6">
-          <label className="block text-base font-medium text-[#07074D]">
-            Item Selection and Quantity Entry
-          </label>
-          {formData.items.map((item, index) => (
-            <div key={index} className="flex space-x-4 mb-2 items-center">
-              <input
-                type="text"
-                placeholder="Item Name"
-                value={item.name}
-                onChange={(e) =>
-                  handleInputChange(index, "name", e.target.value)
-                }
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                required
-              />
-              <input
-                type="number"
-                placeholder="Quantity"
-                value={item.quantity}
-                onChange={(e) =>
-                  handleInputChange(index, "quantity", e.target.value)
-                }
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                min="1"
-                required
-              />
-              <input
-                type="number"
-                placeholder="Price"
-                value={item.price}
-                onChange={(e) =>
-                  handleInputChange(index, "price", e.target.value)
-                }
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                min="0"
-                required
-              />
-              <input
-                type="number"
-                placeholder="Discount (%)"
-                value={item.discount}
-                onChange={(e) =>
-                  handleInputChange(index, "discount", e.target.value)
-                }
-                className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                min="0"
-                max="100"
-              />
-              <button
-                type="button"
-                onClick={() => handleRemoveItem(index)}
-                className="rounded-md bg-red-500 text-white py-1 px-3"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={handleAddItem}
-            className="mt-3 rounded-md bg-blue-500 text-white py-2 px-4"
-          >
-            Add Item
-          </button>
-        </div>
 
         {/* Notes Section */}
         <div className="mb-4">
