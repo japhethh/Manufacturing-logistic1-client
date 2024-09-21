@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const apiURL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:4000"
-    : "https://logistic1.jjm-manufacturing.com";
+// const apiURL =
+//   window.location.hostname === "localhost"
+//     ? "http://localhost:4000"
+//     : "https://logistic1.jjm-manufacturing.com";
+    const apiURL = "https://logistic1.jjm-manufacturing.com";
 
 const Store = create((set) => ({
   token: localStorage.getItem("token") || null,
