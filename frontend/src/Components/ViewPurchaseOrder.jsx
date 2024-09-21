@@ -3,14 +3,14 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
 import jsPDF from "jspdf";
-import "jspdf-autotable"; 
+import "jspdf-autotable";
 
 const ViewPurchaseOrder = () => {
   const { id } = useParams();
   const { apiURL, token } = useContext(UserContext);
   const [purchaseOrder, setPurchaseOrder] = useState(null);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPurchaseOrder = async () => {
@@ -23,7 +23,7 @@ const ViewPurchaseOrder = () => {
         console.error("Error fetching purchase order:", error);
         setError("Failed to fetch purchase order.");
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -32,80 +32,211 @@ const ViewPurchaseOrder = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    const logo = "https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"; 
-
+    const logo = "https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp";
+  
+    // Define some styling settings
+    const marginX = 10;
+    const marginY = 40;
+    const lineSpacing = 7;
+    const sectionGap = 15;
+    const tableStartY = 120;
+  
+    // Add company logo and header
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.text("PURCHASE ORDER", marginX, marginY - 10);
+  
+    doc.addImage(logo, "PNG", 150, marginY - 20, 50, 20); // Align logo on the right
+  
+    // Add company information
     doc.setFontSize(12);
-    doc.text("Your Company Name", 10, 40);
-    doc.text("1234 Company Address St.", 10, 45);
-    doc.text("City, State, Zip", 10, 50);
-    doc.text("Email: contact@yourcompany.com", 10, 55);
-    doc.text("Phone: (123) 456-7890", 10, 60);
-
-    doc.addImage(logo, 'PNG', 150, 40, 50, 20);
-    doc.text("Date: " + new Date().toLocaleDateString(), 150, 70);
-
+    doc.setFont("helvetica", "normal");
+    doc.text("Your Company Name", marginX, marginY);
+    doc.text("1234 Company Address St.", marginX, marginY + lineSpacing);
+    doc.text("City, State, Zip", marginX, marginY + 2 * lineSpacing);
+    doc.text("Email: contact@yourcompany.com", marginX, marginY + 3 * lineSpacing);
+    doc.text("Phone: (123) 456-7890", marginX, marginY + 4 * lineSpacing);
+    doc.text("Date: " + new Date().toLocaleDateString(), 150, marginY + 4 * lineSpacing);
+  
+    // Draw a line between the header and the rest of the document
+    doc.line(marginX, marginY + 5 * lineSpacing + 5, 200, marginY + 5 * lineSpacing + 5);
+  
+    // Add supplier information
+    const supplierStartY = marginY + 5 * lineSpacing + sectionGap;
     doc.setFontSize(14);
-    doc.text("Supplier:", 10, 70);
+    doc.setFont("helvetica", "bold");
+    doc.text("Supplier Information", marginX, supplierStartY);
+  
+    doc.setFontSize(12); // Consistent font size for supplier info
+    doc.setFont("helvetica", "normal");
+    doc.text(`Supplier: ${purchaseOrder.supplier.supplierName}`, marginX, supplierStartY + lineSpacing);
+    doc.text(`${purchaseOrder.supplier.address.street}, ${purchaseOrder.supplier.address.city}, ${purchaseOrder.supplier.address.state}, ${purchaseOrder.supplier.address.zipCode}`, marginX, supplierStartY + 2 * lineSpacing);
+    doc.text(`Email: ${purchaseOrder.supplier.contactEmail}`, marginX, supplierStartY + 3 * lineSpacing);
+    doc.text(`Phone: ${purchaseOrder.supplier.contactPhone}`, marginX, supplierStartY + 4 * lineSpacing);
+  
+    // Add Purchase Order details
     doc.setFontSize(12);
-    doc.text(purchaseOrder.supplier.supplierName, 10, 80);
-    doc.text(`${purchaseOrder.supplier.address.street}, ${purchaseOrder.supplier.address.city}, ${purchaseOrder.supplier.address.state}, ${purchaseOrder.supplier.address.zipCode}`, 10, 85);
-    doc.text(`Contact Email: ${purchaseOrder.supplier.contactEmail}`, 10, 90);
-    doc.text(`Contact Phone: ${purchaseOrder.supplier.contactPhone}`, 10, 95);
-
-    doc.setFontSize(16);
-    doc.text(`Purchase Order #${purchaseOrder.purchaseOrderNumber}`, 10, 110);
-
-    const items = purchaseOrder.items.map(item => [item.name, item.quantity, item.price, item.totalPrice]);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Purchase Order #: ${purchaseOrder.purchaseOrderNumber}`, 130, supplierStartY);
+    doc.text("Order Date: " + new Date(purchaseOrder.orderDate).toLocaleDateString(), 150, supplierStartY + lineSpacing);
+  
+    // Add Items table
+    const items = purchaseOrder.items.map((item) => [
+      item.name,
+      item.quantity,
+      `$${item.price.toFixed(2)}`,
+      `$${item.totalPrice.toFixed(2)}`,
+    ]);
+    
     doc.autoTable({
-      head: [['Item', 'Quantity', 'Price', 'Total']],
+      head: [["Item", "Quantity", "Price", "Total"]],
       body: items,
-      startY: 120,
-      theme: 'grid',
-      styles: { cellPadding: 5, fontSize: 10 },
+      startY: tableStartY,
+      theme: "striped",
+      styles: { fillColor: [220, 220, 220], fontSize: 12 }, // Increase font size for better readability
+      margin: { top: 10, bottom: 10, left: marginX, right: marginX }, // Adjust margins
+      tableWidth: 'auto', // Allow the table to adjust to the content width
+      columnStyles: {
+        0: { cellWidth: 50 }, // Adjust the width of the Item column
+        1: { cellWidth: 40 }, // Adjust the width of the Quantity column
+        2: { cellWidth: 50 }, // Adjust the width of the Price column
+        3: { cellWidth: 50 }, // Adjust the width of the Total column
+      },
     });
-
-    doc.text(`Subtotal: $${purchaseOrder.totalAmount}`, 10, doc.autoTable.previous.finalY + 10);
-    doc.text(`Notes: ${purchaseOrder.notes}`, 10, doc.autoTable.previous.finalY + 20);
-    doc.text(`Payment Term: ${purchaseOrder.paymentTerm}`, 10, doc.autoTable.previous.finalY + 30);
-
+  
+    // Subtotal, notes, and payment terms section
+    const finalY = doc.autoTable.previous.finalY + 10;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Subtotal: $${purchaseOrder.totalAmount.toFixed(2)}`, marginX, finalY);
+  
+    doc.text("Notes:", marginX, finalY + lineSpacing);
+    doc.setFont("helvetica", "normal");
+    doc.text(purchaseOrder.notes || "None", marginX, finalY + 2 * lineSpacing);
+  
+    doc.setFont("helvetica", "bold");
+    doc.text("Payment Terms:", marginX, finalY + 3 * lineSpacing);
+    doc.setFont("helvetica", "normal");
+    doc.text(purchaseOrder.paymentTerm || "Not specified", marginX, finalY + 4 * lineSpacing);
+  
+    // Draw a line before the footer
+    doc.line(marginX, finalY + 5 * lineSpacing, 200, finalY + 5 * lineSpacing);
+  
+    // Footer (optional)
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "italic");
+    doc.text("Thank you for your business!", 100, finalY + 6 * lineSpacing, null, null, "center");
+  
+    // Save the PDF
     doc.save(`PurchaseOrder_${purchaseOrder.purchaseOrderNumber}.pdf`);
+  };
+  
+  
+  
+
+  const handlePrint = () => {
+    window.print();
   };
 
   if (loading) return <div className="text-center py-4">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <button onClick={generatePDF} className="btn btn-primary mb-4">Generate PDF</button>
-      <h1 className="text-2xl font-bold mb-2">Purchase Order #{purchaseOrder.purchaseOrderNumber}</h1>
-      <p className="font-semibold">Supplier: {purchaseOrder.supplier.supplierName}</p>
-      <p><strong>Order Date:</strong> {new Date(purchaseOrder.orderDate).toLocaleDateString()}</p>
+    <div className="p-6 bg-white rounded-lg shadow-md container px-9 mx-auto">
+      <div className="flex gap-4 mb-4">
+        <button onClick={generatePDF} className="btn btn-primary">
+          Generate PDF
+        </button>
+        <button onClick={handlePrint} className="btn btn-secondary">
+          Print
+        </button>
+      </div>
 
-      <h2 className="text-xl font-semibold mt-4">Items</h2>
-      <table className="min-w-full border-collapse border border-gray-300 mt-2">
-        <thead>
-          <tr>
-            {['Item', 'Quantity', 'Price', 'Total'].map((header) => (
-              <th key={header} className="border border-gray-300 px-4 py-2">{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {purchaseOrder.items.map((item, index) => (
-            <tr key={index}>
-              {['name', 'quantity', 'price', 'totalPrice'].map((key) => (
-                <td key={key} className="border border-gray-300 px-4 py-2">
-                  {key === 'price' || key === 'totalPrice' ? `$${item[key].toFixed(2)}` : item[key]}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {purchaseOrder && (
+        <div className="printable">
+          {/* Only this will be printed */}
+          <div className="flex gap-2 justify-between">
+            <div>
+              <h1>Your Company Name</h1>
+              <h1>info@company.com</h1>
+              <h1>1234 Company St, City, Zip</h1>
+            </div>
+            <div>
+              <img
+                width={130}
+                src="https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"
+                alt="Company Logo"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between">
+            <div className="flex-1">
+              <h1 className="text-xl font-semibold">Vendor</h1>
+              <h1 className="text-md">{purchaseOrder.supplier.supplierName}</h1>
+              <h1 className="text-md">
+                {purchaseOrder.supplier.address.street}
+              </h1>
+              <h1 className="text-md">{purchaseOrder.supplier.contactPhone}</h1>
+              <h1 className="text-md">{purchaseOrder.supplier.contactEmail}</h1>
+            </div>
 
-      <p className="font-semibold mt-4"><strong>Subtotal:</strong> ${purchaseOrder.totalAmount.toFixed(2)}</p>
-      <p className="font-semibold"><strong>Notes:</strong> {purchaseOrder.notes}</p>
-      <p className="font-semibold"><strong>Payment Term:</strong> {purchaseOrder.paymentTerm}</p>
+            <div className="flex-1 text-right">
+              <h1 className="text-lg">{purchaseOrder.purchaseOrderNumber}</h1>
+              <h1 className="text-lg">
+                Order Date:{" "}
+                {new Date(purchaseOrder.orderDate).toLocaleDateString()}
+              </h1>
+            </div>
+          </div>
+          <div className="mt-2">
+            <div className="overflow-x-auto">
+              <table className="table table-lg">
+                <thead className="bg-gray-500 text-base-200">
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Total Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {purchaseOrder.items.map((item, index) => (
+                    <tr key={item._id}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>${item.price.toFixed(2)}</td>
+                      <td>{item.discount}%</td>
+                      <td>${item.totalPrice.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="flex gap-2 mt-4">
+              <div className="flex-1">
+                <h1 className="font-semibold text-md">Notes</h1>
+                <h1 className="text-md">{purchaseOrder.notes}</h1>
+              </div>
+              <div className="flex-1 text-right">
+                <h1 className="font-semibold text-md">Status</h1>
+                <button
+                  className={`px-3 py-2 rounded-lg ${
+                    purchaseOrder.approvalStatus === "Approved"
+                      ? "bg-green-500"
+                      : "bg-yellow-500"
+                  } text-base-100`}
+                >
+                  {purchaseOrder.approvalStatus}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
