@@ -1,20 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NotificationService from "../services/NotificationService";
-const CreatePurchaseOrder = () => {
+
+const EditPurchaseOrder = () => {
   const [formData, setFormData] = useState({
     supplier: "",
     orderDate: null,
     items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
     tax: 0,
-    notes: "", // Notes field is here
+    notes: "",
     paymentTerm: "",
     approvalStatus: "Pending",
   });
+  const { id } = useParams();
+  // const [purchaseOrder, setPurchaseOrder] = useState({});
   const [suppliers, setSuppliers] = useState([]);
   const { apiURL, token } = useContext(UserContext);
   const navigate = useNavigate();
@@ -24,8 +26,39 @@ const CreatePurchaseOrder = () => {
       const response = await axios.get(`${apiURL}/api/supplier/suppliers`);
       setSuppliers(response.data);
     };
+
+    const fetchPurchaseOrder = async () => {
+      try {
+        const response = await axios.get(
+          `${apiURL}/api/purchase-order/edit/${id}`
+        );
+        const order = response.data;
+
+        // Update formData with fetched purchase order details
+        setFormData({
+          supplier: order.supplier,
+          orderDate: new Date(order.orderDate), // Convert to Date object
+          items: order.items.map((item) => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            discount: item.discount,
+          })),
+          tax: order.tax,
+          notes: order.notes,
+          paymentTerm: order.paymentTerm,
+          approvalStatus: order.approvalStatus,
+        });
+        // setPurchaseOrder(order);
+      } catch (error) {
+        console.error("Error fetching purchase order:", error);
+        NotificationService.error("Error fetching purchase order");
+      }
+    };
+
     fetchSuppliers();
-  }, [apiURL]);
+    fetchPurchaseOrder();
+  }, [apiURL, id]);
 
   const handleInputChange = (index, field, value) => {
     const updatedItems = [...formData.items];
@@ -59,7 +92,7 @@ const CreatePurchaseOrder = () => {
       orderDate: null,
       items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
       tax: 0,
-      notes: "", // Reset notes
+      notes: "",
       paymentTerm: "",
       approvalStatus: "Pending",
     });
@@ -151,8 +184,8 @@ const CreatePurchaseOrder = () => {
         approvalStatus: formData.approvalStatus,
       };
 
-      const response = await axios.post(
-        `${apiURL}/api/purchase-order/create`,
+      const response = await axios.put(
+        `${apiURL}/api/purchase-order/update/${id}`,
         purchaseOrderData,
         {
           headers: {
@@ -160,11 +193,10 @@ const CreatePurchaseOrder = () => {
           },
         }
       );
-      NotificationService.success("Purchase Order Created");
+      NotificationService.success(response.data.message);
       handleReset(); // Reset the form after successful submission
+      navigate(`/purchase_orders/view_po/${response.data.data}`); // Navigate to the purchase order view
 
-      // navigate(`/purchase-order/${response.data._id}`); // Navigate to the purchase order view
-      navigate(`/purchase_orders/view_po/${response.data._id}`); // Navigate to the purchase order view
     } catch (error) {
       console.error("Error creating purchase order:", error);
       NotificationService.error("Error creating purchase order");
@@ -179,7 +211,7 @@ const CreatePurchaseOrder = () => {
       <form>
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold text-[#07074D]">
-            Create Purchase Order
+            Edit Purchase Order
           </h1>
           <div className="space-x-3">
             <button
@@ -201,7 +233,7 @@ const CreatePurchaseOrder = () => {
               onClick={handleSubmit}
               type="button"
             >
-              Save
+              Update
             </button>
           </div>
         </div>
@@ -255,7 +287,7 @@ const CreatePurchaseOrder = () => {
             required
           />
         </div>
-        {/* Item Selection and Quantity Entry */}
+
         <div className="mb-6">
           <label className="block text-base font-medium text-[#07074D] mb-2">
             Item Selection and Quantity Entry
@@ -343,11 +375,11 @@ const CreatePurchaseOrder = () => {
           </button>
         </div>
 
-        {/* Notes Section */}
+        {/* Notes and Payment Term */}
         <div className="mb-4">
           <label
             htmlFor="notes"
-            className="block text-base font-medium text-[#07074D] mb-2"
+            className="block text-base font-medium text-[#07074D]"
           >
             Notes
           </label>
@@ -358,11 +390,10 @@ const CreatePurchaseOrder = () => {
               setFormData({ ...formData, notes: e.target.value })
             }
             className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            rows="4"
-          ></textarea>
+            rows="3"
+          />
         </div>
 
-        {/* Payment Term */}
         <div className="mb-4">
           <label
             htmlFor="paymentTerm"
@@ -381,7 +412,6 @@ const CreatePurchaseOrder = () => {
             required
           />
         </div>
-
         {/* Summary */}
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-[#07074D]">Summary</h2>
@@ -400,4 +430,4 @@ const CreatePurchaseOrder = () => {
   );
 };
 
-export default CreatePurchaseOrder;
+export default EditPurchaseOrder;

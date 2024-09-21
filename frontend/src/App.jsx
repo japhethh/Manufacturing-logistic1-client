@@ -26,6 +26,7 @@ import RenewalsExpirations from "./Components/RenewalsExpirations";
 import PurchaseOrderEdit from "./Components/PurchaseOrderEdit";
 import ViewPurchaseOrder from "./Components/ViewPurchaseOrder";
 import PurchaseOrderList from "./Components/PurchaseOrderList";
+import EditPurchaseOrder from "./Components/EditPurchaseOrder";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -139,6 +140,10 @@ const App = () => {
             element={<ViewPurchaseOrder />}
           />
           <Route path="/purchaseorderlist" element={<PurchaseOrderList />} />
+          <Route
+            path="/purchase_orders/manage_po/:id"
+            element={<EditPurchaseOrder />}
+          />
 
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
