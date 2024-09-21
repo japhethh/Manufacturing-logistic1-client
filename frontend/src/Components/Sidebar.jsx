@@ -501,10 +501,10 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-
             {/* Purchase Orders */}
             <li>
-              <details open
+              <details
+                open
                 className={`menu-item transition-all duration-300 ${
                   isCollapsed ? "hidden" : ""
                 }`}
@@ -522,48 +522,64 @@ const Sidebar = () => {
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Procurement Submenu Items */}
+                  {/* Purchase Order List */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="/PurchaseOrderList"
+                      className={({ isActive }) =>
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
+                          isActive
+                            ? "text-base-200 bg-blue-500 font-bold"
+                            : "text-black hover:bg-gray-100"
+                        }`
+                      }
+                    >
+                      <span className="text-base">Purchase Order List</span>
+                    </NavLink>
+                  </li>
+
+                  {/* Create Purchase Order */}
                   <li className="mt-1">
                     <NavLink
                       to="/CreatePurchaseOrder"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
+                          isActive
+                            ? "text-base-200 bg-blue-500 font-bold"
+                            : "text-black hover:bg-gray-100"
+                        }`
                       }
                     >
-                      <span className="text-base">Create Purchase Orders</span>
+                      <span className="text-base">Create Purchase Order</span>
                     </NavLink>
                   </li>
+
                   {/* Track Orders */}
                   <li className="mt-1">
                     <NavLink
-                      to="trackorders"
+                      to="/trackorders"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
+                          isActive
+                            ? "text-base-200 bg-blue-500 font-bold"
+                            : "text-black hover:bg-gray-100"
+                        }`
                       }
                     >
                       <span className="text-base">Track Orders</span>
                     </NavLink>
                   </li>
+
+                  {/* Order Fulfillment Status */}
                   <li className="mt-1">
                     <NavLink
-                      to="orderfulfillmentstatus"
+                      to="/orderfulfillmentstatus"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
+                          isActive
+                            ? "text-base-200 bg-blue-500 font-bold"
+                            : "text-black hover:bg-gray-100"
+                        }`
                       }
                     >
                       <span className="text-base">
@@ -571,6 +587,38 @@ const Sidebar = () => {
                       </span>
                     </NavLink>
                   </li>
+
+                  {/* Edit Purchase Order */}
+                  <li className="mt-1">
+                    <NavLink
+                      to="/EditPurchaseOrder"
+                      className={({ isActive }) =>
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
+                          isActive
+                            ? "text-base-200 bg-blue-500 font-bold"
+                            : "text-black hover:bg-gray-100"
+                        }`
+                      }
+                    >
+                      <span className="text-base">Edit Purchase Order</span>
+                    </NavLink>
+                  </li>
+
+                  {/* Purchase Order Reports
+                  <li className="mt-1">
+                    <NavLink
+                      to="/PurchaseOrderReports"
+                      className={({ isActive }) =>
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
+                          isActive
+                            ? "text-base-200 bg-blue-500 font-bold"
+                            : "text-black hover:bg-gray-100"
+                        }`
+                      }
+                    >
+                      <span className="text-base">Purchase Order Reports</span>
+                    </NavLink>
+                  </li> */}
                 </ul>
               </details>
             </li>
