@@ -8,36 +8,36 @@ const purchaseOrderSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
-    // rawmaterialRequest: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "RawmaterialRequest",
-    //   required: true,
-    // },
+    supplier: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Supplier",
+      required: true,
+    },
     items: [
       {
-        // material: {
-        //   type: mongoose.Schema.Types.ObjectId,
-        //   ref: "Material",
-        //   required: true,
-        // },
-        name:{type:String,required:true},
+        name: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
+        discount: { type: Number },
         totalPrice: {
           type: Number,
           required: true,
         },
       },
     ],
+    tax: { type: Number },
     totalAmount: {
       type: Number,
       required: true,
     },
+    notes: { type: String },
+    orderDate: { type: Date, default: Date.now },
     orderStatus: {
       type: String,
       enum: ["Pending", "Processing", "Completed"],
       default: "Pending",
     },
+    paymentTerm: { type: String, required: true },
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Rejected"],

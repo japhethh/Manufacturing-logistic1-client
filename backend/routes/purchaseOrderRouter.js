@@ -24,7 +24,7 @@ import authMiddleware from "../middleware/Auth.js";
 const purchaseOrderRouter = express.Router();
 
 // Get all purchase orders
-purchaseOrderRouter.get("/", authMiddleware, getAllPurchaseOrder);
+purchaseOrderRouter.get("/", getAllPurchaseOrder);
 purchaseOrderRouter.get("/auto-fill", autoFillPurchaseOrder);
 purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
 
