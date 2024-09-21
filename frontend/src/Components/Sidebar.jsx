@@ -69,7 +69,7 @@ const Sidebar = () => {
         className={`flex-1 transition-all duration-300 ${
           isCollapsed
             ? "overflow-y-hidden"
-            : "overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 px-4 "
+            : "overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 scrollbar-visible px-4 "
         }`}
       >
         {/* Dashboard Link */}

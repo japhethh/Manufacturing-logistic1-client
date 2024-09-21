@@ -100,7 +100,7 @@ const App = () => {
     <div className="flex min-h-screen" data-theme="light">
       <ToastContainer />
       {!token && location.pathname === "/login" ? null : <Sidebar />}
-      <div className="flex-col w-full">
+      <div className="flex-col w-full ">
         {!token && location.pathname === "/login" ? null : <Search />}
         <Routes>
           <Route path="/" element={<Dashboard />} />
