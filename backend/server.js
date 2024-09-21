@@ -10,7 +10,7 @@ import materialRouter from "./routes/materialRouter.js";
 import jwt from "jsonwebtoken";
 import purchaseOrderRouter from "./routes/purchaseOrderRouter.js";
 
-const port = "https://logistic1.jjm-manufacturing.com";
+const port = "https://manufacturing-logistic1-client-api.onrender.com";
 
 const app = express();
 
