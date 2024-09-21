@@ -4,7 +4,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/userContext";
-
 const PurchaseOrderEdit = () => {
   const context = useContext(UserContext);
   const navigate = useNavigate();
@@ -14,9 +13,11 @@ const PurchaseOrderEdit = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchSuppliers = async () => {
+
+
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/supplier/suppliers"
+        `${apiURL} /api/supplier/suppliers`
       );
       setSuppliers(response.data);
     } catch (error) {
