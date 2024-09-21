@@ -70,4 +70,13 @@ const getSpecificId = asyncHandler(async (req, res) => {
   }
 });
 
-export { requested, newRequested,fetchPurchaseOrder,getSpecificId };
+
+
+const deleteRequest = asyncHandler(async(req,res) => {
+  const {id} = req.params;
+  await rawmaterialModel.findByIdAndDelete(id);
+
+  res.status(200).json({success:true, message:"Deleted Successfully"});
+})
+
+export { requested, newRequested,fetchPurchaseOrder,getSpecificId,deleteRequest };
