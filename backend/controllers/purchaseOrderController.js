@@ -105,21 +105,36 @@ const getSpecificPurchaseOrder = asyncHandler(async (req, res) => {
 
 const updatePurchaseOrder = asyncHandler(async (req, res) => {
   try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const getPurchaseOrderId = await purchaseOrderModel.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    );
+    // console.log(getPurchaseOrderId._id)
+    res.status(200).json({
+      success: true,
+      message: "Update Successfully",
+      data: getPurchaseOrderId._id,
+    });
+    console.log(getPurchaseOrderId.id);
+  } catch (error) {
+    res.status(400).json("Errors fuckk");
+  }
+});
+
+const deletePurchaseOrder = asyncHandler(async (req,res) => {
   const { id } = req.params;
-  const updateData = req.body;
 
-  const getPurchaseOrderId = await purchaseOrderModel.findByIdAndUpdate(
-    id,
-    updateData,
-    { new: true }
-  );  
-// console.log(getPurchaseOrderId._id)  
-  res.status(200).json({success:true, message:"Update Successfully",data:getPurchaseOrderId._id})
-  console.log(getPurchaseOrderId.id)
-} catch (error) {
-  res.status(400).json("Errors fuckk");
-}
-
+  const Deleted = await purchaseOrderModel.findByIdAndDelete(id);
+  if (!Deleted) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Purchase Order Not Found" });
+  }
+  res.status(200).json({ success: true, message: "Deleted Successfully!" });
 });
 export {
   createPurchaseOrder,
@@ -127,4 +142,5 @@ export {
   fetchSpecificPo,
   getSpecificPurchaseOrder,
   updatePurchaseOrder,
+  deletePurchaseOrder,
 };

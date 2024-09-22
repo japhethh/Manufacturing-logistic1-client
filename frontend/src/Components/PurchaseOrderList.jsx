@@ -1,220 +1,119 @@
-
-
 import { useNavigate } from "react-router-dom";
-const PurchaseOrderList = () => {
+import { UserContext } from "../context/userContext";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
+const PurchaseOrderList = () => {
+  const { apiURL, token } = useContext(UserContext);
   const navigate = useNavigate();
+  const [purchaseOrderData, setPurchaseOrderData] = useState([]);
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  useEffect(() => {
+    fetchPurchaseOrder();
+  }, []);
+
+  const fetchPurchaseOrder = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/api/purchase-order/`);
+      setPurchaseOrderData(response.data);
+    } catch (error) {
+      toast.error("Error fetching purchase orders.");
+    }
+  };
+
+  const deletePurchaseOrder = async () => {
+    try {
+      await axios.post(`${apiURL}/api/purchase-order/delete/${selectedOrderId}`);
+      fetchPurchaseOrder();
+      toast.success("Purchase Order deleted successfully.");
+      setShowModal(false);
+    } catch (error) {
+      toast.error("Failed to delete purchase order.");
+    }
+  };
+
+  const handleDeleteClick = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowModal(true);
+  };
+
   return (
-    <div className="p-2 ">
-        <button className="px-4 bg-blue-700 text-white py-2 rounded-full mb-2 mt-4" onClick={() => navigate("/createpurchaseorder")}>Create Purchase Order</button>
-      <div className="overflow-x-auto border border-lg my-5">
-        <table className="table table-xs">
+    <div className="p-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Purchase Orders</h1>
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded-full"
+          onClick={() => navigate("/createpurchaseorder")}
+        >
+          + Create Purchase Order
+        </button>
+      </div>
+
+      <div className="overflow-x-auto mt-6 border border-gray-200 shadow-sm">
+        <table className="min-w-full bg-white">
           <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>company</th>
-              <th>location</th>
-              <th>Last Login</th>
-              <th>Favorite Color</th>
+            <tr className="bg-gray-100 text-left">
+              <th className="py-2 px-4">#</th>
+              <th className="py-2 px-4">PO Number</th>
+              <th className="py-2 px-4">Supplier</th>
+              <th className="py-2 px-4">Total Amount</th>
+              <th className="py-2 px-4">Status</th>
+              <th className="py-2 px-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Littel, Schaden and Vandervort</td>
-              <td>Canada</td>
-              <td>12/16/2020</td>
-              <td>Blue</td>
-            </tr>
-            <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Zemlak, Daniel and Leannon</td>
-              <td>United States</td>
-              <td>12/5/2020</td>
-              <td>Purple</td>
-            </tr>
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Carroll Group</td>
-              <td>China</td>
-              <td>8/15/2020</td>
-              <td>Red</td>
-            </tr>
-            <tr>
-              <th>4</th>
-              <td>Marjy Ferencz</td>
-              <td>Office Assistant I</td>
-              <td>Rowe-Schoen</td>
-              <td>Russia</td>
-              <td>3/25/2021</td>
-              <td>Crimson</td>
-            </tr>
-            <tr>
-              <th>5</th>
-              <td>Yancy Tear</td>
-              <td>Community Outreach Specialist</td>
-              <td>Wyman-Ledner</td>
-              <td>Brazil</td>
-              <td>5/22/2020</td>
-              <td>Indigo</td>
-            </tr>
-            <tr>
-              <th>6</th>
-              <td>Irma Vasilik</td>
-              <td>Editor</td>
-              <td>Wiza, Bins and Emard</td>
-              <td>Venezuela</td>
-              <td>12/8/2020</td>
-              <td>Purple</td>
-            </tr>
-            <tr>
-              <th>7</th>
-              <td>Meghann Durtnal</td>
-              <td>Staff Accountant IV</td>
-              <td>Schuster-Schimmel</td>
-              <td>Philippines</td>
-              <td>2/17/2021</td>
-              <td>Yellow</td>
-            </tr>
-            <tr>
-              <th>8</th>
-              <td>Sammy Seston</td>
-              <td>Accountant I</td>
-              <td>OHara, Welch and Keebler</td>
-              <td>Indonesia</td>
-              <td>5/23/2020</td>
-              <td>Crimson</td>
-            </tr>
-            <tr>
-              <th>9</th>
-              <td>Lesya Tinham</td>
-              <td>Safety Technician IV</td>
-              <td>Turner-Kuhlman</td>
-              <td>Philippines</td>
-              <td>2/21/2021</td>
-              <td>Maroon</td>
-            </tr>
-            <tr>
-              <th>10</th>
-              <td>Zaneta Tewkesbury</td>
-              <td>VP Marketing</td>
-              <td>Sauer LLC</td>
-              <td>Chad</td>
-              <td>6/23/2020</td>
-              <td>Green</td>
-            </tr>
-            <tr>
-              <th>11</th>
-              <td>Andy Tipple</td>
-              <td>Librarian</td>
-              <td>Hilpert Group</td>
-              <td>Poland</td>
-              <td>7/9/2020</td>
-              <td>Indigo</td>
-            </tr>
-            <tr>
-              <th>12</th>
-              <td>Sophi Biles</td>
-              <td>Recruiting Manager</td>
-              <td>Gutmann Inc</td>
-              <td>Indonesia</td>
-              <td>2/12/2021</td>
-              <td>Maroon</td>
-            </tr>
-            <tr>
-              <th>13</th>
-              <td>Florida Garces</td>
-              <td>Web Developer IV</td>
-              <td>Gaylord, Pacocha and Baumbach</td>
-              <td>Poland</td>
-              <td>5/31/2020</td>
-              <td>Purple</td>
-            </tr>
-            <tr>
-              <th>14</th>
-              <td>Maribeth Popping</td>
-              <td>Analyst Programmer</td>
-              <td>Deckow-Pouros</td>
-              <td>Portugal</td>
-              <td>4/27/2021</td>
-              <td>Aquamarine</td>
-            </tr>
-            <tr>
-              <th>15</th>
-              <td>Moritz Dryburgh</td>
-              <td>Dental Hygienist</td>
-              <td>Schiller, Cole and Hackett</td>
-              <td>Sri Lanka</td>
-              <td>8/8/2020</td>
-              <td>Crimson</td>
-            </tr>
-            <tr>
-              <th>16</th>
-              <td>Reid Semiras</td>
-              <td>Teacher</td>
-              <td>Sporer, Sipes and Rogahn</td>
-              <td>Poland</td>
-              <td>7/30/2020</td>
-              <td>Green</td>
-            </tr>
-            <tr>
-              <th>17</th>
-              <td>Alec Lethby</td>
-              <td>Teacher</td>
-              <td>Reichel, Glover and Hamill</td>
-              <td>China</td>
-              <td>2/28/2021</td>
-              <td>Khaki</td>
-            </tr>
-            <tr>
-              <th>18</th>
-              <td>Aland Wilber</td>
-              <td>Quality Control Specialist</td>
-              <td>Kshlerin, Rogahn and Swaniawski</td>
-              <td>Czech Republic</td>
-              <td>9/29/2020</td>
-              <td>Purple</td>
-            </tr>
-            <tr>
-              <th>19</th>
-              <td>Teddie Duerden</td>
-              <td>Staff Accountant III</td>
-              <td>Pouros, Ullrich and Windler</td>
-              <td>France</td>
-              <td>10/27/2020</td>
-              <td>Aquamarine</td>
-            </tr>
-            <tr>
-              <th>20</th>
-              <td>Lorelei Blackstone</td>
-              <td>Data Coordiator</td>
-              <td>Witting, Kutch and Greenfelder</td>
-              <td>Kazakhstan</td>
-              <td>6/3/2020</td>
-              <td>Red</td>
-            </tr>
+            {purchaseOrderData.map((order, index) => (
+              <tr key={order._id} className="border-b">
+                <td className="py-2 px-4">{index + 1}</td>
+                <td className="py-2 px-4">{order.purchaseOrderNumber}</td>
+                <td className="py-2 px-4">{order.supplier?.supplierName || "N/A"}</td>
+                <td className="py-2 px-4">{order.totalAmount}</td>
+                <td className="py-2 px-4">{order.orderStatus}</td>
+                <td className="py-2 px-4 flex space-x-2">
+                  <button
+                    className="bg-green-600 text-white px-4 py-2 rounded"
+                    onClick={() => navigate(`/purchase_orders/view_po/${order._id}`)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="bg-red-600 text-white px-4 py-2 rounded"
+                    onClick={() => handleDeleteClick(order._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>company</th>
-              <th>location</th>
-              <th>Last Login</th>
-              <th>Favorite Color</th>
-            </tr>
-          </tfoot>
         </table>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+            <p>Are you sure you want to delete this purchase order?</p>
+            <div className="mt-4 flex justify-end space-x-2">
+              <button
+                className="bg-gray-300 px-4 py-2 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded"
+                onClick={deletePurchaseOrder}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

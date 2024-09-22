@@ -38,7 +38,7 @@ const Store = create((set) => ({
     // getAllUsers
     try {
       set({ loading: true });
-      const response = await axios.get(`${apiUrl}/api/user/getAllUsers`);
+      const response = await axios.get(`${apiURL}/api/user/getAllUsers`);
 
       set({ allUsers: response.data.data, loading: false, error: null });
     } catch (error) {

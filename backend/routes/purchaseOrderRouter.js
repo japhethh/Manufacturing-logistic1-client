@@ -22,6 +22,7 @@ import {
   fetchSpecificPo,
   getSpecificPurchaseOrder,
   updatePurchaseOrder,
+  deletePurchaseOrder,
 } from "../controllers/purchaseOrderController.js";
 import authMiddleware from "../middleware/Auth.js";
 
@@ -35,5 +36,6 @@ purchaseOrderRouter.put("/update/:id", authMiddleware, updatePurchaseOrder);
 
 purchaseOrderRouter.get("/auto-fill", autoFillPurchaseOrder);
 purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
+purchaseOrderRouter.post("/delete/:id", deletePurchaseOrder);
 
 export default purchaseOrderRouter;
