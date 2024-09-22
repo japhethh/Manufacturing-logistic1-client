@@ -8,15 +8,18 @@ import DashboardVendor from './Components/DashboardVendor';
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/sendemail" element={<SendEmail />} />
-        <Route path="/sidebarvendor" element={<SidebarVendor />} />
-        <Route path="/dashboardvendor" element={<DashboardVendor />} />
-
-
-      </Routes>
+      <div className="flex">
+        <SidebarVendor />
+        <div className="flex-grow p-4">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/sendemail" element={<SendEmail />} />
+            <Route path="/dashboardvendor" element={<DashboardVendor />} />
+            {/* Add more vendor routes here */}
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 };

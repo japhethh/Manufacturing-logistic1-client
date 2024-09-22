@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
-import layout from "./Assets/layout.png";
+import vendor from "./Assets/vendor.png";
 import {
   MdOutlineScreenshotMonitor,
   MdOutlineSupportAgent,
@@ -42,7 +42,7 @@ const Sidebar = () => {
       aria-label="Sidebar"
     >
       {/* Sidebar toggle button */}
-      <div className="flex justify-end m-1 mb-4">
+      <div className="flex justify-end m-1 mb-2">
         <button
           onClick={toggleSidebar}
           className="p-1 text-black transition duration-200 border border-gray-300 rounded-md hover:bg-gray-200 w-11"
@@ -55,10 +55,10 @@ const Sidebar = () => {
 
       {/* Dashboard Logo */}
       <div
-        className="flex items-center justify-center gap-2 mb-8 cursor-pointer"
+        className="flex items-center justify-center gap-2 mb-2 cursor-pointer"
         aria-label="Dashboard Logo"
       >
-        <img src={layout} alt="Dashboard logo" className="w-7 h-7" />
+        <img src={vendor} alt="Dashboard logo" className="w-16" />
         {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
 
