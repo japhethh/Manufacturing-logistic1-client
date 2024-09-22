@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-
+import { NavLink } from "react-router-dom";
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -65,14 +64,14 @@ const Login = () => {
                 Remember me
               </label>
             </div>
-            <Link to="/register">
+            <NavLink to="/sendemail">
               <a
                 href="#"
                 className="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Create Account
               </a>
-            </Link>
+            </NavLink>
           </div>
           <button
             type="submit"
