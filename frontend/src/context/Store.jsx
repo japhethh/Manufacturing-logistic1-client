@@ -4,7 +4,11 @@ import axios from "axios";
 const apiURL =
   window.location.hostname === "localhost"
     ? "http://localhost:4000"
-    : "https://logistic1.jjm-manufacturing.com";
+    : "https://manufacturing-logistic1-client-api.onrender.com";
+// const apiURL =
+//   window.location.hostname === "localhost"
+//     ? "http://localhost:4000"
+//     : "https://logistic1.jjm-manufacturing.com";
     // const apiURL = "https://logistic1.jjm-manufacturing.com";
 
 const Store = create((set) => ({
