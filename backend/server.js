@@ -14,13 +14,13 @@ const port = process.env.PORT || 4000;
 
 const app = express();
 
-// app.use(cors());
-app.use(
-  cors({
-    origin: ["http://localhost:5173","https://manufacturing-logistic1-client-frontend.onrender.com"], // Allow both local and production
-    credentials: true,
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173","https://manufacturing-logistic1-client-frontend.onrender.com"], // Allow both local and production
+//     credentials: true,
+//   })
+// );
 
 app.use(express.json());
 
