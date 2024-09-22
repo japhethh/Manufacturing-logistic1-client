@@ -5,7 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const PurchaseOrderList = () => {
-  const { apiURL, token } = useContext(UserContext);
+  // token
+  const { apiURL  } = useContext(UserContext);
   const navigate = useNavigate();
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
   const [showModal, setShowModal] = useState(false); 

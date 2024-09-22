@@ -144,7 +144,7 @@ const RawMaterialRequest = () => {
                     <td className="py-2 px-4">{request.requestedBy}</td>
                     <td className="py-2 px-4">{request.priority}</td>
                     <td className="py-2 px-4">
-                      {request.material.map((material, idx) => (
+                      {request.material.map((material) => (
                         <div key={material._id}>
                           {material.materialName} (Qty: {material.quantity}{" "}
                           {material.unit})
