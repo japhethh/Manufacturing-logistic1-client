@@ -27,6 +27,8 @@ import PurchaseOrderEdit from "./Components/PurchaseOrderEdit";
 import ViewPurchaseOrder from "./Components/ViewPurchaseOrder";
 import PurchaseOrderList from "./Components/PurchaseOrderList";
 import EditPurchaseOrder from "./Components/EditPurchaseOrder";
+import RegistrationRequest from "./Components/RegistrationRequest";
+import ComplianceVerification from "./Components/ComplianceVerification";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -144,6 +146,9 @@ const App = () => {
             path="/purchase_orders/manage_po/:id"
             element={<EditPurchaseOrder />}
           />
+          <Route path="/registrationrequest" element={<RegistrationRequest />} />
+          <Route path="/complianceverification" element={<ComplianceVerification />} />
+
 
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
