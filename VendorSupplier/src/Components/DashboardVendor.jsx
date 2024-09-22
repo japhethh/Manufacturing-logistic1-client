@@ -35,6 +35,7 @@ const DashboardVendor = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Vendor Supplier Dashboard</h1>
 
+      {/* CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
           <h2 className="text-xl font-semibold text-gray-700">Total Vendors</h2>
