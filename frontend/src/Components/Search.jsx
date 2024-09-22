@@ -3,7 +3,7 @@ import { IoIosMenu } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import MobileSidebar from "./MobileSidebar";
-import Store from "../context/store";
+import Store from "../context/Store";
 
 const Search = () => {
   const { userData } = Store();  // Access global state and actions
