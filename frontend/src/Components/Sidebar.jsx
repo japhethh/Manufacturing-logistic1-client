@@ -762,7 +762,7 @@ const Sidebar = () => {
                   {/* Procurement Submenu Items */}
                   <li className="mt-1">
                     <NavLink
-                      to="rawmaterialrequest"
+                      to="registrationrequest"
                       className={({ isActive }) =>
                         isActive
                           ? "text-base-200 bg-blue-500 font-bold"
