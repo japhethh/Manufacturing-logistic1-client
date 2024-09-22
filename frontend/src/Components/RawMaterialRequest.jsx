@@ -29,6 +29,8 @@ const RawMaterialRequest = () => {
     }
   };
 
+  console.log(requests);
+
   const openDeleteModal = (id) => {
     setDeleteRequestId(id);
     setModalOpen(true);
@@ -44,6 +46,41 @@ const RawMaterialRequest = () => {
     } finally {
       setModalOpen(false);
     }
+  };
+
+  // Function to handle status change
+  const handleStatusChange = async (requestId, newStatus) => {
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/rawmaterial/updateStatus/${requestId}`,
+        {
+          requestStatus: newStatus,
+        }
+      );
+      if (response.data.success) {
+        fetchRequests(); // Refresh the list after updating
+        toast.success("Request status updated successfully.");
+      }
+    } catch (error) {
+      toast.error("Error updating request status.");
+    }
+  };
+
+  const handleEdit = async (hakdog) => {
+    const requestData = {
+      supplier: hakdog.supplier, // Adjust according to your data structure
+      orderDate: new Date(),
+      items: hakdog.material.map((material) => ({
+        name: material.materialName,
+        quantity: material.quantity,
+        price: 0, // Set a default or retrieve price if available
+        discount: 0, // Default discount
+      })),
+      tax: 0, // Set a default tax
+      notes: "", // Optionally set notes
+      paymentTerm: "", // Optionally set payment term
+    };
+    navigate(`/purchase-order/edit`, { state: { requestData } });
   };
 
   return (
@@ -72,7 +109,7 @@ const RawMaterialRequest = () => {
                 <th className="py-2 px-4">Status</th>
                 <th className="py-2 px-4">Requested By</th>
                 <th className="py-2 px-4">Priority</th>
-                <th className="py-2 px-4">Material</th>
+                <th className="py-2 px-4">Materials</th>
                 <th className="py-2 px-4">Actions</th>
               </tr>
             </thead>
@@ -81,15 +118,43 @@ const RawMaterialRequest = () => {
                 requests.map((request, index) => (
                   <tr key={request._id} className="border-b">
                     <td className="py-2 px-4">{index + 1}</td>
-                    <td className="py-2 px-4">{request.requestDate}</td>
-                    <td className="py-2 px-4">{request.requestStatus}</td>
+                    <td className="py-2 px-4">
+                      {new Date(request.requestDate).toLocaleString()}
+                    </td>
+                    {/* <td className="py-2 px-4">{request.requestStatus}</td> */}
+                    <td className="px-4 py-2 border">
+                      <select
+                        value={request.requestStatus}
+                        onChange={(e) =>
+                          handleStatusChange(request._id, e.target.value)
+                        }
+                        className={`rounded-full px-2 py-1 font-semibold text-base-200 ${
+                          request.requestStatus === "Pending"
+                            ? "bg-yellow-500"
+                            : request.requestStatus === "Approved"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </td>
                     <td className="py-2 px-4">{request.requestedBy}</td>
                     <td className="py-2 px-4">{request.priority}</td>
-                    <td className="py-2 px-4">{request.materialName}</td>
+                    <td className="py-2 px-4">
+                      {request.material.map((material, idx) => (
+                        <div key={material._id}>
+                          {material.materialName} (Qty: {material.quantity}{" "}
+                          {material.unit})
+                        </div>
+                      ))}
+                    </td>
                     <td className="py-2 px-4 flex gap-2">
                       <button
                         className="bg-green-600 text-white px-4 py-2 rounded"
-                        onClick={() => navigate(`/purchase-order/edit/${request._id}`)}
+                        onClick={() => handleEdit(request)}
                       >
                         Create PO
                       </button>

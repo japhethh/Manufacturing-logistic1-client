@@ -29,6 +29,7 @@ import PurchaseOrderList from "./Components/PurchaseOrderList";
 import EditPurchaseOrder from "./Components/EditPurchaseOrder";
 import RegistrationRequest from "./Components/RegistrationRequest";
 import ComplianceVerification from "./Components/ComplianceVerification";
+import AutoFillPurchaseOrder from "./Components/AutoFillPurchaseOrder";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -134,8 +135,8 @@ const App = () => {
             element={<RenewalsExpirations />}
           />
           <Route
-            path="/purchase-order/edit/:purchaseOrderId"
-            element={<PurchaseOrderEdit />}
+            path="/purchase-order/edit"
+            element={<AutoFillPurchaseOrder />}
           />
           <Route
             path="/purchase_orders/view_po/:id"
