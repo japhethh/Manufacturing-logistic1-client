@@ -3,7 +3,6 @@
 // import {createPurchaseOrder} from '../controllers/purchaseOrderController.js'
 // import authMiddleware from "../middleware/Auth.js";
 
-
 // const purchaseOrderRouter = express.Router();
 
 // // purchaseOrderRouter.get("/", getAllPurchaseOrder);
@@ -15,10 +14,15 @@
 
 // export default purchaseOrderRouter;
 
-
 import express from "express";
 import { autoFillPurchaseOrder } from "../controllers/autoFill.js";
-import { createPurchaseOrder, getAllPurchaseOrder,fetchSpecificPo } from '../controllers/purchaseOrderController.js';
+import {
+  createPurchaseOrder,
+  getAllPurchaseOrder,
+  fetchSpecificPo,
+  getSpecificPurchaseOrder,
+  updatePurchaseOrder,
+} from "../controllers/purchaseOrderController.js";
 import authMiddleware from "../middleware/Auth.js";
 
 const purchaseOrderRouter = express.Router();
@@ -26,6 +30,9 @@ const purchaseOrderRouter = express.Router();
 // Get all purchase orders
 purchaseOrderRouter.get("/", getAllPurchaseOrder);
 purchaseOrderRouter.get("/:id", fetchSpecificPo);
+purchaseOrderRouter.get("/edit/:id", getSpecificPurchaseOrder);
+purchaseOrderRouter.put("/update/:id", authMiddleware, updatePurchaseOrder);
+
 purchaseOrderRouter.get("/auto-fill", autoFillPurchaseOrder);
 purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
 

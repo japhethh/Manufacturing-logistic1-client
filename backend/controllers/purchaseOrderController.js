@@ -73,18 +73,58 @@ const fetchSpecificPo = asyncHandler(async (req, res) => {
   try {
     console.log(id);
 
-    const PO = await purchaseOrderModel.findById(id).populate("supplier", "supplierName contactEmail contactPhone paymentTerms address");
+    const PO = await purchaseOrderModel
+      .findById(id)
+      .populate(
+        "supplier",
+        "supplierName contactEmail contactPhone paymentTerms address"
+      );
 
     if (!PO) {
       return res
         .status(400)
         .json({ success: false, message: "Purchase order Not Found" });
     }
-    
-    res.status(200).json(PO)
+
+    res.status(200).json(PO);
   } catch (error) {
     console.log("Errors");
   }
 });
+const getSpecificPurchaseOrder = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const info = await purchaseOrderModel.findById(id);
 
-export { createPurchaseOrder, getAllPurchaseOrder, fetchSpecificPo };
+  if (!info) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Purchase Id Not Found" });
+  }
+  res.status(200).json(info);
+});
+
+const updatePurchaseOrder = asyncHandler(async (req, res) => {
+  try {
+  const { id } = req.params;
+  const updateData = req.body;
+
+  const getPurchaseOrderId = await purchaseOrderModel.findByIdAndUpdate(
+    id,
+    updateData,
+    { new: true }
+  );  
+// console.log(getPurchaseOrderId._id)  
+  res.status(200).json({success:true, message:"Update Successfully",data:getPurchaseOrderId._id})
+  console.log(getPurchaseOrderId.id)
+} catch (error) {
+  res.status(400).json("Errors fuckk");
+}
+
+});
+export {
+  createPurchaseOrder,
+  getAllPurchaseOrder,
+  fetchSpecificPo,
+  getSpecificPurchaseOrder,
+  updatePurchaseOrder,
+};

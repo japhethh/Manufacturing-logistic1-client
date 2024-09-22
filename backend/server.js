@@ -13,7 +13,15 @@ import purchaseOrderRouter from "./routes/purchaseOrderRouter.js";
 const port = process.env.PORT || 4000;
 
 const app = express();
-app.use(cors());
+
+// app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173","https://logistic1.jjm-manufacturing.com"], // Allow both local and production
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 ConnectDB();
@@ -42,9 +50,10 @@ app.post("/api/verifyToken", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/rawmaterial", rawmaterialRouter);
-app.use("/api/purchase-order",purchaseOrderRouter)
+app.use("/api/purchase-order", purchaseOrderRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/material", materialRouter);
+
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });

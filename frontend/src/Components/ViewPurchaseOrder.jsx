@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -11,6 +12,8 @@ const ViewPurchaseOrder = () => {
   const [purchaseOrder, setPurchaseOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPurchaseOrder = async () => {
@@ -137,6 +140,9 @@ const ViewPurchaseOrder = () => {
   const handlePrint = () => {
     window.print();
   };
+  const handleEdit = () => {
+    navigate(`/purchase_orders/manage_po/${id}`)
+    };
 
   if (loading) return <div className="text-center py-4">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
@@ -149,6 +155,9 @@ const ViewPurchaseOrder = () => {
         </button>
         <button onClick={handlePrint} className="btn btn-secondary">
           Print
+        </button>
+        <button onClick={handleEdit} className="btn btn-secondary">
+          Edit
         </button>
       </div>
 

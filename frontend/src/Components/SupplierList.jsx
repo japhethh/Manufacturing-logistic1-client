@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import { UserContext } from "../context/userContext";
+import { useContext } from "react";
 const SupplierList = () => {
+  const { apiURL } = useContext(UserContext);
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,9 +11,7 @@ const SupplierList = () => {
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/supplier/suppliers"
-        );
+        const response = await axios.get(`${apiURL}/api/supplier/suppliers`);
         setSuppliers(response.data);
       } catch (error) {
         setError("Error fetching suppliers. Please try again later.");
@@ -59,13 +59,25 @@ const SupplierList = () => {
                 suppliers.map((supplier, index) => (
                   <tr key={index}>
                     <th className="px-4 py-2">{index + 1}</th>
-                    <td className="px-4 py-2 border">{supplier.supplierName}</td>
-                    <td className="px-4 py-2 border">{supplier.supplierCode}</td>
-                    <td className="px-4 py-2 border">{supplier.contactPerson}</td>
-                    <td className="px-4 py-2 border">{supplier.contactEmail}</td>
-                    <td className="px-4 py-2 border">{supplier.contactPhone}</td>
+                    <td className="px-4 py-2 border">
+                      {supplier.supplierName}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.supplierCode}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.contactPerson}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.contactEmail}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {supplier.contactPhone}
+                    </td>
                     <td className="px-4 py-2 border">{`${supplier.address.street}, ${supplier.address.city}`}</td>
-                    <td className="px-4 py-2 border">{supplier.paymentTerms}</td>
+                    <td className="px-4 py-2 border">
+                      {supplier.paymentTerms}
+                    </td>
                     <td className="px-4 py-2 border">{supplier.rating}</td>
                     <td className="px-4 py-2 border">
                       {supplier.materialSupplied &&
