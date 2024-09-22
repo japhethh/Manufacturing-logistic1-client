@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../context/userContext";
-import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import NotificationService from "../services/NotificationService";
 
