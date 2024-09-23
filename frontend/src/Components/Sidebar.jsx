@@ -337,112 +337,52 @@ const Sidebar = () => {
           >
             Procurement
           </p>
-
+          {/* Procurement Dropdown */}
           <ul className="w-full menu rounded-box">
-            {/* Procurement Dropdown */}
-
-            <li>
-              {/*   Purchase Requisitions */}
-              <details
-                open
-                className={`menu-item ${isCollapsed ? "hidden" : ""}`}
-              >
-                <summary className="flex items-center gap-2 cursor-pointer">
+            {/* Purchase Requisitions */}
+            <NavLink to="rawmaterialrequest">
+              <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <div className="flex items-center cursor-pointer">
                   <BiPurchaseTagAlt
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="text-base font-semibold">
                       Purchase Requisitions
                     </span>
                   )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Procurement Submenu Items */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="rawmaterialrequest"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-                        ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
-                      }
-                    >
-                      <span className="text-base">Raw Material List</span>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <NavLink
-                      to="purchaseorder"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-                        ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
-                      }
-                    >
-                      <span className="text-base">Create Request</span>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            {/*  Suppliers */}
-            <li>
-              <details
-                open
-                className={`menu-item transition-all duration-300 ${
-                  isCollapsed ? "hidden" : ""
-                }`}
+                </div>
+              </li>
+            </NavLink>
+
+            {/* Suppliers */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="supplierlist"
+                className={({ isActive }) =>
+                  `flex items-center gap-2  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
               >
-                <summary
-                  open
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <BsBoxSeam
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
-                      Suppliers
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
-                      }
-                    >
-                      <span className="text-base">Approved Supplier List</span>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <a
-                      href="#submenu2"
-                      className="flex items-center justify-between p-2 rounded-md text-base hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-                    >
-                      Performance Metrics
-                    </a>
-                  </li>
-                </ul>
-              </details>
+                <BsBoxSeam
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">Suppliers</span>
+                )}
+              </NavLink>
             </li>
 
             {/* Quotation */}
@@ -459,23 +399,21 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
-                      Quotation
-                    </span>
+                    <span className="text-base font-semibold">Quotation</span>
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Procurement Submenu Items */}
+                  {/* Request For Quotations */}
                   <li className="mt-1">
                     <NavLink
                       to="rawmaterialrequest"
                       className={({ isActive }) =>
                         `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">
@@ -483,16 +421,17 @@ const Sidebar = () => {
                       </span>
                     </NavLink>
                   </li>
+                  {/* Compare Supplier Quotes */}
                   <li className="mt-1">
                     <NavLink
                       to="purchaseorder"
                       className={({ isActive }) =>
                         `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">Compare Supplier Quotes</span>
@@ -501,6 +440,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+
             {/* Purchase Orders */}
             <li>
               <details
@@ -516,7 +456,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="text-base font-semibold">
                       Purchase Orders
                     </span>
                   )}
@@ -527,59 +467,60 @@ const Sidebar = () => {
                     <NavLink
                       to="/purchaseOrderList"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">Purchase Order List</span>
                     </NavLink>
                   </li>
-
                   {/* Create Purchase Order */}
                   <li className="mt-1">
                     <NavLink
                       to="/CreatePurchaseOrder"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">Create Purchase Order</span>
                     </NavLink>
                   </li>
-
                   {/* Track Orders */}
                   <li className="mt-1">
                     <NavLink
                       to="/trackorders"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">Track Orders</span>
                     </NavLink>
                   </li>
-
                   {/* Order Fulfillment Status */}
                   <li className="mt-1">
                     <NavLink
                       to="/orderfulfillmentstatus"
                       className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
+                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">
@@ -587,38 +528,6 @@ const Sidebar = () => {
                       </span>
                     </NavLink>
                   </li>
-
-                  {/* Edit Purchase Order */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="/EditPurchaseOrder"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
-                      }
-                    >
-                      <span className="text-base">Edit Purchase Order</span>
-                    </NavLink>
-                  </li>
-
-                  {/* Purchase Order Reports
-                  <li className="mt-1">
-                    <NavLink
-                      to="/PurchaseOrderReports"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out ${
-                          isActive
-                            ? "text-base-200 bg-blue-500 font-bold"
-                            : "text-black hover:bg-gray-100"
-                        }`
-                      }
-                    >
-                      <span className="text-base">Purchase Order Reports</span>
-                    </NavLink>
-                  </li> */}
                 </ul>
               </details>
             </li>
@@ -637,38 +546,37 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
-                      Contact
-                    </span>
+                    <span className="text-base font-semibold">Contact</span>
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Procurement Submenu Items */}
+                  {/* View Contacts */}
                   <li className="mt-1">
                     <NavLink
                       to="viewcontacts"
                       className={({ isActive }) =>
                         `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">View Contacts</span>
                     </NavLink>
                   </li>
+                  {/* Renewals & Expirations */}
                   <li className="mt-1">
                     <NavLink
                       to="renewalsexpirations"
                       className={({ isActive }) =>
                         `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                       }
                     >
                       <span className="text-base">Renewals & Expirations</span>
@@ -679,58 +587,23 @@ const Sidebar = () => {
             </li>
 
             {/* Budget Approval */}
-            <li>
-              <details
-                className={`menu-item transition-all duration-300 ${
-                  isCollapsed ? "hidden" : ""
-                }`}
-              >
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <GiTakeMyMoney
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
-                      Budget Approval
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Procurement Submenu Items */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="submit-for-approval"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
-                      }
-                    >
-                      <span className="text-base">Submit For Approval</span>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <NavLink
-                      to="approval-history"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-            ${
-              isActive
-                ? "text-base-200 bg-blue-500 font-bold"
-                : "text-black hover:bg-gray-100"
-            }`
-                      }
-                    >
-                      <span className="text-base">Approval History</span>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <div className="flex items-center gap-2 cursor-pointer">
+                <GiTakeMyMoney
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Budget Approval
+                  </span>
+                )}
+              </div>
             </li>
           </ul>
 

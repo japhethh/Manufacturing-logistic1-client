@@ -6,7 +6,7 @@ import Log from "./Components/Authentication/Log";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
 import RawMaterialRequest from "./Components/RawMaterialRequest";
-import PurchaseOrder from "./Components/PurchaseOrder";
+
 import SupplierList from "./Components/SupplierList";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
@@ -110,7 +110,7 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
           <Route path="/supplierlist" element={<SupplierList />} />
-          <Route path="/purchaseorder" element={<PurchaseOrder />} />
+
           <Route path="/login" element={<Log />} />
           <Route path="/user" element={<User />} />
           <Route path="/user/createuser" element={<CreateUser />} />
