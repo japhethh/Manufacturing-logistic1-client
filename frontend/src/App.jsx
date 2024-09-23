@@ -147,9 +147,14 @@ const App = () => {
             path="/purchase_orders/manage_po/:id"
             element={<EditPurchaseOrder />}
           />
-          <Route path="/registrationrequest" element={<RegistrationRequest />} />
-          <Route path="/complianceverification" element={<ComplianceVerification />} />
-
+          <Route
+            path="/registrationrequest"
+            element={<RegistrationRequest />}
+          />
+          <Route
+            path="/complianceverification"
+            element={<ComplianceVerification />}
+          />
 
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />

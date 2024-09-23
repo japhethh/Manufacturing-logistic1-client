@@ -1,9 +1,13 @@
+import { FaWineGlassEmpty } from "react-icons/fa6";
 import supplierModel from "../models/supplierModel.js";
 import asyncHandler from "express-async-handler";
 
 const getAllSupplier = asyncHandler(async (req, res) => {
   try {
-    const suppliers = await supplierModel.find().populate("materialSupplied");
+    const suppliers = await supplierModel
+      .find()
+      .populate("materialSupplied")
+      .sort({ orderDate: -1 });
     // .populate('materialsSupplied');
     res.json(suppliers);
   } catch (error) {
@@ -100,5 +104,23 @@ const updateSupplier = asyncHandler(async (req, res) => {
 });
 
 // Supplier Delete
+const deleteSupplier = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const supplier = await supplierModel.findByIdAndDelete(id);
 
-export { getAllSupplier, getSupplierById, createSupplier, updateSupplier };
+  if (!supplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier Not Found" });
+  }
+
+  res.status(200).json({ success: true, message: "Deleted Successfully!" });
+});
+
+export {
+  getAllSupplier,
+  getSupplierById,
+  createSupplier,
+  updateSupplier,
+  deleteSupplier,
+};

@@ -41,7 +41,7 @@ const createMaterial = asyncHandler(async (req, res) => {
 
 // Get all material
 const getAllMaterial = asyncHandler(async (req, res) => {
-  const materials = await MaterialModel.find({}).populate("supplier");
+  const materials = await MaterialModel.find({}).populate("supplier").sort({ orderDate: -1 });;
   res.status(200).json(materials);
 });
 // Get a single material ID

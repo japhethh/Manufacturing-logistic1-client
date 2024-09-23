@@ -58,7 +58,8 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
     const purchaseOrders = await purchaseOrderModel
       .find()
       .populate("createdBy", "name email")
-      .populate("supplier"); // Populate the createdBy field with user info
+      .populate("supplier")
+      .sort({ orderDate: -1 }); // Populate the createdBy field with user info
     // .populate("rawmaterialRequest", "name description"); // Populate the raw material request
 
     res.status(200).json(purchaseOrders);
@@ -125,7 +126,7 @@ const updatePurchaseOrder = asyncHandler(async (req, res) => {
   }
 });
 
-const deletePurchaseOrder = asyncHandler(async (req,res) => {
+const deletePurchaseOrder = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const Deleted = await purchaseOrderModel.findByIdAndDelete(id);
