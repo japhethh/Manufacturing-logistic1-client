@@ -11,6 +11,13 @@ const RawMaterialRequest = () => {
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteRequestId, setDeleteRequestId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  // Pagination and sorting states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [sortConfig, setSortConfig] = useState({ key: "requestDate", direction: "ascending" });
+
   const navigate = useNavigate();
   const { apiURL } = useContext(UserContext);
 
@@ -29,8 +36,6 @@ const RawMaterialRequest = () => {
     }
   };
 
-  console.log(requests);
-
   const openDeleteModal = (id) => {
     setDeleteRequestId(id);
     setModalOpen(true);
@@ -48,17 +53,14 @@ const RawMaterialRequest = () => {
     }
   };
 
-  // Function to handle status change
   const handleStatusChange = async (requestId, newStatus) => {
     try {
       const response = await axios.put(
         `${apiURL}/api/rawmaterial/updateStatus/${requestId}`,
-        {
-          requestStatus: newStatus,
-        }
+        { requestStatus: newStatus }
       );
       if (response.data.success) {
-        fetchRequests(); // Refresh the list after updating
+        fetchRequests();
         toast.success("Request status updated successfully.");
       }
     } catch (error) {
@@ -66,22 +68,53 @@ const RawMaterialRequest = () => {
     }
   };
 
-  const handleEdit = async (hakdog) => {
+  const handleEdit = (request) => {
     const requestData = {
-      supplier: hakdog.supplier, // Adjust according to your data structure
+      supplier: request.supplier, 
       orderDate: new Date(),
-      items: hakdog.material.map((material) => ({
+      items: request.material.map((material) => ({
         name: material.materialName,
         quantity: material.quantity,
-        price: 0, // Set a default or retrieve price if available
-        discount: 0, // Default discount
+        price: 0,
+        discount: 0,
       })),
-      tax: 0, // Set a default tax
-      notes: "", // Optionally set notes
-      paymentTerm: "", // Optionally set payment term
+      tax: 0,
+      notes: "",
+      paymentTerm: "",
     };
     navigate(`/purchase-order/edit`, { state: { requestData } });
   };
+
+  // Sorting functionality
+  const sortedRequests = () => {
+    let sorted = [...requests];
+    if (sortConfig !== null) {
+      sorted.sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+        return sortConfig.direction === "ascending"
+          ? aValue < bValue ? -1 : 1
+          : aValue > bValue ? -1 : 1;
+      });
+    }
+    return sorted;
+  };
+
+  const requestSort = (key) => {
+    const direction = (sortConfig.key === key && sortConfig.direction === "ascending") ? "descending" : "ascending";
+    setSortConfig({ key, direction });
+  };
+
+  // Filter by search term
+  const filteredRequests = sortedRequests().filter(request =>
+    request.requestedBy.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Pagination logic
+  const indexOfLastRequest = currentPage * itemsPerPage;
+  const indexOfFirstRequest = indexOfLastRequest - itemsPerPage;
+  const currentRequests = filteredRequests.slice(indexOfFirstRequest, indexOfLastRequest);
+  const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
 
   return (
     <div className="p-6">
@@ -95,6 +128,14 @@ const RawMaterialRequest = () => {
         </button>
       </div>
 
+      <input
+        type="text"
+        placeholder="Search by requested by..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="border rounded px-2 py-1 mb-4"
+      />
+
       <div className="overflow-x-auto bg-white shadow-md">
         {loading ? (
           <div className="py-4 text-center">Loading...</div>
@@ -105,7 +146,9 @@ const RawMaterialRequest = () => {
             <thead className="bg-gray-100 text-left">
               <tr>
                 <th className="py-2 px-4">#</th>
-                <th className="py-2 px-4">Requested Date</th>
+                <th className="py-2 px-4 cursor-pointer" onClick={() => requestSort("requestDate")}>
+                  Requested Date {sortConfig.key === "requestDate" ? (sortConfig.direction === "ascending" ? '▲' : '▼') : ''}
+                </th>
                 <th className="py-2 px-4">Status</th>
                 <th className="py-2 px-4">Requested By</th>
                 <th className="py-2 px-4">Priority</th>
@@ -114,27 +157,16 @@ const RawMaterialRequest = () => {
               </tr>
             </thead>
             <tbody>
-              {requests.length > 0 ? (
-                requests.map((request, index) => (
+              {currentRequests.length > 0 ? (
+                currentRequests.map((request, index) => (
                   <tr key={request._id} className="border-b">
-                    <td className="py-2 px-4">{index + 1}</td>
-                    <td className="py-2 px-4">
-                      {new Date(request.requestDate).toLocaleString()}
-                    </td>
-                    {/* <td className="py-2 px-4">{request.requestStatus}</td> */}
+                    <td className="py-2 px-4">{indexOfFirstRequest + index + 1}</td>
+                    <td className="py-2 px-4">{new Date(request.requestDate).toLocaleString()}</td>
                     <td className="px-4 py-2 border">
                       <select
                         value={request.requestStatus}
-                        onChange={(e) =>
-                          handleStatusChange(request._id, e.target.value)
-                        }
-                        className={`rounded-full px-2 py-1 font-semibold text-base-200 ${
-                          request.requestStatus === "Pending"
-                            ? "bg-yellow-500"
-                            : request.requestStatus === "Approved"
-                            ? "bg-green-500"
-                            : "bg-red-500"
-                        }`}
+                        onChange={(e) => handleStatusChange(request._id, e.target.value)}
+                        className={`rounded-full px-2 py-1 font-semibold text-base-200 ${request.requestStatus === "Pending" ? "bg-yellow-500" : request.requestStatus === "Approved" ? "bg-green-500" : "bg-red-500"}`}
                       >
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
@@ -146,8 +178,7 @@ const RawMaterialRequest = () => {
                     <td className="py-2 px-4">
                       {request.material.map((material) => (
                         <div key={material._id}>
-                          {material.materialName} (Qty: {material.quantity}{" "}
-                          {material.unit})
+                          {material.materialName} (Qty: {material.quantity} {material.unit})
                         </div>
                       ))}
                     </td>
@@ -169,14 +200,40 @@ const RawMaterialRequest = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="py-4 text-center">
-                    No requests found
-                  </td>
+                  <td colSpan="7" className="py-4 text-center">No requests found</td>
                 </tr>
               )}
             </tbody>
           </table>
         )}
+      </div>
+
+      <div className="mt-4 flex justify-center items-center space-x-2">
+        <button
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => setCurrentPage(index + 1)}
+            className={`px-4 py-2 rounded ${currentPage === index + 1 ? "bg-blue-600 text-white" : "bg-gray-300"}`}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
 
       {modalOpen && (

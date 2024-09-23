@@ -5,12 +5,17 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const PurchaseOrderList = () => {
-  // token
-  const { apiURL  } = useContext(UserContext);
+  const { apiURL } = useContext(UserContext);
   const navigate = useNavigate();
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  
+  // Pagination, sorting, and search states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [sortConfig, setSortConfig] = useState({ key: "purchaseOrderNumber", direction: "ascending" });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchPurchaseOrder();
@@ -41,9 +46,43 @@ const PurchaseOrderList = () => {
     setShowModal(true);
   };
 
+  // Updated sorting function
+  const sortedData = () => {
+    let sortedOrders = [...purchaseOrderData];
+    if (sortConfig !== null) {
+      sortedOrders.sort((a, b) => {
+        const aValue = sortConfig.key === "supplier" ? a.supplier?.supplierName : a[sortConfig.key];
+        const bValue = sortConfig.key === "supplier" ? b.supplier?.supplierName : b[sortConfig.key];
+
+        return sortConfig.direction === "ascending" ? (aValue < bValue ? -1 : 1) : (aValue > bValue ? -1 : 1);
+      });
+    }
+    return sortedOrders.filter(order =>
+      order.purchaseOrderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (order.supplier?.supplierName || "").toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
+
+  const requestSort = (key) => {
+    const direction = (sortConfig.key === key && sortConfig.direction === "ascending") ? "descending" : "ascending";
+    setSortConfig({ key, direction });
+  };
+
+  const indexOfLastOrder = currentPage * itemsPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
+  const currentOrders = sortedData().slice(indexOfFirstOrder, indexOfLastOrder);
+  const totalPages = Math.ceil(sortedData().length / itemsPerPage);
+
+  const getSortArrow = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "ascending" ? ' ▲' : ' ▼';
+    }
+    return null;
+  };
+
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Purchase Orders</h1>
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded-full"
@@ -53,22 +92,41 @@ const PurchaseOrderList = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto mt-6 border border-gray-200 shadow-sm">
+      {/* Search Input */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="border rounded px-2 py-1 mb-4"
+          placeholder="Search by PO Number or Supplier"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      <div className="overflow-x-auto border border-gray-200 shadow-sm">
         <table className="min-w-full bg-white">
           <thead>
             <tr className="bg-gray-100 text-left">
               <th className="py-2 px-4">#</th>
-              <th className="py-2 px-4">PO Number</th>
-              <th className="py-2 px-4">Supplier</th>
-              <th className="py-2 px-4">Total Amount</th>
-              <th className="py-2 px-4">Status</th>
+              <th className="py-2 px-4 cursor-pointer" onClick={() => requestSort("purchaseOrderNumber")}>
+                PO Number {getSortArrow("purchaseOrderNumber")}
+              </th>
+              <th className="py-2 px-4 cursor-pointer" onClick={() => requestSort("supplier")}>
+                Supplier {getSortArrow("supplier")}
+              </th>
+              <th className="py-2 px-4 cursor-pointer" onClick={() => requestSort("totalAmount")}>
+                Total Amount {getSortArrow("totalAmount")}
+              </th>
+              <th className="py-2 px-4 cursor-pointer" onClick={() => requestSort("orderStatus")}>
+                Status {getSortArrow("orderStatus")}
+              </th>
               <th className="py-2 px-4">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {purchaseOrderData.map((order, index) => (
+            {currentOrders.map((order, index) => (
               <tr key={order._id} className="border-b">
-                <td className="py-2 px-4">{index + 1}</td>
+                <td className="py-2 px-4">{indexOfFirstOrder + index + 1}</td>
                 <td className="py-2 px-4">{order.purchaseOrderNumber}</td>
                 <td className="py-2 px-4">{order.supplier?.supplierName || "N/A"}</td>
                 <td className="py-2 px-4">{order.totalAmount}</td>
@@ -91,6 +149,34 @@ const PurchaseOrderList = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-4 flex justify-center items-center space-x-2">
+        <button
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => setCurrentPage(index + 1)}
+            className={`px-4 py-2 rounded ${currentPage === index + 1 ? "bg-blue-600 text-white" : "bg-gray-300"}`}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
 
       {showModal && (
