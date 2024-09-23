@@ -1,20 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import NotificationService from "../services/NotificationService";
+
 const CreatePurchaseOrder = () => {
   const [formData, setFormData] = useState({
     supplier: "",
     orderDate: null,
     items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
     tax: 0,
-    notes: "", // Notes field is here
+    notes: "",
     paymentTerm: "",
     approvalStatus: "Pending",
   });
   const [suppliers, setSuppliers] = useState([]);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
   const { apiURL, token } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -26,6 +27,16 @@ const CreatePurchaseOrder = () => {
     fetchSuppliers();
   }, [apiURL]);
 
+  const handleSupplierChange = (supplierId) => {
+    const selectedSupplier = suppliers.find(supplier => supplier._id === supplierId);
+    setFormData({ ...formData, supplier: supplierId });
+    if (selectedSupplier) {
+      setSelectedMaterials(selectedSupplier.materialSupplied);
+    } else {
+      setSelectedMaterials([]);
+    }
+  };
+
   const handleInputChange = (index, field, value) => {
     const updatedItems = [...formData.items];
     updatedItems[index][field] =
@@ -35,6 +46,16 @@ const CreatePurchaseOrder = () => {
         ? parseFloat(value) || ""
         : value;
     setFormData({ ...formData, items: updatedItems });
+  };
+
+  const handleMaterialChange = (index, materialName) => {
+    const selectedMaterial = selectedMaterials.find(material => material.materialName === materialName);
+    if (selectedMaterial) {
+      const updatedItems = [...formData.items];
+      updatedItems[index].name = materialName;
+      updatedItems[index].price = selectedMaterial.pricePerUnit; // Set the price based on selected material
+      setFormData({ ...formData, items: updatedItems });
+    }
   };
 
   const handleAddItem = () => {
@@ -58,10 +79,11 @@ const CreatePurchaseOrder = () => {
       orderDate: null,
       items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
       tax: 0,
-      notes: "", // Reset notes
+      notes: "",
       paymentTerm: "",
       approvalStatus: "Pending",
     });
+    setSelectedMaterials([]);
   };
 
   const calculateItemTotal = (item) => {
@@ -125,7 +147,7 @@ const CreatePurchaseOrder = () => {
 
   const handleSubmit = async () => {
     if (!validateForm()) {
-      return; // Stop the submission if the validation fails
+      return;
     }
 
     try {
@@ -137,14 +159,14 @@ const CreatePurchaseOrder = () => {
         supplier: formData.supplier,
         items: formData.items.map((item) => ({
           name: item.name,
-          quantity: parseFloat(item.quantity), // Ensure quantity is a number
-          price: parseFloat(item.price), // Ensure price is a number
-          discount: parseFloat(item.discount), // Ensure discount is a number
-          totalPrice: calculateItemTotal(item), // Calculate the total price
+          quantity: parseFloat(item.quantity),
+          price: parseFloat(item.price),
+          discount: parseFloat(item.discount),
+          totalPrice: calculateItemTotal(item),
         })),
-        tax: parseFloat(formData.tax) || 0, // Ensure tax is a number
-        totalAmount: total, // Use the calculated total amount
-        notes: formData.notes, // Include notes here
+        tax: parseFloat(formData.tax) || 0,
+        totalAmount: total,
+        notes: formData.notes,
         orderDate: formData.orderDate,
         paymentTerm: formData.paymentTerm,
         approvalStatus: formData.approvalStatus,
@@ -160,10 +182,9 @@ const CreatePurchaseOrder = () => {
         }
       );
       NotificationService.success("Purchase Order Created");
-      handleReset(); // Reset the form after successful submission
+      handleReset();
 
-      // navigate(`/purchase-order/${response.data._id}`); // Navigate to the purchase order view
-      navigate(`/purchase_orders/view_po/${response.data._id}`); // Navigate to the purchase order view
+      navigate(`/purchase_orders/view_po/${response.data._id}`);
     } catch (error) {
       console.error("Error creating purchase order:", error);
       NotificationService.error("Error creating purchase order");
@@ -174,7 +195,6 @@ const CreatePurchaseOrder = () => {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      {/* Form Section */}
       <form>
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold text-[#07074D]">
@@ -216,9 +236,7 @@ const CreatePurchaseOrder = () => {
           <select
             id="supplier"
             value={formData.supplier}
-            onChange={(e) =>
-              setFormData({ ...formData, supplier: e.target.value })
-            }
+            onChange={(e) => handleSupplierChange(e.target.value)}
             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             required
           >
@@ -254,95 +272,102 @@ const CreatePurchaseOrder = () => {
             required
           />
         </div>
+
         {/* Item Selection and Quantity Entry */}
-        <div className="mb-6">
-          <label className="block text-base font-medium text-[#07074D] mb-2">
-            Item Selection and Quantity Entry
-          </label>
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold text-[#07074D]">Items</h2>
           {formData.items.map((item, index) => (
-            <div key={index} className="flex space-x-4 mb-4 items-center">
-              <div className="flex flex-col w-full">
-                <label className="text-sm font-medium text-[#6B7280]">
-                  Item Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Item Name"
-                  value={item.name}
-                  onChange={(e) =>
-                    handleInputChange(index, "name", e.target.value)
-                  }
-                  className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  required
-                />
+            <div key={index} className="flex flex-col mb-4">
+              <div className="flex flex-row space-x-4">
+                <div className="flex flex-col w-full">
+                  <label className="text-sm font-medium text-[#6B7280]">
+                    Material
+                  </label>
+                  <select
+                    value={item.name}
+                    onChange={(e) => handleMaterialChange(index, e.target.value)}
+                    className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    required
+                  >
+                    <option value="">Select Item</option>
+                    {selectedMaterials.map((material) => (
+                      <option key={material._id} value={material.materialName}>
+                        {material.materialName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex flex-col w-full">
+                  <label className="text-sm font-medium text-[#6B7280]">
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) => handleInputChange(index, "quantity", e.target.value)}
+                    className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    required
+                  />
+                </div>
+                <div className="flex flex-col w-full">
+                  <label className="text-sm font-medium text-[#6B7280]">
+                    Price
+                  </label>
+                  <input
+                    type="number"
+                    value={item.price}
+                    readOnly
+                    className="rounded-md border border-[#e0e0e0] bg-gray-200 py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                  />
+                </div>
+                <div className="flex flex-col w-full">
+                  <label className="text-sm font-medium text-[#6B7280]">
+                    Discount (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={item.discount}
+                    onChange={(e) => handleInputChange(index, "discount", e.target.value)}
+                    className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveItem(index)}
+                  className="rounded-md bg-red-500 text-white px-4 py-2"
+                >
+                  Remove
+                </button>
               </div>
-              <div className="flex flex-col w-full">
-                <label className="text-sm font-medium text-[#6B7280]">
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  placeholder="Quantity"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleInputChange(index, "quantity", e.target.value)
-                  }
-                  className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  min="1"
-                  required
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <label className="text-sm font-medium text-[#6B7280]">
-                  Price
-                </label>
-                <input
-                  type="number"
-                  placeholder="Price"
-                  value={item.price}
-                  onChange={(e) =>
-                    handleInputChange(index, "price", e.target.value)
-                  }
-                  className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  min="0"
-                  required
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <label className="text-sm font-medium text-[#6B7280]">
-                  Discount (%)
-                </label>
-                <input
-                  type="number"
-                  placeholder="Discount (%)"
-                  value={item.discount}
-                  onChange={(e) =>
-                    handleInputChange(index, "discount", e.target.value)
-                  }
-                  className="rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  min="0"
-                  max="100"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => handleRemoveItem(index)}
-                className="rounded-md bg-red-500 text-white py-1 px-3"
-              >
-                Remove
-              </button>
             </div>
           ))}
           <button
             type="button"
             onClick={handleAddItem}
-            className="mt-3 rounded-md bg-blue-500 text-white py-2 px-4"
+            className="mt-4 rounded-md bg-blue-500 text-white px-4 py-2"
           >
             Add Item
           </button>
         </div>
 
-        {/* Notes Section */}
+        {/* Summary Section */}
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold text-[#07074D]">Summary</h2>
+          <div className="flex justify-between">
+            <div>Subtotal:</div>
+            <div>${subtotal.toFixed(2)}</div>
+          </div>
+          <div className="flex justify-between">
+            <div>Tax:</div>
+            <div>${taxAmount.toFixed(2)}</div>
+          </div>
+          <div className="flex justify-between font-bold">
+            <div>Total:</div>
+            <div>${total.toFixed(2)}</div>
+          </div>
+        </div>
+
+        {/* Notes and Payment Term */}
         <div className="mb-4">
           <label
             htmlFor="notes"
@@ -358,14 +383,13 @@ const CreatePurchaseOrder = () => {
             }
             className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             rows="4"
-          ></textarea>
+          />
         </div>
 
-        {/* Payment Term */}
         <div className="mb-4">
           <label
             htmlFor="paymentTerm"
-            className="block text-base font-medium text-[#07074D]"
+            className="block text-base font-medium text-[#07074D] mb-2"
           >
             Payment Term
           </label>
@@ -379,20 +403,6 @@ const CreatePurchaseOrder = () => {
             className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             required
           />
-        </div>
-
-        {/* Summary */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-[#07074D]">Summary</h2>
-          <p className="text-base font-medium text-[#6B7280]">
-            Subtotal: ${subtotal.toFixed(2)}
-          </p>
-          <p className="text-base font-medium text-[#6B7280]">
-            Tax: ${taxAmount.toFixed(2)}
-          </p>
-          <p className="text-lg font-semibold text-[#07074D]">
-            Total: ${total.toFixed(2)}
-          </p>
         </div>
       </form>
     </div>
