@@ -38,238 +38,207 @@ const MobileSidebar = () => {
         </div>
       </Link>
 
-      <p className="text-gray-500 font-semibold text-base">Vendor</p>
+      <p className="text-gray-500 font-semibold text-base">Procurement</p>
       <ul className="w-full menu rounded-box">
-        {/* PROCUREMENT */}
-        <li>
-          {/*   Purchase Requisitions */}
-          <details className="menu-item">
-            <summary className="flex items-center gap-2 cursor-pointer">
-              <BiPurchaseTagAlt className="" />
-
-              <span className="ml-2 text-base font-semibold">
+        {/* Purchase Requisitions */}
+        <NavLink to="rawmaterialrequest">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <BiPurchaseTagAlt />
+              <span className="text-base font-semibold">
                 Purchase Requisitions
               </span>
-            </summary>
-            <ul className="pl-4">
-              {/* Procurement Submenu Items */}
-              <li className="mt-1">
-                <NavLink
-                  to="rawmaterialrequest"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
-                  }
-                >
-                  <p className="text-base">Raw Material List</p>
-                </NavLink>
-              </li>
-              <li className="mt-1">
-                <NavLink
-                  to="purchaseorder"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
-                  }
-                >
-                  <p className="text-base">Create Request</p>
-                </NavLink>
-              </li>
-            </ul>
-          </details>
-        </li>
-        {/*  Suppliers */}
-        <li>
-          <details className="menu-item">
-            <summary className="flex items-center gap-2 cursor-pointer">
-              <BsBoxSeam className="" />
+            </div>
+          </li>
+        </NavLink>
 
-              <span className="ml-2 text-base font-semibold">Suppliers</span>
-            </summary>
-            <ul className="pl-4">
-              <li className="mt-1">
-                <NavLink
-                  to="supplierlist"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
-                  }
-                >
-                  <p className="text-base">Approved Supplier List</p>
-                </NavLink>
-              </li>
-              <li>
-                <a href="#submenu2" className="text-base">
-                  Performance Metrics
-                </a>
-              </li>
-            </ul>
-          </details>
+        {/* Suppliers */}
+        <li className="menu-item transition-all duration-300">
+          <NavLink
+            to="supplierlist"
+            className={({ isActive }) =>
+              `flex items-center gap-2 rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+            }
+          >
+            <BsBoxSeam className="transition-all duration-300 w-5 h-5" />
+
+            <span className="text-base font-semibold">Suppliers</span>
+          </NavLink>
         </li>
+
         {/* Quotation */}
         <li>
-          <details className="menu-item">
+          <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
-              <MdOutlineCalculate className="" />
+              <MdOutlineCalculate className="transition-all duration-300 w-5 h-5" />
 
-              <span className="ml-2 text-base font-semibold">Quotation</span>
+              <span className="text-base font-semibold">Quotation</span>
             </summary>
-            <ul className="pl-4">
-              {/* Procurement Submenu Items */}
+            <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
                 <NavLink
                   to="rawmaterialrequest"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                   }
                 >
-                  <p className="text-base">Request For Quotations (RFQ's)</p>
+                  <span className="text-base">
+                    Request For Quotations (RFQ's)
+                  </span>
                 </NavLink>
               </li>
               <li className="mt-1">
                 <NavLink
                   to="purchaseorder"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                   }
                 >
-                  <p className="text-base">Compare Supplier Quotes</p>
+                  <span className="text-base">Compare Supplier Quotes</span>
                 </NavLink>
               </li>
             </ul>
           </details>
         </li>
+
         {/* Purchase Orders */}
         <li>
-          <details className="menu-item">
+          <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
-              <FaLuggageCart className="" />
-              <span className="ml-2 text-base font-semibold">
-                Purchase Orders
-              </span>
+              <FaLuggageCart className="transition-all duration-300 w-5 h-5" />
+
+              <span className="text-base font-semibold">Purchase Orders</span>
             </summary>
-            <ul className="pl-4">
-              {/* Procurement Submenu Items */}
+            <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
                 <NavLink
-                  to="rawmaterialrequest"
+                  to="purchaseorderlist"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                   }
                 >
-                  <p className="text-base">Create Purchase Orders</p>
-                </NavLink>
-              </li>
-              {/* Track Orders */}
-              <li className="mt-1">
-                <NavLink
-                  to="purchaseorder"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
-                  }
-                >
-                  <p className="text-base">Track Orders</p>
+                  <span className="text-base">Purchase Order List</span>
                 </NavLink>
               </li>
               <li className="mt-1">
                 <NavLink
-                  to="purchaseorder"
+                  to="createpurchaseorder"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                   }
                 >
-                  <p className="text-base">Order Fulfillment Status</p>
+                  <span className="text-base">Create Purchase Order</span>
+                </NavLink>
+              </li>
+              <li className="mt-1">
+                <NavLink
+                  to="trackorders"
+                  className={({ isActive }) =>
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
+                  }
+                >
+                  <span className="text-base">Track Orders</span>
+                </NavLink>
+              </li>
+              <li className="mt-1">
+                <NavLink
+                  to="orderfulfillmentstatus"
+                  className={({ isActive }) =>
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
+                  }
+                >
+                  <span className="text-base">Order Fulfillment Status</span>
                 </NavLink>
               </li>
             </ul>
           </details>
         </li>
+
         {/* Contact */}
         <li>
-          <details className="menu-item">
+          <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
-              <RiContactsFill className="" />
-              <span className="ml-2 text-base font-semibold">Contact</span>
+              <RiContactsFill className="transition-all duration-300 w-5 h-5" />
+
+              <span className="text-base font-semibold">Contact</span>
             </summary>
-            <ul className="pl-4">
-              {/* Procurement Submenu Items */}
+            <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
                 <NavLink
-                  to="rawmaterialrequest"
+                  to="viewcontacts"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                   }
                 >
-                  <p className="text-base">View Contacts</p>
+                  <span className="text-base">View Contacts</span>
                 </NavLink>
               </li>
               <li className="mt-1">
                 <NavLink
-                  to="purchaseorder"
+                  to="renewalsexpirations"
                   className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
                   }
                 >
-                  <p className="text-base">Renewals & Expirations</p>
+                  <span className="text-base">Renewals & Expirations</span>
                 </NavLink>
               </li>
             </ul>
           </details>
         </li>
+
         {/* Budget Approval */}
-        <li>
-          <details className="menu-item">
-            <summary className="flex items-center gap-2 cursor-pointer">
-              <GiTakeMyMoney className="" />
-              <span className="ml-2 text-base font-semibold">
-                Budget Approval
-              </span>
-            </summary>
-            <ul className="pl-4">
-              {/* Procurement Submenu Items */}
-              <li className="mt-1">
-                <NavLink
-                  to="rawmaterialrequest"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
-                  }
-                >
-                  <p className="text-base">Submit For Approval</p>
-                </NavLink>
-              </li>
-              <li className="mt-1">
-                <NavLink
-                  to="purchaseorder"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-base-200 bg-blue-500 font-bold"
-                      : "text-black"
-                  }
-                >
-                  <p className="text-base">Approval History</p>
-                </NavLink>
-              </li>
-            </ul>
-          </details>
+        <li className="menu-item transition-all duration-300">
+          <div className="flex items-center gap-2 cursor-pointer">
+            <GiTakeMyMoney className="transition-all duration-300 w-5 h-5" />
+
+            <span className="text-base font-semibold">Budget Approval</span>
+          </div>
         </li>
       </ul>
 
@@ -489,188 +458,171 @@ const MobileSidebar = () => {
         </li>
       </ul>
 
-        {/* RETURN MANAGEMENT */}
-        <p
-            className="text-gray-500 font-semibold text-base"
-          >
-            Return Management
-          </p>
-          <ul className="w-full menu rounded-box">
-            {/* Return Authorization (RMA) */}
-            <li>
-              <details className="menu-item">
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoReturnUpForward className=""
-                  />
+      {/* RETURN MANAGEMENT */}
+      <p className="text-gray-500 font-semibold text-base">Return Management</p>
+      <ul className="w-full menu rounded-box">
+        {/* Return Authorization (RMA) */}
+        <li>
+          <details className="menu-item">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <IoReturnUpForward className="" />
 
-                    <span className="ml-2 text-base font-semibold">
-                      Return Authorization (RMA)
-                    </span>
+              <span className="ml-2 text-base font-semibold">
+                Return Authorization (RMA)
+              </span>
+            </summary>
+            <ul className="pl-4">
+              <li className="mt-1">
+                <NavLink
+                  to="rawmaterialrequest"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-base-200 bg-blue-500 font-bold"
+                      : "text-black"
+                  }
+                >
+                  <p className="text-base">Create Return Request</p>
+                </NavLink>
+              </li>
+              <li className="mt-1">
+                <NavLink
+                  to="purchaseorder"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-base-200 bg-blue-500 font-bold"
+                      : "text-black"
+                  }
+                >
+                  <p className="text-base">Approvals & Denials</p>
+                </NavLink>
+              </li>
+            </ul>
+          </details>
+        </li>
+        {/* Reverse Logistics */}
+        <li>
+          <details className="menu-item">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <FaChalkboardTeacher className="" />
+              <span className="ml-2 text-base font-semibold">
+                Reverse Logistics
+              </span>
+            </summary>
+            <ul className="pl-4">
+              <li className="mt-1">
+                <NavLink
+                  to="supplierlist"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-base-200 bg-blue-500 font-bold"
+                      : "text-black"
+                  }
+                >
+                  <p className="text-base">Schedule Return Pickups</p>
+                </NavLink>
+              </li>
+              <li>
+                <a href="#submenu2" className="text-base">
+                  Track Return Shipments
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+        {/* Return Documentation */}
+        <li>
+          <details className="menu-item">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <VscServerEnvironment className="" />
 
-                </summary>
-                <ul className="pl-4">
-                  <li className="mt-1">
-                    <NavLink
-                      to="rawmaterialrequest"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Create Return Request</p>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <NavLink
-                      to="purchaseorder"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Approvals & Denials</p>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            {/* Reverse Logistics */}
-            <li>
-              <details className="menu-item">
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <FaChalkboardTeacher
-                    className=""
-                  />
-                    <span className="ml-2 text-base font-semibold">
-                      Reverse Logistics
-                    </span>
-                </summary>
-                <ul className="pl-4">
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Schedule Return Pickups</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Track Return Shipments
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            {/* Return Documentation */}
-            <li>
-              <details className="menu-item">
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <VscServerEnvironment
-                    className=""
-                  />
+              <span className="ml-2 text-base font-semibold">
+                Return Documentation
+              </span>
+            </summary>
+            <ul className="pl-4">
+              <li className="mt-1">
+                <NavLink
+                  to="supplierlist"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-base-200 bg-blue-500 font-bold"
+                      : "text-black"
+                  }
+                >
+                  <p className="text-base">Return Orders</p>
+                </NavLink>
+              </li>
+              <li>
+                <a href="#submenu2" className="text-base">
+                  Reason codes & Notes
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+        {/* Inventory Updates */}
+        <li>
+          <details className="menu-item">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <MdOutlineInventory2 className="" />
 
-                    <span className="ml-2 text-base font-semibold">
-                      Return Documentation
-                    </span>
+              <span className="ml-2 text-base font-semibold">
+                Inventory Updates
+              </span>
+            </summary>
+            <ul className="pl-4">
+              <li className="mt-1">
+                <NavLink
+                  to="supplierlist"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-base-200 bg-blue-500 font-bold"
+                      : "text-black"
+                  }
+                >
+                  <p className="text-base">Update Stock Levels</p>
+                </NavLink>
+              </li>
+              <li>
+                <a href="#submenu2" className="text-base">
+                  Restocking Procedures
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+        {/* Warranty & claims */}
+        <li>
+          <details className="menu-item">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <MdOutlineHandshake className="" />
 
-                </summary>
-                <ul className="pl-4">
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Return Orders</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Reason codes & Notes
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            {/* Inventory Updates */}
-            <li>
-              <details className="menu-item">
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <MdOutlineInventory2
-                    className=""
-                  />
-
-                    <span className="ml-2 text-base font-semibold">
-                      Inventory Updates 
-                    </span>
-           
-                </summary>
-                <ul className="pl-4">
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Update Stock Levels</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Restocking Procedures
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            {/* Warranty & claims */}
-            <li>
-              <details className="menu-item">
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <MdOutlineHandshake
-                    className=""
-                  />
-
-                    <span className="ml-2 text-base font-semibold">
-                      Warranty & claims
-                    </span>
-
-                </summary>
-                <ul className="pl-4">
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Warranty Status</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Claim Submission
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
+              <span className="ml-2 text-base font-semibold">
+                Warranty & claims
+              </span>
+            </summary>
+            <ul className="pl-4">
+              <li className="mt-1">
+                <NavLink
+                  to="supplierlist"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-base-200 bg-blue-500 font-bold"
+                      : "text-black"
+                  }
+                >
+                  <p className="text-base">Warranty Status</p>
+                </NavLink>
+              </li>
+              <li>
+                <a href="#submenu2" className="text-base">
+                  Claim Submission
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+      </ul>
     </div>
   );
 };
