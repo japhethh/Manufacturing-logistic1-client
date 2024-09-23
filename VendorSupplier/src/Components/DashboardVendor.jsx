@@ -32,7 +32,7 @@ const COLORS = ['#4F46E5', '#60A5FA', '#FBBF24'];
 
 const DashboardVendor = () => {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen w-full">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Vendor Supplier Dashboard</h1>
 
       {/* CARDS */}

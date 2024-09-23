@@ -63,15 +63,24 @@ const SidebarVendor = () => {
   ];
 
   return (
-    <div className="bg-white shadow-md h-screen w-80 sticky top-0 overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 scrollbar-visible">
+    <div className="bg-white lg:flex md:flex hidden shadow-md h-screen w-80 sticky top-0 overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 scrollbar-visible">
       <nav className="p-6">
         <NavLink to="/dashboardvendor" className="flex items-center gap-2 mb-8">
-          <img src={vendor} alt="Vendor Management Logo" className="w-16 h-16" />
-          <h2 className="text-2xl font-semibold text-gray-800">Vendor Management</h2>
+          <img
+            src={vendor}
+            alt="Vendor Management Logo"
+            className="w-16 h-16"
+          />
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Vendor Management
+          </h2>
         </NavLink>
         <ul className="space-y-4">
           {menuItems.map((item, index) => (
-            <li key={index} className="hover:bg-gray-200 rounded-md transition-colors">
+            <li
+              key={index}
+              className="hover:bg-gray-200 rounded-md transition-colors"
+            >
               <a
                 href={item.href}
                 className="flex items-center px-4 py-2 text-gray-800 font-semibold hover:text-blue-700 duration-200"
