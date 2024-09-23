@@ -1,4 +1,4 @@
-import layout from "./Assets/layout.png";
+import vendor from "./Assets/vendor.png";
 import {
   MdOutlineScreenshotMonitor,
   MdOutlineSupportAgent,
@@ -23,7 +23,7 @@ const MobileSidebar = () => {
         className="flex items-center justify-center gap-2 mb-8 cursor-pointer"
         aria-label="Dashboard Logo"
       >
-        <img src={layout} alt="Dashboard logo" className="w-7 h-7" />
+        <img src={vendor} alt="Dashboard logo" className="size-16" />
         <p className="text-xl font-bold">Dashboard</p>
       </div>
 
