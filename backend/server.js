@@ -9,6 +9,7 @@ import supplierRouter from "./routes/supplierRouter.js";
 import materialRouter from "./routes/materialRouter.js";
 import jwt from "jsonwebtoken";
 import purchaseOrderRouter from "./routes/purchaseOrderRouter.js";
+import generalSettingsRouter from "./routes/generalSettingsRouter.js";
 
 const port = process.env.PORT || 4000;
 
@@ -53,6 +54,7 @@ app.use("/api/rawmaterial", rawmaterialRouter);
 app.use("/api/purchase-order", purchaseOrderRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/material", materialRouter);
+app.use("/api/generalSettings",generalSettingsRouter);
 
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
