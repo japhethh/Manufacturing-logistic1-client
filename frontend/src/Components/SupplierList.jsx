@@ -247,8 +247,8 @@ const SupplierList = () => {
                                     <td className="px-4 py-2">
                                       {material.unit}
                                     </td>
-                                    <td className="px-4 py-2">
-                                      {material.price}
+                                    <td className="px-4 py-2 text-green-500 font-semibold">
+                                      {material.pricePerUnit}
                                     </td>
                                   </tr>
                                 ))}
