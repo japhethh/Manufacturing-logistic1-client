@@ -113,7 +113,7 @@ const PurchaseOrderList = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Purchase Orders</h1>
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded-full"
+          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-full w-[135px] md:w-[220px] lg:w-[220px]"
           onClick={() => navigate("/createpurchaseorder")}
         >
           + Create Purchase Order
