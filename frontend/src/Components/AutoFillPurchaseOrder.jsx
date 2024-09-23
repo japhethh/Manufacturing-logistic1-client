@@ -204,7 +204,7 @@ const AutoFillPurchaseOrder = () => {
       <form>
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold text-[#07074D]">
-            Edit Purchase Order
+            Create Purchase Order
           </h1>
           <div className="space-x-3">
             <button

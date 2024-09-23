@@ -1,4 +1,3 @@
-import { IoEarSharp } from "react-icons/io5";
 import userModel from "../models/userModel.js";
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
