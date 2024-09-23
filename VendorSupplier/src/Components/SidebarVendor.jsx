@@ -63,7 +63,7 @@ const SidebarVendor = () => {
   ];
 
   return (
-    <div className="bg-white shadow-md h-screen w-80 sticky top-0 overflow-y-auto">
+    <div className="bg-white shadow-md h-screen w-80 sticky top-0 overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 scrollbar-visible">
       <nav className="p-6">
         <NavLink to="/dashboardvendor" className="flex items-center gap-2 mb-8">
           <img src={vendor} alt="Vendor Management Logo" className="w-16 h-16" />
