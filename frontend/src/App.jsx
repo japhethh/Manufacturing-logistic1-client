@@ -5,9 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import Log from "./Components/Authentication/Log";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
-import RawMaterialRequest from "./Components/PROCUREMENT/RawMaterialRequest";
-
-import SupplierList from "./Components/SupplierList";
+import RawMaterialRequest from "./Components/Procurement/RawMaterialRequest";
+import SupplierList from "./Components/Procurement/SupplierList";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,17 +17,17 @@ import User from "./Components/User";
 import CreateUser from "./Components/CreateUser";
 import CreateSupplier from "./Components/CreateSupplier";
 import EditUser from "./Components/EditUser";
-import CreatePurchaseOrder from "./Components/CreatePurchaseOrder";
-import TrackOrders from "./Components/TrackOrders";
-import OrderFulfillmentStatus from "./Components/OrderFulfillmentStatus";
-import ViewContacts from "./Components/ViewContacts";
-import RenewalsExpirations from "./Components/RenewalsExpirations";
+import CreatePurchaseOrder from "./Components/Procurement/CreatePurchaseOrder";
+import TrackOrders from "./Components/Procurement/TrackOrders";
+import OrderFulfillmentStatus from "./Components/Procurement/OrderFulfillmentStatus";
+import ViewContacts from "../../ViewContacts";
+import RenewalsExpirations from "./Components/Procurement/RenewalsExpirations";
 // import PurchaseOrderEdit from "./Components/PurchaseOrderEdit";
 import ViewPurchaseOrder from "./Components/ViewPurchaseOrder";
-import PurchaseOrderList from "./Components/PurchaseOrderList";
+import PurchaseOrderList from "./Components/Procurement/PurchaseOrderList";
 import EditPurchaseOrder from "./Components/EditPurchaseOrder";
-import RegistrationRequest from "./Components/RegistrationRequest";
-import ComplianceVerification from "./Components/ComplianceVerification";
+import RegistrationRequest from "./Components/Vendor/RegistrationRequest";
+import ComplianceVerification from "./Components/Vendor/ComplianceVerification";
 import AutoFillPurchaseOrder from "./Components/AutoFillPurchaseOrder";
 
 const App = () => {

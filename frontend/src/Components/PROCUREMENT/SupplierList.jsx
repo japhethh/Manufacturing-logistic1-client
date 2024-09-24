@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-import { UserContext } from "../context/userContext";
+import { UserContext } from "../../context/userContext";
 import { FiEdit, FiTrash, FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const SupplierList = () => {

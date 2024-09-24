@@ -1,10 +1,10 @@
-import file1 from "../assets/file1.svg";
+import file0 from '../assets/file0.png'
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
     <div className="flex flex-col items-center justify-center bg-white w-full h-screen px-4">
-      <img src={file1} alt="Not Found" className="w-[300px] md:w-[500px] mb-6" />
+      <img src={file0} alt="Not Found" className="w-[300px] md:w-[500px] mb-6" />
       <div className="text-center">
         <p className="font-Fredericka-the-Great text-4xl md:text-5xl text-black mb-4">
           Page Not Found
