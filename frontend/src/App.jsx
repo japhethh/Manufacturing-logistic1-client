@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Log from "./Components/Authentication/Log";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
-import RawMaterialRequest from "./Components/RawMaterialRequest";
+import RawMaterialRequest from "./Components/PROCUREMENT/RawMaterialRequest";
 
 import SupplierList from "./Components/SupplierList";
 import NotFound from "./pages/NotFound";
