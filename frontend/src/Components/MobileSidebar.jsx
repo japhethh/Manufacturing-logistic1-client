@@ -18,7 +18,7 @@ import { TbFileInvoice } from "react-icons/tb";
 
 const MobileSidebar = () => {
   return (
-    <div className="p-2">
+    <div className="p-2 h-screen">
       <div
         className="flex items-center justify-center gap-2 mb-8 cursor-pointer"
         aria-label="Dashboard Logo"
@@ -77,7 +77,7 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineCalculate className="transition-all duration-300 w-5 h-5" />
 
-              <span className="text-base font-semibold">Quotation</span>
+              <span className="text-base font-semibold mr-auto">Quotation</span>
             </summary>
             <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
@@ -122,7 +122,7 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaLuggageCart className="transition-all duration-300 w-5 h-5" />
 
-              <span className="text-base font-semibold">Purchase Orders</span>
+              <span className="text-base font-semibold mr-auto">Purchase Orders</span>
             </summary>
             <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
@@ -195,7 +195,7 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <RiContactsFill className="transition-all duration-300 w-5 h-5" />
 
-              <span className="text-base font-semibold">Contact</span>
+              <span className="text-base font-semibold mr-auto">Contact</span>
             </summary>
             <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
@@ -250,7 +250,7 @@ const MobileSidebar = () => {
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <BsBoxSeam />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Supplier Onboarding
               </span>
             </summary>
@@ -284,7 +284,7 @@ const MobileSidebar = () => {
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaChalkboardTeacher />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Supplier Dashboard
               </span>
             </summary>
@@ -316,7 +316,7 @@ const MobileSidebar = () => {
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <VscServerEnvironment />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Order Management
               </span>
             </summary>
@@ -348,7 +348,7 @@ const MobileSidebar = () => {
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <IoDocumentAttachOutline />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Document Exchange
               </span>
             </summary>
@@ -377,7 +377,7 @@ const MobileSidebar = () => {
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <BiDollarCircle />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Bids & Tenders
               </span>
             </summary>
@@ -406,7 +406,7 @@ const MobileSidebar = () => {
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <TbFileInvoice />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Submit Invoices
               </span>
             </summary>
@@ -431,7 +431,7 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineSupportAgent className="" />
 
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Support & Disputes
               </span>
             </summary>
@@ -459,7 +459,7 @@ const MobileSidebar = () => {
       </ul>
 
       {/* RETURN MANAGEMENT */}
-      <p className="text-gray-500 font-semibold text-base">Return Management</p>
+      <p className="text-gray-500 font-semibold text-base mr-auto">Return Management</p>
       <ul className="w-full menu rounded-box">
         {/* Return Authorization (RMA) */}
         <li>
@@ -504,7 +504,7 @@ const MobileSidebar = () => {
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaChalkboardTeacher className="" />
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Reverse Logistics
               </span>
             </summary>
@@ -535,7 +535,7 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <VscServerEnvironment className="" />
 
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Return Documentation
               </span>
             </summary>
@@ -566,7 +566,7 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineInventory2 className="" />
 
-              <span className="ml-2 text-base font-semibold">
+              <span className="ml-2 text-base font-semibold mr-auto">
                 Inventory Updates
               </span>
             </summary>
@@ -611,7 +611,7 @@ const MobileSidebar = () => {
                       : "text-black"
                   }
                 >
-                  <p className="text-base">Warranty Status</p>
+                  <p className="text-base mr-auto">Warranty Status</p>
                 </NavLink>
               </li>
               <li>

@@ -6,8 +6,8 @@ import MobileSidebar from "./MobileSidebar";
 import Store from "../context/Store";
 
 const Search = () => {
-  const { userData } = Store();  // Access global state and actions
-  const [isModalOpen, setIsModalOpen] = useState(false);  // State to control modal visibility
+  const { userData } = Store(); // Access global state and actions
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -15,7 +15,7 @@ const Search = () => {
   };
 
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);  // Toggle the modal's visibility
+    setIsModalOpen(!isModalOpen); // Toggle the modal's visibility
   };
 
   return (
@@ -94,7 +94,7 @@ const Search = () => {
               <li>
                 <a
                   href="#logout"
-                  onClick={toggleModal}  // Show the modal on click
+                  onClick={toggleModal} // Show the modal on click
                   className="hover:bg-gray-100 p-2 rounded"
                 >
                   Log out
@@ -141,7 +141,7 @@ const Search = () => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+          <ul className="menu bg-base-200 text-base-content h-full max-h-screen w-80 p-4 overflow-y-auto">
             {/* Sidebar content here */}
             <MobileSidebar />
           </ul>
@@ -157,13 +157,13 @@ const Search = () => {
             <div className="modal-action">
               <button
                 className="btn btn-primary"
-                onClick={handleLogout}  // Log out when confirmed
+                onClick={handleLogout} // Log out when confirmed
               >
                 Yes, Log Out
               </button>
               <button
                 className="btn"
-                onClick={toggleModal}  // Close modal when canceled
+                onClick={toggleModal} // Close modal when canceled
               >
                 Cancel
               </button>
