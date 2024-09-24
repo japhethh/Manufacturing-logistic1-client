@@ -30,6 +30,8 @@ const createGeneralSettings = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, message: "Created Successfully" });
 });
 
+
+// Read
 const getAllGeneralSettings = asyncHandler(async (req, res) => {
   const gatherdata = await generalSettingsModel.find();
 
@@ -40,6 +42,7 @@ const getAllGeneralSettings = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: gatherdata });
 });
 
+// Update
 const updateGeneralSettings = asyncHandler(async (req, res) => {
   const updateData = req.body;
   const { id } = req.params;
@@ -59,6 +62,7 @@ const updateGeneralSettings = asyncHandler(async (req, res) => {
     .json({ success: true, data: data, message: "Update Successfully!" });
 });
 
+// Delete
 const deleteGeneralSettings = asyncHandler(async (req, res) => {
   const { id } = req.params;
 

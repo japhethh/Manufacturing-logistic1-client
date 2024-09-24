@@ -19,6 +19,9 @@ import { Link, NavLink } from "react-router-dom";
 import { TbFileInvoice } from "react-icons/tb";
 import { IoPeopleSharp } from "react-icons/io5";
 import Store from "../context/Store";
+import { IoSettingsOutline } from "react-icons/io5";
+import { GrCurrency } from "react-icons/gr";
+import { LuSettings2 } from "react-icons/lu";
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -399,7 +402,9 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold mr-auto">Quotation</span>
+                    <span className="text-base font-semibold mr-auto">
+                      Quotation
+                    </span>
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
@@ -546,7 +551,9 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold mr-auto">Contact</span>
+                    <span className="text-base font-semibold mr-auto">
+                      Contact
+                    </span>
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
@@ -931,6 +938,73 @@ const Sidebar = () => {
                           <p className="text-base">Suppliers</p>
                         </NavLink>
                       </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {userData && userData.role === "admin" && (
+            <div>
+              <ul className="w-full menu rounded-box">
+                {/* Return Authorization (RMA) */}
+                <li>
+                  <details
+                    open
+                    className={`menu-item ${isCollapsed ? "hidden" : ""}`}
+                  >
+                    <summary className="flex items-center gap-2 cursor-pointer">
+                      <IoSettingsOutline
+                        className={`transition-all duration-300 ${
+                          isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                        }`}
+                      />
+                      {!isCollapsed && (
+                        <span className="ml-2 text-base font-semibold mr-auto">
+                          Settings
+                        </span>
+                      )}
+                    </summary>
+                    <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
+                      <li className="mt-1">
+                        <NavLink
+                          to="/currencies"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-base-200 bg-blue-500 font-bold"
+                              : "text-black"
+                          }
+                        >
+                          <GrCurrency className="inline " />{" "}
+                          <p className="text-base">Currencies</p>
+                        </NavLink>
+                      </li>
+                      <li className="mt-1">
+                        <NavLink
+                          to="system_settings"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-base-200 bg-blue-500 font-bold"
+                              : "text-black"
+                          }
+                        >
+                          <LuSettings2 className="inline" />{" "}
+                          <p className="text-base">System Settings</p>
+                        </NavLink>
+                      </li>
+                      {/* <li className="mt-1">
+                        <NavLink
+                          to="suppliers"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-base-200 bg-blue-500 font-bold"
+                              : "text-black"
+                          }
+                        >
+                          <p className="text-base">Suppliers</p>
+                        </NavLink>
+                      </li> */}
                     </ul>
                   </details>
                 </li>

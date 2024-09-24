@@ -62,7 +62,7 @@ const adminRequest = async (req, res) => {
 // Get All users
 const getUser = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find();
     if (!users) {
       return res.status(400).json("Errors");
     }

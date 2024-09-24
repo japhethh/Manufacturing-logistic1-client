@@ -29,6 +29,7 @@ import EditPurchaseOrder from "./Components/EditPurchaseOrder";
 import RegistrationRequest from "./Components/Vendor/RegistrationRequest";
 import ComplianceVerification from "./Components/Vendor/ComplianceVerification";
 import AutoFillPurchaseOrder from "./Components/AutoFillPurchaseOrder";
+import SystemSettings from "./Components/Settings/SystemSettings";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -153,6 +154,18 @@ const App = () => {
           <Route
             path="/complianceverification"
             element={<ComplianceVerification />}
+          />
+          
+          {/* Currencies */}
+          <Route
+            path="/currencies"
+            element={<ComplianceVerification />}
+          />
+
+          {/* System Settings */}
+          <Route
+            path="/system_settings"
+            element={<SystemSettings />}
           />
 
           <Route path="*" element={<NotFound />} />
