@@ -399,7 +399,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold">Quotation</span>
+                    <span className="text-base font-semibold mr-auto">Quotation</span>
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
@@ -456,7 +456,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold">
+                    <span className="text-base font-semibold mr-auto">
                       Purchase Orders
                     </span>
                   )}
@@ -546,7 +546,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold">Contact</span>
+                    <span className="text-base font-semibold mr-auto">Contact</span>
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
@@ -626,7 +626,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Supplier Onboarding
                     </span>
                   )}
@@ -670,7 +670,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Supplier Dashboard
                     </span>
                   )}
@@ -706,7 +706,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Order Management
                     </span>
                   )}
@@ -742,7 +742,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Document Exchange
                     </span>
                   )}
@@ -778,7 +778,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Bids & Tenders
                     </span>
                   )}
@@ -814,7 +814,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Submit Invoices
                     </span>
                   )}
@@ -850,7 +850,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Support & Disputes
                     </span>
                   )}
@@ -901,7 +901,7 @@ const Sidebar = () => {
                         }`}
                       />
                       {!isCollapsed && (
-                        <span className="ml-2 text-base font-semibold">
+                        <span className="ml-2 text-base font-semibold mr-auto">
                           Parties
                         </span>
                       )}
@@ -940,7 +940,7 @@ const Sidebar = () => {
 
           {/* RETURN MANAGEMENT */}
           <p
-            className={`text-gray-500 font-semibold text-base ${
+            className={`text-gray-500 font-semibold text-base mr-auto ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -1000,7 +1000,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Reverse Logistics
                     </span>
                   )}
@@ -1036,7 +1036,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Return Documentation
                     </span>
                   )}
@@ -1072,7 +1072,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Inventory Updates
                     </span>
                   )}
@@ -1108,7 +1108,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
+                    <span className="ml-2 text-base font-semibold mr-auto">
                       Warranty & claims
                     </span>
                   )}
