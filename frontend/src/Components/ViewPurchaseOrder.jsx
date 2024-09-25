@@ -54,8 +54,6 @@ const ViewPurchaseOrder = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    const logo =
-      "https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp";
 
     // Define some styling settings
     const marginX = 10;
@@ -64,25 +62,26 @@ const ViewPurchaseOrder = () => {
     const sectionGap = 15;
     const tableStartY = 120;
 
+    const companyData = generalSettingsData[0]; // Assuming you have a single general setting entry
+    const { companyName, companyEmail, companyAddress, companyPhone, logo } =
+      companyData;
     // Add company logo and header
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
     doc.text("PURCHASE ORDER", marginX, marginY - 10);
 
     doc.addImage(logo, "PNG", 150, marginY - 20, 50, 20); // Align logo on the right
+    
+    // doc.text("City, State, Zip", marginX, marginY + 2 * lineSpacing);
 
     // Add company information
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    doc.text("Your Company Name", marginX, marginY);
-    doc.text("1234 Company Address St.", marginX, marginY + lineSpacing);
-    doc.text("City, State, Zip", marginX, marginY + 2 * lineSpacing);
-    doc.text(
-      "Email: contact@yourcompany.com",
-      marginX,
-      marginY + 3 * lineSpacing
-    );
-    doc.text("Phone: (123) 456-7890", marginX, marginY + 4 * lineSpacing);
+    doc.text(`${companyName}`, marginX, marginY);
+    doc.text(`${companyAddress}`, marginX, marginY + lineSpacing);
+    doc.text(companyEmail, marginX, marginY + 2 * lineSpacing);
+    doc.text(`Phone: ${companyPhone}`, marginX, marginY + 3 * lineSpacing);
+    // doc.text(`Phone: ${companyPhone}`, marginX, marginY + 4 * lineSpacing);
     doc.text(
       "Date: " + new Date().toLocaleDateString(),
       150,
@@ -233,24 +232,20 @@ const ViewPurchaseOrder = () => {
       {purchaseOrder && (
         <div className="printable">
           {/* Only this will be printed */}
-          <div className="flex gap-2 justify-between">
-            <div>
-              {generalSettingsData.map((item, index) => (
-                <div key={index}>
+          {generalSettingsData.map((item, index) => (
+            <div key={index} className="flex gap-2 justify-between">
+              <div>
+                <div>
                   <h1>{item.companyName}</h1>
                   <h1>{item.companyEmail}</h1>
                   <h1>{item.companyAddress}</h1>
                 </div>
-              ))}
+              </div>
+              <div>
+                <img width={130} src={item.logo} alt="Company Logo" />
+              </div>
             </div>
-            <div>
-              <img
-                width={130}
-                src="https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"
-                alt="Company Logo"
-              />
-            </div>
-          </div>
+          ))}
           <div className="flex gap-2 justify-between">
             <div className="flex-1">
               <h1 className="text-xl font-semibold">Vendor</h1>
