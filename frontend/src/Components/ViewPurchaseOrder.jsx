@@ -4,17 +4,16 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
+import { toast } from "react-toastify";
 import "jspdf-autotable";
-
 const ViewPurchaseOrder = () => {
   const { id } = useParams();
   const { apiURL, token } = useContext(UserContext);
   const [purchaseOrder, setPurchaseOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const navigate = useNavigate();
-
+  const [generalSettingsData, setGeneralSettingsData] = useState(null);
   useEffect(() => {
     const fetchPurchaseOrder = async () => {
       try {
@@ -31,58 +30,116 @@ const ViewPurchaseOrder = () => {
     };
 
     fetchPurchaseOrder();
+    fetchGeneralSettings();
   }, [id, apiURL, token]);
+
+  const fetchGeneralSettings = async () => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/generalSettings/getAllGeneralSettings`,
+        { headers: { token: token } }
+      );
+
+      if (!response.data.success) {
+        toast.error("Not Found");
+      }
+
+      setGeneralSettingsData(response.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  console.log(generalSettingsData);
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    const logo = "https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp";
-  
+    const logo =
+      "https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp";
+
     // Define some styling settings
     const marginX = 10;
     const marginY = 40;
     const lineSpacing = 7;
     const sectionGap = 15;
     const tableStartY = 120;
-  
+
     // Add company logo and header
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
     doc.text("PURCHASE ORDER", marginX, marginY - 10);
-  
+
     doc.addImage(logo, "PNG", 150, marginY - 20, 50, 20); // Align logo on the right
-  
+
     // Add company information
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
     doc.text("Your Company Name", marginX, marginY);
     doc.text("1234 Company Address St.", marginX, marginY + lineSpacing);
     doc.text("City, State, Zip", marginX, marginY + 2 * lineSpacing);
-    doc.text("Email: contact@yourcompany.com", marginX, marginY + 3 * lineSpacing);
+    doc.text(
+      "Email: contact@yourcompany.com",
+      marginX,
+      marginY + 3 * lineSpacing
+    );
     doc.text("Phone: (123) 456-7890", marginX, marginY + 4 * lineSpacing);
-    doc.text("Date: " + new Date().toLocaleDateString(), 150, marginY + 4 * lineSpacing);
-  
+    doc.text(
+      "Date: " + new Date().toLocaleDateString(),
+      150,
+      marginY + 4 * lineSpacing
+    );
+
     // Draw a line between the header and the rest of the document
-    doc.line(marginX, marginY + 5 * lineSpacing + 5, 200, marginY + 5 * lineSpacing + 5);
-  
+    doc.line(
+      marginX,
+      marginY + 5 * lineSpacing + 5,
+      200,
+      marginY + 5 * lineSpacing + 5
+    );
+
     // Add supplier information
     const supplierStartY = marginY + 5 * lineSpacing + sectionGap;
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
     doc.text("Supplier Information", marginX, supplierStartY);
-  
+
     doc.setFontSize(12); // Consistent font size for supplier info
     doc.setFont("helvetica", "normal");
-    doc.text(`Supplier: ${purchaseOrder.supplier.supplierName}`, marginX, supplierStartY + lineSpacing);
-    doc.text(`${purchaseOrder.supplier.address.street}, ${purchaseOrder.supplier.address.city}, ${purchaseOrder.supplier.address.state}, ${purchaseOrder.supplier.address.zipCode}`, marginX, supplierStartY + 2 * lineSpacing);
-    doc.text(`Email: ${purchaseOrder.supplier.contactEmail}`, marginX, supplierStartY + 3 * lineSpacing);
-    doc.text(`Phone: ${purchaseOrder.supplier.contactPhone}`, marginX, supplierStartY + 4 * lineSpacing);
-  
+    doc.text(
+      `Supplier: ${purchaseOrder.supplier.supplierName}`,
+      marginX,
+      supplierStartY + lineSpacing
+    );
+    doc.text(
+      `${purchaseOrder.supplier.address.street}, ${purchaseOrder.supplier.address.city}, ${purchaseOrder.supplier.address.state}, ${purchaseOrder.supplier.address.zipCode}`,
+      marginX,
+      supplierStartY + 2 * lineSpacing
+    );
+    doc.text(
+      `Email: ${purchaseOrder.supplier.contactEmail}`,
+      marginX,
+      supplierStartY + 3 * lineSpacing
+    );
+    doc.text(
+      `Phone: ${purchaseOrder.supplier.contactPhone}`,
+      marginX,
+      supplierStartY + 4 * lineSpacing
+    );
+
     // Add Purchase Order details
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text(`Purchase Order #: ${purchaseOrder.purchaseOrderNumber}`, 130, supplierStartY);
-    doc.text("Order Date: " + new Date(purchaseOrder.orderDate).toLocaleDateString(), 150, supplierStartY + lineSpacing);
-  
+    doc.text(
+      `Purchase Order #: ${purchaseOrder.purchaseOrderNumber}`,
+      130,
+      supplierStartY
+    );
+    doc.text(
+      "Order Date: " + new Date(purchaseOrder.orderDate).toLocaleDateString(),
+      150,
+      supplierStartY + lineSpacing
+    );
+
     // Add Items table
     const items = purchaseOrder.items.map((item) => [
       item.name,
@@ -90,7 +147,7 @@ const ViewPurchaseOrder = () => {
       `$${item.price.toFixed(2)}`,
       `$${item.totalPrice.toFixed(2)}`,
     ]);
-    
+
     doc.autoTable({
       head: [["Item", "Quantity", "Price", "Total"]],
       body: items,
@@ -98,7 +155,7 @@ const ViewPurchaseOrder = () => {
       theme: "striped",
       styles: { fillColor: [220, 220, 220], fontSize: 12 }, // Increase font size for better readability
       margin: { top: 10, bottom: 10, left: marginX, right: marginX }, // Adjust margins
-      tableWidth: 'auto', // Allow the table to adjust to the content width
+      tableWidth: "auto", // Allow the table to adjust to the content width
       columnStyles: {
         0: { cellWidth: 50 }, // Adjust the width of the Item column
         1: { cellWidth: 40 }, // Adjust the width of the Quantity column
@@ -106,43 +163,55 @@ const ViewPurchaseOrder = () => {
         3: { cellWidth: 50 }, // Adjust the width of the Total column
       },
     });
-  
+
     // Subtotal, notes, and payment terms section
     const finalY = doc.autoTable.previous.finalY + 10;
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text(`Subtotal: $${purchaseOrder.totalAmount.toFixed(2)}`, marginX, finalY);
-  
+    doc.text(
+      `Subtotal: $${purchaseOrder.totalAmount.toFixed(2)}`,
+      marginX,
+      finalY
+    );
+
     doc.text("Notes:", marginX, finalY + lineSpacing);
     doc.setFont("helvetica", "normal");
     doc.text(purchaseOrder.notes || "None", marginX, finalY + 2 * lineSpacing);
-  
+
     doc.setFont("helvetica", "bold");
     doc.text("Payment Terms:", marginX, finalY + 3 * lineSpacing);
     doc.setFont("helvetica", "normal");
-    doc.text(purchaseOrder.paymentTerm || "Not specified", marginX, finalY + 4 * lineSpacing);
-  
+    doc.text(
+      purchaseOrder.paymentTerm || "Not specified",
+      marginX,
+      finalY + 4 * lineSpacing
+    );
+
     // Draw a line before the footer
     doc.line(marginX, finalY + 5 * lineSpacing, 200, finalY + 5 * lineSpacing);
-  
+
     // Footer (optional)
     doc.setFontSize(10);
     doc.setFont("helvetica", "italic");
-    doc.text("Thank you for your business!", 100, finalY + 6 * lineSpacing, null, null, "center");
-  
+    doc.text(
+      "Thank you for your business!",
+      100,
+      finalY + 6 * lineSpacing,
+      null,
+      null,
+      "center"
+    );
+
     // Save the PDF
     doc.save(`PurchaseOrder_${purchaseOrder.purchaseOrderNumber}.pdf`);
   };
-  
-  
-  
 
   const handlePrint = () => {
     window.print();
   };
   const handleEdit = () => {
-    navigate(`/purchase_orders/manage_po/${id}`)
-    };
+    navigate(`/purchase_orders/manage_po/${id}`);
+  };
 
   if (loading) return <div className="text-center py-4">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
@@ -166,9 +235,13 @@ const ViewPurchaseOrder = () => {
           {/* Only this will be printed */}
           <div className="flex gap-2 justify-between">
             <div>
-              <h1>Your Company Name</h1>
-              <h1>info@company.com</h1>
-              <h1>1234 Company St, City, Zip</h1>
+              {generalSettingsData.map((item, index) => (
+                <div key={index}>
+                  <h1>{item.companyName}</h1>
+                  <h1>{item.companyEmail}</h1>
+                  <h1>{item.companyAddress}</h1>
+                </div>
+              ))}
             </div>
             <div>
               <img
