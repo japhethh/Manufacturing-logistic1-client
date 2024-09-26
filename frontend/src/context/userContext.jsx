@@ -12,9 +12,9 @@ const UserContextProvider = ({ children }) => {
     window.location.hostname === "localhost"
       ? "http://localhost:4000"
       : window.location.hostname ===
-        "https://manufacturing-logistic1-client-api.onrender.com"
-      ? "https://backend-logistic1.jjm-manufacturing.com"
-      : "https://backend-logistic1.jjm-manufacturing.com/";
+        "https://backend-logistic1.jjm-manufacturing.com"
+      ? "https://manufacturing-logistic1-client-api.onrender.com"
+      : "https://manufacturing-logistic1-client-api.onrender.com";
 
   // const apiURL = "https://logistic1.jjm-manufacturing.com";
 
