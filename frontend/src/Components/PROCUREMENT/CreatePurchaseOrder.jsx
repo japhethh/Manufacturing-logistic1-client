@@ -57,7 +57,7 @@ const CreatePurchaseOrder = () => {
     if (selectedMaterial) {
       const updatedItems = [...formData.items];
       updatedItems[index].name = materialName;
-      updatedItems[index].price = selectedMaterial.pricePerUnit; // Set the price based on selected material
+      updatedItems[index].price = selectedMaterial.pricePerUnit;
       setFormData({ ...formData, items: updatedItems });
     }
   };
@@ -106,7 +106,7 @@ const CreatePurchaseOrder = () => {
   };
 
   const generatePurchaseOrderNumber = () => {
-    return `PO-${Date.now()}`; // Example: PO-1630358395431
+    return `PO-${Date.now()}`;
   };
 
   const validateForm = () => {
@@ -197,219 +197,264 @@ const CreatePurchaseOrder = () => {
   return (
     <div className="container mx-auto px-4 py-6">
       <form>
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-[#07074D] mb-4 md:mb-0">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-[#07074D]">
             Create Purchase Order
           </h1>
-          <div className="flex flex-col md:flex-row md:space-x-3 mb-6">
-            <div className="flex justify-center md:justify-start space-x-3 mb-3 md:mb-0">
-              <button
-                className="rounded-md bg-red-500 text-white py-3 px-6 text-sm font-semibold hover:bg-red-600 transition-all duration-300 shadow-md transform hover:scale-105"
-                onClick={handleReset}
-                type="button"
-              >
-                Cancel
-              </button>
-              <button
-                className="rounded-md bg-yellow-500 text-white py-3 px-6 text-sm font-semibold hover:bg-yellow-600 transition-all duration-300 shadow-md transform hover:scale-105"
-                onClick={handleReset}
-                type="button"
-              >
-                Reset
-              </button>
-              <button
-                className="rounded-md bg-green-500 text-white py-3 px-6 text-sm font-semibold hover:bg-green-600 transition-all duration-300 shadow-md transform hover:scale-105"
-                onClick={handleSubmit}
-                type="button"
-              >
-                Save
-              </button>
-            </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Vendor Selection */}
+          <div>
+            <label
+              htmlFor="supplier"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Vendor Selection
+            </label>
+            <select
+              id="supplier"
+              value={formData.supplier}
+              onChange={(e) => handleSupplierChange(e.target.value)}
+              className="w-full rounded-md border border-[#e0e0e0] py-3 px-4 text-base font-medium text-[#6B7280] outline-none"
+            >
+              <option value="">Select Supplier</option>
+              {suppliers.map((supplier) => (
+                <option key={supplier._id} value={supplier._id}>
+                  {supplier.supplierName}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
 
-        {/* Vendor Selection */}
-        <div className="mb-4">
-          <label
-            htmlFor="supplier"
-            className="block text-base font-medium text-[#07074D]"
-          >
-            Vendor Selection
-          </label>
-          <select
-            id="supplier"
-            value={formData.supplier}
-            onChange={(e) => handleSupplierChange(e.target.value)}
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            required
-          >
-            <option value="">Select Supplier</option>
-            {suppliers.map((supplier) => (
-              <option key={supplier._id} value={supplier._id}>
-                {supplier.supplierName}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Order Date */}
-        <div className="mb-4">
-          <label
-            htmlFor="orderDate"
-            className="block text-base font-medium text-[#07074D] mb-2"
-          >
-            Order Date
-          </label>
-          <input
-            type="date"
-            id="orderDate"
-            value={
-              formData.orderDate
-                ? formData.orderDate.toISOString().split("T")[0]
-                : ""
-            }
-            onChange={(e) =>
-              setFormData({ ...formData, orderDate: new Date(e.target.value) })
-            }
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            required
-          />
+          {/* Order Date */}
+          <div>
+            <label
+              htmlFor="orderDate"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Order Date
+            </label>
+            <input
+              type="date"
+              id="orderDate"
+              value={
+                formData.orderDate
+                  ? formData.orderDate.toISOString().split("T")[0]
+                  : ""
+              }
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  orderDate: new Date(e.target.value),
+                })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+            />
+          </div>
         </div>
 
         {/* Items Section */}
-        <div className="mb-4">
+        <div className="mt-6">
           <h2 className="text-lg font-semibold text-[#07074D] mb-4">Items</h2>
           {formData.items.map((item, index) => (
-            <div key={index} className="flex flex-col md:flex-row mb-4">
-              <select
-                value={item.name}
-                onChange={(e) => handleMaterialChange(index, e.target.value)}
-                className="w-full md:w-1/3 rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md md:mr-2 mb-2 md:mb-0"
-              >
-                <option value="">Select Item</option>
-                {selectedMaterials.map((material) => (
-                  <option
-                    key={material.materialName}
-                    value={material.materialName}
-                  >
-                    {material.materialName}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                value={item.quantity}
-                onChange={(e) =>
-                  handleInputChange(index, "quantity", e.target.value)
-                }
-                className="w-full md:w-1/3 rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md md:mr-2 mb-2 md:mb-0"
-                placeholder="Quantity"
-                min="0"
-                required
-              />
-              <input
-                type="number"
-                value={item.price}
-                onChange={(e) =>
-                  handleInputChange(index, "price", e.target.value)
-                }
-                className="w-full md:w-1/3 rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md mb-2 md:mb-0"
-                placeholder="Price"
-                min="0"
-                required
-              />
-              <input
-                type="number"
-                value={item.discount}
-                onChange={(e) =>
-                  handleInputChange(index, "discount", e.target.value)
-                }
-                className="w-full md:w-1/3 rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md mb-2 md:mb-0"
-                placeholder="Discount (%)"
-                min="0"
-                max="100"
-              />
-              <button
-                onClick={() => handleRemoveItem(index)}
-                type="button"
-                className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition mt-2 md:mt-0"
-              >
-                Remove
-              </button>
+            <div
+              key={index}
+              className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4"
+            >
+              <div>
+                <label
+                  htmlFor={`material-${index}`}
+                  className="block text-base font-medium text-[#07074D]"
+                >
+                  Material
+                </label>
+                <select
+                  id={`material-${index}`}
+                  value={item.name}
+                  onChange={(e) => handleMaterialChange(index, e.target.value)}
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                >
+                  <option value="">Select Item</option>
+                  {selectedMaterials.map((material) => (
+                    <option
+                      key={material.materialName}
+                      value={material.materialName}
+                    >
+                      {material.materialName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor={`quantity-${index}`}
+                  className="block text-base font-medium text-[#07074D]"
+                >
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  id={`quantity-${index}`}
+                  value={item.quantity}
+                  onChange={(e) =>
+                    handleInputChange(index, "quantity", e.target.value)
+                  }
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor={`price-${index}`}
+                  className="block text-base font-medium text-[#07074D]"
+                >
+                  Price
+                </label>
+                <input
+                  type="number"
+                  id={`price-${index}`}
+                  value={item.price}
+                  onChange={(e) =>
+                    handleInputChange(index, "price", e.target.value)
+                  }
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor={`discount-${index}`}
+                  className="block text-base font-medium text-[#07074D]"
+                >
+                  Discount %
+                </label>
+                <input
+                  type="number"
+                  id={`discount-${index}`}
+                  value={item.discount}
+                  onChange={(e) =>
+                    handleInputChange(index, "discount", e.target.value)
+                  }
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                />
+              </div>
+
+              {/* Remove Button */}
+              <div className="md:col-span-4 text-right">
+                <button
+                  type="button"
+                  onClick={() => handleRemoveItem(index)}
+                  className="rounded-md bg-red-500 text-white py-2 px-4 text-base font-semibold hover:bg-red-600 transition-all duration-300 shadow-md transform hover:scale-105"
+                >
+                  Remove Item
+                </button>
+              </div>
             </div>
           ))}
+
+          {/* Add Item Button */}
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={handleAddItem}
+              className="rounded-md bg-green-500 text-white py-2 px-4 text-base font-semibold hover:bg-green-600 transition-all duration-300 shadow-md transform hover:scale-105"
+            >
+              + Add Another Item
+            </button>
+          </div>
+        </div>
+
+        {/* Order Summary */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          {/* Tax */}
+          <div>
+            <label
+              htmlFor="tax"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Tax (%)
+            </label>
+            <input
+              type="number"
+              id="tax"
+              value={formData.tax}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  tax: parseFloat(e.target.value) || 0,
+                })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+            />
+          </div>
+
+          {/* Payment Term */}
+          <div>
+            <label
+              htmlFor="paymentTerm"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Payment Term
+            </label>
+            <input
+              type="text"
+              id="paymentTerm"
+              value={formData.paymentTerm}
+              onChange={(e) =>
+                setFormData({ ...formData, paymentTerm: e.target.value })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+            />
+          </div>
+
+          {/* Notes */}
+          <div className="md:col-span-2">
+            <label
+              htmlFor="notes"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              rows={3}
+            />
+          </div>
+
+          {/* Total Summary */}
+          <div className="md:col-span-2 mt-6 bg-gray-100 p-4 rounded-md">
+            <h3 className="text-lg font-semibold text-[#07074D] mb-4">
+              Summary
+            </h3>
+            <p>Subtotal: ${subtotal.toFixed(2)}</p>
+            <p>Tax: ${taxAmount.toFixed(2)}</p>
+            <p className="font-bold">Total: ${total.toFixed(2)}</p>
+          </div>
+        </div>
+
+        {/* Submit and Reset Buttons */}
+        <div className="mt-6 flex justify-end gap-4">
           <button
-            onClick={handleAddItem}
             type="button"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+            onClick={handleReset}
+            className="px-6 py-2 rounded-md bg-gray-300 text-[#07074D] hover:bg-gray-400"
           >
-            Add Item
+            Reset
           </button>
-        </div>
-
-        {/* Summary Section */}
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold text-[#07074D] mb-4">Summary</h2>
-          <div className="flex justify-between mb-2">
-            <span>Subtotal:</span>
-            <span>{subtotal.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between mb-2">
-            <span>Tax:</span>
-            <span>{taxAmount.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between font-bold">
-            <span>Total:</span>
-            <span>{total.toFixed(2)}</span>
-          </div>
-        </div>
-
-        {/* Additional Notes and Payment Terms */}
-        <div className="mb-4">
-          <label
-            htmlFor="notes"
-            className="block text-base font-medium text-[#07074D] mb-2"
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="px-6 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
           >
-            Notes
-          </label>
-          <textarea
-            id="notes"
-            value={formData.notes}
-            onChange={(e) =>
-              setFormData({ ...formData, notes: e.target.value })
-            }
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            rows="4"
-          ></textarea>
-        </div>
-
-        <div className="mb-4">
-          <label
-            htmlFor="paymentTerm"
-            className="block text-base font-medium text-[#07074D] mb-2"
-          >
-            Payment Term
-          </label>
-          <input
-            type="text"
-            id="paymentTerm"
-            value={formData.paymentTerm}
-            onChange={(e) =>
-              setFormData({ ...formData, paymentTerm: e.target.value })
-            }
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            placeholder="Payment Term"
-            required
-          />
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-base font-medium text-[#07074D]">
-            Approval Status:
-          </span>
-          <span className="text-base font-medium text-[#07074D]">
-            {formData.approvalStatus}
-          </span>
+            Submit
+          </button>
         </div>
       </form>
     </div>
@@ -417,3 +462,24 @@ const CreatePurchaseOrder = () => {
 };
 
 export default CreatePurchaseOrder;
+
+// const handleReset = () => {
+//   setFormData({
+//     supplier: "",
+//     orderDate: null,
+//     items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
+//     tax: 0,
+//     notes: "",
+//     paymentTerm: "",
+//     approvalStatus: "Pending",
+//   });
+//   setSelectedMaterials([]);
+// };
+
+// <button
+// className="rounded-md bg-red-500 text-white py-3 px-6 text-sm font-semibold hover:bg-red-600 transition-all duration-300 shadow-md transform hover:scale-105"
+// onClick={handleReset}
+// type="button"
+// >
+// Cancel
+// </button>

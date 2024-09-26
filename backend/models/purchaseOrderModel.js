@@ -34,7 +34,7 @@ const purchaseOrderSchema = mongoose.Schema(
     orderDate: { type: Date, default: Date.now },
     orderStatus: {
       type: String,
-      enum: ["Pending", "Processing", "Completed"],
+      enum: ["Pending", "In Process", "Shipped","Delivered"],
       default: "Pending",
     },
     paymentTerm: { type: String, required: true },

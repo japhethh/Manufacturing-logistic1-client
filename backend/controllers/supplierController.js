@@ -2,6 +2,7 @@ import { FaWineGlassEmpty } from "react-icons/fa6";
 import supplierModel from "../models/supplierModel.js";
 import asyncHandler from "express-async-handler";
 
+// Get
 const getAllSupplier = asyncHandler(async (req, res) => {
   try {
     const suppliers = await supplierModel
@@ -28,6 +29,8 @@ const getSupplierById = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Create
 const createSupplier = asyncHandler(async (req, res) => {
   const {
     supplierName,
@@ -66,6 +69,8 @@ const createSupplier = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Update
 const updateSupplier = asyncHandler(async (req, res) => {
   const {
     supplierName,

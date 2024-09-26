@@ -195,7 +195,6 @@ const EditPurchaseOrder = () => {
       NotificationService.success(response.data.message);
       handleReset(); // Reset the form after successful submission
       navigate(`/purchase_orders/view_po/${response.data.data}`); // Navigate to the purchase order view
-
     } catch (error) {
       console.error("Error creating purchase order:", error);
       NotificationService.error("Error creating purchase order");
@@ -237,54 +236,59 @@ const EditPurchaseOrder = () => {
           </div>
         </div>
 
-        {/* Vendor Selection */}
-        <div className="mb-4">
-          <label
-            htmlFor="supplier"
-            className="block text-base font-medium text-[#07074D]"
-          >
-            Vendor Selection
-          </label>
-          <select
-            id="supplier"
-            value={formData.supplier}
-            onChange={(e) =>
-              setFormData({ ...formData, supplier: e.target.value })
-            }
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            required
-          >
-            <option value="">Select Supplier</option>
-            {suppliers.map((supplier) => (
-              <option key={supplier._id} value={supplier._id}>
-                {supplier.supplierName}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="flex  gap-2"> 
+          {/* Vendor Selection */}
+          <div className="mb-4 flex-1">
+            <label
+              htmlFor="supplier"
+              className="block text-base font-medium text-[#07074D] mb-2"
+            >
+              Vendor Selection
+            </label>
+            <select
+              id="supplier"
+              value={formData.supplier}
+              onChange={(e) =>
+                setFormData({ ...formData, supplier: e.target.value })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              required
+            >
+              <option value="">Select Supplier</option>
+              {suppliers.map((supplier) => (
+                <option key={supplier._id} value={supplier._id}>
+                  {supplier.supplierName}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Order Date */}
-        <div className="mb-4">
-          <label
-            htmlFor="orderDate"
-            className="block text-base font-medium text-[#07074D] mb-2"
-          >
-            Order Date
-          </label>
-          <input
-            type="date"
-            id="orderDate"
-            value={
-              formData.orderDate
-                ? formData.orderDate.toISOString().split("T")[0]
-                : ""
-            }
-            onChange={(e) =>
-              setFormData({ ...formData, orderDate: new Date(e.target.value) })
-            }
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            required
-          />
+          {/* Order Date */}
+          <div className="mb-4 flex-1">
+            <label
+              htmlFor="orderDate"
+              className="block text-base font-medium text-[#07074D] mb-2"
+            >
+              Order Date
+            </label>
+            <input
+              type="date"
+              id="orderDate"
+              value={
+                formData.orderDate
+                  ? formData.orderDate.toISOString().split("T")[0]
+                  : ""
+              }
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  orderDate: new Date(e.target.value),
+                })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-2 px-4 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+              required
+            />
+          </div>
         </div>
 
         <div className="mb-6">

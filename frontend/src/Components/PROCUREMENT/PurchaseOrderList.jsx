@@ -176,10 +176,26 @@ const PurchaseOrderList = () => {
                     currency: "USD",
                   }).format(order.totalAmount)}
                 </td>
-                <td className="py-2 px-4">{order.orderStatus}</td>
+                <td className="py-2 px-4">
+                  <div
+                    className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
+                      order.orderStatus === "Pending"
+                        ? "bg-yellow-100 border-yellow-300"
+                        : order.orderStatus === "In Process"
+                        ? "bg-blue-100 border-blue-300"
+                        : order.orderStatus === "Shipped"
+                        ? "bg-green-100 border-green-300"
+                        : order.orderStatus === "Delivered"
+                        ? "bg-gray-100 border-gray-300"
+                        : "bg-gray-200 border-gray-400" // Default case for unknown statuses
+                    }`}
+                  >
+                    {order.orderStatus}
+                  </div>
+                </td>
                 <td className="py-2 px-4 flex space-x-2">
                   <button
-                    className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-500 transition"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-500 transition"
                     onClick={() =>
                       navigate(`/purchase_orders/view_po/${order._id}`)
                     }
@@ -187,7 +203,7 @@ const PurchaseOrderList = () => {
                     <FiEye className="inline" /> View
                   </button>
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition"
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-500 transition"
                     onClick={() => handleDeleteClick(order._id)}
                   >
                     <FiTrash className="inline" /> Delete
