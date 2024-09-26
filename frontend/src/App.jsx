@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Log from "./Components/Authentication/Log";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
-import RawMaterialRequest from "./Components/Procurement/RawMaterialRequest";
+import RawMaterialRequest from "./Components/Procurement/RawMaterialRequest.jsx";
 import SupplierList from "./Components/Procurement/SupplierList";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
