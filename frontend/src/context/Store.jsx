@@ -11,8 +11,8 @@ const apiURL =
     ? "http://localhost:4000"
     : window.location.hostname ===
       "https://manufacturing-logistic1-client-api.onrender.com"
-    ? "https://logistic1.jjm-manufacturing.com"
-    : "https://logistic1.jjm-manufacturing.com";
+    ? "https://backend-logistic1.jjm-manufacturing.com"
+    : "https://backend-logistic1.jjm-manufacturing.com/";
 
 // const apiURL =
 //   window.location.hostname === "localhost"
