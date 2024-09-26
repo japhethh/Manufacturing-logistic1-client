@@ -10,7 +10,7 @@ const apiURL =
   window.location.hostname === "localhost"
     ? "http://localhost:4000"
     : window.location.hostname ===
-      "manufacturing-logistic1-client-frontend.onrender.com"
+      "https://manufacturing-logistic1-client-frontend.onrender.com"
     ? "https://logistic1.jjm-manufacturing.com"
     : "https://logistic1.jjm-manufacturing.com";
 
