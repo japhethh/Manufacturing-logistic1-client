@@ -1,3 +1,4 @@
+import shipmentHistoryModel from "../models/shipmentHistoryModel.js";
 import shipmentModel from "../models/shipmentModel.js";
 import asyncHandler from "express-async-handler";
 
@@ -53,22 +54,37 @@ const getAllShipment = asyncHandler(async (req, res) => {
 
 // UPDATE
 const updateShipment = asyncHandler(async (req, res) => {
-  const { shipmentStatus } = req.body;
+  const { shipmentStatus, changedBy, comments } = req.body;
   const { id } = req.params;
-
-  const updateStatus = await shipmentModel.findByIdAndUpdate(
+  const shipmentData = await shipmentModel.findById(req.params.id);
+  const previousStatus = shipmentData.shipmentStatus;
+  if (!shipmentData) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Shipment Not Found" });
+  }
+  const shipment = await shipmentModel.findByIdAndUpdate(
     id,
-    {shipmentStatus},
+    { shipmentStatus },
     { new: true }
   );
 
-  if (!updateStatus) {
+  if (!shipment) {
     return res
       .status(400)
       .json({ success: false, message: "Shipment Not Found" });
   }
 
-  res.status(200).json(updateStatus);
+  const history = new shipmentHistoryModel({
+    shipmentId: shipment._id,
+    previousStatus,
+    newStatus: shipment.shipmentStatus,
+    changedBy,
+    comments,
+  });
+
+  await history.save();
+  res.status(201).json(shipment);
 });
 
 // DELETE
