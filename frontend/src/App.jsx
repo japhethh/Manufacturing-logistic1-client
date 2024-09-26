@@ -17,7 +17,7 @@ import User from "./Components/User";
 import CreateUser from "./Components/CreateUser";
 import CreateSupplier from "./Components/CreateSupplier";
 import EditUser from "./Components/EditUser";
-import CreatePurchaseOrder from "./Components/Procurement/CreatePurchaseOrder.jsx";
+import CreatePurchaseOrder from "./Components/Procurements/CreatePurchaseOrder.jsx";
 import TrackOrders from "./Components/Procurement/TrackOrders.jsx";
 import OrderFulfillmentStatus from "./Components/Procurement/OrderFulfillmentStatus.jsx";
 import ViewContacts from "../../ViewContacts";
