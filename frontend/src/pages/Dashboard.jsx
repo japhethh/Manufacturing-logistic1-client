@@ -111,7 +111,7 @@ const Dashboard = () => {
                 {youtubelink
                   .filter((youtube) => youtube.category === "music")
                   .map((youtube, index) => (
-                    <div key={index} className="w-full mb-4">
+                    <div key={index} className=" mb-4 ">
                       <iframe
                         className="rounded-md"
                         width="350"
@@ -135,7 +135,7 @@ const Dashboard = () => {
                 {youtubelink
                   .filter((youtube) => youtube.category === "funny")
                   .map((youtube, index) => (
-                    <div key={index} className="w-full mb-4">
+                    <div key={index} className=" mb-4">
                       <iframe
                         className="rounded-md"
                         width="350"
@@ -159,7 +159,7 @@ const Dashboard = () => {
                 {youtubelink
                   .filter((youtube) => youtube.category === "facebook")
                   .map((youtube, index) => (
-                    <div key={index} className="w-full mb-4">
+                    <div key={index} className=" mb-4">
                       <iframe
                         className="rounded-md"
                         width="350"
@@ -183,7 +183,7 @@ const Dashboard = () => {
                 {youtubelink
                   .filter((youtube) => youtube.category === "lofi")
                   .map((youtube, index) => (
-                    <div key={index} className="w-full mb-4">
+                    <div key={index} className=" mb-4">
                       <iframe
                         className="rounded-md"
                         width="350"
