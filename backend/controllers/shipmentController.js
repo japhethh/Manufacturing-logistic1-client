@@ -11,7 +11,7 @@ import asyncHandler from "express-async-handler";
 const createShipment = asyncHandler(async (req, res) => {
   try {
     const {
-      purchaseOrderId,
+      purchaseOrder,
       shipmentStatus,
       trackingNumber,
       carrier,
@@ -21,7 +21,7 @@ const createShipment = asyncHandler(async (req, res) => {
     } = req.body;
 
     const shipment = new shipmentModel({
-      purchaseOrderId,
+      purchaseOrder,
       shipmentStatus,
       trackingNumber,
       carrier,
@@ -58,7 +58,7 @@ const updateShipment = asyncHandler(async (req, res) => {
 
   const updateStatus = await shipmentModel.findByIdAndUpdate(
     id,
-    shipmentStatus,
+    {shipmentStatus},
     { new: true }
   );
 
