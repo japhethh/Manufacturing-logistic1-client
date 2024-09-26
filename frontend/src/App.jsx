@@ -5,8 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import Log from "./Components/Authentication/Log";
 import Sidebar from "./Components/Sidebar";
 import Search from "./Components/Search";
-import RawMaterialRequest from "./Components/PROCUREMENT/RawmaterialRequest.jsx";
-import SupplierList from "./Components/PROCUREMENT/SupplierList";
+import RawMaterialRequest from "./Components/Procurement/RawmaterialRequest.jsx";
+import SupplierList from "./Components/Procurement/SupplierList.jsx";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,14 +17,14 @@ import User from "./Components/User";
 import CreateUser from "./Components/CreateUser";
 import CreateSupplier from "./Components/CreateSupplier";
 import EditUser from "./Components/EditUser";
-import CreatePurchaseOrder from "./Components/Procurement/CreatePurchaseOrder";
-import TrackOrders from "./Components/Procurement/TrackOrders";
-import OrderFulfillmentStatus from "./Components/Procurement/OrderFulfillmentStatus";
+import CreatePurchaseOrder from "./Components/Procurement/CreatePurchaseOrder.jsx";
+import TrackOrders from "./Components/Procurement/TrackOrders.jsx";
+import OrderFulfillmentStatus from "./Components/Procurement/OrderFulfillmentStatus.jsx";
 import ViewContacts from "../../ViewContacts";
-import RenewalsExpirations from "./Components/Procurement/RenewalsExpirations";
+import RenewalsExpirations from "./Components/Procurement/RenewalsExpirations.jsx";
 // import PurchaseOrderEdit from "./Components/PurchaseOrderEdit";
 import ViewPurchaseOrder from "./Components/ViewPurchaseOrder";
-import PurchaseOrderList from "./Components/Procurement/PurchaseOrderList";
+import PurchaseOrderList from "./Components/Procurement/PurchaseOrderList.jsx";
 import EditPurchaseOrder from "./Components/EditPurchaseOrder";
 import RegistrationRequest from "./Components/Vendor/RegistrationRequest";
 import ComplianceVerification from "./Components/Vendor/ComplianceVerification";
@@ -155,18 +155,12 @@ const App = () => {
             path="/complianceverification"
             element={<ComplianceVerification />}
           />
-          
+
           {/* Currencies */}
-          <Route
-            path="/currencies"
-            element={<ComplianceVerification />}
-          />
+          <Route path="/currencies" element={<ComplianceVerification />} />
 
           {/* System Settings */}
-          <Route
-            path="/system_settings"
-            element={<SystemSettings />}
-          />
+          <Route path="/system_settings" element={<SystemSettings />} />
 
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
