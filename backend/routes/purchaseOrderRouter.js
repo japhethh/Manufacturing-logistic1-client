@@ -25,7 +25,7 @@ import {
   deletePurchaseOrder,
   updateStatus,
 } from "../controllers/purchaseOrderController.js";
-import authMiddleware from "../middleware/Auth.js";
+import {authMiddleware} from "../middleware/Auth.js";
 
 const purchaseOrderRouter = express.Router();
 

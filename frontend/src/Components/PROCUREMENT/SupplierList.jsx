@@ -3,6 +3,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import { FiEdit, FiTrash, FiChevronDown, FiChevronUp } from "react-icons/fi";
 
+import {toast} from 'react-toastify';
+
 const SupplierList = () => {
   const { apiURL } = useContext(UserContext);
   const [suppliers, setSuppliers] = useState([]);
@@ -60,11 +62,12 @@ const SupplierList = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`${apiURL}/api/supplier/${supplierToDelete}`);
+      await axios.delete(`${apiURL}/api/supplier/delete/${supplierToDelete}`);
       setSuppliers((prevSuppliers) =>
         prevSuppliers.filter((supplier) => supplier._id !== supplierToDelete)
       );
       setShowDeleteModal(false);
+      toast.error("Delete Successfully")
     } catch (error) {
       console.error("Error deleting supplier:", error);
     }

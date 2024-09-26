@@ -10,10 +10,10 @@ import {
   adminRequest,
   getSearch,
 } from "../controllers/userController.js";
-import Auth from "../middleware/Auth.js";
+import {authMiddleware} from "../middleware/Auth.js";
 const userRouter = express.Router();
 
-userRouter.get("/", Auth, getSpecificUser);
+userRouter.get("/", authMiddleware, getSpecificUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/register", registerUser);
 userRouter.put("/update/:id", updateUser);

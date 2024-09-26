@@ -56,9 +56,9 @@ app.use("/api/rawmaterial", rawmaterialRouter);
 app.use("/api/purchase-order", purchaseOrderRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/material", materialRouter);
-app.use("/api/generalSettings",generalSettingsRouter);
-app.use("/api/shipment",shipmentRouter);
-app.use("/api/shipmentHistory",shipmentHistoryRouter);
+app.use("/api/generalSettings", generalSettingsRouter);
+app.use("/api/shipment", shipmentRouter);
+app.use("/api/shipmentHistory", shipmentHistoryRouter);
 
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
