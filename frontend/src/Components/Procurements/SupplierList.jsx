@@ -30,7 +30,8 @@ const SupplierList = () => {
     const fetchSuppliers = async () => {
       try {
         const response = await axios.get(`${apiURL}/api/supplier/suppliers`);
-        setSuppliers(response.data);
+        setSuppliers(response.data)
+        console.log(response.data)
       } catch (error) {
         setError("Error fetching suppliers. Please try again later.");
       } finally {
@@ -62,7 +63,12 @@ const SupplierList = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`${apiURL}/api/supplier/delete/${supplierToDelete}`);
+      const response =  await axios.delete(`${apiURL}/api/supplier/delete/${supplierToDelete}`);
+
+      if(!response.data.success){
+        toast.error(response.data.message)
+      }
+      toast.success(response.data.message)
       setSuppliers((prevSuppliers) =>
         prevSuppliers.filter((supplier) => supplier._id !== supplierToDelete)
       );
@@ -337,7 +343,7 @@ const SupplierList = () => {
               <button
                 className="px-4 py-2 bg-red-600 text-white rounded-lg"
                 onClick={confirmDelete}
-              >
+              > 
                 Delete
               </button>
             </div>

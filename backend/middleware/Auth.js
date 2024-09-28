@@ -29,4 +29,12 @@ const authorizeRoles = (...roles) => {
   };
 };
 
-export { authMiddleware, authorizeRoles };
+const financeOnly = (req, res, next) => {
+  if (req.user && req.user.role === "finance") {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied." });
+  }
+};
+
+export { authMiddleware, authorizeRoles, financeOnly };

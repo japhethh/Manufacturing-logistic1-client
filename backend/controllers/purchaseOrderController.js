@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
 import asyncHandler from "express-async-handler";
-import rawmaterialModel from "../models/rawmaterialModel.js";
+// import rawmaterialModel from "../models/rawmaterialModel.js";
+import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
 
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
@@ -32,7 +33,7 @@ const createPurchaseOrder = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const purchaseOrder = new purchaseOrderModel({
+    const newPurchaseOrder = new purchaseOrderModel({
       purchaseOrderNumber,
       supplier,
       orderDate,
@@ -45,8 +46,19 @@ const createPurchaseOrder = async (req, res) => {
       createdBy: userId,
     });
 
-    await purchaseOrder.save();
-    res.status(201).json(purchaseOrder);
+    const savePO = await newPurchaseOrder.save();
+
+    // Populate supplier details
+    await savePO.populate("supplier");
+
+    // Generate and Upload PDF
+    const pdfURL = await generatedAndUploadPdf(savePO);
+
+    // Update PO with PDF URL
+    savePO.pdfURL = pdfURL;
+
+    await savePO.save();
+    res.status(201).json(newPurchaseOrder);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -59,7 +71,8 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
       .find()
       .populate("createdBy", "name email")
       .populate("supplier")
-      .sort({ orderDate: -1 }); // Populate the createdBy field with user info
+      .sort({ orderDate: -1, "supplier.supplierName": 1 }) // Sort by orderDate (descending) and supplierName (ascending)
+      .exec(); // Populate the createdBy field with user info
     // .populate("rawmaterialRequest", "name description"); // Populate the raw material request
 
     res.status(200).json(purchaseOrders);
@@ -143,9 +156,13 @@ const updateStatus = asyncHandler(async (req, res) => {
 
   const { orderStatus } = req.body;
 
-  const updatedStatus = await purchaseOrderModel.findByIdAndUpdate(id, {
-    orderStatus: orderStatus,
-  },{new:true});
+  const updatedStatus = await purchaseOrderModel.findByIdAndUpdate(
+    id,
+    {
+      orderStatus: orderStatus,
+    },
+    { new: true }
+  );
 
   if (!updatedStatus) {
     return res.status(400).json({ success: false, message: "Not found!" });

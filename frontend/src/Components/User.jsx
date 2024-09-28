@@ -41,6 +41,11 @@ const User = () => {
     document.getElementById("details_modal").showModal();
   };
 
+  const handleSearch = async() => {
+    
+  }
+
+
   const openDeleteModal = (user) => {
     setSelectedUserToDelete(user); // Set the selected user for Delete Modal
     document.getElementById("delete_modal").showModal();

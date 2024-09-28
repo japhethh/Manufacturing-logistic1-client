@@ -119,7 +119,7 @@ const deleteSupplier = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Supplier Not Found" });
   }
 
-  res.status(200).json({ success: true, message: "Deleted Successfully!" });
+  res.status(200).json({ success: true, message:`"Deleted Successfully!"${id}` });
 });
 
 export {

@@ -157,7 +157,13 @@ const PurchaseOrderList = () => {
                 className="py-2 px-4 cursor-pointer"
                 onClick={() => requestSort("orderStatus")}
               >
-                Status {getSortArrow("orderStatus")}
+                Order Status {getSortArrow("orderStatus")}
+              </th>
+              <th
+                className="py-2 px-4 cursor-pointer"
+                onClick={() => requestSort("approvalStatus")}
+              >
+                Approval Status {getSortArrow("")}
               </th>
               <th className="py-2 px-4">Actions</th>
             </tr>
@@ -192,6 +198,38 @@ const PurchaseOrderList = () => {
                   >
                     {order.orderStatus}
                   </div>
+                </td>
+                <td className="py-2 px-4">
+                  <div
+                    className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
+                      order.orderStatus === "Pending"
+                        ? "bg-yellow-100 border-yellow-300"
+                        : order.orderStatus === "In Process"
+                        ? "bg-blue-100 border-blue-300"
+                        : order.orderStatus === "Shipped"
+                        ? "bg-green-100 border-green-300"
+                        : order.orderStatus === "Delivered"
+                        ? "bg-gray-100 border-gray-300"
+                        : "bg-gray-200 border-gray-400" // Default case for unknown statuses
+                    }`}
+                  >
+                    {order.orderStatus}
+                  </div>
+                </td>
+                <td className="py-2 px-4">
+                  {order.pdfURL ? (
+                    <a
+                      href={order.pdfURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      Download PDF
+                      
+                    </a>
+                  ) : (
+                    <span>Generating PDF...</span> // You can show a loading state or N/A
+                  )}
                 </td>
                 <td className="py-2 px-4 flex space-x-2">
                   <button

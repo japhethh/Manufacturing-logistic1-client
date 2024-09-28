@@ -34,7 +34,7 @@ const purchaseOrderSchema = mongoose.Schema(
     orderDate: { type: Date, default: Date.now },
     orderStatus: {
       type: String,
-      enum: ["Pending", "In Process", "Shipped","Delivered"],
+      enum: ["Pending", "In Process", "Shipped", "Delivered"],
       default: "Pending",
     },
     paymentTerm: { type: String, required: true },
@@ -47,6 +47,21 @@ const purchaseOrderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    pdfURL: {
+      // New Field for PDF Storage
+      type: String,
+    },
+    assignedApprover: {
+      // New Field for Finance Approval
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    approvalDate: {
+      type: Date,
+    },
+    rejectionReason: {
+      type: String,
     },
   },
   { timestamps: true }
