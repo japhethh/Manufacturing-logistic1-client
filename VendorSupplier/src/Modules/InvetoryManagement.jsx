@@ -35,7 +35,7 @@ const InventoryManagement = () => {
         {/* Table for stock items */}
         <table className="table w-full bg-white">
           <thead>
-            <tr>
+            <tr className='text-black/80'>
               <th>Item ID</th>
               <th>Name</th>
               <th>Stock Level</th>
@@ -44,7 +44,7 @@ const InventoryManagement = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr className='text-black/80'>
               <td>#00123</td>
               <td>Raw Material A</td>
               <td>500</td>
