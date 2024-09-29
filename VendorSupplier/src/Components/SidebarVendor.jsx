@@ -2,63 +2,51 @@ import React from "react";
 import vendor from "../assets/vendor.png";
 import { NavLink } from "react-router-dom";
 import {
-  FaUserCheck,
-  FaUserPlus,
-  FaClipboardCheck,
-  FaComments,
+  FaTachometerAlt,
+  FaBoxOpen,
+  FaWarehouse,
   FaShippingFast,
-  FaFileInvoiceDollar,
+  FaFileInvoice,
+  FaComments,
   FaUserCog,
-  FaChartLine,
-  FaFileContract,
 } from "react-icons/fa";
 
 const SidebarVendor = () => {
   const menuItems = [
     {
-      icon: <FaUserCheck className="mr-3 text-gray-600 size-6" />,
-      label: "Vendor Registration & Compliance",
-      href: "#vendor-registration",
+      icon: <FaTachometerAlt className="mr-3 text-gray-600 size-6" />,
+      label: "Dashboard",
+      href: "#dashboard",
     },
     {
-      icon: <FaUserPlus className="mr-3 text-gray-600 size-6" />,
-      label: "Supplier Onboarding",
-      href: "#supplier-onboarding",
+      icon: <FaBoxOpen className="mr-3 text-gray-600 size-6" />,
+      label: "Orders",
+      href: "#orders",
     },
     {
-      icon: <FaClipboardCheck className="mr-3 text-gray-600 size-6" />,
-      label: "Purchase Order Management",
-      href: "#purchase-orders",
-    },
-    {
-      icon: <FaComments className="mr-3 text-gray-600 size-6" />,
-      label: "Supplier Communication",
-      href: "#supplier-communication",
+      icon: <FaWarehouse className="mr-3 text-gray-600 size-6" />,
+      label: "Inventory Management",
+      href: "#inventory-management",
     },
     {
       icon: <FaShippingFast className="mr-3 text-gray-600 size-6" />,
-      label: "Inventory & Shipment Tracking",
-      href: "#shipment-tracking",
+      label: "Shipment",
+      href: "#shipment",
     },
     {
-      icon: <FaFileInvoiceDollar className="mr-3 text-gray-600 size-6" />,
-      label: "Payment & Invoicing",
-      href: "#payment-invoicing",
+      icon: <FaFileInvoice className="mr-3 text-gray-600 size-6" />,
+      label: "Invoices",
+      href: "#invoices",
+    },
+    {
+      icon: <FaComments className="mr-3 text-gray-600 size-6" />,
+      label: "Communication",
+      href: "#communication",
     },
     {
       icon: <FaUserCog className="mr-3 text-gray-600 size-6" />,
-      label: "Vendor Self-Service Portal",
-      href: "#self-service",
-    },
-    {
-      icon: <FaChartLine className="mr-3 text-gray-600 size-6" />,
-      label: "Supplier Performance Monitoring",
-      href: "#performance-monitoring",
-    },
-    {
-      icon: <FaFileContract className="mr-3 text-gray-600 size-6" />,
-      label: "Basic Contract Management",
-      href: "#contract-management",
+      label: "Account Management",
+      href: "#account-management",
     },
   ];
 
