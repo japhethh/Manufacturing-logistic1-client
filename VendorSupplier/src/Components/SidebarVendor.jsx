@@ -41,7 +41,7 @@ const SidebarVendor = () => {
     {
       icon: <FaComments className="mr-3 text-gray-600 size-6" />,
       label: "Communication",
-      to: "/communication",
+      to: "/communicationvendor",
     },
     {
       icon: <FaUserCog className="mr-3 text-gray-600 size-6" />,

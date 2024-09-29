@@ -9,6 +9,7 @@ import OrdersVendor from "./Modules/OrdersVendor";
 import InvetoryManagement from "./Modules/InvetoryManagement";
 import ShipmentVendor from "./Components/ShipmentVendor";
 import InvoicesVendor from "./Modules/InvoicesVendor";
+import CommunicationVendor from "./Modules/CommunicationVendor";
 
 const App = () => {
   return (
@@ -28,6 +29,8 @@ const App = () => {
               <Route path="/inventorymanagement" element={<InvetoryManagement />} />
               <Route path="/shipmentvendor" element={<ShipmentVendor />} />
               <Route path="/invoicesvendor" element={<InvoicesVendor />} />
+              <Route path="/communicationvendor" element={<CommunicationVendor />} />
+
 
               {/* Add more vendor routes here */}
             </Routes>
