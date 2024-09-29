@@ -36,7 +36,7 @@ const SidebarVendor = () => {
     {
       icon: <FaFileInvoice className="mr-3 text-gray-600 size-6" />,
       label: "Invoices",
-      to: "/invoices",
+      to: "/invoicesvendor",
     },
     {
       icon: <FaComments className="mr-3 text-gray-600 size-6" />,
