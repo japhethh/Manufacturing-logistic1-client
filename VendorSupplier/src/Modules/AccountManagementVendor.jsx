@@ -40,7 +40,7 @@ const AccountManagementVendor = () => {
       <div className="mb-8 bg-white card shadow-lg p-6 border border-gray-200 rounded-lg">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Account Details</h2>
         <div className="mb-4">
-          <label className="label">Username</label>
+          <label className="label text-black/70 font-medium">Username</label>
           <input
             type="text"
             value={username}
@@ -50,7 +50,7 @@ const AccountManagementVendor = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="label">Email</label>
+          <label className="label text-black/70 font-medium">Email</label>
           <input
             type="email"
             value={email}
@@ -60,7 +60,7 @@ const AccountManagementVendor = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="label">User Role</label>
+          <label className="label text-black/70 font-medium">User Role</label>
           <select
             value={userRole}
             onChange={(e) => setUserRole(e.target.value)}
@@ -78,7 +78,7 @@ const AccountManagementVendor = () => {
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Change Password</h2>
         <form onSubmit={handlePasswordChange} className="space-y-6">
           <div className="mb-4">
-            <label className="label text-black/50 font-medium">Current Password</label>
+            <label className="label text-black/70 font-medium">Current Password</label>
             <input
               type="password"
               value={currentPassword}
@@ -89,7 +89,7 @@ const AccountManagementVendor = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="label text-black/50 font-medium">New Password</label>
+            <label className="label text-black/70 font-medium">New Password</label>
             <input
               type="password"
               value={newPassword}
@@ -101,7 +101,7 @@ const AccountManagementVendor = () => {
             <p className="text-sm text-gray-500">At least 6 characters long</p>
           </div>
           <div className="mb-4">
-            <label className="label text-black/50 font-medium">Confirm New Password</label>
+            <label className="label text-black/70 font-medium">Confirm New Password</label>
             <input
               type="password"
               value={confirmPassword}
