@@ -449,7 +449,6 @@ const Sidebar = () => {
             {/* Purchase Orders */}
             <li>
               <details
-                open
                 className={`menu-item transition-all duration-300 ${
                   isCollapsed ? "hidden" : ""
                 }`}
@@ -898,7 +897,6 @@ const Sidebar = () => {
                 {/* Return Authorization (RMA) */}
                 <li>
                   <details
-                    open
                     className={`menu-item ${isCollapsed ? "hidden" : ""}`}
                   >
                     <summary className="flex items-center gap-2 cursor-pointer">
@@ -951,7 +949,6 @@ const Sidebar = () => {
                 {/* Return Authorization (RMA) */}
                 <li>
                   <details
-                    open
                     className={`menu-item ${isCollapsed ? "hidden" : ""}`}
                   >
                     <summary className="flex items-center gap-2 cursor-pointer">
