@@ -1,96 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import vendor from "../assets/vendor.png";
 import { NavLink } from "react-router-dom";
 import {
-  FaUserCheck,
-  FaUserPlus,
-  FaClipboardCheck,
-  FaComments,
+  FaTachometerAlt,
+  FaBoxOpen,
+  FaWarehouse,
   FaShippingFast,
-  FaFileInvoiceDollar,
+  FaFileInvoice,
+  FaComments,
   FaUserCog,
-  FaChartLine,
-  FaFileContract,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 
 const SidebarVendor = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   const menuItems = [
-    {
-      icon: <FaUserCheck className="mr-3 text-gray-600 size-6" />,
-      label: "Vendor Registration & Compliance",
-      href: "#vendor-registration",
-    },
-    {
-      icon: <FaUserPlus className="mr-3 text-gray-600 size-6" />,
-      label: "Supplier Onboarding",
-      href: "#supplier-onboarding",
-    },
-    {
-      icon: <FaClipboardCheck className="mr-3 text-gray-600 size-6" />,
-      label: "Purchase Order Management",
-      href: "#purchase-orders",
-    },
-    {
-      icon: <FaComments className="mr-3 text-gray-600 size-6" />,
-      label: "Supplier Communication",
-      href: "#supplier-communication",
-    },
-    {
-      icon: <FaShippingFast className="mr-3 text-gray-600 size-6" />,
-      label: "Inventory & Shipment Tracking",
-      href: "#shipment-tracking",
-    },
-    {
-      icon: <FaFileInvoiceDollar className="mr-3 text-gray-600 size-6" />,
-      label: "Payment & Invoicing",
-      href: "#payment-invoicing",
-    },
-    {
-      icon: <FaUserCog className="mr-3 text-gray-600 size-6" />,
-      label: "Vendor Self-Service Portal",
-      href: "#self-service",
-    },
-    {
-      icon: <FaChartLine className="mr-3 text-gray-600 size-6" />,
-      label: "Supplier Performance Monitoring",
-      href: "#performance-monitoring",
-    },
-    {
-      icon: <FaFileContract className="mr-3 text-gray-600 size-6" />,
-      label: "Basic Contract Management",
-      href: "#contract-management",
-    },
+    { icon: <FaTachometerAlt />, label: "Dashboard", to: "/dashboardvendor" },
+    { icon: <FaBoxOpen />, label: "Orders", to: "/ordersvendor" },
+    { icon: <FaWarehouse />, label: "Inventory Management", to: "/inventorymanagement" },
+    { icon: <FaShippingFast />, label: "Shipment", to: "/shipmentvendor" },
+    { icon: <FaFileInvoice />, label: "Invoices", to: "/invoicesvendor" },
+    { icon: <FaComments />, label: "Communication", to: "/communicationvendor" },
+    { icon: <FaUserCog />, label: "Account Management", to: "/accountmanagementvendor" },
   ];
 
   return (
-    <div className="bg-white lg:flex md:flex hidden shadow-md h-screen w-80 sticky top-0 overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-sky-300 scrollbar-visible">
-      <nav className="p-6">
-        <NavLink to="/dashboardvendor" className="flex items-center gap-2 mb-8">
-          <img
-            src={vendor}
-            alt="Vendor Management Logo"
-            className="w-16 h-16"
-          />
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Vendor Management
-          </h2>
-        </NavLink>
-        <ul className="space-y-4">
+    <div className={`bg-white shadow-md h-screen sticky top-0 transition-all duration-300 ${isCollapsed ? "w-20" : "w-80"} flex flex-col`}>
+      <nav className="p-4 flex flex-col">
+        <div className="flex items-center justify-between mb-8">
+          <NavLink to="/dashboardvendor" className="flex items-center gap-2">
+            <img src={vendor} alt="Vendor Management Logo" className="w-16 h-16" />
+            {!isCollapsed && (
+              <h2 className="text-2xl font-semibold text-gray-800">Vendor Management</h2>
+            )}
+          </NavLink>
+          <button onClick={toggleSidebar} className="text-gray-600 hover:text-blue-700">
+            {isCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
+          </button>
+        </div>
+        <ul className="space-y-2">
           {menuItems.map((item, index) => (
-            <li
-              key={index}
-              className="hover:bg-gray-200 rounded-md transition-colors"
-            >
-              <a
-                href={item.href}
-                className="flex items-center px-4 py-2 text-gray-800 font-semibold hover:text-blue-700 duration-200"
+            <li key={index} className="hover:bg-gray-200 rounded-md transition-colors">
+              <NavLink
+                to={item.to}
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 text-gray-800 font-semibold transition duration-200 ${
+                    isActive ? "bg-gray-300 text-blue-700" : "hover:text-blue-700"
+                  }`
+                }
+                aria-label={item.label}
               >
                 {item.icon}
-                <span>{item.label}</span>
-              </a>
+                {!isCollapsed && <span className="ml-2">{item.label}</span>}
+              </NavLink>
             </li>
           ))}
         </ul>
+        <div className="mt-auto border-t pt-4">
+          <NavLink to="/profile" className="flex items-center px-4 py-2 text-gray-800 font-semibold hover:text-blue-700">
+            <FaUserCog className="mr-3" />
+            {!isCollapsed && <span>Profile</span>}
+          </NavLink>
+        </div>
       </nav>
     </div>
   );

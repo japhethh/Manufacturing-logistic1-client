@@ -3,8 +3,14 @@ import Login from "./Authentication/Login";
 import Register from "./Authentication/Register";
 import SendEmail from "./Authentication/SendEmail";
 import SidebarVendor from "./Components/SidebarVendor";
-import DashboardVendor from "./Components/DashboardVendor";
+import DashboardVendor from "./Modules/DashboardVendor";
 import NavbarVendor from "./Components/NavbarVendor";
+import OrdersVendor from "./Modules/OrdersVendor";
+import InvetoryManagement from "./Modules/InvetoryManagement";
+import ShipmentVendor from "./Components/ShipmentVendor";
+import InvoicesVendor from "./Modules/InvoicesVendor";
+import CommunicationVendor from "./Modules/CommunicationVendor";
+import AccountManagementVendor from "./Modules/AccountManagementVendor";
 
 const App = () => {
   return (
@@ -20,6 +26,14 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/sendemail" element={<SendEmail />} />
               <Route path="/dashboardvendor" element={<DashboardVendor />} />
+              <Route path="/ordersvendor" element={<OrdersVendor />} />
+              <Route path="/inventorymanagement" element={<InvetoryManagement />} />
+              <Route path="/shipmentvendor" element={<ShipmentVendor />} />
+              <Route path="/invoicesvendor" element={<InvoicesVendor />} />
+              <Route path="/communicationvendor" element={<CommunicationVendor />} />
+              <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
+
+
               {/* Add more vendor routes here */}
             </Routes>
           </div>
