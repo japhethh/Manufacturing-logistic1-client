@@ -1,8 +1,8 @@
-
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
 import asyncHandler from "express-async-handler";
 // import rawmaterialModel from "../models/rawmaterialModel.js";
 import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
+import financeApprovalModel from "../models/financeApprovalModel.js";
 
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
@@ -57,6 +57,14 @@ const createPurchaseOrder = async (req, res) => {
     // Update PO with PDF URL
     savePO.pdfURL = pdfURL;
 
+    await savePO.save();
+
+    const financeApproval = await financeApprovalModel.create({
+      purchaseOrder: savePO._id,
+      status: "Pending",
+    });
+
+    savePO.financeApproval = financeApproval._id;
     await savePO.save();
     res.status(201).json(newPurchaseOrder);
   } catch (error) {

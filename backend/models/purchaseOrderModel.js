@@ -63,6 +63,10 @@ const purchaseOrderSchema = mongoose.Schema(
     rejectionReason: {
       type: String,
     },
+    financeApproval: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "FinanceApproval",
+    },
   },
   { timestamps: true }
 );

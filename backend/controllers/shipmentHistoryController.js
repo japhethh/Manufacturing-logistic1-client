@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import shipmentHistoryModel from "../models/shipmentHistoryModel.js";
 
+// GET
 const getAllShipmentHistory = asyncHandler(async (req, res) => {
   const shipmentHistory = await shipmentHistoryModel.find({});
 
@@ -13,6 +14,8 @@ const getAllShipmentHistory = asyncHandler(async (req, res) => {
   res.status(200).json(shipmentHistory);
 });
 
+
+// DELETE
 const deleteShipmentHistory = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
