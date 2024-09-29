@@ -16,37 +16,37 @@ const SidebarVendor = () => {
     {
       icon: <FaTachometerAlt className="mr-3 text-gray-600 size-6" />,
       label: "Dashboard",
-      href: "#dashboard",
+      to: "/dashboardvendor",
     },
     {
       icon: <FaBoxOpen className="mr-3 text-gray-600 size-6" />,
       label: "Orders",
-      href: "#orders",
+      to: "/ordersvendor",
     },
     {
       icon: <FaWarehouse className="mr-3 text-gray-600 size-6" />,
       label: "Inventory Management",
-      href: "#inventory-management",
+      to: "/inventory-management",
     },
     {
       icon: <FaShippingFast className="mr-3 text-gray-600 size-6" />,
       label: "Shipment",
-      href: "#shipment",
+      to: "/shipment",
     },
     {
       icon: <FaFileInvoice className="mr-3 text-gray-600 size-6" />,
       label: "Invoices",
-      href: "#invoices",
+      to: "/invoices",
     },
     {
       icon: <FaComments className="mr-3 text-gray-600 size-6" />,
       label: "Communication",
-      href: "#communication",
+      to: "/communication",
     },
     {
       icon: <FaUserCog className="mr-3 text-gray-600 size-6" />,
       label: "Account Management",
-      href: "#account-management",
+      to: "/account-management",
     },
   ];
 
@@ -69,13 +69,14 @@ const SidebarVendor = () => {
               key={index}
               className="hover:bg-gray-200 rounded-md transition-colors"
             >
-              <a
-                href={item.href}
+              <NavLink
+                to={item.to}
                 className="flex items-center px-4 py-2 text-gray-800 font-semibold hover:text-blue-700 duration-200"
+                activeClassName="bg-gray-300" // Optional: for active link styling
               >
                 {item.icon}
                 <span>{item.label}</span>
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
