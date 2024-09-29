@@ -202,18 +202,18 @@ const PurchaseOrderList = () => {
                 <td className="py-2 px-4">
                   <div
                     className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
-                      order.orderStatus === "Pending"
+                      order.financeApproval.status === "Pending"
                         ? "bg-yellow-100 border-yellow-300"
-                        : order.orderStatus === "In Process"
+                        : order.financeApproval.status === "Reviewed"
                         ? "bg-blue-100 border-blue-300"
-                        : order.orderStatus === "Shipped"
+                        : order.financeApproval.status === "Approved"
                         ? "bg-green-100 border-green-300"
-                        : order.orderStatus === "Delivered"
+                        : order.financeApproval.status === "Rejected"
                         ? "bg-gray-100 border-gray-300"
                         : "bg-gray-200 border-gray-400" // Default case for unknown statuses
                     }`}
                   >
-                    {order.orderStatus}
+                    {order.financeApproval.status}
                   </div>
                 </td>
                 <td className="py-2 px-4">
@@ -225,7 +225,6 @@ const PurchaseOrderList = () => {
                       className="text-blue-600 underline"
                     >
                       Download PDF
-                      
                     </a>
                   ) : (
                     <span>Generating PDF...</span> // You can show a loading state or N/A
