@@ -26,7 +26,7 @@ const SidebarVendor = () => {
     {
       icon: <FaWarehouse className="mr-3 text-gray-600 size-6" />,
       label: "Inventory Management",
-      to: "/inventory-management",
+      to: "/inventorymanagement",
     },
     {
       icon: <FaShippingFast className="mr-3 text-gray-600 size-6" />,

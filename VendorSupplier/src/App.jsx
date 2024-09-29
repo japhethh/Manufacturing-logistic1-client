@@ -6,6 +6,7 @@ import SidebarVendor from "./Components/SidebarVendor";
 import DashboardVendor from "./Modules/DashboardVendor";
 import NavbarVendor from "./Components/NavbarVendor";
 import OrdersVendor from "./Modules/OrdersVendor";
+import InvetoryManagement from "./Modules/InvetoryManagement";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
               <Route path="/sendemail" element={<SendEmail />} />
               <Route path="/dashboardvendor" element={<DashboardVendor />} />
               <Route path="/ordersvendor" element={<OrdersVendor />} />
+              <Route path="/inventorymanagement" element={<InvetoryManagement />} />
               {/* Add more vendor routes here */}
             </Routes>
           </div>
