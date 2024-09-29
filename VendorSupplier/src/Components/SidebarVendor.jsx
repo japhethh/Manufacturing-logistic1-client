@@ -46,7 +46,7 @@ const SidebarVendor = () => {
     {
       icon: <FaUserCog className="mr-3 text-gray-600 size-6" />,
       label: "Account Management",
-      to: "/account-management",
+      to: "/accountmanagementvendor",
     },
   ];
 

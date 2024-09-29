@@ -37,7 +37,7 @@ const InvoicesVendor = () => {
         <form className="space-y-6">
           <div>
             <label className="label">
-              <span className="label-text">Vendor</span>
+              <span className="label-text text-black/70 font-medium">Vendor</span>
             </label>
             <select className="select select-bordered w-full bg-gray-50">
               <option>Select Vendor</option>
@@ -48,7 +48,7 @@ const InvoicesVendor = () => {
 
           <div>
             <label className="label">
-              <span className="label-text">Invoice Date</span>
+              <span className="label-text text-black/70 font-medium">Invoice Date</span>
             </label>
             <input
               type="date"
@@ -60,7 +60,7 @@ const InvoicesVendor = () => {
 
           <div>
             <label className="label">
-              <span className="label-text">Due Date</span>
+              <span className="label-text text-black/70 font-medium">Due Date</span>
             </label>
             <input
               type="date"
@@ -72,7 +72,7 @@ const InvoicesVendor = () => {
 
           <div>
             <label className="label">
-              <span className="label-text">Invoice Amount</span>
+              <span className="label-text text-black/70 font-medium">Invoice Amount</span>
             </label>
             <input type="number" className="input input-bordered w-full bg-gray-50" placeholder="Enter Amount" />
           </div>
