@@ -1,9 +1,9 @@
-// utils/generateAndUploadPDF.js
+// utils/generateAndUploadPdf.js
 import PDFDocument from "pdfkit";
 import cloudinary from "../utils/cloudinary.js";
 import streamifier from "streamifier";
 
-const generateAndUploadPDF = async (purchaseOrder) => {
+const generateAndUploadPdf = async (purchaseOrder) => {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument();
@@ -20,7 +20,8 @@ const generateAndUploadPDF = async (purchaseOrder) => {
             {
               folder: "purchase_orders",
               resource_type: "raw", // Correct resource type for PDF
-              public_id: `${purchaseOrder.purchaseOrderNumber}`,
+              public_id: `${purchaseOrder.purchaseOrderNumber}.pdf`, // Remove .pdf from public_id
+              format: "pdf", // Ensure the format is set to pdf
               overwrite: true,
             },
             (error, result) => {
@@ -28,6 +29,7 @@ const generateAndUploadPDF = async (purchaseOrder) => {
                 console.error("Cloudinary Upload Error:", error); // Log Cloudinary error
                 return reject(error);
               }
+              console.log("Uploaded PDF URL:", result.secure_url); // Log the generated URL
               resolve(result.secure_url);
             }
           );
@@ -45,7 +47,7 @@ const generateAndUploadPDF = async (purchaseOrder) => {
       doc.moveDown();
       doc.fontSize(12).text(`PO Number: ${purchaseOrder.purchaseOrderNumber}`);
       doc.text(`Supplier: ${purchaseOrder.supplier.supplierName}`);
-      doc.text(`Order Date: ${purchaseOrder.orderDate.toDateString()}`);
+      doc.text(`Order Date: ${new Date(purchaseOrder.orderDate).toDateString()}`);
       doc.text(`Payment Terms: ${purchaseOrder.paymentTerm}`);
       doc.moveDown();
 
@@ -77,4 +79,4 @@ const generateAndUploadPDF = async (purchaseOrder) => {
   });
 };
 
-export default generateAndUploadPDF;
+export default generateAndUploadPdf;
