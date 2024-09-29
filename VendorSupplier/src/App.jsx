@@ -7,6 +7,7 @@ import DashboardVendor from "./Modules/DashboardVendor";
 import NavbarVendor from "./Components/NavbarVendor";
 import OrdersVendor from "./Modules/OrdersVendor";
 import InvetoryManagement from "./Modules/InvetoryManagement";
+import ShipmentVendor from "./Components/ShipmentVendor";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
               <Route path="/dashboardvendor" element={<DashboardVendor />} />
               <Route path="/ordersvendor" element={<OrdersVendor />} />
               <Route path="/inventorymanagement" element={<InvetoryManagement />} />
+              <Route path="/shipmentvendor" element={<ShipmentVendor />} />
               {/* Add more vendor routes here */}
             </Routes>
           </div>

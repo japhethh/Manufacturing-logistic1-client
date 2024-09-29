@@ -31,7 +31,7 @@ const SidebarVendor = () => {
     {
       icon: <FaShippingFast className="mr-3 text-gray-600 size-6" />,
       label: "Shipment",
-      to: "/shipment",
+      to: "/shipmentvendor",
     },
     {
       icon: <FaFileInvoice className="mr-3 text-gray-600 size-6" />,
