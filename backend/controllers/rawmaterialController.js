@@ -70,6 +70,12 @@ const getSpecificId = asyncHandler(async (req, res) => {
 
 const deleteRequest = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const exists = await rawmaterialModel.findById(id);
+  if (!exists) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Raw Material Not Found!" });
+  }
   await rawmaterialModel.findByIdAndDelete(id);
 
   res.status(200).json({ success: true, message: "Deleted Successfully" });
@@ -86,13 +92,11 @@ const updateStatus = asyncHandler(async (req, res) => {
       { new: true }
     );
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Updated Successfully",
-        data: updatedRequest,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Updated Successfully",
+      data: updatedRequest,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
