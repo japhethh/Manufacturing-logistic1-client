@@ -32,8 +32,7 @@ const App = () => {
               <Route path="/invoicesvendor" element={<InvoicesVendor />} />
               <Route path="/communicationvendor" element={<CommunicationVendor />} />
               <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
-
-              <Route path="verify?email=:id" element={Register/>}> </Route>
+              <Route path="verify?email=:id" element={<Register/>}> </Route>
               {/* Add more vendor routes here */}
             </Routes>
           </div>

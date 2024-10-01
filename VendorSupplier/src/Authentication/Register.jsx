@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 
-const Register = ({ email }) => {
+const RegistrationForm = ({ email }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
@@ -23,17 +23,13 @@ const Register = ({ email }) => {
   return (
     <div className="bg-gray-50 flex justify-center items-center min-h-screen">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">
-          Complete Your Registration
-        </h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-900">Complete Your Registration</h2>
 
         {/* Step 1: Supplier Information */}
         {currentStep === 1 && (
-          <div className="step">
-            <h3 className="text-xl font-semibold mb-4 text-gray-700">
-              Step 1: Supplier Information
-            </h3>
-            <form className="space-y-4">
+          <div className="step" id="step-1">
+            <h3 className="text-xl font-semibold mb-4 text-gray-700">Step 1: Supplier Information</h3>
+            <form id="step-1-form" className="space-y-4">
               <input type="hidden" name="email" value={email} />
 
               <div>
@@ -49,11 +45,7 @@ const Register = ({ email }) => {
               </div>
 
               <div className="flex justify-end">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={nextStep}
-                >
+                <button type="button" className="btn btn-primary" onClick={nextStep}>
                   Next
                 </button>
               </div>
@@ -63,11 +55,10 @@ const Register = ({ email }) => {
 
         {/* Step 2: Contact Information */}
         {currentStep === 2 && (
-          <div className="step">
-            <h3 className="text-xl font-semibold mb-4 text-gray-700">
-              Step 2: Contact Information
-            </h3>
-            <form className="space-y-4">
+          <div className="step hidden" id="step-2">
+            <h3 className="text-xl font-semibold mb-4 text-gray-700">Step 2: Contact Information</h3>
+            <form id="step-2-form" className="space-y-4">
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Contact Person<span className="text-red-500">*</span>
@@ -88,8 +79,8 @@ const Register = ({ email }) => {
                   type="email"
                   name="contactEmail"
                   value={email}
-                  readOnly
                   required
+                  readOnly
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
                 />
               </div>
@@ -107,18 +98,10 @@ const Register = ({ email }) => {
               </div>
 
               <div className="flex justify-between">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={prevStep}
-                >
+                <button type="button" className="btn btn-secondary" onClick={prevStep}>
                   Previous
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={nextStep}
-                >
+                <button type="button" className="btn btn-primary" onClick={nextStep}>
                   Next
                 </button>
               </div>
@@ -128,10 +111,8 @@ const Register = ({ email }) => {
 
         {/* Step 3: Address & Payment Information */}
         {currentStep === 3 && (
-          <div className="step">
-            <h3 className="text-xl font-semibold mb-4 text-gray-700">
-              Step 3: Address & Payment Information
-            </h3>
+          <div className="step hidden" id="step-3">
+            <h3 className="text-xl font-semibold mb-4 text-gray-700">Step 3: Address & Payment Information</h3>
             <form action="/api/supplier" method="POST" className="space-y-4">
               <input type="hidden" name="email" value={email} />
 
@@ -213,9 +194,7 @@ const Register = ({ email }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Rating
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Rating</label>
                 <input
                   type="number"
                   name="rating"
@@ -227,16 +206,10 @@ const Register = ({ email }) => {
               </div>
 
               <div className="flex justify-between">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={prevStep}
-                >
+                <button type="button" className="btn btn-secondary" onClick={prevStep}>
                   Previous
                 </button>
-                <button type="submit" className="btn btn-success">
-                  Submit
-                </button>
+                <button type="submit" className="btn btn-success">Submit</button>
               </div>
             </form>
           </div>
@@ -246,4 +219,4 @@ const Register = ({ email }) => {
   );
 };
 
-export default Register;
+export default RegistrationForm;
