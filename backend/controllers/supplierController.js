@@ -29,7 +29,6 @@ const getSupplierById = asyncHandler(async (req, res) => {
   }
 });
 
-
 // Create
 const createSupplier = asyncHandler(async (req, res) => {
   const {
@@ -44,6 +43,7 @@ const createSupplier = asyncHandler(async (req, res) => {
     rating,
     email,
     password,
+    supplierType,
     // materialsSupplied,
   } = req.body;
 
@@ -59,6 +59,7 @@ const createSupplier = asyncHandler(async (req, res) => {
     materialSupplied: materialSupplied,
     email: email,
     password: password,
+    supplierType: supplierType,
   });
 
   try {
@@ -68,7 +69,6 @@ const createSupplier = asyncHandler(async (req, res) => {
     res.status(400).json({ errors: err.message });
   }
 });
-
 
 // Update
 const updateSupplier = asyncHandler(async (req, res) => {
@@ -119,7 +119,9 @@ const deleteSupplier = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Supplier Not Found" });
   }
 
-  res.status(200).json({ success: true, message:`"Deleted Successfully!"${id}` });
+  res
+    .status(200)
+    .json({ success: true, message: `"Deleted Successfully!"${id}` });
 });
 
 export {

@@ -33,7 +33,7 @@ const App = () => {
               <Route path="/communicationvendor" element={<CommunicationVendor />} />
               <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
 
-
+              <Route path="verify?email=:id" element={Register/>}> </Route>
               {/* Add more vendor routes here */}
             </Routes>
           </div>

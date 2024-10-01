@@ -165,6 +165,11 @@ const PurchaseOrderList = () => {
               >
                 Approval Status {getSortArrow("")}
               </th>
+              <th
+                className="py-2 px-4 cursor-pointer"
+              >
+                PDF
+              </th>
               <th className="py-2 px-4">Actions</th>
             </tr>
           </thead>
