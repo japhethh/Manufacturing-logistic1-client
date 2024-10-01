@@ -30,6 +30,7 @@ import RegistrationRequest from "./Components/Vendor/RegistrationRequest";
 import ComplianceVerification from "./Components/Vendor/ComplianceVerification";
 import AutoFillPurchaseOrder from "./Components/AutoFillPurchaseOrder";
 import SystemSettings from "./Components/Settings/SystemSettings";
+import MusicClick from "./testing/MusicClick.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -103,10 +104,13 @@ const App = () => {
   return (
     <div className="flex min-h-screen" data-theme="light">
       <ToastContainer />
+
+      
       {!token && location.pathname === "/login" ? null : <Sidebar />}
       <div className="flex-col w-full ">
         {!token && location.pathname === "/login" ? null : <Search />}
         <Routes>
+          <Route path="/music" element={<MusicClick />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
           <Route path="/supplierlist" element={<SupplierList />} />

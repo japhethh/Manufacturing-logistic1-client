@@ -11,6 +11,7 @@ import ShipmentVendor from "./Components/ShipmentVendor";
 import InvoicesVendor from "./Modules/InvoicesVendor";
 import CommunicationVendor from "./Modules/CommunicationVendor";
 import AccountManagementVendor from "./Modules/AccountManagementVendor";
+import Verify from "./pages/Verify";
 
 const App = () => {
   return (
@@ -33,6 +34,8 @@ const App = () => {
               <Route path="/communicationvendor" element={<CommunicationVendor />} />
               <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
               <Route path="verify?email=:id" element={<Register/>}> </Route>
+              <Route path="/verify" element={<Verify />} />
+
               {/* Add more vendor routes here */}
             </Routes>
           </div>
