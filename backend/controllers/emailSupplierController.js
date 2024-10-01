@@ -33,7 +33,7 @@ const registerSupplier = asyncHandler(async (req, res) => {
   await newSupplier.save();
 
   // Create a verification URL with the email as a query parameter
-  const verificationUrl = `http://localhost:4000/api/email/verify?token=${verificationToken}&email=${encodeURIComponent(
+  const verificationUrl = `https://manufacturing-logistic1-client-api.onrender.com/api/email/verify?token=${verificationToken}&email=${encodeURIComponent(
     email
   )}`;
 
