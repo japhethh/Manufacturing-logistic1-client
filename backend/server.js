@@ -20,14 +20,10 @@ import crypto from "crypto"; // Import Node.js built-in crypto module
 import emailSupplierRouter from "./routes/emailSupplierRouter.js";
 import { transporter } from "./config/transporter.js";
 
-
-
 const port = process.env.PORT || 4000;
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
 
 ConnectDB();
 

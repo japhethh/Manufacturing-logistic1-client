@@ -6,12 +6,6 @@ const financeApprovalSchema = mongoose.Schema({
     ref: "PurchaseOrder",
     required: true,
   },
-
-  // financeReviewer: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
   reviewDate: {
     type: Date,
     default: Date.now,
@@ -26,6 +20,26 @@ const financeApprovalSchema = mongoose.Schema({
   },
   generatePdf: {
     type: String,
+  },
+  // NEW Dagdag ni kupal na raffy
+  // budget: {
+  //   type: String,
+  // },
+  // account: {
+  //   type: String,
+  //   required: true,
+  // },
+  totalBudget: {
+    type: Number,
+  },
+  category: {
+    type: String,
+    enum: ["Capital expenditures", "Operational Expenses"],
+    required: true,
+  },
+  documents: {
+    type: String,
+    required: false,
   },
 });
 

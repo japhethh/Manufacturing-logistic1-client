@@ -28,6 +28,8 @@ const PurchaseOrderList = () => {
   const fetchPurchaseOrder = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/purchase-order/`);
+
+      console.log(response);
       const updatedOrders = response.data.map((order) => {
         // Calculate totalAmount if items exist
         const totalAmount = order.items
@@ -165,11 +167,7 @@ const PurchaseOrderList = () => {
               >
                 Approval Status {getSortArrow("")}
               </th>
-              <th
-                className="py-2 px-4 cursor-pointer"
-              >
-                PDF
-              </th>
+              <th className="py-2 px-4 cursor-pointer">PDF</th>
               <th className="py-2 px-4">Actions</th>
             </tr>
           </thead>
@@ -207,18 +205,18 @@ const PurchaseOrderList = () => {
                 <td className="py-2 px-4">
                   <div
                     className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
-                      order.financeApproval.status === "Pending"
+                      order.financeApproval?.status === "Pending"
                         ? "bg-yellow-100 border-yellow-300"
-                        : order.financeApproval.status === "Reviewed"
+                        : order.financeApproval?.status === "Reviewed"
                         ? "bg-blue-100 border-blue-300"
-                        : order.financeApproval.status === "Approved"
+                        : order.financeApproval?.status === "Approved"
                         ? "bg-green-100 border-green-300"
-                        : order.financeApproval.status === "Rejected"
+                        : order.financeApproval?.status === "Rejected"
                         ? "bg-gray-100 border-gray-300"
                         : "bg-gray-200 border-gray-400" // Default case for unknown statuses
                     }`}
                   >
-                    {order.financeApproval.status}
+                    {order.financeApproval?.status}
                   </div>
                 </td>
                 <td className="py-2 px-4">

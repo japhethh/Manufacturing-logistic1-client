@@ -67,6 +67,10 @@ const purchaseOrderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "FinanceApproval",
     },
+    category: {
+      type: String,
+      enum: ["Capital expenditures", "Operational Expenses"],
+    },
   },
   { timestamps: true }
 );

@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 // import rawmaterialModel from "../models/rawmaterialModel.js";
 import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
 import financeApprovalModel from "../models/financeApprovalModel.js";
-
+import axios from "axios";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
@@ -13,6 +13,7 @@ const createPurchaseOrder = async (req, res) => {
       supplier,
       orderDate,
       items,
+      category,
       tax,
       totalAmount,
       notes,
@@ -27,6 +28,7 @@ const createPurchaseOrder = async (req, res) => {
       !supplier ||
       !orderDate ||
       !items ||
+      !category ||
       items.length === 0 ||
       !totalAmount
     ) {
@@ -34,16 +36,17 @@ const createPurchaseOrder = async (req, res) => {
     }
 
     const newPurchaseOrder = new purchaseOrderModel({
-      purchaseOrderNumber,
-      supplier,
-      orderDate,
-      items,
-      tax,
-      totalAmount, // Calculate totalAmount on the server if not included
-      notes,
-      paymentTerm,
-      approvalStatus,
+      purchaseOrderNumber: purchaseOrderNumber,
+      supplier: supplier,
+      orderDate: orderDate,
+      items: items,
+      tax: tax,
+      totalAmount: totalAmount, // Calculate totalAmount on the server if not included
+      notes: notes,
+      paymentTerm: paymentTerm,
+      approvalStatus: approvalStatus,
       createdBy: userId,
+      category: category,
     });
 
     const savePO = await newPurchaseOrder.save();
@@ -59,13 +62,36 @@ const createPurchaseOrder = async (req, res) => {
 
     await savePO.save();
 
-    const financeApproval = await financeApprovalModel.create({
+    const financeApprovalJson = {
       purchaseOrder: savePO._id,
       status: "Pending",
-    });
+      totalBudget: savePO.totalAmount,
+      documents: savePO.pdfURL,
+      category: savePO.category,
+    };
+
+    // const financeApproval = await financeApprovalModel.create({
+    //   purchaseOrder: savePO._id,
+    //   status: "Pending",
+    // });
+
+    const financeApproval = await financeApprovalModel.create(
+      financeApprovalJson
+    );
 
     savePO.financeApproval = financeApproval._id;
     await savePO.save();
+
+    // Axios
+    const postRequest = async () => {
+      const response = await axios.post(
+        ` https://manufacturing-finance-server.onrender.com/API/BudgetRequests/RequestBudget`,
+        financeApproval
+      );
+      console.log(response);
+    };
+    postRequest();
+
     res.status(201).json(newPurchaseOrder);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -79,9 +105,12 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
       .find()
       .populate("createdBy", "name email")
       .populate("supplier")
-      .populate({path:"financeApproval", populate:{
-        path:"purchaseOrder"
-      }})
+      .populate({
+        path: "financeApproval",
+        populate: {
+          path: "purchaseOrder",
+        },
+      })
 
       .sort({ orderDate: -1, "supplier.supplierName": 1 }) // Sort by orderDate (descending) and supplierName (ascending)
       .exec(); // Populate the createdBy field with user info

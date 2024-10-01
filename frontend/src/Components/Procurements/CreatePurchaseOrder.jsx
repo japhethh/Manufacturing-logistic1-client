@@ -10,6 +10,7 @@ const CreatePurchaseOrder = () => {
     orderDate: null,
     items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
     tax: 0,
+    category: "",
     notes: "",
     paymentTerm: "",
     approvalStatus: "Pending",
@@ -83,6 +84,7 @@ const CreatePurchaseOrder = () => {
       orderDate: null,
       items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
       tax: 0,
+      category: "",
       notes: "",
       paymentTerm: "",
       approvalStatus: "Pending",
@@ -171,6 +173,7 @@ const CreatePurchaseOrder = () => {
         tax: parseFloat(formData.tax) || 0,
         totalAmount: total,
         notes: formData.notes,
+        category: formData.category,
         orderDate: formData.orderDate,
         paymentTerm: formData.paymentTerm,
         approvalStatus: formData.approvalStatus,
@@ -367,7 +370,7 @@ const CreatePurchaseOrder = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {/* Tax */}
           <div>
             <label
@@ -388,6 +391,29 @@ const CreatePurchaseOrder = () => {
               }
               className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
             />
+          </div>
+
+          {/* Category Selection */}
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Capital expenditures">Capital expenditures</option>
+              <option value="Operational Expenses">Operational Expenses</option>
+            </select>
           </div>
 
           {/* Payment Term */}
