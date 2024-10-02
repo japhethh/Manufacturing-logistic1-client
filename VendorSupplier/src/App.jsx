@@ -20,22 +20,75 @@ import Verify from "./pages/Verify";
 import PendingOrdersVendor from "./Modules/PendingOrdersVendor";
 import CompleteOrdersVendor from "./Modules/CompleteOrdersVendor";
 import ReceivingOrdersVendor from "./Modules/ReceivingOrdersVendor";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import verifyStore from "./context/verifyStore";
+import { apiURL } from "./context/verifyStore";
+import axios from "axios";
+import { useContext } from "react";
+import { VendorUserContext } from "./context/vendorUserContext";
 const App = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  // const { setToken } = useContext(VendorUserContext);
+  // const [isTokenVerified, setIsTokenVerified] = false;
+  // const hideNavAndSider = location.pathname === "/verify";
 
-  const hideNavAndSider = location.pathname === "/verify";
+  useEffect(() => {
+    console.log(apiURL);
+    const verifyToken = async () => {
+      const storedToken = localStorage.getItem("token");
+
+      if (!storedToken && location.pathname !== "/login") {
+        navigate("/login");
+      } else {
+        try {
+          const response = await axios.post(`${apiURL}/api/verifyToken`, {
+            token: storedToken,
+          });
+
+          if (response.data.valid) {
+            // setIsTokenVerified(true);
+          } else {
+            // handleInvalidToken();
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    };
+
+    // const handleInvalidToken = () => {
+    //   localStorage.removeItem("token");
+    //   setToken(null);
+    // };
+    verifyToken();
+  }, []);
+
+  // Show loading while verifying token
+  // if (!isTokenVerified) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen">
+  //       <p>Loading...</p>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="flex">
       <ToastContainer />
-      {!hideNavAndSider && <SidebarVendor />}
+      {/* {!hideNavAndSider && <SidebarVendor />} */}
+      {location.pathname === "/login"  ? null : <SidebarVendor />}
       <div className="flex-col flex-grow">
-        {!hideNavAndSider && <NavbarVendor />}
+        {/* {!hideNavAndSider && <NavbarVendor />} */}
+        {location.pathname === "/login" ? null : <NavbarVendor />}
 
         <div className="flex-grow">
           <Routes>
-            <Route path="/" element={<Login />} />
+            {}
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/sendemail" element={<SendEmail />} />
             <Route path="/dashboardvendor" element={<DashboardVendor />} />

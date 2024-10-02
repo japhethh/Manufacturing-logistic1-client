@@ -1,7 +1,19 @@
 import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
-const apiURL =
+
+// READ ME ==============>>>>>>>>>>
+// token
+// userData
+// allUsers
+// searchResults
+// loading
+// error
+// fetchUserData
+// searchUsers
+// setToken
+// logout
+export const apiURL =
   window.location.hostname === "localhost"
     ? "http://localhost:4000"
     : "https://manufacturing-logistic1-client-api.onrender.com";
@@ -10,9 +22,10 @@ const verifyStore = create((set) => ({
   token: localStorage.getItem("token") || null,
   userData: null,
   allUsers: null,
+
   searchResults: [],
   loading: false,
-  erro: null,
+  error: null,
   fetchUserData: async () => {
     const token = localStorage.getItem("token");
     if (!token) {
