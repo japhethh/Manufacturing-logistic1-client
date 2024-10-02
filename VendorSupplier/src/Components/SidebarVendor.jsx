@@ -36,7 +36,7 @@ const SidebarVendor = () => {
       submenu: [
         { label: "Pending Orders", to: "/PendingOrdersVendor" },
         { label: "Completed Orders", to: "/CompleteOrdersVendor" },
-        { label: "Receiving Orders", to: "/ordersvendor/receiving" },  // New submodule added
+        { label: "Receiving Orders", to: "/ReceivingOrdersVendor" },  // New submodule added
       ],
     },
     { icon: <FaWarehouse />, label: "Inventory Management", to: "/inventorymanagement" },

@@ -14,6 +14,7 @@ import AccountManagementVendor from "./Modules/AccountManagementVendor";
 import Verify from "./pages/Verify";
 import PendingOrdersVendor from "./Modules/PendingOrdersVendor";
 import CompleteOrdersVendor from "./Modules/CompleteOrdersVendor";
+import ReceivingOrdersVendor from "./Modules/ReceivingOrdersVendor";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
               <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
               <Route path="/pendingordersvendor" element={<PendingOrdersVendor />} />
               <Route path="/completeordersvendor" element={<CompleteOrdersVendor />} />
+              <Route path="/receivingordersvendor" element={<ReceivingOrdersVendor />} />
               <Route path="verify?email=:id" element={<Register/>}> </Route>
               <Route path="/verify" element={<Verify />} />
 
