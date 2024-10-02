@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Importing icons from React Icons
 
 const CompleteOrdersVendor = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,8 +16,8 @@ const CompleteOrdersVendor = () => {
     // Add more sample data as needed
   ];
 
-  const filteredOrders = orders.filter(order => 
-    order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredOrders = orders.filter(order =>
+    order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order.supplier.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -41,15 +40,15 @@ const CompleteOrdersVendor = () => {
   };
 
   return (
-    <div className="h-screen p-6 bg-white">
-      <h1 className="text-3xl font-bold mb-4 text-black/70">Completed Orders</h1>
+    <div className="h-screen p-6 bg-white text-black/70">
+      <h1 className="text-3xl font-bold mb-4">Completed Orders</h1>
 
       {/* Search Input */}
-      <div className="form-control mb-6 ">
+      <div className="form-control mb-6 max-w-lg">
         <input 
           type="text" 
           placeholder="Search orders by Order Number or Supplier..." 
-          className="input w-full bg-white border-black/30"
+          className="input input-bordered w-full"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -57,24 +56,24 @@ const CompleteOrdersVendor = () => {
 
       {/* Orders Table */}
       <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
+        <table className="table w-full bg-gray-50 rounded-lg shadow-md">
+          <thead className="bg-gray-200">
             <tr>
-              <th className="text-black/70">#</th>
-              <th className="text-black/70">Order Number</th>
-              <th className="text-black/70">Supplier</th>
-              <th className="text-black/70">Date</th>
-              <th className="text-black/70">Status</th>
+              <th className="text-black/70 py-3">#</th>
+              <th className="text-black/70 py-3">Order Number</th>
+              <th className="text-black/70 py-3">Supplier</th>
+              <th className="text-black/70 py-3">Date</th>
+              <th className="text-black/70 py-3">Status</th>
             </tr>
           </thead>
           <tbody>
             {currentOrders.length > 0 ? (
               currentOrders.map((order, index) => (
-                <tr key={order.id} className="hover:bg-gray-100">
-                  <td className="text-black/70">{indexOfFirstOrder + index + 1}</td>
-                  <td className="text-black/70">{order.orderNumber}</td>
-                  <td className="text-black/70">{order.supplier}</td>
-                  <td className="text-black/70">{order.date}</td>
+                <tr key={order.id} className="hover:bg-gray-100 transition duration-150 ease-in-out">
+                  <td className="text-black/70 py-2">{indexOfFirstOrder + index + 1}</td>
+                  <td className="text-black/70 py-2">{order.orderNumber}</td>
+                  <td className="text-black/70 py-2">{order.supplier}</td>
+                  <td className="text-black/70 py-2">{order.date}</td>
                   <td>
                     <span className="badge badge-success">{order.status}</span>
                   </td>
@@ -82,7 +81,7 @@ const CompleteOrdersVendor = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center text-black/70">No completed orders found</td>
+                <td colSpan="5" className="text-center text-black/70 py-2">No completed orders found</td>
               </tr>
             )}
           </tbody>
@@ -91,32 +90,34 @@ const CompleteOrdersVendor = () => {
 
       {/* Pagination with Next/Previous Buttons */}
       {filteredOrders.length > ordersPerPage && (
-        <div className="flex justify-between items-center mt-6">
-          <button
-            onClick={prevPage}
-            className={`btn btn-sm btn-outline text-black/50 ${currentPage === 1 ? 'btn-disabled' : ''}`}
-          >
-            Previous
-          </button>
-
-          <div className="flex space-x-2">
+        <div className="flex flex-col items-center mt-6">
+          <div className="flex space-x-2 mb-4">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index}
                 onClick={() => paginate(index + 1)}
-                className={`btn btn-sm ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline'}`}
+                className={`btn btn-sm ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline'} transition duration-150 ease-in-out`}
               >
                 {index + 1}
               </button>
             ))}
           </div>
 
-          <button
-            onClick={nextPage}
-            className={`btn btn-sm btn-outline text-black/50 ${currentPage === totalPages ? 'btn-disabled' : ''}`}
-          >
-            Next
-          </button>
+          <div className="flex justify-between w-full max-w-md">
+            <button
+              onClick={prevPage}
+              className={`btn btn-sm btn-outline text-black/50 ${currentPage === 1 ? 'btn-disabled' : ''} transition duration-150 ease-in-out`}
+            >
+              Previous
+            </button>
+
+            <button
+              onClick={nextPage}
+              className={`btn btn-sm btn-outline text-black/50 ${currentPage === totalPages ? 'btn-disabled' : ''} transition duration-150 ease-in-out`}
+            >
+              Next
+            </button>
+          </div>
         </div>
       )}
     </div>
