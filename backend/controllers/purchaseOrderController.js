@@ -82,10 +82,11 @@ const createPurchaseOrder = async (req, res) => {
     savePO.financeApproval = financeApproval._id;
     await savePO.save();
 
+    // FINANCE ------------------->
     // Axios
     const postRequest = async () => {
       const response = await axios.post(
-        ` https://manufacturing-finance-server.onrender.com/API/BudgetRequests/RequestBudget`,
+        `https://manufacturing-finance-server.onrender.com/API/BudgetRequests/RequestBudget`,
         financeApproval
       );
       console.log(response);

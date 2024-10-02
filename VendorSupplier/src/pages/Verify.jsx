@@ -1,7 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Zod schema for validation
+const schema = z.object({
+  supplierName: z.string().min(1, "Company Name is required"),
+  contactPerson: z.string().min(1, "Contact Person is required"),
+  contactEmail: z
+    .string()
+    .email("Invalid email format")
+    .nonempty("Email is required"),
+  contactPhone: z.string().min(1, "Contact Phone is required"),
+  street: z.string().min(1, "Street Address is required"),
+  city: z.string().min(1, "City is required"),
+  state: z.string().min(1, "State is required"),
+  zipCode: z.string().min(1, "ZIP Code is required"),
+  country: z.string().min(1, "Country is required"),
+  paymentTerms: z.string().min(1, "Payment Terms are required"),
+});
 
 const Verify = () => {
   const [searchParams] = useSearchParams();
@@ -11,28 +31,37 @@ const Verify = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    supplierName: "",
-    contactPerson: "",
-    contactEmail: email || "",
-    contactPhone: "",
-    street: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "",
-    paymentTerms: "",
-    rating: 3,
-  });
-
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      supplierName: "",
+      contactPerson: "",
+      contactEmail: email || "",
+      contactPhone: "",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      country: "",
+      paymentTerms: "",
+      rating: 3,
+    },
+  });
 
   useEffect(() => {
     const verifySupplier = async () => {
       try {
         const response = await axios.get(
-          "https://manufacturing-logistic1-client-api.onrender.com/api/email/verify",
+          "http://localhost:4000/api/email/verify",
           {
             params: { token, email },
           }
@@ -54,11 +83,6 @@ const Verify = () => {
     }
   }, [token, email]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const handleNext = () => {
     if (currentStep < totalSteps) setCurrentStep(currentStep + 1);
   };
@@ -67,13 +91,14 @@ const Verify = () => {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    console.log(data);
     try {
-      const response = await axios.post(
-        "https://manufacturing-logistic1-client-api.onrender.com/api/supplier",
-        { ...formData, email }
-      );
+      const response = await axios.post("http://localhost:4000/api/shipment/addsuppliers", {
+        ...data,
+        email,
+      });
+
       toast.success("Registration completed successfully.");
       navigate("/login");
     } catch (error) {
@@ -150,7 +175,11 @@ const Verify = () => {
             <h3 className="text-xl font-semibold mb-4 text-gray-700">
               Step 1: Supplier Information
             </h3>
-            <form id="step-1-form" className="space-y-4">
+            <form
+              id="step-1-form"
+              className="space-y-4"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <input type="hidden" name="email" value={email} />
 
               <div>
@@ -159,12 +188,16 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="supplierName"
-                  required
-                  value={formData.supplierName}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("supplierName")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.supplierName ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.supplierName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.supplierName.message}
+                  </p>
+                )}
               </div>
 
               <div className="flex justify-end">
@@ -186,19 +219,27 @@ const Verify = () => {
             <h3 className="text-xl font-semibold mb-4 text-gray-700">
               Step 2: Contact Information
             </h3>
-            <form id="step-2-form" className="space-y-4">
+            <form
+              id="step-2-form"
+              className="space-y-4"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Contact Person<span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
-                  name="contactPerson"
-                  required
-                  value={formData.contactPerson}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("contactPerson")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.contactPerson ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.contactPerson && (
+                  <p className="text-red-500 text-sm">
+                    {errors.contactPerson.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -207,9 +248,7 @@ const Verify = () => {
                 </label>
                 <input
                   type="email"
-                  name="contactEmail"
-                  required
-                  value={formData.contactEmail}
+                  {...register("contactEmail")}
                   readOnly
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
                 />
@@ -221,12 +260,16 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="contactPhone"
-                  required
-                  value={formData.contactPhone}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("contactPhone")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.contactPhone ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.contactPhone && (
+                  <p className="text-red-500 text-sm">
+                    {errors.contactPhone.message}
+                  </p>
+                )}
               </div>
 
               <div className="flex justify-between">
@@ -258,7 +301,7 @@ const Verify = () => {
             <form
               id="step-3-form"
               className="space-y-4"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
             >
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -266,12 +309,16 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="street"
-                  required
-                  value={formData.street}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("street")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.street ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.street && (
+                  <p className="text-red-500 text-sm">
+                    {errors.street.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -280,12 +327,14 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="city"
-                  required
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("city")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.city ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.city && (
+                  <p className="text-red-500 text-sm">{errors.city.message}</p>
+                )}
               </div>
 
               <div>
@@ -294,12 +343,14 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="state"
-                  required
-                  value={formData.state}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("state")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.state ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.state && (
+                  <p className="text-red-500 text-sm">{errors.state.message}</p>
+                )}
               </div>
 
               <div>
@@ -308,12 +359,16 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="zipCode"
-                  required
-                  value={formData.zipCode}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("zipCode")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.zipCode ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.zipCode && (
+                  <p className="text-red-500 text-sm">
+                    {errors.zipCode.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -322,12 +377,16 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="country"
-                  required
-                  value={formData.country}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("country")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.country ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.country && (
+                  <p className="text-red-500 text-sm">
+                    {errors.country.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -336,12 +395,16 @@ const Verify = () => {
                 </label>
                 <input
                   type="text"
-                  name="paymentTerms"
-                  required
-                  value={formData.paymentTerms}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("paymentTerms")}
+                  className={`w-full px-3 py-2 border ${
+                    errors.paymentTerms ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 />
+                {errors.paymentTerms && (
+                  <p className="text-red-500 text-sm">
+                    {errors.paymentTerms.message}
+                  </p>
+                )}
               </div>
 
               <div className="flex justify-between">

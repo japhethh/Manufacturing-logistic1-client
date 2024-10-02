@@ -20,43 +20,62 @@ import Verify from "./pages/Verify";
 import PendingOrdersVendor from "./Modules/PendingOrdersVendor";
 import CompleteOrdersVendor from "./Modules/CompleteOrdersVendor";
 import ReceivingOrdersVendor from "./Modules/ReceivingOrdersVendor";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const location = useLocation();
 
   const hideNavAndSider = location.pathname === "/verify";
   return (
-      <div className="flex">
-        {!hideNavAndSider && <SidebarVendor />}
-        <div className="flex-col flex-grow">
-          {!hideNavAndSider && <NavbarVendor />}
+    <div className="flex">
+      <ToastContainer />
+      {!hideNavAndSider && <SidebarVendor />}
+      <div className="flex-col flex-grow">
+        {!hideNavAndSider && <NavbarVendor />}
 
-          <div className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/sendemail" element={<SendEmail />} />
-              <Route path="/dashboardvendor" element={<DashboardVendor />} />
-              <Route path="/ordersvendor" element={<OrdersVendor />} />
-              <Route
-                path="/inventorymanagement"
-                element={<InvetoryManagement />}
-              />
-              <Route path="/shipmentvendor" element={<ShipmentVendor />} />
-              <Route path="/invoicesvendor" element={<InvoicesVendor />} />
-              <Route path="/communicationvendor" element={<CommunicationVendor />} />
-              <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
-              <Route path="/pendingordersvendor" element={<PendingOrdersVendor />} />
-              <Route path="/completeordersvendor" element={<CompleteOrdersVendor />} />
-              <Route path="/receivingordersvendor" element={<ReceivingOrdersVendor />} />
-              <Route path="verify?email=:id" element={<Register/>}> </Route>
-              <Route path="/verify" element={<Verify />} />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/sendemail" element={<SendEmail />} />
+            <Route path="/dashboardvendor" element={<DashboardVendor />} />
+            <Route path="/ordersvendor" element={<OrdersVendor />} />
+            <Route
+              path="/inventorymanagement"
+              element={<InvetoryManagement />}
+            />
+            <Route path="/shipmentvendor" element={<ShipmentVendor />} />
+            <Route path="/invoicesvendor" element={<InvoicesVendor />} />
+            <Route
+              path="/communicationvendor"
+              element={<CommunicationVendor />}
+            />
+            <Route
+              path="/accountmanagementvendor"
+              element={<AccountManagementVendor />}
+            />
+            <Route
+              path="/pendingordersvendor"
+              element={<PendingOrdersVendor />}
+            />
+            <Route
+              path="/completeordersvendor"
+              element={<CompleteOrdersVendor />}
+            />
+            <Route
+              path="/receivingordersvendor"
+              element={<ReceivingOrdersVendor />}
+            />
+            <Route path="verify?email=:id" element={<Register />}>
+              {" "}
+            </Route>
+            <Route path="/verify" element={<Verify />} />
 
-              {/* Add more vendor routes here */}
-            </Routes>
-          </div>
+            {/* Add more vendor routes here */}
+          </Routes>
         </div>
       </div>
+    </div>
   );
 };
 
