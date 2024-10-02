@@ -34,7 +34,7 @@ const SidebarVendor = () => {
       label: "Orders",
       to: "/ordersvendor",
       submenu: [
-        { label: "Pending Orders", to: "/ordersvendor/pending" },
+        { label: "Pending Orders", to: "/PendingOrdersVendor" },
         { label: "Completed Orders", to: "/ordersvendor/completed" },
         { label: "Receiving Orders", to: "/ordersvendor/receiving" },  // New submodule added
       ],
