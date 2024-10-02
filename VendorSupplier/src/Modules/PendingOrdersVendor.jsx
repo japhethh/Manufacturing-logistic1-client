@@ -36,7 +36,7 @@ const PendingOrdersVendor = () => {
               <th className="text-left py-3 px-4">Vendor Name</th>
               <th className="text-left py-3 px-4">Order Date</th>
               <th className="text-left py-3 px-4">Status</th>
-              <th className="text-left py-3 px-4">Actions</th>
+              <th className="text-left py-3 px-4 hidden md:table-cell">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white">
@@ -54,7 +54,7 @@ const PendingOrdersVendor = () => {
                       {order.status}
                     </span>
                   </td>
-                  <td className="py-4 px-6 border-b flex">
+                  <td className="py-4 px-6 border-b flex hidden md:table-cell">
                     <button className="btn btn-sm btn-primary mr-2 transition-transform transform hover:scale-105">
                       View
                     </button>

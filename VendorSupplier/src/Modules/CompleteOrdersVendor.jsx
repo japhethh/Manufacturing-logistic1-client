@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const CompleteOrdersVendor = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const ordersPerPage = 5;
 
   // Sample data for completed orders
@@ -16,16 +17,24 @@ const CompleteOrdersVendor = () => {
     // Add more sample data as needed
   ];
 
-  const filteredOrders = orders.filter(order =>
-    order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.supplier.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    // Filter orders based on the search term
+    const result = orders.filter(order =>
+      order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.supplier.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    setFilteredOrders(result);
+
+    // Reset to the first page if the search term changes
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   // Pagination logic
+  const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-  const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
   const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -48,15 +57,15 @@ const CompleteOrdersVendor = () => {
         <input 
           type="text" 
           placeholder="Search orders by Order Number or Supplier..." 
-          className="input input-bordered w-full"
+          className="input input-bordered w-full shadow-md transition duration-150 ease-in-out focus:ring-2 focus:ring-blue-400"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
       {/* Orders Table */}
-      <div className="overflow-x-auto">
-        <table className="table w-full bg-gray-50 rounded-lg shadow-md">
+      <div className="overflow-x-auto rounded-lg shadow-md">
+        <table className="table w-full bg-gray-50 rounded-lg">
           <thead className="bg-gray-200">
             <tr>
               <th className="text-black/70 py-3">#</th>
@@ -64,6 +73,7 @@ const CompleteOrdersVendor = () => {
               <th className="text-black/70 py-3">Supplier</th>
               <th className="text-black/70 py-3">Date</th>
               <th className="text-black/70 py-3">Status</th>
+              <th className="text-black/70 py-3 hidden md:table-cell">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -77,11 +87,15 @@ const CompleteOrdersVendor = () => {
                   <td>
                     <span className="badge badge-success">{order.status}</span>
                   </td>
+                  <td className="hidden md:table-cell">
+                    <button className="btn btn-sm btn-primary mr-2 transition-transform transform hover:scale-105">View</button>
+                    <button className="btn btn-sm btn-secondary transition-transform transform hover:scale-105">Update</button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center text-black/70 py-2">No completed orders found</td>
+                <td colSpan="6" className="text-center text-black/70 py-2">No completed orders found</td>
               </tr>
             )}
           </tbody>
@@ -103,7 +117,7 @@ const CompleteOrdersVendor = () => {
             ))}
           </div>
 
-          <div className="flex justify-between w-full max-w-md">
+          <div className="flex justify-between w-full">
             <button
               onClick={prevPage}
               className={`btn btn-sm btn-outline text-black/50 ${currentPage === 1 ? 'btn-disabled' : ''} transition duration-150 ease-in-out`}
