@@ -26,7 +26,7 @@ const PendingOrdersVendor = () => {
 
   return (
     <div className="container mx-auto p-6 bg-gray-50 min-h-screen shadow-lg rounded-lg">
-      <h1 className="text-4xl font-bold text-center mb-6 text-gray-800">Pending Orders</h1>
+      <h1 className="text-4xl font-bold mb-6 text-black/70">Pending Orders</h1>
 
       <div className="overflow-x-auto">
         <table className="table-auto w-full shadow-lg rounded-lg">

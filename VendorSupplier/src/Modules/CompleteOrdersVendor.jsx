@@ -45,11 +45,11 @@ const CompleteOrdersVendor = () => {
       <h1 className="text-3xl font-bold mb-4 text-black/70">Completed Orders</h1>
 
       {/* Search Input */}
-      <div className="form-control mb-6">
+      <div className="form-control mb-6 ">
         <input 
           type="text" 
           placeholder="Search orders by Order Number or Supplier..." 
-          className="input input-bordered w-full"
+          className="input w-full bg-white border-black/30"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
