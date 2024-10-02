@@ -34,8 +34,9 @@ const SidebarVendor = () => {
       label: "Orders",
       to: "/ordersvendor",
       submenu: [
-        { label: "Pending Orders", to: "/ordersvendor/pending" },
-        { label: "Completed Orders", to: "/ordersvendor/completed" },
+        { label: "Pending Orders", to: "/PendingOrdersVendor" },
+        { label: "Completed Orders", to: "/CompleteOrdersVendor" },
+        { label: "Receiving Orders", to: "/ReceivingOrdersVendor" }, // New submodule added
       ],
     },
     { icon: <FaWarehouse />, label: "Inventory Management", to: "/inventorymanagement" },
@@ -46,7 +47,7 @@ const SidebarVendor = () => {
   ];
 
   return (
-    <div className={`bg-white shadow-md h-screen sticky top-0 transition-all duration-300 ${isCollapsed ? "w-20" : "w-80"} flex flex-col`}>
+    <div className={`bg-white shadow-md h-screen sticky top-0 transition-all duration-300 ${isCollapsed ? "w-20" : "w-80"} hidden md:flex flex-col`}>
       <nav className="p-4 flex flex-col">
         <div className="flex items-center justify-between mb-8">
           <NavLink to="/dashboardvendor" className="flex items-center gap-2">

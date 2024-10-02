@@ -17,6 +17,9 @@ import InvoicesVendor from "./Modules/InvoicesVendor";
 import CommunicationVendor from "./Modules/CommunicationVendor";
 import AccountManagementVendor from "./Modules/AccountManagementVendor";
 import Verify from "./pages/Verify";
+import PendingOrdersVendor from "./Modules/PendingOrdersVendor";
+import CompleteOrdersVendor from "./Modules/CompleteOrdersVendor";
+import ReceivingOrdersVendor from "./Modules/ReceivingOrdersVendor";
 
 const App = () => {
   const location = useLocation();
@@ -41,17 +44,12 @@ const App = () => {
               />
               <Route path="/shipmentvendor" element={<ShipmentVendor />} />
               <Route path="/invoicesvendor" element={<InvoicesVendor />} />
-              <Route
-                path="/communicationvendor"
-                element={<CommunicationVendor />}
-              />
-              <Route
-                path="/accountmanagementvendor"
-                element={<AccountManagementVendor />}
-              />
-              <Route path="verify?email=:id" element={<Register />}>
-                {" "}
-              </Route>
+              <Route path="/communicationvendor" element={<CommunicationVendor />} />
+              <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
+              <Route path="/pendingordersvendor" element={<PendingOrdersVendor />} />
+              <Route path="/completeordersvendor" element={<CompleteOrdersVendor />} />
+              <Route path="/receivingordersvendor" element={<ReceivingOrdersVendor />} />
+              <Route path="verify?email=:id" element={<Register/>}> </Route>
               <Route path="/verify" element={<Verify />} />
 
               {/* Add more vendor routes here */}
