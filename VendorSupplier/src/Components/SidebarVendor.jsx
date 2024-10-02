@@ -36,6 +36,7 @@ const SidebarVendor = () => {
       submenu: [
         { label: "Pending Orders", to: "/ordersvendor/pending" },
         { label: "Completed Orders", to: "/ordersvendor/completed" },
+        { label: "Receiving Orders", to: "/ordersvendor/receiving" },  // New submodule added
       ],
     },
     { icon: <FaWarehouse />, label: "Inventory Management", to: "/inventorymanagement" },
@@ -44,6 +45,7 @@ const SidebarVendor = () => {
     { icon: <FaComments />, label: "Communication", to: "/communicationvendor" },
     { icon: <FaUserCog />, label: "Account Management", to: "/accountmanagementvendor" },
   ];
+  
 
   return (
     <div className={`bg-white shadow-md h-screen sticky top-0 transition-all duration-300 ${isCollapsed ? "w-20" : "w-80"} flex flex-col`}>
