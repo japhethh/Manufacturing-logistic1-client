@@ -79,7 +79,7 @@ const PendingOrdersVendor = () => {
       <div className="flex justify-between items-center mt-6">
         <button
           onClick={prevPage}
-          className={`btn btn-sm btn-outline ${currentPage === 1 ? 'btn-disabled' : ''}`}
+          className={`btn btn-sm btn-outline text-black/50 ${currentPage === 1 ? 'btn-disabled' : ''}`}
         >
           Previous
         </button>
@@ -98,7 +98,7 @@ const PendingOrdersVendor = () => {
 
         <button
           onClick={nextPage}
-          className={`btn btn-sm btn-outline text-black/50 border-blue-500 hover:bg-blue-400 ${currentPage === totalPages ? 'btn-disabled' : ''}`}
+          className={`btn btn-sm btn-outline text-black/50 ${currentPage === totalPages ? 'btn-disabled' : ''}`}
         >
           Next
         </button>
