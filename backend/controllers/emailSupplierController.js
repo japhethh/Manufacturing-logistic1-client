@@ -6,6 +6,8 @@ import { transporter } from "../config/transporter.js";
 // REGISTER
 // REGISTER
 const registerSupplier = asyncHandler(async (req, res) => {
+
+  const apiURL = "http://localhost:5174";
   const { email, gender } = req.body; // Capture email and gender
 
   if (!email || !gender) {
@@ -31,7 +33,7 @@ const registerSupplier = asyncHandler(async (req, res) => {
       await existingSupplier.save();
 
       // Create a new verification URL with the new token
-      const verificationUrl = `https://manufacturing-logistic1-client-api.onrender.com/api/email/verify?token=${newVerificationToken}&email=${encodeURIComponent(
+      const verificationUrl = `${apiURL}/verify?token=${newVerificationToken}&email=${encodeURIComponent(
         email
       )}`;
 
@@ -90,7 +92,7 @@ const registerSupplier = asyncHandler(async (req, res) => {
   await newSupplier.save();
 
   // Create a verification URL with the email as a query parameter
-  const verificationUrl = `https://manufacturing-logistic1-client-api.onrender.com/api/email/verify?token=${verificationToken}&email=${encodeURIComponent(
+  const verificationUrl = `${apiURL}/verify?token=${verificationToken}&email=${encodeURIComponent(
     email
   )}`;
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb";
 import joji from "../assets/joji.jpg";
 import vendor from "../assets/vendor.png";

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const AccountManagementVendor = () => {
   const [username, setUsername] = useState('vendor_user');

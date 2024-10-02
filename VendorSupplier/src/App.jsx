@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Login from "./Authentication/Login";
 import Register from "./Authentication/Register";
 import SendEmail from "./Authentication/SendEmail";
@@ -14,12 +19,14 @@ import AccountManagementVendor from "./Modules/AccountManagementVendor";
 import Verify from "./pages/Verify";
 
 const App = () => {
+  const location = useLocation();
+
+  const hideNavAndSider = location.pathname === "/verify";
   return (
-    <Router>
       <div className="flex">
-        <SidebarVendor/>
+        {!hideNavAndSider && <SidebarVendor />}
         <div className="flex-col flex-grow">
-          <NavbarVendor />
+          {!hideNavAndSider && <NavbarVendor />}
 
           <div className="flex-grow">
             <Routes>
@@ -28,12 +35,23 @@ const App = () => {
               <Route path="/sendemail" element={<SendEmail />} />
               <Route path="/dashboardvendor" element={<DashboardVendor />} />
               <Route path="/ordersvendor" element={<OrdersVendor />} />
-              <Route path="/inventorymanagement" element={<InvetoryManagement />} />
+              <Route
+                path="/inventorymanagement"
+                element={<InvetoryManagement />}
+              />
               <Route path="/shipmentvendor" element={<ShipmentVendor />} />
               <Route path="/invoicesvendor" element={<InvoicesVendor />} />
-              <Route path="/communicationvendor" element={<CommunicationVendor />} />
-              <Route path="/accountmanagementvendor" element={<AccountManagementVendor />} />
-              <Route path="verify?email=:id" element={<Register/>}> </Route>
+              <Route
+                path="/communicationvendor"
+                element={<CommunicationVendor />}
+              />
+              <Route
+                path="/accountmanagementvendor"
+                element={<AccountManagementVendor />}
+              />
+              <Route path="verify?email=:id" element={<Register />}>
+                {" "}
+              </Route>
               <Route path="/verify" element={<Verify />} />
 
               {/* Add more vendor routes here */}
@@ -41,7 +59,6 @@ const App = () => {
           </div>
         </div>
       </div>
-    </Router>
   );
 };
 
