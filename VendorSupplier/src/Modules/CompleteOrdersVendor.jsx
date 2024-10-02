@@ -37,7 +37,7 @@ const CompleteOrdersVendor = () => {
   };
 
   return (
-    <div className="h-screen p-6 bg-white rounded-lg shadow-lg">
+    <div className="h-screen p-6 bg-white">
       <h1 className="text-3xl font-bold mb-4 text-black/70">Completed Orders</h1>
 
       {/* Search Input */}
@@ -45,7 +45,7 @@ const CompleteOrdersVendor = () => {
         <input 
           type="text" 
           placeholder="Search orders by Order Number or Supplier..." 
-          className="input input-bordered input-white w-full"
+          className="input input-bordered w-full"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -53,24 +53,24 @@ const CompleteOrdersVendor = () => {
 
       {/* Orders Table */}
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
+        <table className="table w-full">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Order Number</th>
-              <th>Supplier</th>
-              <th>Date</th>
-              <th>Status</th>
+              <th className="text-black/70">#</th>
+              <th className="text-black/70">Order Number</th>
+              <th className="text-black/70">Supplier</th>
+              <th className="text-black/70">Date</th>
+              <th className="text-black/70">Status</th>
             </tr>
           </thead>
           <tbody>
             {currentOrders.length > 0 ? (
               currentOrders.map((order, index) => (
-                <tr key={order.id}>
-                  <td>{indexOfFirstOrder + index + 1}</td>
-                  <td>{order.orderNumber}</td>
-                  <td>{order.supplier}</td>
-                  <td>{order.date}</td>
+                <tr key={order.id} className="hover:bg-gray-100">
+                  <td className="text-black/70">{indexOfFirstOrder + index + 1}</td>
+                  <td className="text-black/70">{order.orderNumber}</td>
+                  <td className="text-black/70">{order.supplier}</td>
+                  <td className="text-black/70">{order.date}</td>
                   <td>
                     <span className="badge badge-success">{order.status}</span>
                   </td>
@@ -78,7 +78,7 @@ const CompleteOrdersVendor = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center">No completed orders found</td>
+                <td colSpan="5" className="text-center text-black/70">No completed orders found</td>
               </tr>
             )}
           </tbody>
@@ -93,7 +93,7 @@ const CompleteOrdersVendor = () => {
             onClick={handlePrevPage}
             disabled={currentPage === 1}
           >
-            <FaChevronLeft className="h-5 w-5" />
+            <FaChevronLeft className="h-5 w-5 text-black/70" />
           </button>
           <span className="text-black/70">Page {currentPage} of {totalPages}</span>
           <button
@@ -101,7 +101,7 @@ const CompleteOrdersVendor = () => {
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
           >
-            <FaChevronRight className="h-5 w-5" />
+            <FaChevronRight className="h-5 w-5 text-black/70" />
           </button>
         </div>
       )}
