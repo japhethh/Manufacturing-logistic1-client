@@ -28,12 +28,16 @@ const CompleteOrdersVendor = () => {
   const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
-  const handlePrevPage = () => {
+  const prevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
-  const handleNextPage = () => {
+  const nextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -85,23 +89,33 @@ const CompleteOrdersVendor = () => {
         </table>
       </div>
 
-      {/* Pagination */}
+      {/* Pagination with Next/Previous Buttons */}
       {filteredOrders.length > ordersPerPage && (
-        <div className="mt-4 flex justify-between items-center">
+        <div className="flex justify-between items-center mt-6">
           <button
-            className={`btn btn-outline btn-sm ${currentPage === 1 ? 'btn-disabled' : ''}`}
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
+            onClick={prevPage}
+            className={`btn btn-sm btn-outline text-black/50 ${currentPage === 1 ? 'btn-disabled' : ''}`}
           >
-            <FaChevronLeft className="h-5 w-5 text-black/70" />
+            Previous
           </button>
-          <span className="text-black/70">Page {currentPage} of {totalPages}</span>
+
+          <div className="flex space-x-2">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`btn btn-sm ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline'}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+
           <button
-            className={`btn btn-outline btn-sm ${currentPage === totalPages ? 'btn-disabled' : ''}`}
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
+            onClick={nextPage}
+            className={`btn btn-sm btn-outline text-black/50 ${currentPage === totalPages ? 'btn-disabled' : ''}`}
           >
-            <FaChevronRight className="h-5 w-5 text-black/70" />
+            Next
           </button>
         </div>
       )}
