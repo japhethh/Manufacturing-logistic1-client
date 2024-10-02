@@ -4,10 +4,11 @@ export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   // const apiURL = "https://manufacturing-logistic1-client-api.onrender.com"
-  // const apiURL = window.location.hostname === "localhost"
-  // ? "http://localhost:4000"
-  // : "https://manufacturing-logistic1-client-api.onrender.com";
-  const apiURL = "https://manufacturing-logistic1-client-api.onrender.com"
+  const apiURL =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://manufacturing-logistic1-client-api.onrender.com";
+  // const apiURL = "https://manufacturing-logistic1-client-api.onrender.com"
 
   // const apiURL =
   //   window.location.hostname === "localhost"
