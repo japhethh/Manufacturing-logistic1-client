@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./Authentication/Login";
 import Register from "./Authentication/Register";
 import SendEmail from "./Authentication/SendEmail";
@@ -80,7 +75,7 @@ const App = () => {
     <div className="flex">
       <ToastContainer />
       {/* {!hideNavAndSider && <SidebarVendor />} */}
-      {location.pathname === "/login"  ? null : <SidebarVendor />}
+      {location.pathname === "/login" ? null : <SidebarVendor />}
       <div className="flex-col flex-grow">
         {/* {!hideNavAndSider && <NavbarVendor />} */}
         {location.pathname === "/login" ? null : <NavbarVendor />}
@@ -119,12 +114,8 @@ const App = () => {
               path="/receivingordersvendor"
               element={<ReceivingOrdersVendor />}
             />
-            <Route path="verify?email=:id" element={<Register />}>
-              {" "}
-            </Route>
+            <Route path="verify?email=:id" element={<Register />} />
             <Route path="/verify" element={<Verify />} />
-
-            {/* Add more vendor routes here */}
           </Routes>
         </div>
       </div>

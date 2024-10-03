@@ -188,6 +188,7 @@ const EditUser = () => {
                     </option>
                     <option value="employee">Employee</option>
                     <option value="admin">Admin</option>
+                    <option value="vendorAdmin">Vendor Admin</option>
                     <option value="pending">Pending</option>
                   </select>
                   {errors.role && (

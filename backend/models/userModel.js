@@ -1,19 +1,23 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 
 // Define the user schema
 const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    userName: { type: String },
-    password: { type: String },
+    userName: { type: String, unique: true },
+    password: { type: String, required: true },
     phone: { type: String },
     date: { type: String },
     address: { type: String },
     city: { type: String },
     pic: { type: String },
-    role: { type: String, enum: ['admin', 'employee','pending'], default: 'pending' },
+    role: {
+      type: String,
+      enum: ["admin", "employee", "pending", "vendorAdmin"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );
