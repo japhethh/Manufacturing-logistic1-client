@@ -21,19 +21,30 @@ const requested = asyncHandler(async (req, res) => {
 const fetchPurchaseOrder = asyncHandler(async (req, res) => {});
 
 const newRequested = asyncHandler(async (req, res) => {
-  const { requestedBy, material, quantity, priority, unit } = req.body;
+  const { requestedBy, material, quantity, priority, unit, notes } = req.body;
+
+  // Check for required fields
+  if (!requestedBy || !material || !notes) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message:
+          "All fields (requestedBy, material, quantity, unit, notes) are required.",
+      });
+  }
 
   const newRequest = new rawmaterialModel({
-    requestedBy: requestedBy,
-    material: material,
-    quantity: quantity,
-    priority: priority,
-    unit: unit,
+    requestedBy,
+    material,
+    quantity,
+    priority,
+    unit,
+    notes,
   });
 
   try {
     const save = await newRequest.save();
-
     res.status(201).json(save);
   } catch (error) {
     res.status(400).json({ error: error.message });

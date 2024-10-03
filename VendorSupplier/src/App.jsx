@@ -75,10 +75,16 @@ const App = () => {
     <div className="flex">
       <ToastContainer />
       {/* {!hideNavAndSider && <SidebarVendor />} */}
-      {location.pathname === "/login" ? null : <SidebarVendor />}
+      {location.pathname === "/login" ||
+      location.pathname === "/verify" ? null : (
+        <SidebarVendor />
+      )}
       <div className="flex-col flex-grow">
         {/* {!hideNavAndSider && <NavbarVendor />} */}
-        {location.pathname === "/login" ? null : <NavbarVendor />}
+        {location.pathname === "/login" ||
+        location.pathname === "/verify" ? null : (
+          <NavbarVendor />
+        )}
 
         <div className="flex-grow">
           <Routes>

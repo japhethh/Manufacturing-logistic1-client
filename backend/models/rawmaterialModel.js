@@ -14,6 +14,13 @@ const rawmaterialSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  approvedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  approvalDate: {
+    type: Date,
+  },
   material: [
     {
       materialName: String,
@@ -29,6 +36,10 @@ const rawmaterialSchema = mongoose.Schema({
     type: String,
     enum: ["High", "Medium", "Low"],
     default: "Medium",
+  },
+  notes: {
+    type: String,
+    trim: true,
   },
 });
 

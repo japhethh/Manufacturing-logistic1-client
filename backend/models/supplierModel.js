@@ -1,5 +1,7 @@
+// models/Supplier.js
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import Counter from "./Counter.js"; // Import the Counter model
 
 const supplierSchema = mongoose.Schema(
   {
@@ -12,17 +14,12 @@ const supplierSchema = mongoose.Schema(
     },
     supplierCode: {
       type: String,
-      required: function () {
-        return this.status === "Active";
-      },
       unique: true,
     },
     supplierType: {
       type: String,
       enum: ["Raw Material", "Service Provider", "Equipment Supplier", "Other"],
-      required: function () {
-        return this.status === "Active";
-      },
+      // You can choose to require this based on status if needed
     },
 
     // Contact Information
@@ -111,9 +108,7 @@ const supplierSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: function () {
-        return this.status === "Active";
-      }, // Password only required when Active
+      // Password only required when Active
     },
 
     // Email Verification
@@ -134,17 +129,35 @@ const supplierSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// Pre-save hook to hash password if modified
+// Pre-save hook to hash password if modified and generate supplierCode if activating
 supplierSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
+  // Hash password if modified
+  if (this.isModified("password")) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
+    } catch (error) {
+      return next(error);
+    }
   }
+
+  // Generate supplierCode if status is being set to Active and supplierCode is not set
+  if (this.isModified("status") && this.status === "Active" && !this.supplierCode) {
+    try {
+      const counter = await Counter.findByIdAndUpdate(
+        { _id: "supplierCode" }, // Identifier for the supplierCode counter
+        { $inc: { sequence_value: 1 } }, // Increment the sequence value by 1
+        { new: true, upsert: true } // Return the updated document and create if it doesn't exist
+      );
+
+      const sequenceNumber = counter.sequence_value.toString().padStart(3, '0'); // e.g., 001
+      this.supplierCode = `SC-${sequenceNumber}`;
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  next();
 });
 
 const supplierModel = mongoose.model("Supplier", supplierSchema);

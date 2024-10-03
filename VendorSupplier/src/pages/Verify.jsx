@@ -29,11 +29,14 @@ const Verify = () => {
   const email = searchParams.get("email");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(true);
+  const supplierCode = "SO-3003";
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
+
+  console.log(email)
   const {
     register,
     handleSubmit,
@@ -94,11 +97,11 @@ const Verify = () => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post("http://localhost:4000/api/shipment/addsuppliers", {
+      const response = await axios.put("http://localhost:4000/api/supplier/completeRegistration", {
         ...data,
         email,
       });
-
+      
       toast.success("Registration completed successfully.");
       navigate("/login");
     } catch (error) {

@@ -214,7 +214,6 @@ const verifyRegisterFill = asyncHandler(async (req, res) => {
               <h3 class="text-xl font-semibold mb-4 text-gray-700">Step 1: Supplier Information</h3>
               <form id="step-1-form" class="space-y-4">
                 <input type="hidden" name="email" value="${email}">
-                
                 <div>
                   <label class="block text-sm font-medium text-gray-700">Company Name<span class="text-red-500">*</span></label>
                   <input type="text" name="supplierName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
