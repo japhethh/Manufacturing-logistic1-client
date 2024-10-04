@@ -68,6 +68,9 @@ const createPurchaseOrder = async (req, res) => {
       totalBudget: savePO.totalAmount,
       documents: savePO.pdfURL,
       category: savePO.category,
+      // New Dummy
+      department: "Logistic1",
+      typeOfRequest: "Tite request",
     };
 
     // const financeApproval = await financeApprovalModel.create({
@@ -78,6 +81,10 @@ const createPurchaseOrder = async (req, res) => {
     const financeApproval = await financeApprovalModel.create(
       financeApprovalJson
     );
+
+    financeApproval.approvalId = financeApproval._id;
+
+    financeApproval.save(); 
 
     savePO.financeApproval = financeApproval._id;
     await savePO.save();

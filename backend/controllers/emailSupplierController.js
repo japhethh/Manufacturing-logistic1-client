@@ -6,13 +6,20 @@ import { transporter } from "../config/transporter.js";
 // REGISTER
 // REGISTER
 const registerSupplier = asyncHandler(async (req, res) => {
-
   const apiURL = "http://localhost:5174";
   const { email, gender } = req.body; // Capture email and gender
 
   if (!email || !gender) {
     return res.status(400).json({ error: "Email and gender are required" });
   }
+
+  // New but i can modify this
+  const newSupp = {
+    email,
+    gender,
+    message,
+    fullName: `${firstName}, ${lastName}`,
+  };
 
   const existingSupplier = await supplierModel.findOne({ email });
 

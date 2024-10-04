@@ -6,6 +6,7 @@ import axios from "axios";
 import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import Pagination from "./Pagination";
 
 const User = () => {
   const navigate = useNavigate();
@@ -17,37 +18,41 @@ const User = () => {
 
   const { fetchAllUsers, allUsers, searchUsers } = Store();
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(5); // You can change this to adjust how many users per page
+
   useEffect(() => {
     fetchAllUsers();
-    
   }, [fetchAllUsers]);
 
   useEffect(() => {
-    console.log(allUsers)
     if (searchQuery) {
       searchUsers(searchQuery);
     } else {
-      // If searchQuery is empty, show all users
       fetchAllUsers();
     }
   }, [searchQuery, fetchAllUsers, searchUsers]);
+
+  // Get current users for pagination
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = allUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const totalUsers = allUsers.length;
+
+  // Change page
 
   const handleCreate = () => {
     navigate("/user/createuser");
   };
 
   const handleDetails = (user) => {
-    setSelectedUser(user); // Set the selected user for Details Modal
+    setSelectedUser(user);
     document.getElementById("details_modal").showModal();
   };
 
-  const handleSearch = async() => {
-    
-  }
-
-
   const openDeleteModal = (user) => {
-    setSelectedUserToDelete(user); // Set the selected user for Delete Modal
+    setSelectedUserToDelete(user);
     document.getElementById("delete_modal").showModal();
   };
 
@@ -77,6 +82,12 @@ const User = () => {
     openDeleteModal(user);
   };
 
+  // Pagination JSX
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(allUsers.length / usersPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className="container mx-auto px-4">
       <div className="breadcrumbs text-sm mb-5">
@@ -103,6 +114,7 @@ const User = () => {
             </button>
           </div>
         </div>
+
         <div className="flex justify-end mb-4">
           <label className="input input-bordered flex items-center gap-2 w-1/5">
             <input
@@ -126,9 +138,9 @@ const User = () => {
             </svg>
           </label>
         </div>
+
         <div className="overflow-x-auto">
           <table className="table w-full">
-            {/* Head */}
             <thead>
               <tr>
                 <th>Name</th>
@@ -141,7 +153,7 @@ const User = () => {
               </tr>
             </thead>
             <tbody>
-              {allUsers?.map((user, index) => (
+              {currentUsers.map((user, index) => (
                 <tr key={index}>
                   <td>
                     <div className="flex items-center gap-3">
@@ -226,20 +238,17 @@ const User = () => {
                 </tr>
               ))}
             </tbody>
-            {/* Foot */}
-            <tfoot>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Action</th>
-                <th></th>
-              </tr>
-            </tfoot>
           </table>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-4">
+          <Pagination
+            totalItems={totalUsers}
+            itemsPerPage={usersPerPage}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
         </div>
 
         {/* Details Modal */}
@@ -249,26 +258,31 @@ const User = () => {
               <h3 className="font-bold text-lg pb-3">Details</h3>
               <ul className="flex flex-col gap-2">
                 <li className="font-semibold">
-                  Name: <span className="text-black font-semibold">{selectedUser.name}</span>
+                  Name:{" "}
+                  <span className="text-black font-semibold">
+                    {selectedUser.name}
+                  </span>
                 </li>
-                {selectedUser?.email && (
-                  <li className="font-semibold">
-                    Email: <span className="text-black font-semibold">{selectedUser.email}</span>
-                  </li>
-                )}
-                {selectedUser?.phone && (
-                  <li className="font-semibold">
-                    Phone: <span className="text-black font-semibold">{selectedUser.phone}</span>
-                  </li>
-                )}
-                {selectedUser?.address && (
-                  <li className="font-semibold">
-                    Address: <span className="text-black font-semibold">{selectedUser.address}</span>
-                  </li>
-                )}
+                <li className="font-semibold">
+                  Email:{" "}
+                  <span className="text-black">{selectedUser.email}</span>
+                </li>
+                <li className="font-semibold">
+                  Phone:{" "}
+                  <span className="text-black">{selectedUser.phone}</span>
+                </li>
+                <li className="font-semibold">
+                  Username:{" "}
+                  <span className="text-black">{selectedUser.userName}</span>
+                </li>
               </ul>
               <div className="modal-action">
-                <button className="btn btn-sm" onClick={() => document.getElementById("details_modal").close()}>
+                <button
+                  onClick={() =>
+                    document.getElementById("details_modal").close()
+                  }
+                  className="btn btn-sm btn-circle btn-outline"
+                >
                   Close
                 </button>
               </div>
@@ -280,22 +294,27 @@ const User = () => {
         <dialog id="delete_modal" className="modal">
           {selectedUserToDelete && (
             <div className="modal-box">
-              <h3 className="font-bold text-lg pb-3">Are you sure you want to delete this user?</h3>
-              <p>
-                <strong>Name:</strong> {selectedUserToDelete.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {selectedUserToDelete.email}
-              </p>
-              <p>
-                <strong>Phone:</strong> {selectedUserToDelete.phone}
+              <h3 className="font-bold text-lg">
+                Are you sure you want to delete this user?
+              </h3>
+              <p className="py-4">
+                This action cannot be undone, and all data related to this user
+                will be removed.
               </p>
               <div className="modal-action">
-                <button className="btn btn-error" onClick={confirmDelete}>
-                  Delete
+                <button
+                  onClick={confirmDelete}
+                  className="btn btn-danger btn-sm"
+                >
+                  Confirm Delete
                 </button>
-                <button className="btn btn-sm" onClick={() => document.getElementById("delete_modal").close()}>
-                  Cancel
+                <button
+                  onClick={() =>
+                    document.getElementById("delete_modal").close()
+                  }
+                  className="btn btn-sm btn-circle btn-outline"
+                >
+                  Close
                 </button>
               </div>
             </div>

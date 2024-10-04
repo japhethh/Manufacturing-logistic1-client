@@ -21,6 +21,7 @@ const supplierSchema = mongoose.Schema(
       enum: ["Raw Material", "Service Provider", "Equipment Supplier", "Other"],
       // You can choose to require this based on status if needed
     },
+    gender: { type: String },
 
     // Contact Information
     contactPerson: {
@@ -129,6 +130,10 @@ const supplierSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+supplierSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 // Pre-save hook to hash password if modified and generate supplierCode if activating
 supplierSchema.pre("save", async function (next) {
   // Hash password if modified
@@ -142,7 +147,11 @@ supplierSchema.pre("save", async function (next) {
   }
 
   // Generate supplierCode if status is being set to Active and supplierCode is not set
-  if (this.isModified("status") && this.status === "Active" && !this.supplierCode) {
+  if (
+    this.isModified("status") &&
+    this.status === "Active" &&
+    !this.supplierCode
+  ) {
     try {
       const counter = await Counter.findByIdAndUpdate(
         { _id: "supplierCode" }, // Identifier for the supplierCode counter
@@ -150,7 +159,7 @@ supplierSchema.pre("save", async function (next) {
         { new: true, upsert: true } // Return the updated document and create if it doesn't exist
       );
 
-      const sequenceNumber = counter.sequence_value.toString().padStart(3, '0'); // e.g., 001
+      const sequenceNumber = counter.sequence_value.toString().padStart(3, "0"); // e.g., 001
       this.supplierCode = `SC-${sequenceNumber}`;
     } catch (error) {
       return next(error);

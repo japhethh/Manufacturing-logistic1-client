@@ -15,6 +15,8 @@ const financeApprovalSchema = mongoose.Schema({
     enum: ["Pending", "Reviewed", "Approved", "Rejected"],
     default: "Pending",
   },
+  approvalId: {type:mongoose.Schema.Types.ObjectId, ref:"FinanceApproval"},
+
   comments: {
     type: String,
   },
