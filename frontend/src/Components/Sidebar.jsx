@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
-import vendor from "./Assets/vendor.png";
+import vendor from "./Assets/jjmlogojpg.jpg";
 import {
   MdOutlineScreenshotMonitor,
   MdOutlineSupportAgent,

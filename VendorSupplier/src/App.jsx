@@ -59,7 +59,7 @@ const App = () => {
     //   localStorage.removeItem("token");
     //   setToken(null);
     // };
-    verifyToken();
+    // verifyToken();
   }, []);
 
   // Show loading while verifying token
@@ -76,13 +76,15 @@ const App = () => {
       <ToastContainer />
       {/* {!hideNavAndSider && <SidebarVendor />} */}
       {location.pathname === "/login" ||
-      location.pathname === "/verify" ? null : (
+      location.pathname === "/verify" ||
+      location.pathname === "/sendemail" ? null : (
         <SidebarVendor />
       )}
       <div className="flex-col flex-grow">
         {/* {!hideNavAndSider && <NavbarVendor />} */}
         {location.pathname === "/login" ||
-        location.pathname === "/verify" ? null : (
+        location.pathname === "/verify" ||
+        location.pathname === "/sendemail" ? null : (
           <NavbarVendor />
         )}
 
