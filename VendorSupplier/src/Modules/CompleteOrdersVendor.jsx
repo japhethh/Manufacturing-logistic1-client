@@ -23,7 +23,7 @@ const CompleteOrdersVendor = () => {
       order.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.supplier.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
+
     setFilteredOrders(result);
 
     // Reset to the first page if the search term changes
@@ -65,7 +65,7 @@ const CompleteOrdersVendor = () => {
 
       {/* Orders Table */}
       <div className="overflow-x-auto rounded-lg shadow-md">
-        <table className="table w-full bg-gray-50 rounded-lg">
+        <table className="table w-full bg-gray-50 rounded-lg hidden md:table">
           <thead className="bg-gray-200">
             <tr>
               <th className="text-black/70 py-3">#</th>
@@ -100,6 +100,28 @@ const CompleteOrdersVendor = () => {
             )}
           </tbody>
         </table>
+
+        {/* Mobile View */}
+        <div className="md:hidden mt-4">
+          {currentOrders.length > 0 ? (
+            currentOrders.map((order) => (
+              <div key={order.id} className="bg-white shadow-md rounded-lg p-4 mb-6"> {/* Increased mb-4 to mb-6 */}
+                <h2 className="font-bold text-lg">Order Number: {order.orderNumber}</h2>
+                <p className="text-gray-700">Supplier: {order.supplier}</p>
+                <p className="text-gray-700">Date: {order.date}</p>
+                <p className="text-gray-700">
+                  Status: <span className="badge badge-success">{order.status}</span>
+                </p>
+                <div className="flex space-x-2 mt-2">
+                  <button className="btn btn-sm btn-primary">View</button>
+                  <button className="btn btn-sm btn-secondary">Update</button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-black/70 py-2">No completed orders found</div>
+          )}
+        </div>
       </div>
 
       {/* Pagination with Next/Previous Buttons */}

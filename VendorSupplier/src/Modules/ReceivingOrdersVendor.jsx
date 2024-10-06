@@ -52,7 +52,7 @@ const ReceivingOrdersVendor = () => {
       <h1 className="text-3xl font-bold mb-6 text-black/70 text-center">Receiving Orders</h1>
 
       <div className="overflow-auto rounded-lg shadow">
-        <table className="min-w-full bg-white border border-gray-300">
+        <table className="min-w-full bg-white border border-gray-300 hidden md:table">
           <thead>
             <tr className="bg-gray-100 border-b">
               <th className="p-3 text-left text-black/70 font-semibold">Order Number</th>
@@ -76,6 +76,20 @@ const ReceivingOrdersVendor = () => {
             ))}
           </tbody>
         </table>
+
+        {/* Mobile View */}
+        <div className="md:hidden mt-4">
+          {currentOrders.map((order) => (
+            <div key={order.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
+              <h2 className="font-bold text-lg">Order Number: {order.orderNumber}</h2>
+              <p className="text-gray-700">Vendor: {order.vendor}</p>
+              <p className="text-gray-700">
+                Status: <span className={`inline-block px-2 py-1 rounded-full ${getStatusBadge(order.status)}`}>{order.status}</span>
+              </p>
+              <p className="text-gray-700">Date Received: {order.dateReceived}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Pagination with Next/Previous Buttons */}
