@@ -262,7 +262,7 @@ const approveSupplier = asyncHandler(async (req, res) => {
   await sendApprovalEmail(supplier, password);
 
   res.status(200).json({
-    success: false,
+    success: true,
     message: "Supplier approved successfully",
     supplier,
   });

@@ -25,3 +25,4 @@ supplierRouter.delete("/rejectSupplier/:id", rejectSupplier);
 supplierRouter.post("/login", loginSupplier);
 supplierRouter.post("/supplierSearch", getSearch);
 export default supplierRouter;
+

@@ -14,12 +14,12 @@ const registerSupplier = asyncHandler(async (req, res) => {
   }
 
   // New but i can modify this
-  const newSupp = {
-    email,
-    gender,
-    message,
-    fullName: `${firstName}, ${lastName}`,
-  };
+  // const newSupp = {
+  //   email,
+  //   gender,
+  //   message,
+  //   fullName: `${firstName}, ${lastName}`,
+  // };
 
   const existingSupplier = await supplierModel.findOne({ email });
 
