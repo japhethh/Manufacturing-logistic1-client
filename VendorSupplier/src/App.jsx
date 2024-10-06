@@ -94,6 +94,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/ordersvendor" element={<OrdersVendor />}>
+              <Route index element={<PendingOrdersVendor />} />
               <Route
                 path="PendingOrdersVendor"
                 element={<PendingOrdersVendor />}
@@ -107,10 +108,7 @@ const App = () => {
                 element={<CompleteOrdersVendor />}
               />
             </Route>
-            <Route
-              path="/dashboardvendor"
-              element={<DashboardVendor />}
-            />
+            <Route path="/dashboardvendor" element={<DashboardVendor />} />
             <Route
               path="/inventorymanagement"
               element={<InvetoryManagement />}

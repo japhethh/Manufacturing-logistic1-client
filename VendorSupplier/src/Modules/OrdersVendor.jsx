@@ -8,7 +8,7 @@ const OrdersVendor = () => {
     <div className="p-6 bg-white min-h-screen">
       {/* The three cards that stay at the top */}
       <div className="flex justify-between gap-2 mb-10">
-        <NavLink to="/PendingOrdersVendor">
+        <NavLink to="PendingOrdersVendor">
           <div className="card bg-blue-500 w-96 shadow-xl">
             <div className="card-body">
               <h2 className="card-title text-white/80 font-bold justify-between">
@@ -18,7 +18,7 @@ const OrdersVendor = () => {
           </div>
         </NavLink>
 
-        <NavLink to="/ReceivingOrdersVendor">
+        <NavLink to="ReceivingOrdersVendor">
           <div className="card bg-blue-500 w-96 shadow-xl">
             <div className="card-body">
               <h2 className="card-title text-white/80 font-bold justify-between">
@@ -28,7 +28,7 @@ const OrdersVendor = () => {
           </div>
         </NavLink>
 
-        <NavLink to="/CompleteOrdersVendor">
+        <NavLink to="CompleteOrdersVendor">
           <div className="card bg-blue-500 w-96 shadow-xl">
             <div className="card-body">
               <h2 className="card-title text-white/80 font-bold justify-between">
