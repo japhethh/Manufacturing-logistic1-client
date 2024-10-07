@@ -243,10 +243,10 @@ const MobileSidebar = () => {
       </ul>
 
       {/* Vendor Section */}
-      <p className="text-gray-500 font-semibold text-base">Vendor</p>
-      <ul className="w-full menu rounded-box">
+      {/* <p className="text-gray-500 font-semibold text-base">Vendor</p> */}
+      {/* <ul className="w-full menu rounded-box"> */}
         {/* Supplier Onboarding */}
-        <li>
+        {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <BsBoxSeam />
@@ -277,10 +277,10 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Supplier Dashboard */}
-        <li>
+        {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaChalkboardTeacher />
@@ -309,10 +309,10 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Order Management */}
-        <li>
+        {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <VscServerEnvironment />
@@ -341,10 +341,10 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Document Exchange */}
-        <li>
+        {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <IoDocumentAttachOutline />
@@ -370,10 +370,10 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Bids & Tenders */}
-        <li>
+        {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <BiDollarCircle />
@@ -399,10 +399,10 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Invoice & Payments */}
-        <li>
+        {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <TbFileInvoice />
@@ -423,10 +423,10 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Support & Disputes */}
-        <li>
+        {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineSupportAgent className="" />
@@ -456,7 +456,7 @@ const MobileSidebar = () => {
             </ul>
           </details>
         </li>
-      </ul>
+      </ul> */}
 
       {/* RETURN MANAGEMENT */}
       <p className="text-gray-500 font-semibold text-base mr-auto">Return Management</p>

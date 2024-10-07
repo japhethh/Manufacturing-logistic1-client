@@ -613,7 +613,7 @@ const Sidebar = () => {
             </li>
           </ul>
 
-          {/* VENDOR */}
+          {/* VENDOR 
           <p
             className={`text-gray-500 font-semibold text-base ${
               isCollapsed ? "hidden" : ""
@@ -622,7 +622,7 @@ const Sidebar = () => {
             Vendor
           </p>
           <ul className="w-full menu rounded-box">
-            {/*   Supplier Onboarding */}
+            SUPPLIER ONBOARDING
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -638,7 +638,7 @@ const Sidebar = () => {
                   )}
                 </summary>
                 <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Procurement Submenu Items */}
+                  PROCUREMENT SUB MENU ITEMS
                   <li className="mt-1">
                     <NavLink
                       to="registrationrequest"
@@ -666,7 +666,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-            {/* Supplier Dashboard */}
+            SUPPLIER DASHBOARD
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -702,7 +702,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-            {/* Order Management */}
+            ORDER MANAGEMENT
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -738,7 +738,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-            {/* Document Exchange */}
+            DOCUMENT EXCHANGE
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -774,7 +774,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-            {/* Bids & Tenders */}
+            BIDS AND TENDERS
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -810,7 +810,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-            {/* Invoice & Payments */}
+            INVOICE PAYMENT
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -846,7 +846,7 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
-            {/* Support & Disputes */}
+            SUPPORT DISPUTES
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <summary className="flex items-center gap-2 cursor-pointer">
@@ -894,7 +894,7 @@ const Sidebar = () => {
                 Account Management
               </p>
               <ul className="w-full menu rounded-box">
-                {/* Return Authorization (RMA) */}
+               RETURN AUTHORIZATION RMA
                 <li>
                   <details
                     className={`menu-item ${isCollapsed ? "hidden" : ""}`}
@@ -946,7 +946,7 @@ const Sidebar = () => {
           {userData && userData.role === "admin" && (
             <div>
               <ul className="w-full menu rounded-box">
-                {/* Return Authorization (RMA) */}
+                
                 <li>
                   <details
                     className={`menu-item ${isCollapsed ? "hidden" : ""}`}
@@ -1002,12 +1002,12 @@ const Sidebar = () => {
                           <p className="text-base">Suppliers</p>
                         </NavLink>
                       </li> */}
-                    </ul>
+                    {/* </ul>
                   </details>
                 </li>
               </ul>
             </div>
-          )}
+          )} */} 
 
           {/* RETURN MANAGEMENT */}
           <p
