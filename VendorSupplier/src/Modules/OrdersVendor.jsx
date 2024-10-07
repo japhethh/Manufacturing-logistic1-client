@@ -1,148 +1,69 @@
+import { NavLink, Outlet } from "react-router-dom";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { GiReceiveMoney } from "react-icons/gi";
+import { FaCalendarCheck } from "react-icons/fa";
+import { useState } from "react";
+
 const OrdersVendor = () => {
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div className="p-6 bg-white min-h-screen">
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold mb-8 text-gray-800">Orders</h1>
+    <div className="p-6 bg-gradient-to-b from-gray-200 to-gray-100 min-h-screen">
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-blue-600"></div>
+        </div>
+      )}
 
-      {/* Vendor Order Creation */}
-      <div className="mb-8 card shadow-lg bg-white p-6 border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Create New Purchase Order
-        </h2>
-        {/* Order Creation Form */}
-        <form className="space-y-4">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-gray-600">Vendor Name</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter vendor name"
-              className="input input-bordered w-full bg-gray-50"
-            />
+      {/* The three cards that stay at the top */}
+      <div className={`flex flex-col md:flex-row justify-start  gap-4 mb-10 ${loading ? "hidden" : ""}`}>
+        <NavLink 
+          to="PendingOrdersVendor" 
+          className="w-full md:w-1/3 lg:w-1/4" 
+          aria-label="Pending Orders"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-gray-800 font-semibold text-lg">Pending Orders</h2>
+              <MdOutlinePendingActions className="text-3xl text-blue-600" />
+            </div>
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
           </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-gray-600">Item</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter item details"
-              className="input input-bordered w-full bg-gray-50"
-            />
+        </NavLink>
+
+        <NavLink 
+          to="ReceivingOrdersVendor" 
+          className="w-full md:w-1/3 lg:w-1/4" 
+          aria-label="Receiving Orders"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-gray-800 font-semibold text-lg">Receiving Orders</h2>
+              <GiReceiveMoney className="text-3xl text-blue-600" />
+            </div>
+            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">3</span>
           </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text text-gray-600">Quantity</span>
-            </label>
-            <input
-              type="number"
-              placeholder="Enter quantity"
-              className="input input-bordered w-full bg-gray-50"
-            />
+        </NavLink>
+
+        <NavLink 
+          to="CompleteOrdersVendor" 
+          className="w-full md:w-1/3 lg:w-1/4" 
+          aria-label="Complete Orders"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-gray-800 font-semibold text-lg">Complete Orders</h2>
+              <FaCalendarCheck className="text-3xl text-blue-600" />
+            </div>
+            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">8</span>
           </div>
-          <button type="submit" className="btn btn-primary w-full">
-            Submit Order
-          </button>
-        </form>
+        </NavLink>
       </div>
 
-      {/* Order Tracking */}
-      <div className="mb-8 card shadow-lg bg-white p-6 border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Track Orders
-        </h2>
-        <table className="table w-full">
-          <thead className="text-black/80">
-            <tr>
-              <th>Order ID</th>
-              <th>Vendor</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className="text-black">
-            {/* Example of an order row */}
-            <tr>
-              <td>#12345</td>
-              <td>Vendor ABC</td>
-              <td>
-                <span className="badge badge-info">In Progress</span>
-              </td>
-              <td>
-                <button className="border border-violet-400 text-violet-400 rounded-full hover:text-black hover:bg-violet-300 duration-200 font-semibold btn-sm">
-                  View
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {/* Order Fulfillment */}
-      <div className="mb-8 card shadow-lg bg-white p-6 border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Order Fulfillment Status
-        </h2>
-        <div className="w-full bg-gray-200 rounded-full">
-          <div
-            className="bg-primary text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-            style={{ width: "60%" }}
-          >
-            60% Fulfilled
-          </div>
-        </div>
-      </div>
-
-      {/* Order History */}
-      <div className="mb-8 card shadow-lg bg-white p-6 border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Order History
-        </h2>
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr className="text-black/80">
-                <th>Order ID</th>
-                <th>Vendor</th>
-                <th>Status</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody className="text-black">
-              <tr>
-                <td>#12222</td>
-                <td>Vendor XYZ</td>
-                <td>
-                  <span className="badge badge-success">Completed</span>
-                </td>
-                <td>2024-09-15</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Order Communication */}
-      <div className="mb-8 card shadow-lg bg-white p-6 border border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Vendor Communication
-        </h2>
-        <div className="chat chat-start">
-          <div className="chat-bubble chat-bubble-primary">
-            Order #12345 has been shipped!
-          </div>
-        </div>
-        <div className="chat chat-end">
-          <div className="chat-bubble chat-bubble-secondary">
-            Thanks for the update!
-          </div>
-        </div>
-        <input
-          type="text"
-          placeholder="Send a message..."
-          className="input input-bordered w-full mt-4 bg-gray-50"
-        />
+      {/* This is where the selected component will be displayed */}
+      <div className={`mt-8 ${loading ? "hidden" : ""}`}>
+        <Outlet />
       </div>
     </div>
   );

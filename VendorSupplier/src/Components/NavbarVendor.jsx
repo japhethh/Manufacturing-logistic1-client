@@ -4,64 +4,52 @@ import vendor from "../assets/vendor.png";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import {
-  FaUserCheck,
-  FaUserPlus,
-  FaClipboardCheck,
-  FaComments,
+  FaTachometerAlt,
+  FaBoxOpen,
+  FaWarehouse,
   FaShippingFast,
-  FaFileInvoiceDollar,
+  FaFileInvoice,
+  FaComments,
   FaUserCog,
-  FaChartLine,
-  FaFileContract,
 } from "react-icons/fa";
 
 const NavbarVendor = () => {
   const navigate = useNavigate();
   const menuItems = [
     {
-      icon: <FaUserCheck className="mr-3 text-gray-600" />,
-      label: "Vendor Registration & Compliance",
-      href: "#vendor-registration",
+      icon: <FaTachometerAlt className="text-2xl" />,
+      label: "Dashboard",
+      to: "/dashboardvendor",
     },
     {
-      icon: <FaUserPlus className="mr-3 text-gray-600" />,
-      label: "Supplier Onboarding",
-      href: "#supplier-onboarding",
+      icon: <FaBoxOpen className="text-2xl" />,
+      label: "Orders",
+      to: "/ordersvendor",
     },
     {
-      icon: <FaClipboardCheck className="mr-3 text-gray-600" />,
-      label: "Purchase Order Management",
-      href: "#purchase-orders",
+      icon: <FaWarehouse className="text-2xl" />,
+      label: "Inventory Management",
+      to: "/inventorymanagement",
     },
     {
-      icon: <FaComments className="mr-3 text-gray-600" />,
-      label: "Supplier Communication",
-      href: "#supplier-communication",
+      icon: <FaShippingFast className="text-2xl" />,
+      label: "Shipment",
+      to: "/shipmentvendor",
     },
     {
-      icon: <FaShippingFast className="mr-3 text-gray-600" />,
-      label: "Inventory & Shipment Tracking",
-      href: "#shipment-tracking",
+      icon: <FaFileInvoice className="text-2xl" />,
+      label: "Invoices",
+      to: "/invoicesvendor",
     },
     {
-      icon: <FaFileInvoiceDollar className="mr-3 text-gray-600" />,
-      label: "Payment & Invoicing",
-      href: "#payment-invoicing",
+      icon: <FaComments className="text-2xl" />,
+      label: "Communication",
+      to: "/communicationvendor",
     },
     {
-      icon: <FaUserCog className="mr-3 text-gray-600" />,
-      label: "Vendor Self-Service Portal",
-      href: "#self-service",
-    },
-    {
-      icon: <FaChartLine className="mr-3 text-gray-600" />,
-      label: "Supplier Performance Monitoring",
-      href: "#performance-monitoring",
-    },
-    {
-      icon: <FaFileContract className="mr-3 text-gray-600" />,
-      label: "Basic Contract Management",
-      href: "#contract-management",
+      icon: <FaUserCog className="text-2xl" />,
+      label: "Account Management",
+      to: "/accountmanagementvendor",
     },
   ];
 
@@ -91,13 +79,13 @@ const NavbarVendor = () => {
               className="drawer-overlay"
               aria-label="Close sidebar"
             ></label>
-            <div className="menu bg-white min-h-full w-80 px-4 py-5 shadow-lg transition-transform transform duration-300 ease-in-out">
+            <div className="bg-white min-h-full w-80 px-4 py-5 shadow-lg transition-transform transform duration-300 ease-in-out">
               {/* Logo */}
               <NavLink to="/dashboardvendor" className="flex items-center mb-8">
                 <img
                   src={vendor}
                   alt="Vendor Management Logo"
-                  className="w-16 h-16 rounded-full"
+                  className="w-16 h-16 rounded-full border border-gray-300 transition-transform transform hover:scale-105"
                 />
                 <h2 className="text-2xl font-semibold text-gray-800 ml-2">
                   Vendor Management
@@ -141,13 +129,13 @@ const NavbarVendor = () => {
                     className="hover:bg-gray-200 rounded-md transition-colors"
                   >
                     <NavLink
-                      to={item.href}
+                      to={item.to}
                       className="flex items-center px-4 py-2 text-gray-800 font-semibold hover:text-blue-700 duration-200"
                       onClick={() =>
                         (document.getElementById("my-drawer").checked = false)
                       } // Close drawer on link click
                     >
-                      {item.icon}
+                      <span className="mr-2">{item.icon}</span> {/* Adjusted spacing */}
                       <span>{item.label}</span>
                     </NavLink>
                   </li>
@@ -233,16 +221,33 @@ const NavbarVendor = () => {
             />
             <ul
               tabIndex={0}
-              className="menu dropdown-content text-black rounded-box z-[1] mt-4 w-52 p-2 shadow"
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 rounded-box w-52"
             >
               <li>
-                <NavLink to="/settings">Settings</NavLink>
+                <NavLink
+                  to="/profile"
+                  className="hover:bg-gray-200"
+                  onClick={handleLogout}
+                >
+                  Profile
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/profile">Profile</NavLink>
+                <NavLink
+                  to="/settings"
+                  className="hover:bg-gray-200"
+                  onClick={handleLogout}
+                >
+                  Settings
+                </NavLink>
               </li>
-              <li onClick={handleLogout}>
-                <div>Log out</div>
+              <li>
+                <span
+                  className="hover:bg-gray-200 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </span>
               </li>
             </ul>
           </div>

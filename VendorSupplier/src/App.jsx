@@ -23,7 +23,7 @@ import verifyStore from "./context/verifyStore";
 import { apiURL } from "./context/verifyStore";
 import axios from "axios";
 import { useContext } from "react";
-import { VendorUserContext } from "./context/vendorUserContext";
+import { VendorUserContext } from "./context/VendorUserContext";
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -93,9 +93,22 @@ const App = () => {
             {}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/sendemail" element={<SendEmail />} />
+            <Route path="/ordersvendor" element={<OrdersVendor />}>
+              <Route index element={<PendingOrdersVendor />} />
+              <Route
+                path="PendingOrdersVendor"
+                element={<PendingOrdersVendor />}
+              />
+              <Route
+                path="ReceivingOrdersVendor"
+                element={<ReceivingOrdersVendor />}
+              />
+              <Route
+                path="CompleteOrdersVendor"
+                element={<CompleteOrdersVendor />}
+              />
+            </Route>
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
-            <Route path="/ordersvendor" element={<OrdersVendor />} />
             <Route
               path="/inventorymanagement"
               element={<InvetoryManagement />}
