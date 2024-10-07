@@ -1,8 +1,48 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { apiURL } from "../context/verifyStore";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { VendorUserContext } from "../context/vendorUserContext";
+import { useContext } from "react";
+const schema = z.object({
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
 const Login = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert("hello");
+  const { setToken } = useContext(VendorUserContext);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const response = await axios.post(`${apiURL}/api/supplier/login`, data);
+      if (!response.data.success) {
+        toast.error(response.data.message);
+        reset();
+      }
+      localStorage.setItem("token", response.data.token)
+      toast.success(response.data.message);
+
+      navigate("/");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -12,7 +52,7 @@ const Login = () => {
         <h1 className="mb-4 text-2xl font-bold text-center text-gray-900">
           Welcome Back!
         </h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -25,8 +65,11 @@ const Login = () => {
               id="email"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="your@email.com"
-              required
+              {...register("email")}
             />
+            {errors.email && (
+              <p className="text-xs text-red-500">{errors.email.message}</p>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -40,8 +83,11 @@ const Login = () => {
               id="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your password"
-              required
+              {...register("password")}
             />
+            {errors.password && (
+              <p className="text-xs text-red-500">{errors.password.message}</p>
+            )}
             <a
               href="#"
               className="text-xs text-gray-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

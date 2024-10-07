@@ -137,6 +137,7 @@ const App = () => {
             />
             <Route path="verify?email=:id" element={<Register />} />
             <Route path="/verify" element={<Verify />} />
+            <Route path="/sendemail" element={<SendEmail />} />
           </Routes>
         </div>
       </div>

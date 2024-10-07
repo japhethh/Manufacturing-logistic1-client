@@ -2,6 +2,7 @@ import { FaWineGlassEmpty } from "react-icons/fa6";
 import supplierModel from "../models/supplierModel.js";
 import asyncHandler from "express-async-handler";
 import { transporter } from "../config/transporter.js";
+import jwt from 'jsonwebtoken'
 import bcryptjs from "bcryptjs";
 // Get
 const getAllSupplier = asyncHandler(async (req, res) => {
@@ -284,16 +285,25 @@ const rejectSupplier = asyncHandler(async (req, res) => {
 });
 
 const loginSupplier = asyncHandler(async (req, res) => {
-  const { userName, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = await supplierModel.findOne({ userName });
-
-  if (user && (await user.matchPassword(password))) {
-    res.json({ success: true, token: createToken(user._id) });
-  } else {
-    res.status(400);
-    throw new Error("Invalid Email or Password");
+  // Find user by email
+  const user = await supplierModel.findOne({ email });
+  
+  // If user doesn't exist or password is incorrect
+  if (!user || !(await user.matchPassword(password))) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid email or password",
+    });
   }
+
+  // If user exists and password matches
+  res.status(200).json({
+    success: true,
+    message: "Login successful",
+    token: createToken(user._id),
+  });
 });
 
 const createToken = (id) => {

@@ -91,7 +91,7 @@ const VendorRegistrationForm = () => {
             htmlFor="supplierName"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Company Name
+          Company Name
           </label>
           <input
             type="text"

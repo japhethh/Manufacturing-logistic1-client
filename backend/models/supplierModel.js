@@ -147,14 +147,14 @@ supplierSchema.methods.matchPassword = async function (enteredPassword) {
 // Pre-save hook to hash password if modified and generate supplierCode if activating
 supplierSchema.pre("save", async function (next) {
   // Hash password if modified
-  if (this.isModified("password")) {
-    try {
-      const salt = await bcrypt.genSalt(10);
-      this.password = await bcrypt.hash(this.password, salt);
-    } catch (error) {
-      return next(error);
-    }
-  }
+  // if (this.isModified("password")) {
+  //   try {
+  //     const salt = await bcrypt.genSalt(10);
+  //     this.password = await bcrypt.hash(this.password, salt);
+  //   } catch (error) {
+  //     return next(error);
+  //   }
+  // }
 
   // Generate supplierCode if status is being set to Active and supplierCode is not set
   if (
