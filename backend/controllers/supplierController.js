@@ -2,7 +2,7 @@ import { FaWineGlassEmpty } from "react-icons/fa6";
 import supplierModel from "../models/supplierModel.js";
 import asyncHandler from "express-async-handler";
 import { transporter } from "../config/transporter.js";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 // Get
 const getAllSupplier = asyncHandler(async (req, res) => {
@@ -10,6 +10,10 @@ const getAllSupplier = asyncHandler(async (req, res) => {
     const suppliers = await supplierModel
       .find()
       .populate("materialSupplied")
+      .populate({
+        path: "purchaseOrders", // Populating 'purchaseOrders'
+        select: "supplierName supplierCode", // Selecting only 'supplierName' and 'supplierCode' from the Supplier model
+      })
       .sort({ orderDate: -1 });
     // .populate('materialsSupplied');
     res.json(suppliers);
@@ -289,7 +293,7 @@ const loginSupplier = asyncHandler(async (req, res) => {
 
   // Find user by email
   const user = await supplierModel.findOne({ email });
-  
+
   // If user doesn't exist or password is incorrect
   if (!user || !(await user.matchPassword(password))) {
     return res.status(400).json({

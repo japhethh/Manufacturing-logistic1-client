@@ -115,12 +115,12 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
       .populate("supplier")
       .populate({
         path: "financeApproval",
-        populate: {
-          path: "purchaseOrder",
-        },
+        // populate: {
+        //   path: "purchaseOrder",
+        // },
       })
 
-      .sort({ orderDate: -1, "supplier.supplierName": 1 }) // Sort by orderDate (descending) and supplierName (ascending)
+      // .sort({ orderDate: -1, "supplier.supplierName": 1 }) // Sort by orderDate (descending) and supplierName (ascending)
       .exec(); // Populate the createdBy field with user info
     // .populate("rawmaterialRequest", "name description"); // Populate the raw material request
 

@@ -71,6 +71,26 @@ const purchaseOrderSchema = mongoose.Schema(
       type: String,
       enum: ["Capital expenditures", "Operational Expenses"],
     },
+
+    // HISTORY
+    statusHistory: [
+      {
+        statusType: {
+          type: String,
+          enum: ["orderStatus", "approvalStatus"],
+          required: true,
+        },
+        previousStatus: { type: String },
+        newStatus: { type: String },
+        changedBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        changedAt: { type: Date, default: Date.now },
+        notes: { type: String }, // Optional notes on the status change
+      },
+    ],
   },
   { timestamps: true }
 );
