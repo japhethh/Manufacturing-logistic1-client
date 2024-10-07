@@ -4,22 +4,17 @@ import crypto from "crypto";
 import { transporter } from "../config/transporter.js";
 
 // REGISTER
-// REGISTER
+
 const registerSupplier = asyncHandler(async (req, res) => {
   const apiURL = "http://localhost:5174";
-  const { email, gender } = req.body; // Capture email and gender
+  const { email, gender, supplierName, firstName, lastName, contactPhone } =
+    req.body; // Capture email and gender
 
-  if (!email || !gender) {
-    return res.status(400).json({ error: "Email and gender are required" });
+  if (
+    (!email || !gender || !supplierName, !firstName, !lastName, !contactPhone)
+  ) {
+    return res.status(400).json({ error: "All fields are required" });
   }
-
-  // New but i can modify this
-  // const newSupp = {
-  //   email,
-  //   gender,
-  //   message,
-  //   fullName: `${firstName}, ${lastName}`,
-  // };
 
   const existingSupplier = await supplierModel.findOne({ email });
 
@@ -89,7 +84,12 @@ const registerSupplier = asyncHandler(async (req, res) => {
   // Create new supplier with pending status
   const newSupplier = new supplierModel({
     email,
+    contactEmail: email,
     gender,
+    supplierName,
+    firstName,
+    lastName,
+    contactPhone,
     status: "Pending",
     verificationToken,
     verificationTokenExpires,

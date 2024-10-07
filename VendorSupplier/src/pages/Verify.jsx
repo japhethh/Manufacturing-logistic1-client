@@ -35,8 +35,7 @@ const Verify = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
-
-  console.log(email)
+  console.log(email);
   const {
     register,
     handleSubmit,
@@ -64,7 +63,7 @@ const Verify = () => {
     const verifySupplier = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/email/verify",
+          "https://manufacturing-logistic1-client-api.onrender.com/api/email/verify",
           {
             params: { token, email },
           }
@@ -97,11 +96,18 @@ const Verify = () => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const response = await axios.put("http://localhost:4000/api/supplier/completeRegistration", {
-        ...data,
-        email,
-      });
-      
+      const response = await axios.put(
+        "http://localhost:4000/api/supplier/completeRegistration",
+        {
+          ...data,
+          email,
+        }
+      );
+
+      if (!response.data.success) {
+        toast.error(response.data.message);
+      }
+
       toast.success("Registration completed successfully.");
       navigate("/login");
     } catch (error) {

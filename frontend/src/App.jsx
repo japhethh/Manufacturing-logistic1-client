@@ -37,9 +37,10 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isTokenVerified, setIsTokenVerified] = useState(false);
-  const { userData, fetchUserData } = Store(); // Access global state and actions
+  const { userData, fetchUserData, allUsers } = Store(); // Access global state and actions
 
   useEffect(() => {
+    console.log(allUsers)
     const verifyToken = async () => {
       const storedtoken = localStorage.getItem("token");
 

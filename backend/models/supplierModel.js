@@ -12,6 +12,16 @@ const supplierSchema = mongoose.Schema(
         return this.status === "Active";
       },
     },
+
+    // New drop
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
     supplierCode: {
       type: String,
       unique: true,

@@ -222,10 +222,10 @@ const sendApprovalEmail = asyncHandler(async (supplier, password) => {
     html: `
       <p>Dear ${supplier.contactPerson},</p>
       <p>Your supplier account has been approved. Below are your login credentials:</p>
-      <p><strong>Username:</strong> ${supplier.email}</p>
+      <p><strong>Email:</strong> ${supplier.email}</p>
       <p><strong>Password:</strong> ${password}</p>
       <p>Please log in to your account and update your details if necessary:</p>
-      <a href="https://yourcompany.com/login">Login here</a>
+      <a href="https://manufacturing-logistic1-client-frontend.onrender.com/login">Login here</a>
       <p>Best regards,</p>
       <p>Your Company Team</p>
     `,
