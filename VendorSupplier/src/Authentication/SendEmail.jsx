@@ -1,150 +1,145 @@
-import { useState } from "react";
+// src/components/VendorRegistrationForm.jsx
+
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { VendorUserContext } from "../context/vendorUserContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useContext } from "react";
+
+// Define the validation schema using Zod
+const schema = z.object({
+  supplierName: z.string().min(1, "Company Name is required"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  gender: z.enum(["male", "female", "other"]).optional(),
+  email: z.string().email("Invalid email address"),
+  contactPhone: z.string().min(1, "Phone number is required"),
+});
 
 const VendorRegistrationForm = () => {
-  const [companyName, setCompanyName] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-  const [error, setError] = useState("");
+  const { apiURL } = useContext(VendorUserContext);
 
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
+  // Initialize react-hook-form with Zod validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      supplierName: "",
+      firstName: "",
+      lastName: "",
+      gender: "",
+      email: "",
+      contactPhone: "",
+    },
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  // Handle form submission
+  const onSubmit = async (data) => {
 
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-
-    // Create a formatted message
-    const message = `
-      Company Name: ${companyName}
-      First Name: ${name}
-      Last Name: ${lastName}
-      Gender: ${gender || "Not specified"}
-      Email: ${email}
-      Phone: ${phone || "Not provided"}
-      Location: ${location || "Not provided"}
-    `;
-
+    console.log(data)
     const templateParams = {
-      message: message,
-      company: companyName,
-      firstName: name,
-      lastName: lastName,
-      gender: gender,
-      email: email,
-      phone: phone,
-      location: location,
+      supplierName: data.supplierName,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      gender: data.gender,
+      email: data.email,
+      contactPhone: data.contactPhone,
     };
 
     try {
-      const response = await fetch(
-        "https://api.emailjs.com/api/v1.0/email/send",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            service_id: "service_uo9nizh", // Replace with your actual Service ID
-            template_id: "template_5kc1rop", // Replace with your actual Template ID
-            user_id: "82GY6MLOGFzVWmMNE", // Replace with your actual User ID
-            template_params: templateParams,
-          }),
-        }
+      const response = await axios.post(
+        `${apiURL}/api/email/register-supplier`,
+        data
       );
 
-      if (response.ok) {
-        const result = await response.text();
-        console.log("Email sent successfully!", result);
-        toast.success("Email sent successfully!");
-        resetForm();
+      if (response.status === 200) {
+        console.log("Email sent successfully!", response.data);
+        toast.success(
+          "Registration successful! Please check your email to verify your account."
+        );
+        reset(); // Reset the form after successful submission
       } else {
-        const errorText = await response.text();
-        throw new Error(errorText);
+        throw new Error(response.data.error || "Failed to send email.");
       }
     } catch (error) {
       console.error("Error sending email:", error);
-      toast.error("Error sending email: " + error.message);
+      toast.error("Error: " + (error.response?.data?.error || error.message));
     }
-  };
-
-  const resetForm = () => {
-    setCompanyName("");
-    setName("");
-    setLastName("");
-    setGender("");
-    setEmail("");
-    setPhone("");
-    setLocation("");
   };
 
   return (
     <div className="flex items-center py-5 justify-center min-h-screen bg-gradient-to-r from-blue-100 to-blue-300">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg"
       >
         <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
           Vendor Registration
         </h2>
 
-        {error && <p className="mb-4 text-red-600 text-center">{error}</p>}
-
+        {/* Supplier Name */}
         <div className="mb-4">
           <label
-            htmlFor="company"
+            htmlFor="supplierName"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Company Representation
+            Company Name
           </label>
           <input
             type="text"
-            id="company"
+            id="supplierName"
             placeholder="Enter company name"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            required
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
+            {...register("supplierName")}
+            className={`mt-1 block w-full p-3 border ${
+              errors.supplierName ? "border-red-500" : "border-gray-300"
+            } rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200`}
           />
-          <p className="text-xs text-gray-500">
-            Name of the company the vendor represents.
-          </p>
+          {errors.supplierName && (
+            <p className="text-xs text-red-500">
+              {errors.supplierName.message}
+            </p>
+          )}
+            <p className="text-xs text-gray-500">
+              Name of the company the vendor represents.
+            </p>
         </div>
 
+        {/* First and Last Name */}
         <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+          {/* First Name */}
           <div className="mb-4">
             <label
-              htmlFor="name"
+              htmlFor="firstName"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               First Name
             </label>
             <input
               type="text"
-              id="name"
+              id="firstName"
               placeholder="Enter first name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
+              {...register("firstName")}
+              className={`mt-1 block w-full p-3 border ${
+                errors.firstName ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200`}
             />
-            <p className="text-xs text-gray-500">Vendor's first name.</p>
+            {errors.firstName && (
+              <p className="text-xs text-red-500">{errors.firstName.message}</p>
+            )}
+            {!errors.firstName && (
+              <p className="text-xs text-gray-500">Vendor's first name.</p>
+            )}
           </div>
 
+          {/* Last Name */}
           <div className="mb-4">
             <label
               htmlFor="lastName"
@@ -156,15 +151,21 @@ const VendorRegistrationForm = () => {
               type="text"
               id="lastName"
               placeholder="Enter last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-              className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
+              {...register("lastName")}
+              className={`mt-1 block w-full p-3 border ${
+                errors.lastName ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200`}
             />
-            <p className="text-xs text-gray-500">Vendor's last name.</p>
+            {errors.lastName && (
+              <p className="text-xs text-red-500">{errors.lastName.message}</p>
+            )}
+            {!errors.lastName && (
+              <p className="text-xs text-gray-500">Vendor's last name.</p>
+            )}
           </div>
         </div>
 
+        {/* Gender */}
         <div className="mb-4">
           <label
             htmlFor="gender"
@@ -174,20 +175,25 @@ const VendorRegistrationForm = () => {
           </label>
           <select
             id="gender"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
+            {...register("gender")}
+            className={`mt-1 block w-full p-3 border ${
+              errors.gender ? "border-red-500" : "border-gray-300"
+            } rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200`}
           >
-            <option value="" disabled>
-              Select your gender (optional)
-            </option>
+            <option value="">Select your gender (optional)</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
           </select>
-          <p className="text-xs text-gray-500">Vendor's gender (optional).</p>
+          {errors.gender && (
+            <p className="text-xs text-red-500">{errors.gender.message}</p>
+          )}
+          {!errors.gender && (
+            <p className="text-xs text-gray-500">Vendor's gender (optional).</p>
+          )}
         </div>
 
+        {/* Email Address */}
         <div className="mb-6">
           <label
             htmlFor="email"
@@ -199,43 +205,59 @@ const VendorRegistrationForm = () => {
             type="email"
             id="email"
             placeholder="Sample@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
+            {...register("email")}
+            className={`mt-1 block w-full p-3 border ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            } rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200`}
           />
-          <p className="text-xs text-gray-500">
-            Vendor's email address for communication and verification.
-          </p>
+          {errors.email && (
+            <p className="text-xs text-red-500">{errors.email.message}</p>
+          )}
+          {!errors.email && (
+            <p className="text-xs text-gray-500">
+              Vendor's email address for communication and verification.
+            </p>
+          )}
         </div>
 
+        {/* Phone Number */}
         <div className="mb-4">
           <label
-            htmlFor="phone"
+            htmlFor="contactPhone"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             Phone Number
           </label>
           <input
             type="text"
-            id="phone"
+            id="contactPhone"
             placeholder="+63 999-9999-999"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200"
+            {...register("contactPhone")}
+            className={`mt-1 block w-full p-3 border ${
+              errors.contactPhone ? "border-red-500" : "border-gray-300"
+            } rounded-md focus:outline-none focus:ring focus:ring-blue-400 transition duration-200`}
           />
-          <p className="text-xs text-gray-500">
-            Contact number for further communication (optional).
-          </p>
+          {errors.contactPhone && (
+            <p className="text-xs text-red-500">
+              {errors.contactPhone.message}
+            </p>
+          )}
+          {!errors.contactPhone && (
+            <p className="text-xs text-gray-500">
+              Contact number for further communication.
+            </p>
+          )}
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 transition duration-200"
         >
-          Submit Email
+          Register
         </button>
 
+        {/* Link to Login */}
         <NavLink to="/">
           <p className="mt-4 text-center text-sm text-gray-600">
             Already have an account?

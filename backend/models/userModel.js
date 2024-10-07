@@ -6,10 +6,10 @@ const userSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    userName: { type: String, unique: true },
-    password: { type: String, required: true },
+    userName: { type: String },
+    password: { type: String },
     phone: { type: String },
-    date: { type: String },
+    date: { type: Date },
     address: { type: String },
     city: { type: String },
     pic: { type: String },

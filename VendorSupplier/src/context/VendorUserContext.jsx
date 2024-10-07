@@ -1,4 +1,3 @@
-
 import { createContext, useEffect, useState } from "react";
 
 export const VendorUserContext = createContext();
@@ -11,6 +10,7 @@ const VendorUserContextProvider = ({ children }) => {
       ? "http://localhost:4000"
       : "https://manufacturing-logistic1-client-api.onrender.com";
 
+  console.log(apiURL);
   useEffect(() => {
     async function loadData() {
       const storedToken = localStorage.getItem("token");

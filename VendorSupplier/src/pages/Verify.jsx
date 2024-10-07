@@ -101,7 +101,12 @@ const Verify = () => {
         ...data,
         email,
       });
+
+      if(!response.data.success){
+        toast.error(response.data.message);
+      }
       
+
       toast.success("Registration completed successfully.");
       navigate("/login");
     } catch (error) {

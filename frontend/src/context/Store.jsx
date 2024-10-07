@@ -24,7 +24,7 @@ const apiURL = window.location.hostname === "localhost"
 const Store = create((set) => ({
   token: localStorage.getItem("token") || null,
   userData: null,
-  allUsers: null,
+  allUsers: [],
   searchResults: [],
   loading: false,
   error: null,
@@ -69,7 +69,7 @@ const Store = create((set) => ({
       set({ loading: true });
 
       const response = await axios.get(
-        `${apiUrl}/api/user/userSearch?search=${query}`
+        `${apiURL}/api/user/userSearch?search=${query}`
       );
       set({ allUsers: response.data, loading: false, error: null });
     } catch (error) {
