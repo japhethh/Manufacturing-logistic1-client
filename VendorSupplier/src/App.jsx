@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./Authentication/Login";
 import Register from "./Authentication/Register";
 import SendEmail from "./Authentication/SendEmail";
@@ -17,96 +17,100 @@ import CompleteOrdersVendor from "./Modules/CompleteOrdersVendor";
 import ReceivingOrdersVendor from "./Modules/ReceivingOrdersVendor";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import verifyStore from "./context/verifyStore";
 import { apiURL } from "./context/verifyStore";
 import axios from "axios";
 import { useContext } from "react";
 import { VendorUserContext } from "./context/VendorUserContext";
+
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // const { setToken } = useContext(VendorUserContext);
-  // const [isTokenVerified, setIsTokenVerified] = false;
-  // const hideNavAndSider = location.pathname === "/verify";
+  const { setToken } = useContext(VendorUserContext);
+  const [isTokenVerified, setIsTokenVerified] = useState(false);
+  const { fetchUserData, userData } = verifyStore();
 
   useEffect(() => {
-    console.log(apiURL);
     const verifyToken = async () => {
       const storedToken = localStorage.getItem("token");
-
-      if (!storedToken && location.pathname !== "/login") {
-        navigate("/login");
-      } else {
+      if (storedToken) {
+        // Check if the token is valid
         try {
           const response = await axios.post(`${apiURL}/api/verifyToken`, {
             token: storedToken,
           });
-
           if (response.data.valid) {
-            // setIsTokenVerified(true);
+            setIsTokenVerified(true);
+
+            // If token is valid and user is trying to access login or sendemail, redirect to dashboard
+            if (
+              location.pathname === "/login" ||
+              location.pathname === "/sendemail"
+            ) {
+              navigate("/dashboardvendor"); // Redirect to dashboard or other route
+            }
           } else {
-            // handleInvalidToken();
+            handleInvalidToken();
           }
         } catch (error) {
+          handleInvalidToken();
           toast.error(error.message);
+        }
+      } else {
+        // Allow access to login or sendemail if there's no token
+        if (
+          location.pathname !== "/login" &&
+          location.pathname !== "/sendemail"
+        ) {
+          navigate("/login"); // Redirect to login if not on login/sendemail and no token exists
         }
       }
     };
 
-    // const handleInvalidToken = () => {
-    //   localStorage.removeItem("token");
-    //   setToken(null);
-    // };
-    // verifyToken();
-  }, []);
+    const handleInvalidToken = () => {
+      localStorage.removeItem("token");
+      setToken(null);
+    };
 
-  // Show loading while verifying token
-  // if (!isTokenVerified) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <p>Loading...</p>
-  //     </div>
-  //   );
-  // }
+    verifyToken();
+    if (!userData) {
+      fetchUserData();
+    }
+  }, [navigate, location.pathname, setToken, fetchUserData]);
+
+  if (!isTokenVerified && localStorage.getItem("token")) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex">
       <ToastContainer />
-      {/* {!hideNavAndSider && <SidebarVendor />} */}
-      {location.pathname === "/login" ||
-      location.pathname === "/verify" ||
-      location.pathname === "/sendemail" ? null : (
+      {location.pathname !== "/login" &&
+      location.pathname !== "/verify" &&
+      location.pathname !== "/sendemail" ? (
         <SidebarVendor />
-      )}
+      ) : null}
       <div className="flex-col flex-grow">
-        {/* {!hideNavAndSider && <NavbarVendor />} */}
-        {location.pathname === "/login" ||
-        location.pathname === "/verify" ||
-        location.pathname === "/sendemail" ? null : (
+        {location.pathname !== "/login" &&
+        location.pathname !== "/verify" &&
+        location.pathname !== "/sendemail" ? (
           <NavbarVendor />
-        )}
-
+        ) : null}
         <div className="flex-grow">
           <Routes>
-            {}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/ordersvendor" element={<OrdersVendor />}>
               <Route index element={<PendingOrdersVendor />} />
-              <Route
-                path="PendingOrdersVendor"
-                element={<PendingOrdersVendor />}
-              />
-              <Route
-                path="ReceivingOrdersVendor"
-                element={<ReceivingOrdersVendor />}
-              />
-              <Route
-                path="CompleteOrdersVendor"
-                element={<CompleteOrdersVendor />}
-              />
+              <Route path="PendingOrdersVendor" element={<PendingOrdersVendor />} />
+              <Route path="ReceivingOrdersVendor" element={<ReceivingOrdersVendor />} />
+              <Route path="CompleteOrdersVendor" element={<CompleteOrdersVendor />} />
             </Route>
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
             <Route
@@ -123,20 +127,7 @@ const App = () => {
               path="/accountmanagementvendor"
               element={<AccountManagementVendor />}
             />
-            <Route
-              path="/pendingordersvendor"
-              element={<PendingOrdersVendor />}
-            />
-            <Route
-              path="/completeordersvendor"
-              element={<CompleteOrdersVendor />}
-            />
-            <Route
-              path="/receivingordersvendor"
-              element={<ReceivingOrdersVendor />}
-            />
-            <Route path="verify?email=:id" element={<Register />} />
-            <Route path="/verify" element={<Verify />} />
+            <Route path="/verify/:email" element={<Verify />} />
             <Route path="/sendemail" element={<SendEmail />} />
           </Routes>
         </div>

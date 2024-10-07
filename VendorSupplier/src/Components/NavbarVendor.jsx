@@ -56,7 +56,7 @@ const NavbarVendor = () => {
   const handleLogout = () => {
     window.location.reload();
     localStorage.removeItem("token");
-    navigate("/logout");
+    navigate("/login");
   };
 
   return (
