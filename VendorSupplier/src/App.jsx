@@ -79,7 +79,6 @@ const App = () => {
       fetchUserData();
     }
   }, [navigate, location.pathname, setToken, fetchUserData]);
-
   if (!isTokenVerified && localStorage.getItem("token")) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -108,9 +107,18 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/ordersvendor" element={<OrdersVendor />}>
               <Route index element={<PendingOrdersVendor />} />
-              <Route path="PendingOrdersVendor" element={<PendingOrdersVendor />} />
-              <Route path="ReceivingOrdersVendor" element={<ReceivingOrdersVendor />} />
-              <Route path="CompleteOrdersVendor" element={<CompleteOrdersVendor />} />
+              <Route
+                path="PendingOrdersVendor"
+                element={<PendingOrdersVendor />}
+              />
+              <Route
+                path="ReceivingOrdersVendor"
+                element={<ReceivingOrdersVendor />}
+              />
+              <Route
+                path="CompleteOrdersVendor"
+                element={<CompleteOrdersVendor />}
+              />
             </Route>
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
             <Route

@@ -74,7 +74,7 @@ const approvedFinance = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Supplier not found" });
   }
 
-  existSupplier.purchaseOrders.push(exist.purchaseOrder._id);
+  existSupplier.purchaseOrders.push(exist.purchaseOrder);
 
   await existSupplier.save();
 

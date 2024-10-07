@@ -35,7 +35,7 @@ const verifyStore = create((set) => ({
 
     try {
       set({ loading: true });
-      const response = await axios.get(`${apiURL}/api/user`, {
+      const response = await axios.get(`${apiURL}/api/vendor`, {
         headers: { token },
       });
 

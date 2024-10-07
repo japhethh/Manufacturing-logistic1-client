@@ -11,11 +11,10 @@ const getAllSupplier = asyncHandler(async (req, res) => {
       .find()
       .populate("materialSupplied")
       .populate({
-        path: "purchaseOrders", // Populating 'purchaseOrders'
-        select: "supplierName supplierCode", // Selecting only 'supplierName' and 'supplierCode' from the Supplier model
-      })
-      .sort({ orderDate: -1 });
-    // .populate('materialsSupplied');
+        path: "purchaseOrders",
+        select: "purchaseOrderNumber items totalAmount paymentTerm",
+      });
+
     res.json(suppliers);
   } catch (error) {
     res.status(500).json({ error: err.message });
