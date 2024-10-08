@@ -334,7 +334,7 @@ const Sidebar = () => {
         {/* Apps Section */}
         <div className="mb-2 ">
           <p
-            className={`text-gray-500 font-semibold text-base ${
+            className={`text-gray-500 mt-3 font-semibold text-base ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -1011,7 +1011,7 @@ const Sidebar = () => {
 
           {/* RETURN MANAGEMENT */}
           <p
-            className={`text-gray-500 font-semibold text-base mr-auto ${
+            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
               isCollapsed ? "hidden" : ""
             }`}
           >
