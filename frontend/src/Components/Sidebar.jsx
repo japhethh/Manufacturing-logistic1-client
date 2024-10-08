@@ -61,7 +61,7 @@ const Sidebar = () => {
         className="flex items-center justify-center gap-2 mb-2 cursor-pointer"
         aria-label="Dashboard Logo"
       >
-        <img src={vendor} alt="Dashboard logo" className="w-16" />
+        <img src={vendor} alt="Dashboard logo" className="w-16 rounded-full" />
         {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
 
