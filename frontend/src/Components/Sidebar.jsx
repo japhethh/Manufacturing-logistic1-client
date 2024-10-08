@@ -61,7 +61,7 @@ const Sidebar = () => {
         className="flex items-center justify-center gap-2 mb-2 cursor-pointer"
         aria-label="Dashboard Logo"
       >
-        <img src={vendor} alt="Dashboard logo" className="w-16" />
+        <img src={vendor} alt="Dashboard logo" className="w-16 rounded-full" />
         {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
       </div>
 
@@ -334,7 +334,7 @@ const Sidebar = () => {
         {/* Apps Section */}
         <div className="mb-2 ">
           <p
-            className={`text-gray-500 font-semibold text-base ${
+            className={`text-gray-500 mt-3 font-semibold text-base ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -345,7 +345,7 @@ const Sidebar = () => {
             {/* Purchase Requisitions */}
             <NavLink to="rawmaterialrequest">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <div className="flex items-center cursor-pointer">
+                <div className="flex mt-1 items-center cursor-pointer">
                   <BiPurchaseTagAlt
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -369,7 +369,7 @@ const Sidebar = () => {
               <NavLink
                 to="supplierlist"
                 className={({ isActive }) =>
-                  `flex items-center gap-2  rounded-md transition-colors duration-200 ease-in-out 
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
         ${
           isActive
             ? "text-base-200 bg-blue-500 font-bold"
@@ -395,7 +395,7 @@ const Sidebar = () => {
                   isCollapsed ? "hidden" : ""
                 }`}
               >
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <MdOutlineCalculate
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -453,7 +453,7 @@ const Sidebar = () => {
                   isCollapsed ? "hidden" : ""
                 }`}
               >
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <FaLuggageCart
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -543,7 +543,7 @@ const Sidebar = () => {
                   isCollapsed ? "hidden" : ""
                 }`}
               >
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <RiContactsFill
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -598,7 +598,7 @@ const Sidebar = () => {
                 isCollapsed ? "hidden" : ""
               }`}
             >
-              <div className="flex items-center gap-2 cursor-pointer">
+              <div className="flex mt-1 items-center gap-2 cursor-pointer">
                 <GiTakeMyMoney
                   className={`transition-all duration-300 ${
                     isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -1011,7 +1011,7 @@ const Sidebar = () => {
 
           {/* RETURN MANAGEMENT */}
           <p
-            className={`text-gray-500 font-semibold text-base mr-auto ${
+            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -1021,7 +1021,7 @@ const Sidebar = () => {
             {/* Return Authorization (RMA) */}
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <IoReturnUpForward
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -1064,7 +1064,7 @@ const Sidebar = () => {
             {/* Reverse Logistics */}
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <FaChalkboardTeacher
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -1100,7 +1100,7 @@ const Sidebar = () => {
             {/* Return Documentation */}
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <VscServerEnvironment
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -1136,7 +1136,7 @@ const Sidebar = () => {
             {/* Inventory Updates */}
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <MdOutlineInventory2
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
@@ -1172,7 +1172,7 @@ const Sidebar = () => {
             {/* Warranty & claims */}
             <li>
               <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
+                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
                   <MdOutlineHandshake
                     className={`transition-all duration-300 ${
                       isCollapsed ? "w-7 h-7" : "w-5 h-5"
