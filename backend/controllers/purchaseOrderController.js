@@ -20,6 +20,7 @@ const createPurchaseOrder = async (req, res) => {
       paymentTerm,
       approvalStatus,
       userId, // Assuming you're getting user info from the token
+      reason,
     } = req.body;
 
     // Check if any required fields are missing
@@ -64,13 +65,15 @@ const createPurchaseOrder = async (req, res) => {
 
     const financeApprovalJson = {
       purchaseOrder: savePO._id,
-      status: "Pending",
-      totalBudget: savePO.totalAmount,
-      documents: savePO.pdfURL,
+      typeOfRequest: "Tite request",
       category: savePO.category,
       // New Dummy
       department: "Logistic1",
-      typeOfRequest: "Tite request",
+      totalRequest: savePO.totalAmount,
+      documents: savePO.pdfURL,
+      status: "Pending",
+      comment: savePO.notes,
+      reason: reason,
     };
 
     // const financeApproval = await financeApprovalModel.create({
@@ -84,7 +87,7 @@ const createPurchaseOrder = async (req, res) => {
 
     financeApproval.approvalId = financeApproval._id;
 
-    financeApproval.save(); 
+    financeApproval.save();
 
     savePO.financeApproval = financeApproval._id;
     await savePO.save();

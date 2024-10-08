@@ -79,6 +79,9 @@ const App = () => {
       fetchUserData();
     }
   }, [navigate, location.pathname, setToken, fetchUserData]);
+
+
+  console.log(userData)
   if (!isTokenVerified && localStorage.getItem("token")) {
     return (
       <div className="flex items-center justify-center min-h-screen">

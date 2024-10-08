@@ -15,9 +15,10 @@ const financeApprovalSchema = mongoose.Schema({
     enum: ["Pending", "Reviewed", "Approved", "Rejected"],
     default: "Pending",
   },
-  approvalId: {type:mongoose.Schema.Types.ObjectId, ref:"FinanceApproval"},
-
-  comments: {
+  requestId: { type: mongoose.Schema.Types.ObjectId, ref: "FinanceApproval" },
+  // new
+  reason: { type: String },
+  comment: {
     type: String,
   },
   generatePdf: {
@@ -32,6 +33,9 @@ const financeApprovalSchema = mongoose.Schema({
   //   required: true,
   // },
   totalBudget: {
+    type: Number,
+  },
+  totalRequest: {
     type: Number,
   },
   category: {

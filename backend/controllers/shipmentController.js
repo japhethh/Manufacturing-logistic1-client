@@ -23,7 +23,7 @@ const createShipment = asyncHandler(async (req, res) => {
 
     const shipment = new shipmentModel({
       purchaseOrder,
-      shipmentStatus,
+      shipmentStatus: shipmentStatus || "Shipped",
       trackingNumber,
       carrier,
       shippedDate,
@@ -98,5 +98,48 @@ const deleteShipment = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: "Deleted Successfully" });
 });
+
+// export const updateShipmentStatus = async (req, res) => {
+//   const { shipmentId } = req.params;
+//   const { shipmentStatus, trackingNumber, carrier, shippedDate, deliveryDate, notes } = req.body;
+
+//   try {
+//     const shipment = await Shipment.findById(shipmentId).populate('purchaseOrder');
+//     if (!shipment) {
+//       return res.status(404).json({ success: false, message: "Shipment not found." });
+//     }
+
+//     // Update shipment fields
+//     if (shipmentStatus) shipment.shipmentStatus = shipmentStatus;
+//     if (trackingNumber) shipment.trackingNumber = trackingNumber;
+//     if (carrier) shipment.carrier = carrier;
+//     if (shippedDate) shipment.shippedDate = shippedDate;
+//     if (deliveryDate) shipment.deliveryDate = deliveryDate;
+//     if (notes) shipment.notes = notes;
+
+//     const updatedShipment = await shipment.save();
+
+//     // If shipment is delivered, handle related actions
+//     if (shipmentStatus === "Delivered") {
+//       // Update Purchase Order Status if all shipments are delivered
+//       const allShipments = await Shipment.find({ purchaseOrder: shipment.purchaseOrder._id });
+//       const allDelivered = allShipments.every(s => s.shipmentStatus === "Delivered");
+
+//       if (allDelivered) {
+//         shipment.purchaseOrder.orderStatus = "Complete";
+//         await shipment.purchaseOrder.save();
+//       }
+
+//       // Update Inventory: This assumes you have an Inventory model and logic
+//       // await updateInventory(shipment.purchaseOrder);
+//     }
+
+//     res.json({ success: true, data: updatedShipment });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: "Server Error" });
+//   }
+// };
+
 
 export { createShipment, getAllShipment, updateShipment, deleteShipment };

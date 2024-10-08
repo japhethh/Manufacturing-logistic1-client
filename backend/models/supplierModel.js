@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Counter from "./Counter.js"; // Import the Counter model
-
+import validate from "validator";
 const supplierSchema = mongoose.Schema(
   {
     // Basic Information
@@ -11,16 +11,21 @@ const supplierSchema = mongoose.Schema(
       required: function () {
         return this.status === "Active";
       },
+      type: String,
+      trim: true,
+      maxlength: [50, "Last name cannot exceed 50 characters."],
     },
 
     // New drop
     firstName: {
       type: String,
-      // required: true,
+      trim: true,
+      maxlength: [50, "First name cannot exceed 50 characters."],
     },
     lastName: {
       type: String,
-      // required: true,
+      trim: true,
+      maxlength: [50, "Last name cannot exceed 50 characters."],
     },
     supplierCode: {
       type: String,
@@ -31,7 +36,7 @@ const supplierSchema = mongoose.Schema(
       enum: ["Raw Material", "Service Provider", "Equipment Supplier", "Other"],
       // You can choose to require this based on status if needed
     },
-    gender: { type: String },
+    gender: { type: String, enum: ["male", "female", "other"] },
 
     // Contact Information
     contactPerson: {
@@ -39,6 +44,8 @@ const supplierSchema = mongoose.Schema(
       required: function () {
         return this.status === "Active";
       },
+      trim: true,
+      maxlength: [100, "Contact person name cannot exceed 100 characters."],
     },
     contactEmail: {
       type: String,
@@ -46,6 +53,9 @@ const supplierSchema = mongoose.Schema(
         return this.status === "Active";
       },
       unique: true,
+      lowercase: true,
+      trim: true,
+      validate: [validate.isEmail, "Please provide a valid email address."],
     },
     contactPhone: {
       type: String,
@@ -53,7 +63,7 @@ const supplierSchema = mongoose.Schema(
         return this.status === "Active";
       },
     },
-    companyWebsite: { type: String, default: "" },
+    companyWebsite: { type: String, default: "", trim: true },
 
     // Address Information
     address: {
@@ -62,30 +72,40 @@ const supplierSchema = mongoose.Schema(
         required: function () {
           return this.status === "Active";
         },
+        trim: true,
+        maxlength: [200, "Street address cannot exceed 200 characters."],
       },
       city: {
         type: String,
         required: function () {
           return this.status === "Active";
         },
+        trim: true,
+        maxlength: [100, "City name cannot exceed 100 characters."],
       },
       state: {
         type: String,
         required: function () {
           return this.status === "Active";
         },
+        trim: true,
+        maxlength: [100, "State name cannot exceed 100 characters."],
       },
       zipCode: {
         type: String,
         required: function () {
           return this.status === "Active";
         },
+        trim: true,
+        maxlength: [20, "Zip code cannot exceed 20 characters."],
       },
       country: {
         type: String,
         required: function () {
           return this.status === "Active";
         },
+        trim: true,
+        maxlength: [100, "Country name cannot exceed 100 characters."],
       },
     },
 
@@ -95,11 +115,13 @@ const supplierSchema = mongoose.Schema(
       required: function () {
         return this.status === "Active";
       },
+      trim: true,
+      maxlength: [50, "Payment terms cannot exceed 50 characters."],
     },
     rating: {
       type: Number,
-      min: 1,
-      max: 5,
+      min: [1, "Rating must be at least 1."],
+      max: [5, "Rating cannot exceed 5."],
       default: 3,
     },
 
@@ -116,9 +138,12 @@ const supplierSchema = mongoose.Schema(
       type: String,
       unique: true,
       required: true,
+      trim: true,
+      validate: [validate.isEmail, "Please provide a valid email address"],
     },
     password: {
       type: String,
+      // minlength: [6, "Password must be at least 6 characters."],
       // Password only required when Active
     },
 

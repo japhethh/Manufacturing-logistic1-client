@@ -30,6 +30,7 @@
     "pdfkit": "^0.15.0",
     "pdfkit-table": "^0.1.99",
     "pdfmake": "^0.2.13",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "validator": "^13.12.0"
   }
 }

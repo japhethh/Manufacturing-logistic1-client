@@ -14,6 +14,7 @@ const CreatePurchaseOrder = () => {
     notes: "",
     paymentTerm: "",
     approvalStatus: "Pending",
+    reason: "",
   });
   const [suppliers, setSuppliers] = useState([]);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
@@ -88,6 +89,7 @@ const CreatePurchaseOrder = () => {
       notes: "",
       paymentTerm: "",
       approvalStatus: "Pending",
+      reason: "",
     });
     setSelectedMaterials([]);
   };
@@ -177,6 +179,7 @@ const CreatePurchaseOrder = () => {
         orderDate: formData.orderDate,
         paymentTerm: formData.paymentTerm,
         approvalStatus: formData.approvalStatus,
+        reason: formData.reason,
       };
 
       const response = await axios.post(
@@ -213,7 +216,7 @@ const CreatePurchaseOrder = () => {
               htmlFor="supplier"
               className="block text-base font-medium text-[#07074D]"
             >
-              Vendor Selection
+              Vendor Selection <span className="text-red-500">*</span>
             </label>
             <select
               id="supplier"
@@ -236,7 +239,7 @@ const CreatePurchaseOrder = () => {
               htmlFor="orderDate"
               className="block text-base font-medium text-[#07074D]"
             >
-              Order Date
+              Order Date <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
@@ -270,7 +273,7 @@ const CreatePurchaseOrder = () => {
                   htmlFor={`material-${index}`}
                   className="block text-base font-medium text-[#07074D]"
                 >
-                  Material
+                  Material <span className="text-red-500">*</span>
                 </label>
                 <select
                   id={`material-${index}`}
@@ -295,7 +298,7 @@ const CreatePurchaseOrder = () => {
                   htmlFor={`quantity-${index}`}
                   className="block text-base font-medium text-[#07074D]"
                 >
-                  Quantity
+                  Quantity <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -313,7 +316,7 @@ const CreatePurchaseOrder = () => {
                   htmlFor={`price-${index}`}
                   className="block text-base font-medium text-[#07074D]"
                 >
-                  Price
+                  Price <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -331,7 +334,7 @@ const CreatePurchaseOrder = () => {
                   htmlFor={`discount-${index}`}
                   className="block text-base font-medium text-[#07074D]"
                 >
-                  Discount %
+                  Discount % <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -377,7 +380,7 @@ const CreatePurchaseOrder = () => {
               htmlFor="tax"
               className="block text-base font-medium text-[#07074D]"
             >
-              Tax (%)
+              Tax (%) 
             </label>
             <input
               type="number"
@@ -399,7 +402,7 @@ const CreatePurchaseOrder = () => {
               htmlFor="category"
               className="block text-base font-medium text-[#07074D]"
             >
-              Category
+              Category <span className="text-red-500">*</span>
             </label>
             <select
               id="category"
@@ -421,8 +424,8 @@ const CreatePurchaseOrder = () => {
             <label
               htmlFor="paymentTerm"
               className="block text-base font-medium text-[#07074D]"
-            >
-              Payment Term
+            > 
+              Payment Term <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -435,23 +438,44 @@ const CreatePurchaseOrder = () => {
             />
           </div>
 
-          {/* Notes */}
-          <div className="md:col-span-2">
-            <label
-              htmlFor="notes"
-              className="block text-base font-medium text-[#07074D]"
-            >
-              Notes
-            </label>
-            <textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) =>
-                setFormData({ ...formData, notes: e.target.value })
-              }
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
-              rows={3}
-            />
+          <div className="flex flex-col gap-2">
+            {/* Notes */}
+            <div className="md:col-span-2">
+              <label
+                htmlFor="notes"
+                className="block text-base font-medium text-[#07074D]"
+              >
+                Notes <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) =>
+                  setFormData({ ...formData, notes: e.target.value })
+                }
+                className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                rows={3}
+              />
+            </div>
+
+            {/* Reason */}
+            <div className="md:col-span-2">
+              <label
+                htmlFor="reason"
+                className="block text-base font-medium text-[#07074D]"
+              >
+                Reason <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                id="reason"
+                value={formData.reason}
+                onChange={(e) =>
+                  setFormData({ ...formData, reason: e.target.value })
+                }
+                className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                rows={3}
+              />
+            </div>
           </div>
 
           {/* Total Summary */}
