@@ -16,11 +16,11 @@ const supplierSchema = mongoose.Schema(
     // New drop
     firstName: {
       type: String,
-      required: true,
+      // required: true,
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
     },
     supplierCode: {
       type: String,
@@ -122,6 +122,12 @@ const supplierSchema = mongoose.Schema(
       // Password only required when Active
     },
 
+    purchaseOrders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "PurchaseOrder",
+      },
+    ],
     // Email Verification
     verificationToken: { type: String },
     verificationTokenExpires: { type: Date },
@@ -146,16 +152,6 @@ supplierSchema.methods.matchPassword = async function (enteredPassword) {
 
 // Pre-save hook to hash password if modified and generate supplierCode if activating
 supplierSchema.pre("save", async function (next) {
-  // Hash password if modified
-  // if (this.isModified("password")) {
-  //   try {
-  //     const salt = await bcrypt.genSalt(10);
-  //     this.password = await bcrypt.hash(this.password, salt);
-  //   } catch (error) {
-  //     return next(error);
-  //   }
-  // }
-
   // Generate supplierCode if status is being set to Active and supplierCode is not set
   if (
     this.isModified("status") &&
