@@ -24,7 +24,7 @@ import { apiURL } from "./context/verifyStore";
 import axios from "axios";
 import { useContext } from "react";
 import { VendorUserContext } from "./context/VendorUserContext";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 import Socket from "./testing/Socket";
 
 const App = () => {
@@ -93,9 +93,6 @@ const App = () => {
 
   return (
     <div className="flex">
-      <div>
-        <Socket />
-      </div>
       <ToastContainer />
       {location.pathname !== "/login" &&
       location.pathname !== "/verify" &&
@@ -144,6 +141,7 @@ const App = () => {
             />
             <Route path="/verify/:email" element={<Verify />} />
             <Route path="/sendemail" element={<SendEmail />} />
+            <Route path="/socketTest" element={<Socket />} />
           </Routes>
         </div>
       </div>
