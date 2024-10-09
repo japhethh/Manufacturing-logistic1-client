@@ -24,6 +24,8 @@ import { apiURL } from "./context/verifyStore";
 import axios from "axios";
 import { useContext } from "react";
 import { VendorUserContext } from "./context/VendorUserContext";
+import io from 'socket.io-client';
+import Socket from "./testing/Socket";
 
 const App = () => {
   const location = useLocation();
@@ -74,14 +76,13 @@ const App = () => {
       setToken(null);
     };
 
-    verifyToken();
+    // verifyToken();
     if (!userData) {
       fetchUserData();
     }
   }, [navigate, location.pathname, setToken, fetchUserData]);
 
-
-  console.log(userData)
+  console.log(userData);
   if (!isTokenVerified && localStorage.getItem("token")) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -92,6 +93,9 @@ const App = () => {
 
   return (
     <div className="flex">
+      <div>
+        <Socket />
+      </div>
       <ToastContainer />
       {location.pathname !== "/login" &&
       location.pathname !== "/verify" &&

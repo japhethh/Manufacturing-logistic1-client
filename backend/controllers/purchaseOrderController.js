@@ -69,17 +69,12 @@ const createPurchaseOrder = async (req, res) => {
       category: savePO.category,
       // New Dummy
       department: "Logistic1",
-      totalRequest: savePO.totalAmount,
+      totalBudget: savePO.totalAmount,
       documents: savePO.pdfURL,
       status: "Pending",
       comment: savePO.notes,
       reason: reason,
     };
-
-    // const financeApproval = await financeApprovalModel.create({
-    //   purchaseOrder: savePO._id,
-    //   status: "Pending",
-    // });
 
     const financeApproval = await financeApprovalModel.create(
       financeApprovalJson
@@ -92,14 +87,15 @@ const createPurchaseOrder = async (req, res) => {
     savePO.financeApproval = financeApproval._id;
     await savePO.save();
 
+    console.log(financeApproval);
     // FINANCE ------------------->
     // Axios
     const postRequest = async () => {
       const response = await axios.post(
-        `https://manufacturing-finance-server.onrender.com/API/BudgetRequests/RequestBudget`,
+        `https://backend-finance.jjm-manufacturing.com/API/BudgetRequests/RequestBudget`,
         financeApproval
       );
-      console.log(response);
+      console.log(response.data);
     };
     postRequest();
 

@@ -10,6 +10,7 @@ const financeApprovalRouter = express.Router();
 
 financeApprovalRouter.get("/", getAllFinanceApproval);
 financeApprovalRouter.put("/update/:id", updateFinanceApproval);
-financeApprovalRouter.put("/approved/:id", approvedFinance);
+// financeApprovalRouter.put("/approved/:id", approvedFinance);
+financeApprovalRouter.put("/approved", approvedFinance);
 
 export default financeApprovalRouter;

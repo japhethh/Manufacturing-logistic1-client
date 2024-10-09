@@ -21,6 +21,9 @@ const getAllSupplier = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+
 const getSupplierById = asyncHandler(async (req, res) => {
   try {
     const supplier = await supplierModel.findById(req.params.id);

@@ -24,14 +24,6 @@ const financeApprovalSchema = mongoose.Schema({
   generatePdf: {
     type: String,
   },
-  // NEW Dagdag ni kupal na raffy
-  // budget: {
-  //   type: String,
-  // },
-  // account: {
-  //   type: String,
-  //   required: true,
-  // },
   totalBudget: {
     type: Number,
   },
@@ -47,6 +39,8 @@ const financeApprovalSchema = mongoose.Schema({
     type: String,
     required: false,
   },
+  department: { type: String, required: true },
+  approvalId: { type: mongoose.Schema.Types.ObjectId, ref: "FinanceApproval" },
 });
 
 const financeApprovalModel = mongoose.model(

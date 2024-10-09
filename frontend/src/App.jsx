@@ -40,7 +40,7 @@ const App = () => {
   const { userData, fetchUserData, allUsers } = Store(); // Access global state and actions
 
   useEffect(() => {
-    console.log(allUsers)
+    console.log(allUsers);
     const verifyToken = async () => {
       const storedtoken = localStorage.getItem("token");
 
@@ -63,7 +63,7 @@ const App = () => {
         }
       }
     };
-// again
+    // again
     const handleInvalidToken = () => {
       localStorage.removeItem("token");
       setToken(null);
@@ -106,7 +106,6 @@ const App = () => {
     <div className="flex min-h-screen" data-theme="light">
       <ToastContainer />
 
-      
       {!token && location.pathname === "/login" ? null : <Sidebar />}
       <div className="flex-col w-full ">
         {!token && location.pathname === "/login" ? null : <Search />}
@@ -120,10 +119,7 @@ const App = () => {
           <Route path="/user" element={<User />} />
           <Route path="/user/createuser" element={<CreateUser />} />
           <Route path="/suppliers" element={<CreateSupplier />} />
-          <Route
-            path="/suppliers"
-            element={<CreateSupplier />}
-          />
+          <Route path="/suppliers" element={<CreateSupplier />} />
           <Route path="/user/edit/:id" element={<EditUser />} />
           <Route
             path="/createpurchaseorder"
