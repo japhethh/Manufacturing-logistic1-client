@@ -1,6 +1,7 @@
 import {
   approvedFinance,
   getAllFinanceApproval,
+  rejectedFinance,
   updateFinanceApproval,
 } from "../controllers/financeApprovalController.js";
 
@@ -11,6 +12,7 @@ const financeApprovalRouter = express.Router();
 financeApprovalRouter.get("/", getAllFinanceApproval);
 financeApprovalRouter.put("/update/:id", updateFinanceApproval);
 // financeApprovalRouter.put("/approved/:id", approvedFinance);
-financeApprovalRouter.put("/approved", approvedFinance);
+financeApprovalRouter.put("/approved/:id", approvedFinance);
+financeApprovalRouter.put("/rejected/:id", rejectedFinance);
 
 export default financeApprovalRouter;

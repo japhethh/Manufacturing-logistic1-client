@@ -37,7 +37,7 @@ const approvedFinance = asyncHandler(async (req, res) => {
   const {
     status,
     comments,
-    _id,
+    approvalId,
     reason,
     comment,
     totalBudget,
@@ -45,8 +45,49 @@ const approvedFinance = asyncHandler(async (req, res) => {
     documents,
     department,
   } = req.body;
+  const { id } = req.params;
 
-  const exist = await financeApprovalModel.findById(_id).populate({
+  if (
+    (!status,
+    !comments,
+    !approvalId,
+    !reason,
+    !comment,
+    !totalBudget,
+    !category,
+    !documents,
+    !department)
+  ) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please fill all field" });
+  }
+
+  const isApproved = await financeApprovalModel.findOne({ approvalId });
+
+  if (!isApproved) {
+    return res
+      .status(400)
+      .json({ success: false, message: "financeApproval not found" });
+  }
+  // Check if the current status is already "Approved"
+  if (isApproved.status === "Approved") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "This approval has already been marked as Approved and cannot be modified again.",
+    });
+  }
+  // Check if the current status is already "Rejected"
+  if (isApproved.status === "Rejected") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "This approval has already been marked as Rejected and cannot be modified again.",
+    });
+  }
+
+  const exist = await financeApprovalModel.findById(id).populate({
     path: "purchaseOrder", // Populate the purchase order
     populate: {
       path: "supplier", // Populate the supplier inside the purchase order
@@ -63,9 +104,9 @@ const approvedFinance = asyncHandler(async (req, res) => {
   const updateFinanceApproval = await financeApprovalModel.findByIdAndUpdate(
     id,
     {
+      // approvalId,
       status,
       comments,
-      _id,
       reason,
       comment,
       totalBudget,
@@ -103,52 +144,123 @@ const approvedFinance = asyncHandler(async (req, res) => {
     message: "Successfully Approve by Finance!",
   });
 });
-// const approvedFinance = asyncHandler(async (req, res) => {
-//   const { id } = req.params;
-//   const { status, comments } = req.body;
 
-//   const exist = await financeApprovalModel.findById(id).populate({
-//     path: "purchaseOrder", // Populate the purchase order
-//     populate: {
-//       path: "supplier", // Populate the supplier inside the purchase order
-//       model: "Supplier", // Reference to the Supplier model
-//     },
-//   });
+const rejectedFinance = asyncHandler(async (req, res) => {
+  const {
+    status,
+    comments,
+    approvalId,
+    reason,
+    comment,
+    totalBudget,
+    category,
+    documents,
+    department,
+  } = req.body;
+  const { id } = req.params;
 
-//   if (!exist) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "Finance not found " });
-//   }
+  if (
+    (!status,
+    !comments,
+    !approvalId,
+    !reason,
+    !comment,
+    !totalBudget,
+    !category,
+    !documents,
+    !department)
+  ) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please fill all field" });
+  }
 
-//   const updateFinanceApproval = await financeApprovalModel.findByIdAndUpdate(
-//     id,
-//     { status, comments },
-//     { new: true }
-//   );
+  const isApproved = await financeApprovalModel.findOne({ approvalId });
 
-//   if (!updateFinanceApproval) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "Finance Approval Not Found!" });
-//   }
+  if (!isApproved) {
+    return res
+      .status(400)
+      .json({ success: false, message: "financeApproval not found" });
+  }
 
-//   // res.status(200).json({ success: true, data: updateFinanceApproval });
+  // Check if the current status is already "Approved"
+  if (isApproved.status === "Approved") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "This approval has already been marked as Approved and cannot be modified again.",
+    });
+  }
+  // Check if the current status is already "Rejected"
+  if (isApproved.status === "Rejected") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "This approval has already been marked as Rejected and cannot be modified again.",
+    });
+  }
 
-//   const theSupplier = exist.purchaseOrder.supplier;
+  const exist = await financeApprovalModel.findById(id).populate({
+    path: "purchaseOrder", // Populate the purchase order
+    populate: {
+      path: "supplier", // Populate the supplier inside the purchase order
+      model: "Supplier", // Reference to the Supplier model
+    },
+  });
 
-//   const existSupplier = await supplierModel.findById(theSupplier._id);
-//   if (!existSupplier) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "Supplier not found" });
-//   }
+  if (!exist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Finance not found " });
+  }
 
-//   existSupplier.purchaseOrders.push(exist.purchaseOrder);
+  const updateFinanceApproval = await financeApprovalModel.findByIdAndUpdate(
+    id,
+    {
+      // approvalId,
+      status,
+      comments,
+      reason,
+      comment,
+      totalBudget,
+      category,
+      documents,
+      department,
+    },
+    { new: true }
+  );
 
-//   await existSupplier.save();
+  if (!updateFinanceApproval) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Finance Approval Not Found!" });
+  }
 
-//   return res.status(200).json({ success: true, data: existSupplier,message:"Successfully Approve by Finance!" });
-// });
+  // res.status(200).json({ success: true, data: updateFinanceApproval });
 
-export { getAllFinanceApproval, updateFinanceApproval, approvedFinance };
+  const theSupplier = exist.purchaseOrder.supplier;
+
+  const existSupplier = await supplierModel.findById(theSupplier._id);
+  if (!existSupplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
+
+  existSupplier.purchaseOrders.push(exist.purchaseOrder);
+
+  await existSupplier.save();
+
+  return res.status(200).json({
+    success: true,
+    data: existSupplier,
+    message: "Successfully Approve by Finance!",
+  });
+});
+
+export {
+  getAllFinanceApproval,
+  updateFinanceApproval,
+  approvedFinance,
+  rejectedFinance,
+};

@@ -76,7 +76,7 @@ const App = () => {
       setToken(null);
     };
 
-    // verifyToken();
+    verifyToken();
     if (!userData) {
       fetchUserData();
     }
@@ -109,6 +109,7 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
             <Route path="/ordersvendor" element={<OrdersVendor />}>
               <Route index element={<PendingOrdersVendor />} />
               <Route
@@ -124,6 +125,7 @@ const App = () => {
                 element={<CompleteOrdersVendor />}
               />
             </Route>
+
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
             <Route
               path="/inventorymanagement"

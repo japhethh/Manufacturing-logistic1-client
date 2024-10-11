@@ -4,7 +4,7 @@ const financeApprovalSchema = mongoose.Schema({
   purchaseOrder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "PurchaseOrder",
-    required: true,
+    // required: true,
   },
   reviewDate: {
     type: Date,
@@ -14,6 +14,7 @@ const financeApprovalSchema = mongoose.Schema({
     type: String,
     enum: ["Pending", "Reviewed", "Approved", "Rejected"],
     default: "Pending",
+    required: true,
   },
   requestId: { type: mongoose.Schema.Types.ObjectId, ref: "FinanceApproval" },
   // new

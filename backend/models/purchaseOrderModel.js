@@ -34,7 +34,7 @@ const purchaseOrderSchema = mongoose.Schema(
     orderDate: { type: Date, default: Date.now },
     orderStatus: {
       type: String,
-      enum: ["Pending", "In Process", "Shipped", "Delivered"],
+      enum: ["Pending", "In Process","Approved","Rejected", "Shipped", "Delivered"],
       default: "Pending",
     },
     paymentTerm: { type: String, required: true },
@@ -84,7 +84,7 @@ const purchaseOrderSchema = mongoose.Schema(
         newStatus: { type: String },
         changedBy: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: "Supplier",
           required: true,
         },
         changedAt: { type: Date, default: Date.now },

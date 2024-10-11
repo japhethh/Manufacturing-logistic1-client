@@ -4,54 +4,62 @@
 
 
 @media print {
-    body * {
-      visibility: hidden; /* Hide everything */
-    }
-  
-    .printable, .printable * {
-      visibility: visible; /* Show only the printable area */
-    }
-  
-    .printable {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-    }
+  body * {
+    visibility: hidden;
+    /* Hide everything */
   }
-  
-  /* Visible Scrollbar with Invisible Background and Invisible Arrows */
-  .scrollbar-visible::-webkit-scrollbar {
-      width: 12px; /* Width of the scrollbar */
-  }
-  
-  /* Invisible track (background) */
-  .scrollbar-visible::-webkit-scrollbar-track {
-      background: transparent; /* Invisible track background */
-  }
-  
-  /* Visible thumb */
-  .scrollbar-visible::-webkit-scrollbar-thumb {
-      background-color: #0f2fae; /* Tailwind sky-700 */
-      border-radius: 10px;
-      border: 3px solid transparent; /* Adds spacing between thumb and track */
-  }
-  
-  .scrollbar-visible::-webkit-scrollbar-thumb:hover {
-      background-color: #64748b; /* Hover color for thumb */
-  }
-  
-  /* Invisible scrollbar arrows (top and bottom) */
-  .scrollbar-visible::-webkit-scrollbar-button {
-      display: none; /* Hides the arrows */
-  }
-  
-  /* Firefox Scrollbar */
-  .scrollbar-visible {
-      scrollbar-width: thin; /* Thin scrollbar */
-      scrollbar-color: #0f2fae transparent; /* Thumb visible, track invisible */
-  }
-  
 
-  
+  .printable,
+  .printable * {
+    visibility: visible;
+    /* Show only the printable area */
+  }
+
+  .printable {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+/* Visible Scrollbar with Invisible Background and Invisible Arrows */
+.scrollbar-visible::-webkit-scrollbar {
+  width: 12px;
+  /* Width of the scrollbar */
+}
+
+/* Invisible track (background) */
+.scrollbar-visible::-webkit-scrollbar-track {
+  background: transparent;
+  /* Invisible track background */
+}
+
+/* Visible thumb */
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  background-color: #0f2fae;
+  /* Tailwind sky-700 */
+  border-radius: 10px;
+  border: 3px solid transparent;
+  /* Adds spacing between thumb and track */
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+  /* Hover color for thumb */
+}
+
+/* Invisible scrollbar arrows (top and bottom) */
+.scrollbar-visible::-webkit-scrollbar-button {
+  display: none;
+  /* Hides the arrows */
+}
+
+/* Firefox Scrollbar */
+.scrollbar-visible {
+  scrollbar-width: thin;
+  /* Thin scrollbar */
+  scrollbar-color: #0f2fae transparent;
+  /* Thumb visible, track invisible */
+}
