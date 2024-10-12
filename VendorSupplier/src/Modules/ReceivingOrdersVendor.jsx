@@ -1,127 +1,428 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { apiURL } from "../context/verifyStore";
+import verifyStore from "../context/verifyStore";
+import { toast } from "react-toastify";
 
-const sampleOrders = [
-  { id: 1, orderNumber: 'PO12345', vendor: 'Vendor A', status: 'Pending', dateReceived: '2024-09-30' },
-  { id: 2, orderNumber: 'PO12346', vendor: 'Vendor B', status: 'Completed', dateReceived: '2024-09-29' },
-  { id: 3, orderNumber: 'PO12347', vendor: 'Vendor C', status: 'Pending', dateReceived: '2024-09-28' },
-  { id: 4, orderNumber: 'PO12348', vendor: 'Vendor D', status: 'Completed', dateReceived: '2024-09-27' },
-  { id: 5, orderNumber: 'PO12349', vendor: 'Vendor E', status: 'Pending', dateReceived: '2024-09-26' },
-  { id: 6, orderNumber: 'PO12350', vendor: 'Vendor F', status: 'Completed', dateReceived: '2024-09-25' },
-  // Add more sample orders as needed
-];
+const ReceiveOrdersVendor = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-// Function to determine the status badge class
-const getStatusBadge = (status) => {
-  switch (status) {
-    case 'Pending':
-      return 'bg-yellow-400 text-white';
-    case 'Completed':
-      return 'bg-green-500 text-white';
-    default:
-      return 'bg-gray-300 text-black';
-  }
-};
+  const [selectedOrder, setSelectedOrder] = useState(null); // For View Modal
+  const [modalOpen, setModalOpen] = useState(false); // View Modal
 
-const ReceivingOrdersVendor = () => {
+  const [reason, setReason] = useState(""); // For Reject Modal
+  const [rejectModalOpen, setRejectModalOpen] = useState(false); // Reject Modal
+
+  const [approveModalOpen, setApproveModalOpen] = useState(false); // Approve Modal
+  const [currentOrderId, setCurrentOrderId] = useState(null); // Current order ID for approval
+
+  // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
-  const ordersPerPage = 5; // Number of orders to display per page
-  const totalOrders = sampleOrders.length;
-  const totalPages = Math.ceil(totalOrders / ordersPerPage);
+  const itemsPerPage = 10; // Number of orders per page
 
-  // Pagination logic
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = sampleOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const { token, userData } = verifyStore();
 
-  const nextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  useEffect(() => {
+    fetchPendingOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Fetch pending orders from the API
+  const fetchPendingOrders = async () => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/vendor/getAllPendingOrders`,
+        {
+          headers: {
+            token, // Use Bearer token for authorization
+          },
+        }
+      );
+      setOrders(response.data.pendingOrders);
+    } catch (err) {
+      setError("An error occurred while fetching data.");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+  // Update orders after approval/rejection
+  const handleUpdate = () => {
+    fetchPendingOrders();
+  };
+
+  // Approve an order
+  const approveOrder = async (orderId) => {
+    try {
+      await axios.put(
+        `${apiURL}/api/vendor/purchaseOrders/approve/${orderId}`,
+        {},
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      handleUpdate();
+      toast.success("Successfully Approved!");
+    } catch (error) {
+      console.error(
+        "Failed to approve order:",
+        error.response?.data || error.message
+      );
+      toast.error("Failed to approve order. Please try again.");
     }
   };
 
+  // Handle Approve Button Click (opens Approve Modal)
+  const handleApproveClick = (orderId) => {
+    setCurrentOrderId(orderId);
+    setApproveModalOpen(true);
+  };
+
+  // Confirm Approval
+  const confirmApprove = () => {
+    approveOrder(currentOrderId);
+    setApproveModalOpen(false);
+    setCurrentOrderId(null);
+  };
+
+  // Reject an order
+  const handleReject = async () => {
+    if (!reason.trim()) {
+      toast.error("Please provide a reason for rejection.");
+      return;
+    }
+
+    try {
+      await axios.put(
+        `${apiURL}/api/vendor/rejectOrder/${selectedOrder._id}`,
+        { reason },
+        {
+          headers: { token },
+        }
+      );
+      toast.success("Order rejected successfully!");
+      handleUpdate(); // Refresh orders
+    } catch (err) {
+      toast.error("Error rejecting the order.");
+      console.error(err);
+    } finally {
+      setRejectModalOpen(false); // Close the modal
+      setReason(""); // Reset reason input
+      setSelectedOrder(null); // Reset selected order
+    }
+  };
+
+  // Open View Modal
+  const openModal = (order) => {
+    setSelectedOrder(order);
+    setModalOpen(true);
+  };
+
+  // Close View Modal
+  const closeModal = () => {
+    setSelectedOrder(null);
+    setModalOpen(false);
+  };
+
+  // Open Reject Modal
+  const openRejectModal = (order) => {
+    setSelectedOrder(order);
+    setRejectModalOpen(true);
+  };
+
+  // Close Reject Modal
+  const closeRejectModal = () => {
+    setSelectedOrder(null);
+    setRejectModalOpen(false);
+    setReason("");
+  };
+
+  // Pagination Logic
+  const indexOfLastOrder = currentPage * itemsPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+
+  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  return (
-    <div className="h-screen p-6 bg-white rounded-lg shadow-md overflow-hidden">
-      <h1 className="text-3xl font-bold mb-6 text-black/70 text-center">Receiving Orders</h1>
+  // Generate page numbers for pagination
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
 
-      <div className="overflow-auto rounded-lg shadow">
-        <table className="min-w-full bg-white border border-gray-300 hidden md:table">
-          <thead>
-            <tr className="bg-gray-100 border-b">
-              <th className="p-3 text-left text-black/70 font-semibold">Order Number</th>
-              <th className="p-3 text-left text-black/70 font-semibold">Vendor</th>
-              <th className="p-3 text-left text-black/70 font-semibold">Status</th>
-              <th className="p-3 text-left text-black/70 font-semibold">Date Received</th>
+  // Loader and Error Handling
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="loader">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen shadow-lg rounded-lg relative">
+      <h1 className="text-4xl font-bold mb-6 text-black/70">Receive Orders</h1>
+
+      {/* Supplier Details */}
+      <div className="mb-6 p-4 bg-white rounded-lg shadow">
+        <h2 className="text-2xl font-semibold mb-2">Supplier Details</h2>
+        <p>
+          <strong>Name:</strong> {userData.supplierName}
+        </p>
+        <p>
+          <strong>Contact Person:</strong> {userData.contactPerson}
+        </p>
+        <p>
+          <strong>Email:</strong> {userData.contactEmail}
+        </p>
+        <p>
+          <strong>Phone:</strong> {userData.contactPhone}
+        </p>
+        <p>
+          <strong>Address:</strong>{" "}
+          {`${userData.address?.street}, ${userData.address?.city}, ${userData.address?.state}, ${userData.address?.zipCode}, ${userData.address?.country}`}
+        </p>
+        <p>
+          <strong>Payment Terms:</strong> {userData.paymentTerms}
+        </p>
+        <p>
+          <strong>Status:</strong> {userData.status}
+        </p>
+      </div>
+
+      {/* Pending Orders Table */}
+      <div className="overflow-x-auto mb-6">
+        <table className="table w-full">
+          <thead className="bg-gray-200">
+            <tr className="text-gray-600">
+              <th>Order ID</th>
+              <th>Purchase Order Number</th>
+              <th>Order Date</th>
+              <th>Total Amount</th>
+              <th>Status</th>
+              <th className="hidden md:table-cell">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentOrders.map((order) => (
-              <tr key={order.id} className="hover:bg-gray-50 border-b transition duration-150">
-                <td className="p-3 text-black/70">{order.orderNumber}</td>
-                <td className="p-3 text-black/70">{order.vendor}</td>
-                <td className="p-3 text-black/70">
-                  <span className={`inline-block px-2 py-1 rounded-full ${getStatusBadge(order.status)}`}>
-                    {order.status}
-                  </span>
+            {currentOrders.length > 0 ? (
+              currentOrders.map((order) => (
+                <tr key={order._id} className="hover:bg-gray-100">
+                  <td>{order._id}</td>
+                  <td>{order.purchaseOrderNumber}</td>
+                  <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+                  <td>{`₱${order.totalAmount.toLocaleString()}`}</td>
+                  <td>
+                    <span className={`badge badge-success ${order.orderStatus === "Receiving" ? "badge-success" : ""}`} >
+                    Receiving
+                    {/* {order.orderStatus} */}
+                    </span>
+                  </td>
+                  <td className="hidden md:table-cell">
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleApproveClick(order._id)}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => openRejectModal(order)}
+                        className="btn btn-error btn-sm"
+                      >
+                        Reject
+                      </button>
+                      <button
+                        onClick={() => openModal(order)}
+                        className="btn btn-secondary btn-sm"
+                      >
+                        View
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="py-4 text-center">
+                  No pending orders found.
                 </td>
-                <td className="p-3 text-black/70">{order.dateReceived}</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
-
-        {/* Mobile View */}
-        <div className="md:hidden mt-4">
-          {currentOrders.map((order) => (
-            <div key={order.id} className="bg-white shadow-md rounded-lg p-4 mb-4">
-              <h2 className="font-bold text-lg">Order Number: {order.orderNumber}</h2>
-              <p className="text-gray-700">Vendor: {order.vendor}</p>
-              <p className="text-gray-700">
-                Status: <span className={`inline-block px-2 py-1 rounded-full ${getStatusBadge(order.status)}`}>{order.status}</span>
-              </p>
-              <p className="text-gray-700">Date Received: {order.dateReceived}</p>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Pagination with Next/Previous Buttons */}
-      <div className="flex justify-between items-center mt-6">
-        <button
-          onClick={prevPage}
-          className={`btn btn-sm btn-outline text-black/50 ${currentPage === 1 ? 'btn-disabled' : ''}`}
-        >
-          Previous
-        </button>
-
-        <div className="flex space-x-2">
-          {Array.from({ length: totalPages }, (_, index) => (
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-4 space-x-2">
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`btn btn-sm ${
+              currentPage === 1 ? "btn-disabled" : "btn-primary"
+            }`}
+          >
+            Previous
+          </button>
+          {pageNumbers.map((number) => (
             <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`btn btn-sm ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline'}`}
+              key={number}
+              onClick={() => paginate(number)}
+              className={`btn btn-sm ${
+                currentPage === number ? "btn-active" : "btn-primary"
+              }`}
             >
-              {index + 1}
+              {number}
             </button>
           ))}
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`btn btn-sm ${
+              currentPage === totalPages ? "btn-disabled" : "btn-primary"
+            }`}
+          >
+            Next
+          </button>
         </div>
+      )}
 
-        <button
-          onClick={nextPage}
-          className={`btn btn-sm btn-outline text-black/50 ${currentPage === totalPages ? 'btn-disabled' : ''}`}
-        >
-          Next
-        </button>
-      </div>
+      {/* Approve Confirmation Modal */}
+      {approveModalOpen && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Approval</h3>
+            <p className="py-4">Are you sure you want to approve this order?</p>
+            <div className="modal-action">
+              <button onClick={confirmApprove} className="btn btn-primary">
+                Yes, Approve
+              </button>
+              <button
+                onClick={() => setApproveModalOpen(false)}
+                className="btn btn-secondary"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reject Reason Modal */}
+      {rejectModalOpen && selectedOrder && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Reject Order</h3>
+            <textarea
+              rows="4"
+              placeholder="Reason for rejection..."
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="textarea textarea-bordered w-full mt-4"
+            />
+            <div className="modal-action">
+              <button onClick={handleReject} className="btn btn-error">
+                Reject Order
+              </button>
+              <button onClick={closeRejectModal} className="btn btn-secondary">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Order Details Modal */}
+      {modalOpen && selectedOrder && (
+        <div className="modal modal-open">
+          <div className="modal-box relative">
+            <button
+              onClick={closeModal}
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            >
+              ✕
+            </button>
+            <h3 className="font-bold text-lg mb-4">Order Details</h3>
+            <div className="space-y-2">
+              <p>
+                <strong>Order ID:</strong> {selectedOrder._id}
+              </p>
+              <p>
+                <strong>Purchase Order Number:</strong>{" "}
+                {selectedOrder.purchaseOrderNumber}
+              </p>
+              <p>
+                <strong>Order Date:</strong>{" "}
+                {new Date(selectedOrder.orderDate).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Total Amount:</strong>{" "}
+                {`₱${selectedOrder.totalAmount.toLocaleString()}`}
+              </p>
+              <p>
+                <strong>Status:</strong> {selectedOrder.orderStatus}
+              </p>
+              <p>
+                <strong>Category:</strong> {selectedOrder.category}
+              </p>
+              <p>
+                <strong>Payment Terms:</strong> {selectedOrder.paymentTerm}
+              </p>
+              <p>
+                <strong>Notes:</strong>{" "}
+                {selectedOrder.notes || "No notes provided."}
+              </p>
+              <p>
+                <strong>PDF:</strong>{" "}
+                <a
+                  href={selectedOrder.pdfURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                >
+                  Download
+                </a>
+              </p>
+
+              {/* Items Table */}
+              {selectedOrder.items && selectedOrder.items.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-md font-semibold mb-2">Order Items</h4>
+                  <table className="table w-full">
+                    <thead>
+                      <tr>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedOrder.items.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-200">
+                          <td>{item.name}</td>
+                          <td>{item.quantity}</td>
+                          <td>{`₱${item.price.toLocaleString()}`}</td>
+                          <td>{`₱${item.totalPrice.toLocaleString()}`}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ReceivingOrdersVendor;
+export default ReceiveOrdersVendor;
