@@ -189,15 +189,18 @@ const PurchaseOrderList = () => {
                   <div
                     className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
                       order.orderStatus === "Pending"
-                        ? "bg-yellow-100 border-yellow-300"
+                        ? "bg-yellow-100 border-yellow-400" // Light yellow for Pending
+                        : order.orderStatus === "Approved" // Moved Approved to be right after Pending
+                        ? "bg-blue-100 border-blue-400" // Light blue for Approved
                         : order.orderStatus === "In Process"
-                        ? "bg-blue-100 border-blue-300"
+                        ? "bg-blue-100 border-blue-300" // Light blue for In Process
                         : order.orderStatus === "Shipped"
-                        ? "bg-green-100 border-green-300"
+                        ? "bg-green-100 border-green-400" // Light green for Shipped
                         : order.orderStatus === "Delivered"
-                        ? "bg-gray-100 border-gray-300"
-                        : "bg-gray-200 border-gray-400" // Default case for unknown statuses
+                        ? "bg-gray-100 border-gray-400" // Light gray for Delivered
+                        : "" // Default case for unknown statuses
                     }`}
+                    role="status" // Added role for accessibility
                   >
                     {order.orderStatus}
                   </div>

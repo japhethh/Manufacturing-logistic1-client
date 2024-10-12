@@ -33,7 +33,7 @@ const ReceiveOrdersVendor = () => {
   const fetchPendingOrders = async () => {
     try {
       const response = await axios.get(
-        `${apiURL}/api/vendor/getAllPendingOrders`,
+        `${apiURL}/api/vendor/getAllReceivingOrders`,
         {
           headers: {
             token, // Use Bearer token for authorization
@@ -73,7 +73,7 @@ const ReceiveOrdersVendor = () => {
         "Failed to approve order:",
         error.response?.data || error.message
       );
-      toast.error("Failed to approve order. Please try again.");
+      toast.error(error.response?.data || error.message);
     }
   };
 
@@ -219,9 +219,24 @@ const ReceiveOrdersVendor = () => {
                   <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                   <td>{`₱${order.totalAmount.toLocaleString()}`}</td>
                   <td>
-                    <span className={`badge badge-success ${order.orderStatus === "Receiving" ? "badge-success" : ""}`} >
-                    Receiving
-                    {/* {order.orderStatus} */}
+                    <span
+                      className={`btn btn-ghost btn-xs ${
+                        order?.orderStatus === "Pending"
+                          ? "bg-orange-500 text-white"
+                          : order?.orderStatus === "In Process"
+                          ? "bg-green-500 text-white"
+                          : order?.orderStatus === "Approved"
+                          ? "bg-blue-500 text-white"
+                          : order?.orderStatus === "Rejected"
+                          ? "bg-red-500 text-white"
+                          : order?.orderStatus === "Shipped"
+                          ? "bg-yellow-500 text-white"
+                          : order?.orderStatus === "Delivered"
+                          ? "bg-purple-500 text-white"
+                          : ""
+                      }`}
+                    >
+                      {order.orderStatus}
                     </span>
                   </td>
                   <td className="hidden md:table-cell">
@@ -342,7 +357,7 @@ const ReceiveOrdersVendor = () => {
       {/* View Order Details Modal */}
       {modalOpen && selectedOrder && (
         <div className="modal modal-open">
-          <div className="modal-box relative">
+          <div className="modal-box relative p-6">
             <button
               onClick={closeModal}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -390,12 +405,15 @@ const ReceiveOrdersVendor = () => {
                   Download
                 </a>
               </p>
+            </div>
 
+            {/* Add space before items section */}
+            <div className="my-6 border-t border-gray-300 pt-4">
               {/* Items Table */}
               {selectedOrder.items && selectedOrder.items.length > 0 && (
                 <div className="mt-4">
                   <h4 className="text-md font-semibold mb-2">Order Items</h4>
-                  <table className="table w-full">
+                  <table className="table w-full border">
                     <thead>
                       <tr>
                         <th>Item Name</th>

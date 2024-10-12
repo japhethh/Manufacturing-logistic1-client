@@ -22,7 +22,7 @@ const PendingOrdersVendor = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of orders per page
 
-  const { token,userData } = verifyStore();
+  const { token, userData } = verifyStore();
 
   useEffect(() => {
     fetchPendingOrders();
@@ -56,8 +56,9 @@ const PendingOrdersVendor = () => {
 
   // Approve an order
   const approveOrder = async (orderId) => {
+    console.log(orderId);
     try {
-      await axios.put(
+      const response = await axios.put(
         `${apiURL}/api/vendor/purchaseOrders/approve/${orderId}`,
         {},
         {
@@ -66,12 +67,13 @@ const PendingOrdersVendor = () => {
           },
         }
       );
-      handleUpdate();
       toast.success("Successfully Approved!");
+      toast.success(response.data.message);
+      handleUpdate();
     } catch (error) {
       console.error(
         "Failed to approve order:",
-        error.response?.data || error.message
+        error.response?.message || error.message
       );
       toast.error("Failed to approve order. Please try again.");
     }
@@ -233,7 +235,23 @@ const PendingOrdersVendor = () => {
                   <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                   <td>{`₱${order.totalAmount.toLocaleString()}`}</td>
                   <td>
-                    <span className="badge badge-warning">
+                    <span
+                      className={`btn btn-ghost btn-xs ${
+                        order?.orderStatus === "Pending"
+                          ? "bg-orange-500 text-white"
+                          : order?.orderStatus === "In Process"
+                          ? "bg-green-500 text-white"
+                          : order?.orderStatus === "Approved"
+                          ? "bg-blue-500 text-white"
+                          : order?.orderStatus === "Rejected"
+                          ? "bg-red-500 text-white"
+                          : order?.orderStatus === "Shipped"
+                          ? "bg-yellow-500 text-white"
+                          : order?.orderStatus === "Delivered"
+                          ? "bg-purple-500 text-white"
+                          : ""
+                      }`}
+                    >
                       {order.orderStatus}
                     </span>
                   </td>

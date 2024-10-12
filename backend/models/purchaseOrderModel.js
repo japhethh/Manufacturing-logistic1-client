@@ -115,7 +115,7 @@ const purchaseOrderSchema = mongoose.Schema(
         changedBy: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Supplier",
-          required: true,
+          // required: true,
         },
         changedAt: { type: Date, default: Date.now },
         notes: { type: String }, // Optional notes on the status change

@@ -3,6 +3,7 @@ import express from "express";
 import {
   getUserData,
   getAllPendingOrders,
+  getAllReceivingOrders,
   approveOrders,
   rejectOrders,
 } from "../controllers/vendorController.js";
@@ -13,8 +14,13 @@ const vendorRouter = express.Router();
 vendorRouter.get("/", authMiddleware, getUserData);
 
 vendorRouter.get("/getAllPendingOrders", authMiddleware, getAllPendingOrders);
+vendorRouter.get(
+  "/getAllReceivingOrders",
+  authMiddleware,
+  getAllReceivingOrders
+);
 vendorRouter.put(
-  "/purchaseOrders/approved/:orderId",
+  "/purchaseOrders/approve/:orderId",
   authMiddleware,
   approveOrders
 );
