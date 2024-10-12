@@ -5,7 +5,7 @@ import { z } from "zod";
 import { apiURL } from "../context/verifyStore";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { VendorUserContext } from "../context/vendorUserContext";
+import { VendorUserContext } from "../context/VendorUserContext";
 import { useContext } from "react";
 const schema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
