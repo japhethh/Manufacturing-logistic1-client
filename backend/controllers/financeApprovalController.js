@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import financeApprovalModel from "../models/financeApprovalModel.js";
 import supplierModel from "../models/supplierModel.js";
+import purchaseOrderModel from '../models/purchaseOrderModel.js'
 
 const getAllFinanceApproval = asyncHandler(async (req, res) => {
   const getData = await financeApprovalModel.find({}).populate("purchaseOrder");
@@ -138,6 +139,14 @@ const approvedFinance = asyncHandler(async (req, res) => {
 
   await existSupplier.save();
 
+  const io = req.app.get("socketio");
+  
+
+  const purchaseOrderId = await purchaseOrderModel.findById(exist.purchaseOrder._id);
+
+
+  console.log(purchaseOrderId)
+  io.emit("sendingOrder", purchaseOrderId);
   return res.status(200).json({
     success: true,
     data: existSupplier,
@@ -145,6 +154,9 @@ const approvedFinance = asyncHandler(async (req, res) => {
   });
 });
 
+
+
+// REJECT
 const rejectedFinance = asyncHandler(async (req, res) => {
   const {
     status,

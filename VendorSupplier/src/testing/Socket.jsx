@@ -18,6 +18,11 @@ const Socket = () => {
       setMessages((prev) => [...prev, message]);
     });
 
+
+    newSocket.on("testing",(kupal) => {
+      console.log(kupal)
+    }) 
+
     return () => {
       newSocket.disconnect(); // Clean up the socket connection when the component unmounts
     };

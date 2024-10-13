@@ -282,7 +282,7 @@ const ReceiveOrdersVendor = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
             className={`btn btn-sm ${
-              currentPage === 1 ? "btn-disabled" : "btn-primary"
+              currentPage === 1 ? "btn-disabled" : "btn-outline"
             }`}
           >
             Previous
@@ -292,7 +292,7 @@ const ReceiveOrdersVendor = () => {
               key={number}
               onClick={() => paginate(number)}
               className={`btn btn-sm ${
-                currentPage === number ? "btn-active" : "btn-primary"
+                currentPage === number ? "btn-active" : "btn-outline"
               }`}
             >
               {number}
@@ -302,7 +302,7 @@ const ReceiveOrdersVendor = () => {
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === totalPages}
             className={`btn btn-sm ${
-              currentPage === totalPages ? "btn-disabled" : "btn-primary"
+              currentPage === totalPages ? "btn-disabled" : "btn-outline"
             }`}
           >
             Next
@@ -310,19 +310,51 @@ const ReceiveOrdersVendor = () => {
         </div>
       )}
 
-      {/* Approve Confirmation Modal */}
+      {/* Approve Modal */}
       {approveModalOpen && (
         <div className="modal modal-open">
           <div className="modal-box">
-            <h3 className="font-bold text-lg">Confirm Approval</h3>
-            <p className="py-4">Are you sure you want to approve this order?</p>
+            <h3 className="font-bold text-lg">Approve Order</h3>
+            <p>Are you sure you want to approve this order?</p>
             <div className="modal-action">
-              <button onClick={confirmApprove} className="btn btn-primary">
-                Yes, Approve
+              <button
+                onClick={confirmApprove}
+                className="btn btn-success"
+              >
+                Yes
               </button>
               <button
                 onClick={() => setApproveModalOpen(false)}
-                className="btn btn-secondary"
+                className="btn btn-error"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reject Modal */}
+      {rejectModalOpen && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Reject Order</h3>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              placeholder="Please provide a reason for rejection..."
+              className="textarea w-full border-gray-300 focus:border-gray-500 focus:ring focus:ring-gray-200"
+            />
+            <div className="modal-action">
+              <button
+                onClick={handleReject}
+                className="btn btn-error"
+              >
+                Confirm
+              </button>
+              <button
+                onClick={closeRejectModal}
+                className="btn"
               >
                 Cancel
               </button>
@@ -331,116 +363,33 @@ const ReceiveOrdersVendor = () => {
         </div>
       )}
 
-      {/* Reject Reason Modal */}
-      {rejectModalOpen && selectedOrder && (
-        <div className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Reject Order</h3>
-            <textarea
-              rows="4"
-              placeholder="Reason for rejection..."
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="textarea textarea-bordered w-full mt-4"
-            />
-            <div className="modal-action">
-              <button onClick={handleReject} className="btn btn-error">
-                Reject Order
-              </button>
-              <button onClick={closeRejectModal} className="btn btn-secondary">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* View Order Details Modal */}
+      {/* View Modal */}
       {modalOpen && selectedOrder && (
         <div className="modal modal-open">
-          <div className="modal-box relative p-6">
-            <NavLink to="/createinvoicevendor">
-              <button className="bg-blue-500 px-2 py-1  font-semibold btn text-base-200  absolute right-12 top-2">
-                Create Invoice
-              </button>
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Order Details</h3>
+            <p>
+              <strong>Order ID:</strong> {selectedOrder._id}
+            </p>
+            <p>
+              <strong>Purchase Order Number:</strong> {selectedOrder.purchaseOrderNumber}
+            </p>
+            <p>
+              <strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>Total Amount:</strong> ₱{selectedOrder.totalAmount.toLocaleString()}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedOrder.orderStatus}
+            </p>
+            <NavLink to={`/createinvoicevendor/${selectedOrder._id}`} className="btn btn-primary mt-4">
+              Create Invoice
             </NavLink>
-            <button
-              onClick={closeModal}
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            >
-              ✕
-            </button>
-            <h3 className="font-bold text-lg mb-4">Order Details</h3>
-            <div className="space-y-2">
-              <p>
-                <strong>Order ID:</strong> {selectedOrder._id}
-              </p>
-              <p>
-                <strong>Purchase Order Number:</strong>{" "}
-                {selectedOrder.purchaseOrderNumber}
-              </p>
-              <p>
-                <strong>Order Date:</strong>{" "}
-                {new Date(selectedOrder.orderDate).toLocaleDateString()}
-              </p>
-              <p>
-                <strong>Total Amount:</strong>{" "}
-                {`₱${selectedOrder.totalAmount.toLocaleString()}`}
-              </p>
-              <p>
-                <strong>Status:</strong> {selectedOrder.orderStatus}
-              </p>
-              <p>
-                <strong>Category:</strong> {selectedOrder.category}
-              </p>
-              <p>
-                <strong>Payment Terms:</strong> {selectedOrder.paymentTerm}
-              </p>
-              <p>
-                <strong>Notes:</strong>{" "}
-                {selectedOrder.notes || "No notes provided."}
-              </p>
-              <p>
-                <strong>PDF:</strong>{" "}
-                <a
-                  href={selectedOrder.pdfURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  Download
-                </a>
-              </p>
-            </div>
-
-            {/* Add space before items section */}
-            <div className="my-6 border-t border-gray-300 pt-4">
-              {/* Items Table */}
-              {selectedOrder.items && selectedOrder.items.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="text-md font-semibold mb-2">Order Items</h4>
-                  <table className="table w-full border">
-                    <thead>
-                      <tr>
-                        <th>Item Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total Price</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedOrder.items.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-200">
-                          <td>{item.name}</td>
-                          <td>{item.quantity}</td>
-                          <td>{`₱${item.price.toLocaleString()}`}</td>
-                          <td>{`₱${item.totalPrice.toLocaleString()}`}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+            <div className="modal-action">
+              <button onClick={closeModal} className="btn">
+                Close
+              </button>
             </div>
           </div>
         </div>

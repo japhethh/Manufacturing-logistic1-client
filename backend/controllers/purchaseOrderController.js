@@ -87,7 +87,7 @@ const createPurchaseOrder = async (req, res) => {
     savePO.financeApproval = financeApproval._id;
     await savePO.save();
 
-    console.log(financeApproval);
+    // console.log(financeApproval);
     // FINANCE ------------------->
     // Axios
     const postRequest = async () => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { IoMdCopy } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";

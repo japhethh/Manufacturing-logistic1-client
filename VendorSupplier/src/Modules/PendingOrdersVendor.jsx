@@ -3,6 +3,8 @@ import axios from "axios";
 import { apiURL } from "../context/verifyStore";
 import verifyStore from "../context/verifyStore";
 import { toast } from "react-toastify";
+import io from "socket.io-client";
+import { NavLink } from "react-router-dom"; // Assuming you need this for the View Modal
 
 const PendingOrdersVendor = () => {
   const [orders, setOrders] = useState([]);
@@ -24,6 +26,55 @@ const PendingOrdersVendor = () => {
 
   const { token, userData } = verifyStore();
 
+  const ENDPOINT = "http://localhost:4000"; // Replace with your actual endpoint
+
+  useEffect(() => {
+    // Initialize Socket.IO connection
+    const newSocket = io(ENDPOINT, {
+      auth: {
+        token: token ? `Bearer ${token}` : "", // Send token for authentication if required
+      },
+      transports: ["websocket"],
+    });
+
+    // Listen for new orders
+    newSocket.on("sendingOrder", (newOrder) => {
+      console.log("Received new order via Socket.IO:", newOrder);
+      setOrders((prev) => {
+        // Prevent duplicate orders by checking if the order already exists
+        if (!prev.some((order) => order._id === newOrder._id)) {
+          return [...prev, newOrder];
+        }
+        return prev;
+      });
+    });
+
+    // Listen for order approval updates
+    newSocket.on("orderApproved", (data) => {
+      toast.info(`Order ${data.orderId} has been approved.`);
+      handleUpdate(); // Refresh orders
+    });
+
+    // Listen for order rejection updates
+    newSocket.on("orderRejected", (data) => {
+      toast.info(
+        `Order ${data.orderId} has been rejected. Reason: ${data.reason}`
+      );
+      handleUpdate(); // Refresh orders
+    });
+
+    // Handle connection errors
+    // newSocket.on("connect_error", (err) => {
+    //   console.error('Socket connection error:', err.message);
+    //   toast.error('Socket connection failed: ' + err.message);
+    // });
+
+    // Cleanup function to disconnect the socket when the component unmounts
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [ENDPOINT, token]); // Re-run only if ENDPOINT or token changes
+
   useEffect(() => {
     fetchPendingOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,14 +87,16 @@ const PendingOrdersVendor = () => {
         `${apiURL}/api/vendor/getAllPendingOrders`,
         {
           headers: {
-            token, // Use Bearer token for authorization
+            token, // Use Bearer token for authorization if your backend expects it
           },
         }
       );
+
       setOrders(response.data.pendingOrders);
     } catch (err) {
       setError("An error occurred while fetching data.");
       console.error(err);
+      toast.error("Failed to fetch orders.");
     } finally {
       setLoading(false);
     }
@@ -73,7 +126,7 @@ const PendingOrdersVendor = () => {
     } catch (error) {
       console.error(
         "Failed to approve order:",
-        error.response?.message || error.message
+        error.response?.data?.message || error.message
       );
       toast.error("Failed to approve order. Please try again.");
     }
@@ -168,19 +221,19 @@ const PendingOrdersVendor = () => {
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <div className="container mx-auto p-6 text-red-500">
-  //       {error}
-  //       <button
-  //         onClick={fetchPendingOrders}
-  //         className="btn btn-sm btn-primary mt-4"
-  //       >
-  //         Retry
-  //       </button>
-  //     </div>
-  //   );
-  // }
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500">{error}</p>
+        <button
+          onClick={fetchPendingOrders}
+          className="btn btn-sm btn-primary mt-4"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-6 bg-gray-50 min-h-screen shadow-lg rounded-lg relative">
@@ -237,17 +290,17 @@ const PendingOrdersVendor = () => {
                   <td>
                     <span
                       className={`btn btn-ghost btn-xs ${
-                        order?.orderStatus === "Pending"
+                        order.orderStatus === "Pending"
                           ? "bg-orange-500 text-white"
-                          : order?.orderStatus === "In Process"
+                          : order.orderStatus === "In Process"
                           ? "bg-green-500 text-white"
-                          : order?.orderStatus === "Approved"
+                          : order.orderStatus === "Approved"
                           ? "bg-blue-500 text-white"
-                          : order?.orderStatus === "Rejected"
+                          : order.orderStatus === "Rejected"
                           ? "bg-red-500 text-white"
-                          : order?.orderStatus === "Shipped"
+                          : order.orderStatus === "Shipped"
                           ? "bg-yellow-500 text-white"
-                          : order?.orderStatus === "Delivered"
+                          : order.orderStatus === "Delivered"
                           ? "bg-purple-500 text-white"
                           : ""
                       }`}
@@ -297,7 +350,7 @@ const PendingOrdersVendor = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
             className={`btn btn-sm ${
-              currentPage === 1 ? "btn-disabled" : "btn-primary"
+              currentPage === 1 ? "btn-disabled" : "btn-outline"
             }`}
           >
             Previous
@@ -307,7 +360,7 @@ const PendingOrdersVendor = () => {
               key={number}
               onClick={() => paginate(number)}
               className={`btn btn-sm ${
-                currentPage === number ? "btn-active" : "btn-primary"
+                currentPage === number ? "btn-active" : "btn-outline"
               }`}
             >
               {number}
@@ -317,7 +370,7 @@ const PendingOrdersVendor = () => {
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === totalPages}
             className={`btn btn-sm ${
-              currentPage === totalPages ? "btn-disabled" : "btn-primary"
+              currentPage === totalPages ? "btn-disabled" : "btn-outline"
             }`}
           >
             Next
@@ -373,7 +426,12 @@ const PendingOrdersVendor = () => {
       {/* View Order Details Modal */}
       {modalOpen && selectedOrder && (
         <div className="modal modal-open">
-          <div className="modal-box relative">
+          <div className="modal-box relative p-6">
+            <NavLink to={`/createinvoicevendor/${selectedOrder._id}`}>
+              <button className="bg-blue-500 px-2 py-1 font-semibold btn text-base-200 absolute right-12 top-2">
+                Create Invoice
+              </button>
+            </NavLink>
             <button
               onClick={closeModal}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -421,12 +479,15 @@ const PendingOrdersVendor = () => {
                   Download
                 </a>
               </p>
+            </div>
 
+            {/* Add space before items section */}
+            <div className="my-6 border-t border-gray-300 pt-4">
               {/* Items Table */}
               {selectedOrder.items && selectedOrder.items.length > 0 && (
                 <div className="mt-4">
                   <h4 className="text-md font-semibold mb-2">Order Items</h4>
-                  <table className="table w-full">
+                  <table className="table w-full border">
                     <thead>
                       <tr>
                         <th>Item Name</th>

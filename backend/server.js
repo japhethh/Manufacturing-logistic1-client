@@ -21,6 +21,7 @@ import emailSupplierRouter from "./routes/emailSupplierRouter.js";
 import vendorRouter from "./routes/vendorRouter.js";
 import invoiceVendorRouter from "./routes/invoiceVendorRouter.js";
 import { Server } from "socket.io";
+import socketService from "./config/socketService.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -72,41 +73,47 @@ const io = new Server(server, {
   pingTimeout: 6000,
   cors: {
     origin: ["http://localhost:4000", "http://localhost:5174"],
-    methods: ["GET", "POST"],
+    methods: ['GET', 'POST', 'PUT'],
     allowedHeaders: ["Content-Type"],
     credentials: true,
   },
 });
-io.on("connection", (socket) => {
-  // Login client connects successfully
-  console.log("connected to socket.io");
 
-  socket.on("setup", (userData) => {
-    socket.join(userData._id); // Join the user to a room with their unique ID.
 
-    socket.userData = userData;
-    console.log(userData.name + "Ako yung owner");
-    socket.emit("connected");
-  });
+app.set('socketio', io);
 
-  socket.on("join chat", (room) => {
-    socket.join(room);
-    console.log("User Join room" + room);
-  });
+socketService(io)
 
-  socket.on("joinRoom", (room) => {
-    socket.join(room);
+// io.on("connection", (socket) => {
+//   // Login client connects successfully
+//   console.log("connected to socket.io");
 
-    console.log(`User ${socket.id} joined room ${room}`); // Update the log message
-  });
+//   socket.on("setup", (userData) => {
+//     socket.join(userData._id); // Join the user to a room with their unique ID.
 
-  socket.on("sendMessage", ({ room, message }) => {
-    if (socket.rooms.has(room)) {
-      // Ensure the user is in the room
-      console.log(`Message from ${socket.id} to room ${room}: ${message}`);
-      io.to(room).emit("newMessage", { senderId: socket.id, message });
-    } else {
-      console.log(`User ${socket.id} is not in room ${room}.`);
-    }
-  });
-});
+//     socket.userData = userData;
+//     console.log(userData.name + "Ako yung owner");
+//     socket.emit("connected");
+//   });
+
+//   socket.on("join chat", (room) => {
+//     socket.join(room);
+//     console.log("User Join room" + room);
+//   });
+
+//   socket.on("joinRoom", (room) => {
+//     socket.join(room);
+
+//     console.log(`User ${socket.id} joined room ${room}`); // Update the log message
+//   });
+
+//   socket.on("sendMessage", ({ room, message }) => {
+//     if (socket.rooms.has(room)) {
+//       // Ensure the user is in the room
+//       console.log(`Message from ${socket.id} to room ${room}: ${message}`);
+//       io.to(room).emit("newMessage", { senderId: socket.id, message });
+//     } else {
+//       console.log(`User ${socket.id} is not in room ${room}.`);
+//     }
+//   });
+// });
