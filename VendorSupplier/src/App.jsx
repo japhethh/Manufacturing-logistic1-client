@@ -26,6 +26,7 @@ import { useContext } from "react";
 import { VendorUserContext } from "./context/VendorUserContext";
 import io from "socket.io-client";
 import Socket from "./testing/Socket";
+import CreateInvoiceVendor from "./Modules/CreateInvoiceVendor";
 
 const App = () => {
   const location = useLocation();
@@ -125,6 +126,7 @@ const App = () => {
                 element={<CompleteOrdersVendor />}
               />
             </Route>
+            <Route path="/createinvoicevendor" element={<CreateInvoiceVendor />} />
 
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
             <Route
