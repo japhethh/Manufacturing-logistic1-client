@@ -1,7 +1,27 @@
+import axios from "axios";
 import { IoMdCopy } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { apiURL } from "../context/verifyStore";
+import verifyStore from "../context/verifyStore";
+import { useEffect } from "react";
 const CreateInvoiceVendor = () => {
+  const { orderId } = useParams();
+  const {token} = verifyStore()
+
+  useEffect(() => {
+    fetchOrderId();
+  }, []);
+
+  const fetchOrderId = async () => {
+    const response = await axios.get(`${apiURL}/api/invoices/${orderId}`, {
+      headers: { token: token }
+    });
+
+
+  };
+
   return (
     <div className="bg-white w-full h-auto p-5">
       {/* Top */}

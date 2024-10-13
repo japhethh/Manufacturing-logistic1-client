@@ -126,7 +126,6 @@ const App = () => {
                 element={<CompleteOrdersVendor />}
               />
             </Route>
-            <Route path="/createinvoicevendor" element={<CreateInvoiceVendor />} />
 
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
             <Route
@@ -146,6 +145,10 @@ const App = () => {
             <Route path="/verify/:email" element={<Verify />} />
             <Route path="/sendemail" element={<SendEmail />} />
             <Route path="/socketTest" element={<Socket />} />
+            <Route
+              path="/createinvoicevendor/:orderId"
+              element={<CreateInvoiceVendor />}
+            />
           </Routes>
         </div>
       </div>

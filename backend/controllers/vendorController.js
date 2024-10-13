@@ -112,33 +112,43 @@ const approveOrders = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Order approved successfully." });
 
-  res.status(200).json({ success: true, message: "tangina mo kaaaaaa" });
+  // res.status(200).json({ success: true, message: "tangina mo kaaaaaa" });
 });
 
 const rejectOrders = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   const { userId } = req.body;
-  try {
-    const order = await PurchaseOrder.findById(orderId);
 
-    if (!order) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Order not found" });
-    }
+  const order = await purchaseOrderModel.findById(orderId);
 
-    order.orderStatus = "Rejected";
-    order.statusHistory.push({
-      status: "Rejected",
-      changedBy: userId,
-      changedAt: new Date(),
-    });
-
-    await order.save();
-    res.status(200).json({ message: "Order approved successfully." });
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error." });
+  if (!order) {
+    return res
+      .status(400)
+      .json({ success: false, message: "purchase id is not found" });
   }
+
+  console.log(order);
+  const user = await supplierModel.findById(userId);
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User id is not found" });
+  }
+
+  order.orderStatus = "Rejected";
+  order.statusHistory.push({
+    status: order.orderStatus,
+    changedBy: userId,
+    changedAt: new Date(),
+    newStatus: "Rejected",
+    statusType: "orderStatus",
+  });
+
+  await order.save();
+  console.log(order.orderStatus);
+
+  res.status(200).json({ message: "Order approved successfully." });
 });
 export {
   getUserData,

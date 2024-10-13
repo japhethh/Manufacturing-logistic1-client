@@ -100,8 +100,8 @@ const ReceiveOrdersVendor = () => {
 
     try {
       await axios.put(
-        `${apiURL}/api/vendor/rejectOrder/${selectedOrder._id}`,
-        { reason },
+        `${apiURL}/api/vendor/purchaseOrders/rejected/${selectedOrder._id}`,
+        {},
         {
           headers: { token },
         }

@@ -72,7 +72,7 @@ const server = app.listen(port, () => {
 const io = new Server(server, {
   pingTimeout: 6000,
   cors: {
-    origin: ["http://localhost:4000", "http://localhost:5174"],
+    origin: ["http://localhost:4000", "https://manufacturing-logistic1-client.onrender.com"],
     methods: ['GET', 'POST', 'PUT'],
     allowedHeaders: ["Content-Type"],
     credentials: true,
