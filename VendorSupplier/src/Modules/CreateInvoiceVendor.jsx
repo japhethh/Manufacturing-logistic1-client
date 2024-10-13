@@ -41,7 +41,7 @@ const CreateInvoiceVendor = () => {
           {/* TAB 1 */}
           <div role="tabpanel" className="tab-content py-5">
             {/* Customer Details */}
-            <div className="flex flex-row flex-wrap gap-5">
+            <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:gap-5">
               {/* Customer Type */}
               <div className="flex-1 max-w-xs">
                 <label className="label">
@@ -147,11 +147,11 @@ const CreateInvoiceVendor = () => {
             </div>
 
             {/* Display */}
-            <div className=" flex my-10 gap-5">
+            <div className="flex flex-col my-5 md:flex-row md:my-10 md:gap-5">
               {/* Bill To Section */}
-              <div>
+              <div className="flex-1 mb-5 md:mb-0">
                 <h2 className="text-xl font-semibold">Bill To:</h2>
-                <div className="flex flex-col mt-2">
+                <div className="flex flex-col mt-2 text-sm">
                   <p className="font-medium">Customer Name: John Doe</p>
                   <p>Company Name: ABC Corporation</p>
                   <p>Address: 123 Main St, City, Country</p>
@@ -161,9 +161,9 @@ const CreateInvoiceVendor = () => {
               </div>
 
               {/* Ship To Section */}
-              <div>
+              <div className="flex-1">
                 <h2 className="text-xl font-semibold">Ship To:</h2>
-                <div className="flex flex-col mt-2">
+                <div className="flex flex-col mt-2 text-sm">
                   <p className="font-medium">Customer Name: Jane Smith</p>
                   <p>Company Name: XYZ Ltd.</p>
                   <p>Address: 456 Elm St, City, Country</p>
@@ -174,33 +174,32 @@ const CreateInvoiceVendor = () => {
             </div>
 
             {/* Table */}
-            <div className="mt-5">
+            <div className="mt-5 overflow-x-auto">
               <h2 className="text-lg font-medium">Purchase Order Details</h2>
               <table className="table w-full border border-gray-200">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th>Non-PO</th>
-                    <th>PO Number</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Unit Amount (IDR)</th>
-                    <th>Discount (%)</th>
-                    <th>Taxes (%)</th>
-                    <th>Total Amount (IDR)</th>
+                    <th className="p-2 text-xs">Non-PO</th>
+                    <th className="p-2 text-xs">PO Number</th>
+                    <th className="p-2 text-xs">Name</th>
+                    <th className="p-2 text-xs">Quantity</th>
+                    <th className="p-2 text-xs">Unit Amount (IDR)</th>
+                    <th className="p-2 text-xs">Discount (%)</th>
+                    <th className="p-2 text-xs">Taxes (%)</th>
+                    <th className="p-2 text-xs">Total Amount (IDR)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {/* Example Row 1 */}
-                  {/* Add more rows as needed */}
                   <tr>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="checkbox"
                         className="checkbox checkbox-info"
                         aria-label="Non-PO"
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="text"
                         className="input w-full"
@@ -209,7 +208,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="text"
                         className="input w-full"
@@ -218,7 +217,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -227,7 +226,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -236,7 +235,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -245,7 +244,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -254,7 +253,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -265,14 +264,14 @@ const CreateInvoiceVendor = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="checkbox"
                         className="checkbox checkbox-info"
                         aria-label="Non-PO"
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="text"
                         className="input w-full"
@@ -281,7 +280,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="text"
                         className="input w-full"
@@ -290,7 +289,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -299,7 +298,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -308,7 +307,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -317,7 +316,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
@@ -326,7 +325,7 @@ const CreateInvoiceVendor = () => {
                         readOnly
                       />
                     </td>
-                    <td>
+                    <td className="p-2">
                       <input
                         type="number"
                         className="input w-full"
