@@ -40,6 +40,7 @@ const CreateInvoiceVendor = () => {
           />
           {/* TAB 1 */}
           <div role="tabpanel" className="tab-content py-5">
+            {/* Customer Details */}
             <div className="flex flex-row flex-wrap gap-5">
               {/* Customer Type */}
               <div className="flex-1 max-w-xs">
@@ -143,6 +144,202 @@ const CreateInvoiceVendor = () => {
                   <option>Cash on Delivery</option>
                 </select>
               </div>
+            </div>
+
+            {/* Display */}
+            <div className=" flex my-10 gap-5">
+              {/* Bill To Section */}
+              <div>
+                <h2 className="text-xl font-semibold">Bill To:</h2>
+                <div className="flex flex-col mt-2">
+                  <p className="font-medium">Customer Name: John Doe</p>
+                  <p>Company Name: ABC Corporation</p>
+                  <p>Address: 123 Main St, City, Country</p>
+                  <p>Phone: (123) 456-7890</p>
+                  <p>Email: johndoe@example.com</p>
+                </div>
+              </div>
+
+              {/* Ship To Section */}
+              <div>
+                <h2 className="text-xl font-semibold">Ship To:</h2>
+                <div className="flex flex-col mt-2">
+                  <p className="font-medium">Customer Name: Jane Smith</p>
+                  <p>Company Name: XYZ Ltd.</p>
+                  <p>Address: 456 Elm St, City, Country</p>
+                  <p>Phone: (987) 654-3210</p>
+                  <p>Email: janesmith@example.com</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Table */}
+            <div className="mt-5">
+              <h2 className="text-lg font-medium">Purchase Order Details</h2>
+              <table className="table w-full border border-gray-200">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th>Non-PO</th>
+                    <th>PO Number</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Amount (IDR)</th>
+                    <th>Discount (%)</th>
+                    <th>Taxes (%)</th>
+                    <th>Total Amount (IDR)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Example Row 1 */}
+                  {/* Add more rows as needed */}
+                  <tr>
+                    <td>
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-info"
+                        aria-label="Non-PO"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        className="input w-full"
+                        aria-label="PO Number"
+                        value="PO-12345"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        className="input w-full"
+                        aria-label="Item Name"
+                        value="Office Supplies"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Quantity"
+                        value="10"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Unit Amount (IDR)"
+                        value="1000"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Discount"
+                        value="10"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Taxes"
+                        value="5"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Total Amount (IDR)"
+                        value="9500"
+                        readOnly
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-info"
+                        aria-label="Non-PO"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        className="input w-full"
+                        aria-label="PO Number"
+                        value="PO-12346"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        className="input w-full"
+                        aria-label="Item Name"
+                        value="Printer Ink"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Quantity"
+                        value="5"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Unit Amount (IDR)"
+                        value="2000"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Discount"
+                        value="5"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Taxes"
+                        value="10"
+                        readOnly
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        className="input w-full"
+                        aria-label="Total Amount (IDR)"
+                        value="9500"
+                        readOnly
+                      />
+                    </td>
+                  </tr>
+
+                  {/* More rows can be added dynamically */}
+                </tbody>
+              </table>
             </div>
           </div>
 
