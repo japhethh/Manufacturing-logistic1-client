@@ -19,6 +19,7 @@ import expressAsyncHandler from "express-async-handler";
 import crypto from "crypto"; // Import Node.js built-in crypto module
 import emailSupplierRouter from "./routes/emailSupplierRouter.js";
 import vendorRouter from "./routes/vendorRouter.js";
+import invoiceVendorRouter from "./routes/invoiceVendorRouter.js";
 import { Server } from "socket.io";
 
 const port = process.env.PORT || 4000;
@@ -61,6 +62,7 @@ app.use("/api/shipmentHistory", shipmentHistoryRouter);
 app.use("/api/financeApproval", financeApprovalRouter);
 app.use("/api/email", emailSupplierRouter);
 app.use("/api/vendor", vendorRouter);
+app.use("/api/invoices", invoiceVendorRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);

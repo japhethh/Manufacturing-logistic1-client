@@ -56,6 +56,27 @@ const getAllReceivingOrders = asyncHandler(async (req, res) => {
   });
 });
 
+const getAllCompleteOrders = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const supplier = await supplierModel.findById(userId).populate({
+    path: "purchaseOrders",
+    match: { orderStatus: "Completed" },
+  });
+
+  if (!supplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: supplier,
+    completeOrders: supplier.purchaseOrders,
+  });
+});
+
 const approveOrders = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   const { userId } = req.body;
@@ -125,4 +146,5 @@ export {
   getAllReceivingOrders,
   approveOrders,
   rejectOrders,
+  getAllCompleteOrders,
 };
