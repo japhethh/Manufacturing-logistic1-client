@@ -359,6 +359,9 @@ const ReceiveOrdersVendor = () => {
       {modalOpen && selectedOrder && (
         <div className="modal modal-open">
           <div className="modal-box relative p-6">
+            <button className="bg-blue-500 px-2 py-1  font-semibold btn text-base-200  absolute right-12 top-2">
+              Create invoice
+            </button>
             <button
               onClick={closeModal}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
