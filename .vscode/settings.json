@@ -3,5 +3,23 @@
     "minimap.background": "#00000000",
     "scrollbar.shadow": "#00000000"
   },
-  "cSpell.words": ["createnow", "gatherdata", "purchaseorder"]
+  "cSpell.words": [
+    "accountmanagementvendor",
+    "allproducts",
+    "communicationvendor",
+    "createinvoicevendor",
+    "createnow",
+    "dashboardvendor",
+    "gatherdata",
+    "inventorymanagement",
+    "Invetory",
+    "invoicesvendor",
+    "ordersvendor",
+    "printproducts",
+    "purchaseorder",
+    "sendemail",
+    "shipmentvendor",
+    "toastify",
+    "Toastify"
+  ]
 }

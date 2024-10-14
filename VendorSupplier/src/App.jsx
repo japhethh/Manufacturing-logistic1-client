@@ -27,6 +27,11 @@ import { VendorUserContext } from "./context/VendorUserContext";
 import io from "socket.io-client";
 import Socket from "./testing/Socket";
 import CreateInvoiceVendor from "./Modules/CreateInvoiceVendor";
+import CreateProduct from "./Modules/CreateProduct";
+import Category from "./Modules/Category";
+import Products from "./Modules/Products";
+import AllProducts from "./Modules/AllProducts";
+import PrintProducts from "./Modules/PrintProducts";
 
 const App = () => {
   const location = useLocation();
@@ -111,6 +116,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
+            {/* Orders */}
             <Route path="/ordersvendor" element={<OrdersVendor />}>
               <Route index element={<PendingOrdersVendor />} />
               <Route
@@ -127,11 +133,21 @@ const App = () => {
               />
             </Route>
 
+            {/* Products */}
+            <Route path="/createproduct" element={<CreateProduct />}>
+              <Route path="category" element={<Category />} />
+              <Route path="products" element={<Products />} />
+              <Route path="allproducts" element={<AllProducts />} />
+              <Route path="printproducts" element={<PrintProducts />} />
+            </Route>
+
             <Route path="/dashboardvendor" element={<DashboardVendor />} />
+
             <Route
               path="/inventorymanagement"
               element={<InvetoryManagement />}
             />
+
             <Route path="/shipmentvendor" element={<ShipmentVendor />} />
             <Route path="/invoicesvendor" element={<InvoicesVendor />} />
             <Route
