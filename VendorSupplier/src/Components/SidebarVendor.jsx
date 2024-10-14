@@ -9,6 +9,7 @@ import {
   FaComments,
   FaUserCog,
 } from "react-icons/fa";
+import { AiFillProduct } from "react-icons/ai";
 
 const SidebarVendor = () => {
   const menuItems = [
@@ -21,6 +22,11 @@ const SidebarVendor = () => {
       icon: <FaBoxOpen className="text-2xl" />,
       label: "Orders",
       to: "/ordersvendor",
+    },
+    {
+      icon: <AiFillProduct className="text-2xl" />,
+      label: "Products",
+      to: "/createproduct",
     },
     {
       icon: <FaWarehouse className="text-2xl" />,
