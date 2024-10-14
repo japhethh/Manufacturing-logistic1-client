@@ -72,17 +72,21 @@ const server = app.listen(port, () => {
 const io = new Server(server, {
   pingTimeout: 6000,
   cors: {
-    origin: ["http://localhost:4000", "https://manufacturing-logistic1-client.onrender.com"],
-    methods: ['GET', 'POST', 'PUT'],
+    origin: [
+      "http://localhost:4000",
+      "https://manufacturing-logistic1-client-vendor.onrender.com",
+      "https://manufacturing-logistic1-client.onrender.com",
+      "https://logistic1.jjm-manufacturing.com",
+    ],
+    methods: ["GET", "POST", "PUT"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
   },
 });
 
+app.set("socketio", io);
 
-app.set('socketio', io);
-
-socketService(io)
+socketService(io);
 
 // io.on("connection", (socket) => {
 //   // Login client connects successfully

@@ -8,7 +8,7 @@ const VendorUserContextProvider = ({ children }) => {
   const apiURL =
     window.location.hostname === "localhost"
       ? "http://localhost:4000"
-      : "https://manufacturing-logistic1-client-api.onrender.com";
+      : "https://backend-logistic1.jjm-manufacturing.com";
 
   console.log(apiURL);
   useEffect(() => {

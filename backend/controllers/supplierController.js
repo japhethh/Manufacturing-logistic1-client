@@ -1,4 +1,3 @@
-import { FaWineGlassEmpty } from "react-icons/fa6";
 import supplierModel from "../models/supplierModel.js";
 import asyncHandler from "express-async-handler";
 import { transporter } from "../config/transporter.js";

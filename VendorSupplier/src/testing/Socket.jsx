@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
 const Socket = () => {
-  const ENDPOINT = "http://localhost:4000"; // or use your actual endpoint
+  const ENDPOINT =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://backend-logistic1.jjm-manufacturing.com";
+
   const [socket, setSocket] = useState(null);
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
@@ -18,10 +22,9 @@ const Socket = () => {
       setMessages((prev) => [...prev, message]);
     });
 
-
-    newSocket.on("testing",(kupal) => {
-      console.log(kupal)
-    }) 
+    newSocket.on("testing", (kupal) => {
+      console.log(kupal);
+    });
 
     return () => {
       newSocket.disconnect(); // Clean up the socket connection when the component unmounts

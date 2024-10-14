@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Invoice from "../models/invoiceVendorModel.js";
+import purchaseOrderModel from '../models/purchaseOrderModel.js'
 
 // CREATE INVOICE
 const createInvoice = asyncHandler(async (req, res) => {
@@ -88,17 +89,20 @@ const getAllInvoice = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, invoices });
 });
 
+
+// GET SINGLE ID
 const getSingleInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const { id } = req.params;
-  const singleInvoice = await Invoice.findById(id);
 
+  const singleInvoice = await purchaseOrderModel.findById(id).populate("supplier");
   if (!singleInvoice) {
     return res
       .status(400)
       .json({ success: false, message: "Invoice not found" });
   }
 
+  console.log(singleInvoice)
   res.status(200).json({ success: true, singleInvoice });
 });
 

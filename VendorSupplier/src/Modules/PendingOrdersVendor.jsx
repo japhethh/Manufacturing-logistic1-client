@@ -26,7 +26,13 @@ const PendingOrdersVendor = () => {
 
   const { token, userData } = verifyStore();
 
-  const ENDPOINT = "http://localhost:4000"; // Replace with your actual endpoint
+  // const ENDPOINT = "http://localhost:4000";
+  // Replace with your actual endpoint
+
+  const ENDPOINT =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://backend-logistic1.jjm-manufacturing.com";
 
   useEffect(() => {
     // Initialize Socket.IO connection

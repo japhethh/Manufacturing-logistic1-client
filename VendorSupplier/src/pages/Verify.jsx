@@ -34,7 +34,10 @@ const Verify = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
-
+  const ENDPOINT =
+  window.location.hostname === "localhost"
+    ? "http://localhost:4000"
+    : "https://backend-logistic1.jjm-manufacturing.com";
   console.log(email);
   const {
     register,
@@ -63,7 +66,7 @@ const Verify = () => {
     const verifySupplier = async () => {
       try {
         const response = await axios.get(
-          "https://manufacturing-logistic1-client-api.onrender.com/api/email/verify",
+          `${ENDPOINT}/api/email/verify`,
           {
             params: { token, email },
           }
@@ -97,7 +100,7 @@ const Verify = () => {
     console.log(data);
     try {
       const response = await axios.put(
-        "http://localhost:4000/api/supplier/completeRegistration",
+        `${ENDPOINT}/api/supplier/completeRegistration`,
         {
           ...data,
           email,
