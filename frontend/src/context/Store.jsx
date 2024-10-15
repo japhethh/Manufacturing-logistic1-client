@@ -3,7 +3,7 @@ import axios from "axios";
 
 // const apiURL = "https://manufacturing-logistic1-client-api.onrender.com"
 
-const apiURL = window.location.hostname === "localhost"
+export const apiURL = window.location.hostname === "localhost"
     ? "http://localhost:4000"
     : "https://backend-logistic1.jjm-manufacturing.com";
 

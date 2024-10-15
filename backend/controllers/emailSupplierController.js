@@ -4,7 +4,6 @@ import crypto from "crypto";
 import { transporter } from "../config/transporter.js";
 
 // REGISTER
-
 const registerSupplier = asyncHandler(async (req, res) => {
   const apiURL = "https://manufacturing-logistic1-client-vendor.onrender.com";
   // window.location.hostname === "localhost"

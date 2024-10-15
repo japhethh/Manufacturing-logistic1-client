@@ -43,6 +43,12 @@ const App = () => {
   useEffect(() => {
     const verifyToken = async () => {
       const storedToken = localStorage.getItem("token");
+
+      // Allow access to the verify route without checking the token
+      if (location.pathname === "/verify") {
+        return;
+      }
+
       if (storedToken) {
         // Check if the token is valid
         try {
@@ -70,7 +76,8 @@ const App = () => {
         // Allow access to login or sendemail if there's no token
         if (
           location.pathname !== "/login" &&
-          location.pathname !== "/sendemail"
+          location.pathname !== "/sendemail" &&
+          location.pathname !== "/verify"
         ) {
           navigate("/login"); // Redirect to login if not on login/sendemail and no token exists
         }
@@ -82,7 +89,7 @@ const App = () => {
       setToken(null);
     };
 
-    // verifyToken();
+    verifyToken();
     if (!userData) {
       fetchUserData();
     }
