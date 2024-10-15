@@ -933,6 +933,19 @@ const Sidebar = () => {
                 <p className="text-base">Suppliers</p>
               </NavLink>
             </li>
+
+            <li className="mt-1">
+              <NavLink
+                to="requestlist"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-base-200 bg-blue-500 font-bold"
+                    : "text-black"
+                }
+              >
+                <p className="text-base">Request List</p>
+              </NavLink>
+            </li>
           </ul>
         </details>
       </li>
