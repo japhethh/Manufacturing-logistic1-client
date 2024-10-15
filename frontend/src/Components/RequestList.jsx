@@ -11,7 +11,7 @@ const RequestList = () => {
   const [requests, setRequests] = useState(requestsData);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRequests, setSelectedRequests] = useState(new Set());
-  const [selectedRequestId, setSelectedRequestId] = useState(null); // To track the selected request for the modal
+  const [selectedRequestId, setSelectedRequestId] = useState(null);
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -34,8 +34,28 @@ const RequestList = () => {
   };
 
   const openModal = (id) => {
-    setSelectedRequestId(id); // Set the selected request ID
-    document.getElementById("my_modal_3").showModal(); // Open the modal
+    setSelectedRequestId(id);
+    document.getElementById("my_modal_3").showModal();
+  };
+
+  const handleApproval = (id) => {
+    setRequests((prevRequests) =>
+      prevRequests.map((request) =>
+        request.id === id ? { ...request, status: "Accepted" } : request
+      )
+    );
+    setSelectedRequestId(null); // Close the modal
+    document.getElementById("my_modal_3").close();
+  };
+
+  const handleRejection = (id) => {
+    setRequests((prevRequests) =>
+      prevRequests.map((request) =>
+        request.id === id ? { ...request, status: "Rejected" } : request
+      )
+    );
+    setSelectedRequestId(null); // Close the modal
+    document.getElementById("my_modal_3").close();
   };
 
   return (
@@ -104,8 +124,8 @@ const RequestList = () => {
               <td>
                 {request.status === "Pending" && (
                   <div className="flex gap-2">
-                    <button className="btn btn-success btn-xs">Approve</button>
-                    <button className="btn btn-error btn-xs">Reject</button>
+                    <button className="btn btn-success btn-xs" onClick={() => handleApproval(request.id)}>Approve</button>
+                    <button className="btn btn-error btn-xs" onClick={() => handleRejection(request.id)}>Reject</button>
                     <button
                       className="btn btn-primary btn-xs"
                       onClick={() => openModal(request.id)}
@@ -139,7 +159,6 @@ const RequestList = () => {
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               <IoClose />
             </button>
@@ -148,6 +167,10 @@ const RequestList = () => {
           <p className="py-4">
             You can perform actions on request ID: {selectedRequestId}
           </p>
+          <div className="flex justify-end gap-2">
+            <button className="btn btn-success" onClick={() => handleApproval(selectedRequestId)}>Approve</button>
+            <button className="btn btn-error" onClick={() => handleRejection(selectedRequestId)}>Reject</button>
+          </div>
         </div>
       </dialog>
     </div>
