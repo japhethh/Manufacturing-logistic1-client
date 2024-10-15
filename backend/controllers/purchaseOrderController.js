@@ -4,6 +4,7 @@ import asyncHandler from "express-async-handler";
 import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
 import financeApprovalModel from "../models/financeApprovalModel.js";
 import axios from "axios";
+import generalSettingsModel from "../models/generalSettingsModel.js";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
@@ -21,6 +22,7 @@ const createPurchaseOrder = async (req, res) => {
       approvalStatus,
       userId, // Assuming you're getting user info from the token
       reason,
+      paymentDetails,
     } = req.body;
 
     // Check if any required fields are missing
@@ -31,10 +33,22 @@ const createPurchaseOrder = async (req, res) => {
       !items ||
       !category ||
       items.length === 0 ||
-      !totalAmount
+      !totalAmount ||
+      !paymentDetails
     ) {
       return res.status(400).json({ message: "All fields are required." });
     }
+
+    // const companyAccountId = "66f1ef49f50be7fc60baedb3";
+    // const addressAccount = await generalSettingsModel.findById(
+    //   companyAccountId
+    // );
+
+    // if (!addressAccount) {
+    //   return res
+    //     .status(400)
+    //     .json({ success: false, message: "Info Not Found!" });
+    // }
 
     const newPurchaseOrder = new purchaseOrderModel({
       purchaseOrderNumber: purchaseOrderNumber,
@@ -48,6 +62,8 @@ const createPurchaseOrder = async (req, res) => {
       approvalStatus: approvalStatus,
       createdBy: userId,
       category: category,
+      paymentDetails: paymentDetails,
+      // companyAccount: addressAccount._id,
     });
 
     const savePO = await newPurchaseOrder.save();

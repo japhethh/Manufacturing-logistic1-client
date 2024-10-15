@@ -45,7 +45,7 @@ const invoiceVendorSchema = new mongoose.Schema(
     paymentDetails: {
       paymentMethod: {
         type: String,
-        enum: ['Credit Card',"Pay on Delivery", 'Bank Transfer', 'Cash', 'Other'],
+        enum: ["Credit Card", "Cash on Delivery", "Gcash", "Bank Transfer", "Other"],
         required: true,
       },
       paymentDate: {
@@ -55,7 +55,7 @@ const invoiceVendorSchema = new mongoose.Schema(
       transactionId: {
         type: String,
         required: false,
-      },
+    },
     },
     issueDate: {
       type: Date,

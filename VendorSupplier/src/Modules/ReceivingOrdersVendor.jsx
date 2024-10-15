@@ -396,6 +396,10 @@ const ReceiveOrdersVendor = () => {
                 <strong>Payment Terms:</strong> {selectedOrder.paymentTerm}
               </p>
               <p>
+                <strong>Payment Method:</strong>
+                {selectedOrder.paymentDetails?.paymentMethod}
+              </p>
+              <p>
                 <strong>Notes:</strong>{" "}
                 {selectedOrder.notes || "No notes provided."}
               </p>

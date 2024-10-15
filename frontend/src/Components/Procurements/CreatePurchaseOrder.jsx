@@ -13,6 +13,7 @@ const CreatePurchaseOrder = () => {
     category: "",
     notes: "",
     paymentTerm: "",
+    paymentMethod: "",
     approvalStatus: "Pending",
     reason: "",
   });
@@ -88,6 +89,7 @@ const CreatePurchaseOrder = () => {
       category: "",
       notes: "",
       paymentTerm: "",
+      paymentMethod: "",
       approvalStatus: "Pending",
       reason: "",
     });
@@ -180,6 +182,9 @@ const CreatePurchaseOrder = () => {
         paymentTerm: formData.paymentTerm,
         approvalStatus: formData.approvalStatus,
         reason: formData.reason,
+        paymentDetails: {
+          paymentMethod: formData.paymentMethod,
+        },
       };
 
       const response = await axios.post(
@@ -194,7 +199,7 @@ const CreatePurchaseOrder = () => {
       navigate(`/purchase_orders/view_po/${response.data._id}`);
     } catch (error) {
       console.error("Error creating purchase order:", error);
-      NotificationService.error("Error creating purchase order");
+      NotificationService.error(error.response.data.message);
     }
   };
 
@@ -373,14 +378,14 @@ const CreatePurchaseOrder = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
           {/* Tax */}
           <div>
             <label
               htmlFor="tax"
               className="block text-base font-medium text-[#07074D]"
             >
-              Tax (%) 
+              Tax (%)
             </label>
             <input
               type="number"
@@ -424,7 +429,7 @@ const CreatePurchaseOrder = () => {
             <label
               htmlFor="paymentTerm"
               className="block text-base font-medium text-[#07074D]"
-            > 
+            >
               Payment Term <span className="text-red-500">*</span>
             </label>
             <input
@@ -438,55 +443,77 @@ const CreatePurchaseOrder = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
-            {/* Notes */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="notes"
-                className="block text-base font-medium text-[#07074D]"
-              >
-                Notes <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                id="notes"
-                value={formData.notes}
-                onChange={(e) =>
-                  setFormData({ ...formData, notes: e.target.value })
-                }
-                className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
-                rows={3}
-              />
-            </div>
+          {/* Payment Method */}
+          <div>
+            <label
+              htmlFor="paymentTerm"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Payment Term <span className="text-red-500">*</span>
+            </label>
+            <select
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              onChange={(e) =>
+                setFormData({ ...formData, paymentMethod: e.target.value })
+              }
+            >
+              <option value="" disabled selected>
+                Select option
+              </option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+              <option value="GCash">GCash</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+        </div>
 
-            {/* Reason */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="reason"
-                className="block text-base font-medium text-[#07074D]"
-              >
-                Reason <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                id="reason"
-                value={formData.reason}
-                onChange={(e) =>
-                  setFormData({ ...formData, reason: e.target.value })
-                }
-                className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
-                rows={3}
-              />
-            </div>
+        <div className="flex flex-col gap-2">
+          {/* Notes */}
+          <div className="md:col-span-2">
+            <label
+              htmlFor="notes"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Notes <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              rows={3}
+            />
           </div>
 
-          {/* Total Summary */}
-          <div className="md:col-span-2 mt-6 bg-gray-100 p-4 rounded-md">
-            <h3 className="text-lg font-semibold text-[#07074D] mb-4">
-              Summary
-            </h3>
-            <p>Subtotal: ${subtotal.toFixed(2)}</p>
-            <p>Tax: ${taxAmount.toFixed(2)}</p>
-            <p className="font-bold">Total: ${total.toFixed(2)}</p>
+          {/* Reason */}
+          <div className="md:col-span-2">
+            <label
+              htmlFor="reason"
+              className="block text-base font-medium text-[#07074D]"
+            >
+              Reason <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="reason"
+              value={formData.reason}
+              onChange={(e) =>
+                setFormData({ ...formData, reason: e.target.value })
+              }
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              rows={3}
+            />
           </div>
+        </div>
+
+        {/* Total Summary */}
+        <div className="md:col-span-2 mt-6 bg-gray-100 p-4 rounded-md">
+          <h3 className="text-lg font-semibold text-[#07074D] mb-4">Summary</h3>
+          <p>Subtotal: ${subtotal.toFixed(2)}</p>
+          <p>Tax: ${taxAmount.toFixed(2)}</p>
+          <p className="font-bold">Total: ${total.toFixed(2)}</p>
         </div>
 
         {/* Submit and Reset Buttons */}

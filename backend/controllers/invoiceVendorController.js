@@ -3,76 +3,55 @@ import Invoice from "../models/invoiceVendorModel.js";
 import purchaseOrderModel from '../models/purchaseOrderModel.js'
 
 // CREATE INVOICE
-const createInvoice = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
-  const {
-    invoiceNumber,
-    purchaseOrder,
-    vendor,
-    items,
-    totalAmount,
-    paymentDetails,
-    issueDate,
-    dueDate,
-    shippingDetails,
-    tax,
-    notes,
-    status,
-  } = req.body;
-
-  // Validate required fields
-  if (
-    !invoiceNumber ||
-    !purchaseOrder ||
-    !vendor ||
-    !items ||
-    !Array.isArray(items) || // Ensure items is an array
-    items.length === 0 || // Check if items array is not empty
-    !totalAmount ||
-    !paymentDetails ||
-    !issueDate ||
-    !dueDate ||
-    !shippingDetails ||
-    !tax ||
-    !status
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: "All fields are required and must not be empty.",
-    });
-  }
-
-  // Create a new Invoice object
-  const invoice = new Invoice({
-    invoiceNumber,
-    purchaseOrder,
-    vendor,
-    items,
-    totalAmount,
-    paymentDetails,
-    issueDate,
-    dueDate,
-    shippingDetails,
-    tax,
-    notes,
-    status,
-  });
-
+const createInvoice = async (req, res) => {
   try {
-    const createdInvoice = await invoice.save();
+    // Fetch the last created invoice by sorting invoices by creation date in descending order
+    const lastInvoice = await Invoice.findOne().sort({ createdAt: -1 });
+
+    // Generate new invoice number
+    let newInvoiceNumber;
+    if (lastInvoice) {
+      // Extract the number part from the last invoice (assuming a simple numeric format)
+      const lastInvoiceNumber = parseInt(lastInvoice.invoiceNumber);
+      newInvoiceNumber = (lastInvoiceNumber + 1).toString();
+    } else {
+      // If no invoice exists, start with 1
+      newInvoiceNumber = "1";
+    }
+
+    // Create new invoice with the incremented invoice number
+    const newInvoice = new Invoice({
+      invoiceNumber: newInvoiceNumber,
+      purchaseOrder: req.body.purchaseOrder,
+      vendor: req.body.vendor,
+      
+      items: req.body.items,
+      totalAmount: req.body.totalAmount,
+      paymentDetails: req.body.paymentDetails,
+      issueDate: req.body.issueDate,
+      dueDate: req.body.dueDate,
+      shippingDetails: req.body.shippingDetails,
+      tax: req.body.tax,
+      notes: req.body.notes,
+      status: req.body.status,
+    });
+
+    await newInvoice.save();
+
     res.status(201).json({
       success: true,
-      message: "Invoice created successfully!",
-      invoice: createdInvoice,
+      message: "Invoice created successfully",
+      invoice: newInvoice,
     });
   } catch (error) {
-    res.status(400).json({
+    console.error(error);
+    res.status(500).json({
       success: false,
-      message: "Error creating invoice",
-      error: error.message,
+      message: "Server error",
     });
   }
-});
+};
+
 
 // GET ALL INVOICE
 const getAllInvoice = asyncHandler(async (req, res) => {

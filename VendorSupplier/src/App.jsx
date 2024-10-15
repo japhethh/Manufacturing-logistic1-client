@@ -82,7 +82,7 @@ const App = () => {
       setToken(null);
     };
 
-    verifyToken();
+    // verifyToken();
     if (!userData) {
       fetchUserData();
     }
@@ -158,7 +158,7 @@ const App = () => {
               path="/accountmanagementvendor"
               element={<AccountManagementVendor />}
             />
-            <Route path="/verify/:email" element={<Verify />} />
+            <Route path="/verify" element={<Verify />} />
             <Route path="/sendemail" element={<SendEmail />} />
             <Route path="/socketTest" element={<Socket />} />
             <Route

@@ -11,7 +11,7 @@ const SystemSettings = () => {
   const { apiURL, token } = useContext(UserContext);
   const [image, setImage] = useState(null); // For storing the file itself
   const [imagePreview, setImagePreview] = useState(null); // For displaying preview
-  const [setUp , setSetUp] = useState(null);
+  const [setUp, setSetUp] = useState(null);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImage(file); // To set the file itself
@@ -75,9 +75,8 @@ const SystemSettings = () => {
 
     setGeneralData(data);
 
-    console.log(data)
-    setSetUp(data.logo)
-
+    console.log(data);
+    setSetUp(data.logo);
   };
 
   const onSubmit = async (data) => {
@@ -315,27 +314,27 @@ const SystemSettings = () => {
                 </div>
 
                 <div className="mb-5 flex-1">
-                <label
-                  htmlFor="logo"
-                  className="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Company Logo <span className="text-red-500">*</span>
-                </label>
-                <div className="mt-1 flex items-center">
-                  <span className="inline-block w-[80px] h-[80px] rounded-full overflow-hidden bg-gray-100">
-                    <img
-                      className="w-[80px] h-[80px] rounded-full object-cover"
-                      src={imagePreview || setUp || DefaultLogo} // Display image preview if a new file is selected, otherwise the saved image or default
-                      alt="Upload Area"
+                  <label
+                    htmlFor="logo"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
+                    Company Logo <span className="text-red-500">*</span>
+                  </label>
+                  <div className="mt-1 flex items-center">
+                    <span className="inline-block w-[80px] h-[80px] rounded-full overflow-hidden bg-gray-100">
+                      <img
+                        className="w-[80px] h-[80px] rounded-full object-cover"
+                        src={imagePreview || setUp || DefaultLogo} // Display image preview if a new file is selected, otherwise the saved image or default
+                        alt="Upload Area"
+                      />
+                    </span>
+                    <input
+                      className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      type="file"
+                      onChange={handleFileChange}
                     />
-                  </span>
-                  <input
-                    className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    type="file"
-                    onChange={handleFileChange}
-                  />
+                  </div>
                 </div>
-              </div>
               </div>
 
               <div className="flex justify-end">
