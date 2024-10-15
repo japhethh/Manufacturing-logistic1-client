@@ -31,6 +31,7 @@ import ComplianceVerification from "./Components/Vendor/ComplianceVerification";
 import AutoFillPurchaseOrder from "./Components/AutoFillPurchaseOrder";
 import SystemSettings from "./Components/Settings/SystemSettings";
 import MusicClick from "./testing/MusicClick.jsx";
+import RequestList from "./Components/RequestList.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -117,6 +118,7 @@ const App = () => {
 
           <Route path="/login" element={<Log />} />
           <Route path="/user" element={<User />} />
+          <Route path="/requestlist" element={<RequestList />} />
           <Route path="/user/createuser" element={<CreateUser />} />
           <Route path="/suppliers" element={<CreateSupplier />} />
           <Route path="/suppliers" element={<CreateSupplier />} />
