@@ -6,11 +6,10 @@ import { transporter } from "../config/transporter.js";
 // REGISTER
 
 const registerSupplier = asyncHandler(async (req, res) => {
-  const apiURL =
-   "https://logistic1.jjm-manufacturing.com";
-    // window.location.hostname === "localhost"
-    //   ? "http://localhost:5174"
-    //   : "https://logistic1.jjm-manufacturing.com";
+  const apiURL = "https://manufacturing-logistic1-client-vendor.onrender.com";
+  // window.location.hostname === "localhost"
+  //   ? "http://localhost:5174"
+  //   : "https://logistic1.jjm-manufacturing.com";
 
   const { email, gender, supplierName, firstName, lastName, contactPhone } =
     req.body; // Capture email and gender
