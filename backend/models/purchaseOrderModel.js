@@ -59,6 +59,7 @@ const purchaseOrderSchema = mongoose.Schema(
     pdfURL: {
       // New Field for PDF Storage
       type: String,
+      required: false,
     },
     assignedApprover: {
       // New Field for Finance Approval

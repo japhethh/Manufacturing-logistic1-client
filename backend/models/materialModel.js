@@ -12,7 +12,7 @@ const materialSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    required: false, 
+    required: false,
   },
   unit: {
     type: String,
@@ -31,6 +31,12 @@ const materialSchema = mongoose.Schema({
     required: true,
     default: 10,
   },
+  // New properties
+  note: { type: String, required: false, trim: true },
+  tax: { type: Number },
+  alertQuantity: { type: Number },
+  image: { type: String },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
   // image: {
   //   type: String,
   //   required: false,

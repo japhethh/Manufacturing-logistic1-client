@@ -164,9 +164,9 @@ const supplierSchema = mongoose.Schema(
       enum: ["Pending", "Active", "Deactivated"],
       default: "Pending",
     },
-
     // Optional: Profile Image or Logo URL
     logo: { type: String, default: "" },
+    category:{type:mongoose.Schema.Types.ObjectId, ref:"categories"}
   },
   { timestamps: true }
 );

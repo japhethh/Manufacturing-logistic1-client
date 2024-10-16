@@ -45,6 +45,13 @@ const getAllMaterial = asyncHandler(async (req, res) => {
   const materials = await MaterialModel.find({})
     .populate("supplier")
     .sort({ orderDate: -1 });
+
+  if (!materials) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Material not found" });
+  }
+
   res.status(200).json(materials);
 });
 // Get a single material ID
@@ -57,8 +64,16 @@ const appendMaterial = asyncHandler(async (req, res) => {
     unit,
     pricePerUnit,
     available,
+    tax,
+    alertQuantity,
+    image,
   } = req.body;
+
   const { id } = req.params;
+
+  if ((!materialName || !materialCode, !unit, !pricePerUnit, !alertQuantity)) {
+    return res.status(400).json("Enter all field!");
+  }
 
   const supplierUser = await supplierModel.findById(id);
 
@@ -76,6 +91,9 @@ const appendMaterial = asyncHandler(async (req, res) => {
     pricePerUnit: pricePerUnit,
     supplier: id,
     available: available,
+    tax,
+    alertQuantity,
+    image,
   });
 
   const savedMaterial = await newMaterial.save();
@@ -87,4 +105,54 @@ const appendMaterial = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: supplierUser });
 });
 
-export { createMaterial, getAllMaterial, appendMaterial };
+const deleteMaterial = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const materialExist = await MaterialModel.findById(id);
+  if (!materialExist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Material not found" });
+  }
+
+  await MaterialModel.findByIdAndDelete(id);
+
+  res
+    .status(200)
+    .json({ success: true, message: "Material" + materialExist.materialCode });
+});
+
+const updateMaterial = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const materialData = await MaterialModel.findById(id);
+  if (!materialData) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Material not found" });
+  }
+
+  const updatedMaterial = await MaterialModel.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+
+  if (!updatedMaterial) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Material not found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Updated Successfully",
+    data: updatedMaterial,
+  });
+});
+
+export {
+  createMaterial,
+  getAllMaterial,
+  appendMaterial,
+  deleteMaterial,
+  updateMaterial,
+};

@@ -1,0 +1,872 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Logistic 1",
+    "collectionId": "356a1274-a50a-4887-abed-537700d44f03",
+    "dateExported": "2024-10-16T19:31:09.920Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "User",
+            "containerId": "",
+            "created": "2024-09-10T07:02:03.716Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "a4c0285a-f3d8-44d8-96e6-07f052ef3755",
+            "name": "Rawmaterial",
+            "containerId": "",
+            "created": "2024-09-12T19:02:08.487Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Supplier",
+            "containerId": "",
+            "created": "2024-09-13T01:44:20.401Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "6f4e8747-8402-469b-8aa5-5f02900f16b1",
+            "name": "Material",
+            "containerId": "",
+            "created": "2024-09-13T21:41:20.218Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "0182e33e-c881-4493-8ecc-bc224b63a8fe",
+            "name": "PurchaseOrder",
+            "containerId": "",
+            "created": "2024-09-20T22:20:18.464Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "38fde08f-0145-4f06-9c09-04c7d3ea48e5",
+            "name": "General Settings",
+            "containerId": "",
+            "created": "2024-09-23T22:16:54.473Z",
+            "sortNum": 70000
+        },
+        {
+            "_id": "33e45a73-3b97-4e50-8369-ac30e8e8f8f3",
+            "name": "Shipment",
+            "containerId": "",
+            "created": "2024-09-26T19:43:12.563Z",
+            "sortNum": 80000
+        },
+        {
+            "_id": "b8369d4e-76b1-4f17-949a-3dc8cedfcdba",
+            "name": "Supplier History",
+            "containerId": "",
+            "created": "2024-09-26T20:16:06.383Z",
+            "sortNum": 90000
+        },
+        {
+            "_id": "abf8a814-8a97-4fa7-ae9b-1048585b3ed3",
+            "name": "FinanceApproval",
+            "containerId": "",
+            "created": "2024-09-29T06:57:59.696Z",
+            "sortNum": 100000
+        },
+        {
+            "_id": "75a07544-a545-493e-ac3c-92440ea2585a",
+            "name": "Vendor ",
+            "containerId": "",
+            "created": "2024-10-07T21:27:57.857Z",
+            "sortNum": 110000
+        },
+        {
+            "_id": "c3d4f43f-c985-4ec5-89df-53c3614e51f9",
+            "name": "Invoice Vendor ",
+            "containerId": "",
+            "created": "2024-10-13T08:23:54.730Z",
+            "sortNum": 120000
+        },
+        {
+            "_id": "ea562a49-fa1f-43a4-a8e7-2b930e4a126e",
+            "name": "Categories",
+            "containerId": "",
+            "created": "2024-10-16T18:21:29.853Z",
+            "sortNum": 130000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "b7ce8277-86d1-474c-b1b2-44ef3b6ef208",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "Register",
+            "url": "http://localhost:4000/api/user/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-09-10T07:02:14.077Z",
+            "modified": "2024-10-06T17:58:34.170Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"globe\",\n  \"email\":\"globe.com\",\n  \"userName\":\"globe\",\n  \"password\":\"globe\",\n  \"phone\":\"05515155\",\n  \"role\":\"admin\",\n  \"address\":\"kupal\",\n  \"city\":\"Kupal city\"\n  \n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "ca0d5a40-dbda-4d73-9fe4-7397082e2cf1",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "Login",
+            "url": "http://localhost:4000/api/user/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-09-10T07:10:00.641Z",
+            "modified": "2024-09-10T07:13:57.954Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"drey@gmail.com\",\n  \"password\":\"dreybarrios\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "f151e435-6b61-480c-9888-308fd5677867",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "Getting All User",
+            "url": "http://localhost:4000/api/user/getAllUsers",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-09-12T13:14:38.526Z",
+            "modified": "2024-09-12T13:16:03.263Z",
+            "headers": []
+        },
+        {
+            "_id": "68e16c47-ec39-4abb-8d19-15a090dd8c15",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a4c0285a-f3d8-44d8-96e6-07f052ef3755",
+            "name": "Getting Request",
+            "url": "http://localhost:4000/api/rawmaterial/request",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-09-12T19:02:21.533Z",
+            "modified": "2024-09-12T19:12:29.408Z",
+            "headers": []
+        },
+        {
+            "_id": "3c933c40-f483-4d05-b332-cb95bfe31376",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a4c0285a-f3d8-44d8-96e6-07f052ef3755",
+            "name": "Add Rawmaterial Request",
+            "url": "http://localhost:4000/api/rawmaterial/request",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-09-12T19:08:10.593Z",
+            "modified": "2024-10-03T04:27:52.461Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"requestedBy\": \"adrian Core1\",\n  \"material\": [\n    {\n      \"materialName\": \"Condom\",\n      \"quantity\": 500,\n      \"unit\": \"Pcs\"\n    }\n  ],\n  \"notes\": \"Lagay mo concern mo bakit bibili\",\n  \"priority\": \"Medium\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "c7a2c471-4ce9-4326-b82e-1a7728961cc4",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Getting All Supplier",
+            "url": "http://localhost:4000/api/supplier/suppliers",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-09-13T01:44:36.855Z",
+            "modified": "2024-09-28T02:05:01.077Z",
+            "headers": []
+        },
+        {
+            "_id": "7bba388f-745a-4555-a4b4-2119e01fee93",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Create Supplier",
+            "url": "http://localhost:4000/api/supplier/addsuppliers",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2024-09-13T01:48:31.789Z",
+            "modified": "2024-10-03T07:05:41.008Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"supplierName\":\"Supplier1\",\n  \"contactPerson\":\"Adrey Japheth P. Locaylocay\",\n  \"contactEmail\":\"Dildddods@example.com\",\n  \"contactPhone\":\"639511431876\",\n  \"address\":{\n   \"street\": \"ashibelle\",\n    \"city\": \"Quezon Cityy\",\n    \"state\": \"California\",\n    \"zipCode\": \"98765\",\n    \"country\": \"Philippines\"\n  },\n  \"paymentTerms\":\"Gcash\",\n  \"rating\":4,\n\n  \"email\":\"Dildoddds@example.com\",\n  \"password\":\"Joberts\",\n  \"supplierType\":\"Raw Material\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "60c8aa2f-f610-4e41-b629-24376a7f301c",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "6f4e8747-8402-469b-8aa5-5f02900f16b1",
+            "name": "Get all Material",
+            "url": "http://localhost:4000/api/material/getAllMaterial",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2024-09-13T21:41:33.219Z",
+            "modified": "2024-09-13T22:14:14.604Z",
+            "headers": []
+        },
+        {
+            "_id": "42020091-5f6b-4882-b86a-e273c0865955",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "6f4e8747-8402-469b-8aa5-5f02900f16b1",
+            "name": "Add new Material",
+            "url": "http://localhost:4000/api/material/addMaterial",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-09-13T22:08:06.081Z",
+            "modified": "2024-10-04T08:11:11.511Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"materialName\":\"Alkalizers\",\n  \"materialCode\":\"M-15\",\n  \"description\":\"Good condition\",\n  \"unit\":\"pcs\",\n  \"pricePerUnit\":60,\n  \"supplier\":\"66ffa02e8c28d447ad133b30\",\n  \"available\":100\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "5d4ab76c-b6bc-443a-be9b-5d99a4891484",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "Admin Request",
+            "url": "http://localhost:4000/api/user/adminrequest",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2024-09-18T19:24:00.185Z",
+            "modified": "2024-10-06T19:59:13.082Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Benjide\",\n  \"email\": \"kupal@gmail.com\",\n  \"phone\": \"09511431876\",\n  \"address\": \"Address\",\n  \"city\": \"City\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "9cb67c5e-c85d-498a-8730-474b75779517",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "0182e33e-c881-4493-8ecc-bc224b63a8fe",
+            "name": "Creating Purchase-Order",
+            "url": "http://localhost:4000/api/purchase-order/create",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2024-09-20T22:20:31.498Z",
+            "modified": "2024-10-15T00:21:02.192Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZWI4ZDRmMzI2MWExMmU0ODY1OWU0YSIsImlhdCI6MTcyNjc4MDQyNX0.pRwnIEQcw_mis_IGu3izzOeleGsN2yKGgjaWrMIk-I0"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"purchaseOrderNumber\": \"PO-12343535dd3s23\",\n  \"supplier\": \"670384eb7190fc9e79f0e061\",\n  \"items\": [\n    {\n      \"name\": \"MatererialItem\",\n      \"quantity\": 20,\n      \"price\": 45,\n      \"totalPrice\": 900\n    }\n  ],\n  \"tax\": 2,\n  \"category\": \"Capital expenditures\",\n  \"totalAmount\": 30000,\n  \"notes\": \"hello guys my name is adrey japheth\",\n  \"orderDate\": \"12/12/2024\",\n  \"orderStatus\": \"Pending\",\n  \"paymentTerm\": \"Net 30\",\n  \"approvalStatus\": \"Pending\",\n  \"paymentDetails\": {\n    \"paymentMethod\": \"GCash\"\n  },\n  \"companyAccount\": \"66f1ef49f50be7fc60baedb3\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "09ad625a-9219-4671-bc86-4476721f31ae",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "0182e33e-c881-4493-8ecc-bc224b63a8fe",
+            "name": "Get Purchase-Order",
+            "url": "http://localhost:4000/api/purchase-order/",
+            "method": "GET",
+            "sortNum": 150000,
+            "created": "2024-09-20T22:43:52.235Z",
+            "modified": "2024-09-20T22:44:01.301Z",
+            "headers": []
+        },
+        {
+            "_id": "b802478f-9c32-406d-a7c8-bd8b322bdd46",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "0182e33e-c881-4493-8ecc-bc224b63a8fe",
+            "name": "Fetch the specific Purchase Order ",
+            "url": "http://localhost:4000/api/purchase-order/66ee388c471d6750d299ca05",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2024-09-21T04:02:24.077Z",
+            "modified": "2024-09-21T04:05:57.449Z",
+            "headers": []
+        },
+        {
+            "_id": "db99f614-4492-44bd-b411-d5828507578c",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "38fde08f-0145-4f06-9c09-04c7d3ea48e5",
+            "name": "Get All General Settings",
+            "url": "http://localhost:4000/api/generalSettings/getAllGeneralSettings",
+            "method": "GET",
+            "sortNum": 180000,
+            "created": "2024-09-23T22:17:30.568Z",
+            "modified": "2024-10-14T21:24:57.352Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDJlYzk2ODZhMTdiNWUxMTVhMmRjNyIsImlhdCI6MTcyODg5MDQ5OX0.CL-3V9gQM-AbetLJPidiApN1Mi-lmADPcd3Rc1bYjkc"
+                }
+            ]
+        },
+        {
+            "_id": "9dd5eac9-dad4-43ce-b1de-f08754dfc47a",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "",
+            "name": "REGISTER EMAIL",
+            "url": "http://localhost:4000/api/email/register-supplier",
+            "method": "POST",
+            "sortNum": 185000,
+            "created": "2024-09-30T10:46:37.455Z",
+            "modified": "2024-10-06T10:54:24.690Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"boknoy32130@gmail.com\",\n  \"gender\": \"Male\",\n  \"supplierName\": \"supplierko\",\n  \"firstName\": \"firstnameko\",\n  \"lastName\": \"lastnameko\",\n  \"contactPhone\": \"094444444444\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "8bf046c8-5ca7-41f9-aa42-b1bd07fd5b54",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "38fde08f-0145-4f06-9c09-04c7d3ea48e5",
+            "name": "Add General Settings",
+            "url": "http://localhost:4000/api/generalSettings/create",
+            "method": "POST",
+            "sortNum": 190000,
+            "created": "2024-09-23T22:19:04.721Z",
+            "modified": "2024-09-23T22:44:25.475Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"companyName\":\"JJM MANUFACTURING\",\n    \"companyEmail\":\"jjmmanufacturing@gmail.com\",\n    \"companyPhone\":639511431876,\n    \"defaultCurrency\":\"PHILIPPINE PESO\",\n    \"defaultCurrencyPosition\":\"Prefix\",\n    \"notificationEmail\":\"jjmmanufacturing@gmail.com\",\n    \"companyAddress\":\"Jjm Address \",\n    \"logo\":\"\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "a70cd6ad-7897-4043-9aff-97b4c97ea077",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "38fde08f-0145-4f06-9c09-04c7d3ea48e5",
+            "name": "Update General Settings",
+            "url": "http://localhost:4000/api/generalSettings/update/66f1ef49f50be7fc60baedb3",
+            "method": "PUT",
+            "sortNum": 200000,
+            "created": "2024-09-23T22:52:19.794Z",
+            "modified": "2024-09-25T05:01:13.636Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "companyName",
+                        "value": "JJM lang sakalam"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "logo",
+                        "value": "c:\\Users\\HP\\Downloads\\Logo.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "d2bfbb20-28f5-4e2e-8d4c-39eb55938776",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "38fde08f-0145-4f06-9c09-04c7d3ea48e5",
+            "name": "Delete General Settings ",
+            "url": "http://localhost:4000/api/generalSettings/delete/66f1f2940dfb374584c6a1a5",
+            "method": "DELETE",
+            "sortNum": 210000,
+            "created": "2024-09-23T22:58:01.016Z",
+            "modified": "2024-09-23T22:58:44.355Z",
+            "headers": []
+        },
+        {
+            "_id": "4862d020-283d-4b6e-a2bf-37facc5db2fa",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "38fde08f-0145-4f06-9c09-04c7d3ea48e5",
+            "name": "GET SPECIFIC INFO USING ID",
+            "url": "http://localhost:4000/api/generalSettings/getSpecificId/66f1ef49f50be7fc60baedb3",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2024-09-25T00:23:29.050Z",
+            "modified": "2024-09-25T00:25:26.010Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZWI4ZDRmMzI2MWExMmU0ODY1OWU0YSIsImlhdCI6MTcyNzA3OTA4NX0.wzVL8E17k7egIem3IkIvk1f37rqpjlovbpuzn5L6BU0"
+                }
+            ]
+        },
+        {
+            "_id": "f5b14162-74c3-49c0-bc2d-2234d8ce259b",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "0182e33e-c881-4493-8ecc-bc224b63a8fe",
+            "name": "Update Order Status",
+            "url": "http://localhost:4000/api/purchase-order/updateStatus/66f51aa9640d53263b2a102d",
+            "method": "PUT",
+            "sortNum": 230000,
+            "created": "2024-09-26T08:21:47.152Z",
+            "modified": "2024-09-26T08:26:30.520Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"orderStatus\":\"Shipped\"}",
+                "form": []
+            }
+        },
+        {
+            "_id": "da5a27d1-a2e4-4d81-9fc6-252355dd1acb",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "33e45a73-3b97-4e50-8369-ac30e8e8f8f3",
+            "name": "GET ALL THE SHIPMENT",
+            "url": "http://localhost:4000/api/shipment/getAllShipment",
+            "method": "GET",
+            "sortNum": 250000,
+            "created": "2024-09-26T19:43:28.682Z",
+            "modified": "2024-09-26T19:43:58.093Z",
+            "headers": []
+        },
+        {
+            "_id": "9dbfc9db-0494-4176-b6ac-c5e4873624ac",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "33e45a73-3b97-4e50-8369-ac30e8e8f8f3",
+            "name": "Add New Shipment",
+            "url": "http://localhost:4000/api/shipment/createShipment",
+            "method": "POST",
+            "sortNum": 260000,
+            "created": "2024-09-26T19:44:12.326Z",
+            "modified": "2024-09-26T19:48:27.366Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"purchaseOrder\":\"66f51aa9640d53263b2a102d\",\n  \"trackingNumber\":\"TN-001\",\n  \"carrier\":\"Truck\",\n  \"shippedDate\":\"2024-09-14T13:25:11.712Z\",\n  \"deliveryDate\":\"2024-09-14T13:25:11.712Z\",\n  \"notes\":\"Hello my name is [Japheth]\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "c6a7eca5-21c5-4516-8378-50275da92ce7",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "33e45a73-3b97-4e50-8369-ac30e8e8f8f3",
+            "name": "Update the ShipmentStatus",
+            "url": "http://localhost:4000/api/shipment/updateShipment/66f5bb4ce950b5375b710dfc/status",
+            "method": "PUT",
+            "sortNum": 270000,
+            "created": "2024-09-26T19:49:09.511Z",
+            "modified": "2024-09-26T20:41:49.510Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"shipmentStatus\": \"Pending\",\n  \"changedBy\": \"Japheth\",\n  \"comments\": \"Hello world i change this into In Transit\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "495844b8-5618-442f-8a5e-255011fae4dd",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "33e45a73-3b97-4e50-8369-ac30e8e8f8f3",
+            "name": "Delete Shipment",
+            "url": "http://localhost:4000/api/shipment/deleteShipment/66f5ba8b4f9316fba8d6f890",
+            "method": "DELETE",
+            "sortNum": 280000,
+            "created": "2024-09-26T19:51:04.104Z",
+            "modified": "2024-09-26T19:51:34.616Z",
+            "headers": []
+        },
+        {
+            "_id": "c1076d85-8d50-4b93-8f8c-5ba1dd9275c1",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "b8369d4e-76b1-4f17-949a-3dc8cedfcdba",
+            "name": "GET ALL THE SHIPMENT HISTORY",
+            "url": "http://localhost:4000/api/shipmentHistory/getAllShipmentHistory",
+            "method": "GET",
+            "sortNum": 290000,
+            "created": "2024-09-26T20:16:23.146Z",
+            "modified": "2024-09-26T20:16:43.518Z",
+            "headers": []
+        },
+        {
+            "_id": "48947f5a-d636-491d-958b-595249b47651",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "b8369d4e-76b1-4f17-949a-3dc8cedfcdba",
+            "name": "DELETE SHIPMENT HISTORY",
+            "url": "http://localhost:4000/api/shipmentHistory/deleteShipmentHistory/66f5c22a5355e7104dc985e2",
+            "method": "DELETE",
+            "sortNum": 300000,
+            "created": "2024-09-26T20:29:09.200Z",
+            "modified": "2024-09-26T20:30:02.995Z",
+            "headers": []
+        },
+        {
+            "_id": "8900537e-80fb-4be4-a236-f4e73a7d2dd0",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "DELETE SUPPLIER",
+            "url": "http://localhost:4000/api/supplier/delete/670eb9262e6fbea2b22fbbf5",
+            "method": "DELETE",
+            "sortNum": 310000,
+            "created": "2024-09-28T02:02:45.116Z",
+            "modified": "2024-10-15T23:24:55.845Z",
+            "headers": []
+        },
+        {
+            "_id": "06091024-375f-4c11-aab0-73215847b501",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "abf8a814-8a97-4fa7-ae9b-1048585b3ed3",
+            "name": "GET ALL FINANCE ",
+            "url": "https://backend-logistic1.jjm-manufacturing.com/api/financeApproval/",
+            "method": "GET",
+            "sortNum": 320000,
+            "created": "2024-09-29T06:58:21.413Z",
+            "modified": "2024-10-14T09:17:55.739Z",
+            "headers": []
+        },
+        {
+            "_id": "9c9b013e-b766-4d7e-ab21-6bfdfe2fbcfb",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "abf8a814-8a97-4fa7-ae9b-1048585b3ed3",
+            "name": "Update FinanceApproval Specific Id",
+            "url": "https://manufacturing-logistic1-client-api.onrender.com/api/financeApproval/update/670284d0bb803ddbf85e595f",
+            "method": "PUT",
+            "sortNum": 330000,
+            "created": "2024-09-29T09:45:52.709Z",
+            "modified": "2024-10-07T12:09:39.905Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"status\": \"Approved\",\n  \"comments\": \"There's budget it's approve!💸\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "ca5a04b1-a768-4b5f-b9ee-0afaefbb77c9",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "6f4e8747-8402-469b-8aa5-5f02900f16b1",
+            "name": "Append Item in the Supplier",
+            "url": "http://localhost:4000/api/material/appendMaterial/670eb5c92e6fbea2b22fbbc5",
+            "method": "PUT",
+            "sortNum": 350000,
+            "created": "2024-09-29T23:13:04.124Z",
+            "modified": "2024-10-16T17:38:23.985Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"materialName\":\"Ampholytic detergents\",\n  \"materialCode\":\"M-25\",\n  \"description\":\"Good condition\",\n  \"unit\":\"pcs\",\n  \"pricePerUnit\":20,\n  \"supplier\":\"670eb5c92e6fbea2b22fbbc5\",\n  \"available\":200,\n  \"tax\":2,\n  \"alertQuantity\":200\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "1cfe006c-5848-4013-b648-8e0f6e95e132",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a4c0285a-f3d8-44d8-96e6-07f052ef3755",
+            "name": "Delete Rawmaterial",
+            "url": "http://localhost:4000/api/rawmaterial/delete/66e5d375735c96daf8cbeb4d",
+            "method": "POST",
+            "sortNum": 360000,
+            "created": "2024-09-30T01:07:52.797Z",
+            "modified": "2024-09-30T01:15:28.394Z",
+            "headers": []
+        },
+        {
+            "_id": "47de80d3-f4f1-45e6-9a82-8a3f613940f9",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "",
+            "name": "EMAIL",
+            "url": "http://localhost:4000/api/email/send-email",
+            "method": "POST",
+            "sortNum": 370000,
+            "created": "2024-09-30T07:05:36.118Z",
+            "modified": "2024-10-01T03:17:41.228Z",
+            "headers": []
+        },
+        {
+            "_id": "21dd08dc-54e6-43d7-aea5-98be71b6515d",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Update Complete Registration",
+            "url": "http://localhost:4000/api/supplier/completeRegistration",
+            "method": "PUT",
+            "sortNum": 400000,
+            "created": "2024-10-03T07:21:16.624Z",
+            "modified": "2024-10-03T08:07:01.672Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"supplierName\": \"Supplier1\",\r\n  \"contactPerson\": \"Adrey Japheth P. Locaylocay\",\r\n  \"contactEmail\": \"kupal@example.com\",\r\n  \"contactPhone\": \"639511431876\",\r\n  \"street\": \"ashibelle\",\r\n  \"supplierCode\":\"SO-3003\",\r\n  \"city\": \"Quezon Cityy\",\r\n  \"state\": \"California\",\r\n  \"zipCode\": \"98765\",\r\n  \"country\": \"Philippines\",\r\n  \"paymentTerms\": \"Gcash\",\r\n  \"rating\": 4,\r\n  \"email\": \"adreyjapheth5@gmail.com\",\r\n  \"password\": \"Joberts\",\r\n  \"supplierType\": \"Raw Material\"\r\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "32edb5cf-beab-4100-8c3d-54acd379b307",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Approved Supplier",
+            "url": "http://localhost:4000/api/supplier/approveSupplier/670eb9262e6fbea2b22fbbf5",
+            "method": "PUT",
+            "sortNum": 410000,
+            "created": "2024-10-03T16:22:55.416Z",
+            "modified": "2024-10-15T23:22:39.744Z",
+            "headers": []
+        },
+        {
+            "_id": "8ee22de0-2466-4168-b3b2-41627c136818",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Deactivated Supplier",
+            "url": "http://localhost:4000/api/supplier/deactivatedSupplier/66feccab525aeb3288916c9c",
+            "method": "DELETE",
+            "sortNum": 420000,
+            "created": "2024-10-04T07:42:28.595Z",
+            "modified": "2024-10-15T23:46:59.823Z",
+            "headers": []
+        },
+        {
+            "_id": "553e980e-79a5-4f59-a708-b354ae79fa45",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "Search Supplier",
+            "url": "",
+            "method": "GET",
+            "sortNum": 430000,
+            "created": "2024-10-04T16:04:06.574Z",
+            "modified": "2024-10-04T16:04:06.574Z",
+            "headers": []
+        },
+        {
+            "_id": "afd2d3c6-59d7-42e4-a7bf-59537c8f6332",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "Delete User",
+            "url": "http://localhost:4000/api/user/delete/6702d976c4f28b0e3d2db5d6",
+            "method": "POST",
+            "sortNum": 440000,
+            "created": "2024-10-06T17:28:56.390Z",
+            "modified": "2024-10-06T18:49:56.550Z",
+            "headers": []
+        },
+        {
+            "_id": "46cc5102-142e-4226-aefa-c951b9947ef3",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "4b0e7dd7-f0c0-4366-9a0c-4d1e21c76253",
+            "name": "Update User",
+            "url": "http://localhost:4000/api/user/update/6702dbdc5ce9f664647c0a9a",
+            "method": "PUT",
+            "sortNum": 450000,
+            "created": "2024-10-06T17:35:34.248Z",
+            "modified": "2024-10-06T18:55:25.510Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"role\":\"admin\",\n  \"userName\":\"tite\",\n  \"password\":\"tite\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "f3fda3db-cc9b-432f-a5c7-9eee830b8a74",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "a94267e9-c975-49e7-b4d7-7c7cf1b1c9ad",
+            "name": "LOGIN VENDOR PORTAL",
+            "url": "http://localhost:4000/api/supplier/login",
+            "method": "POST",
+            "sortNum": 460000,
+            "created": "2024-10-07T06:16:48.999Z",
+            "modified": "2024-10-07T06:43:46.436Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"helloworld32130@gmail.com\",\n  \"password\":\"l08ydvep\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "2fd4db0c-9d4d-4da3-b247-1f29834d5c00",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "0182e33e-c881-4493-8ecc-bc224b63a8fe",
+            "name": "Delete Purchase order ",
+            "url": "http://localhost:4000/api/purchase-order/delete/66ffa3ae8c28d447ad133b50",
+            "method": "POST",
+            "sortNum": 470000,
+            "created": "2024-10-07T15:26:12.471Z",
+            "modified": "2024-10-07T18:00:09.764Z",
+            "headers": []
+        },
+        {
+            "_id": "a5b8c9e5-1417-4440-9b6e-f6d2e6c638ae",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "abf8a814-8a97-4fa7-ae9b-1048585b3ed3",
+            "name": "Approved Finance",
+            "url": "https://backend-logistic1.jjm-manufacturing.com/api/financeApproval/approved/670d7cbe114ebe98a0a93e45",
+            "method": "PUT",
+            "sortNum": 480000,
+            "created": "2024-10-07T16:01:34.362Z",
+            "modified": "2024-10-14T20:25:04.065Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"status\": \"Approved\",\n  \"comments\": \"There's budget it's approve!💸\",\n  \"approvalId\": \"670d7cbe114ebe98a0a93e45\",\n  \"comment\": \"okay there's approved\",\n  \"totalBudget\": 100000,\n  \"category\": \"Operational Expenses\",\n  \"documents\": \"hahahahaapdf\",\n  \"department\": \"Finance\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "d94f32b5-a8f4-43c9-808c-6cbb5ae88bb7",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "75a07544-a545-493e-ac3c-92440ea2585a",
+            "name": "Get User Data Only",
+            "url": "http://localhost:4000/api/vendor/",
+            "method": "GET",
+            "sortNum": 490000,
+            "created": "2024-10-07T21:28:23.457Z",
+            "modified": "2024-10-07T21:29:15.176Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODMzNTgwOH0.vItFrQLfAX9-8XzocopEBEz2JsXWRbeBXEHx6-nfJ6U"
+                }
+            ]
+        },
+        {
+            "_id": "0ac9102f-ab05-4516-bfb9-f351fe775ef4",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "abf8a814-8a97-4fa7-ae9b-1048585b3ed3",
+            "name": "Rejected Finance",
+            "url": "http://localhost:4000/api/financeApproval/rejected/67093b13c1ed7fb6cca6d08e",
+            "method": "PUT",
+            "sortNum": 500000,
+            "created": "2024-10-11T14:35:35.729Z",
+            "modified": "2024-10-11T14:51:21.653Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"status\": \"Rejected\",\n  \"comments\": \"There's no budget for this\",\n  \"approvalId\": \"67093b13c1ed7fb6cca6d08e\",\n  \"comment\": \"okay there's approved\",\n  \"totalBudget\": 5000,\n  \"category\": \"Operational Expenses\",\n  \"documents\": \"hahahahaapdf\",\n  \"department\": \"Finance\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "61224392-79f2-46e0-b394-78b2f6aa66e0",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "75a07544-a545-493e-ac3c-92440ea2585a",
+            "name": "Approve Pending Orders",
+            "url": "http://localhost:4000/api/vendor/purchaseOrders/approve/67092db5e93a7f8a60967fef",
+            "method": "PUT",
+            "sortNum": 510000,
+            "created": "2024-10-12T09:22:25.236Z",
+            "modified": "2024-10-12T09:29:48.739Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODcyNTI3MX0.hng3UrEcSyKqNWeR3h7q75AalZuOOFUxvWQRDxGxwS0"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\":\"67092db5e93a7f8a60967fef\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "baa5a83f-ba2a-4cf6-a0e3-ea78170fa461",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "c3d4f43f-c985-4ec5-89df-53c3614e51f9",
+            "name": "Create Invoice",
+            "url": "http://localhost:4000/api/invoices/create",
+            "method": "POST",
+            "sortNum": 520000,
+            "created": "2024-10-13T08:24:08.014Z",
+            "modified": "2024-10-13T08:40:04.828Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODgwNzk3NH0.yG2RgtuIic7MXUm-wxPjKbKkLJbvZ3jqHoz6aZ39lfg"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"invoiceNumber\": \"INV-123456\",\n  \"purchaseOrder\": \"670ac580fa3e17ccde9a047a\",\n  \"vendor\": \"670384eb7190fc9e79f0e061\",\n  \"items\": [\n    {\n      \"product\": \"6704572525f8303687bedd64\",\n      \"quantity\": 10,\n      \"unitPrice\": 50,\n      \"totalPrice\": 500\n    },\n    {\n      \"product\": \"6704574a25f8303687bedd69\",\n      \"quantity\": 5,\n      \"unitPrice\": 30,\n      \"totalPrice\": 150\n    },\n    {\n      \"product\": \"6704572525f8303687bedd64\",\n      \"quantity\": 5,\n      \"unitPrice\": 30,\n      \"totalPrice\": 150\n    },\n    {\n      \"product\": \"6704574a25f8303687bedd69\",\n      \"quantity\": 5,\n      \"unitPrice\": 30,\n      \"totalPrice\": 150\n    }\n  ],\n  \"totalAmount\": 650,\n  \"paymentDetails\": {\n    \"paymentMethod\": \"Credit Card\",\n    \"paymentDate\": null,\n    \"transactionId\": null\n  },\n  \"issueDate\": \"2024-10-10T00:00:00Z\",\n  \"dueDate\": \"2024-11-10T00:00:00Z\",\n  \"shippingDetails\": {\n    \"shippingAddress\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Sample City\",\n      \"state\": \"Sample State\",\n      \"zipCode\": \"12345\",\n      \"country\": \"Sample Country\"\n    },\n    \"trackingNumber\": null\n  },\n  \"tax\": {\n    \"taxRate\": 10,\n    \"taxAmount\": 65\n  },\n  \"notes\": \"This is an optional note about the invoice.\",\n  \"status\": \"Pending\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "3ea18df5-d2e8-4994-979e-8661259a8733",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "c3d4f43f-c985-4ec5-89df-53c3614e51f9",
+            "name": "Get all invoice",
+            "url": "http://localhost:4000/api/invoices/",
+            "method": "GET",
+            "sortNum": 530000,
+            "created": "2024-10-13T08:54:34.084Z",
+            "modified": "2024-10-13T08:55:39.020Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODgwNzk3NH0.yG2RgtuIic7MXUm-wxPjKbKkLJbvZ3jqHoz6aZ39lfg"
+                }
+            ]
+        },
+        {
+            "_id": "f6374519-406e-472a-a920-b7f4d8477dce",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "c3d4f43f-c985-4ec5-89df-53c3614e51f9",
+            "name": "Get Specific Id",
+            "url": "http://localhost:4000/api/invoices/670bf7c8930334c2e9592ada",
+            "method": "GET",
+            "sortNum": 540000,
+            "created": "2024-10-13T09:19:53.056Z",
+            "modified": "2024-10-13T19:19:46.252Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODgwNzk3NH0.yG2RgtuIic7MXUm-wxPjKbKkLJbvZ3jqHoz6aZ39lfg"
+                }
+            ]
+        },
+        {
+            "_id": "18e9b185-3f45-40ac-943e-02a3602cd6d7",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "c3d4f43f-c985-4ec5-89df-53c3614e51f9",
+            "name": "Update Invoice",
+            "url": "http://localhost:4000/api/invoices/update/670b8764d8a37a63aed864be",
+            "method": "PUT",
+            "sortNum": 550000,
+            "created": "2024-10-13T09:29:11.952Z",
+            "modified": "2024-10-13T09:57:03.465Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODgwNzk3NH0.yG2RgtuIic7MXUm-wxPjKbKkLJbvZ3jqHoz6aZ39lfg"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"notes\":\"good for you uwu\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "fd59f022-80b6-42e1-8b0b-a4a83367ddaa",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "c3d4f43f-c985-4ec5-89df-53c3614e51f9",
+            "name": "Delete Invoice",
+            "url": "http://localhost:4000/api/invoices/delete/670b9ce05f67d1ed9a25cf92",
+            "method": "DELETE",
+            "sortNum": 560000,
+            "created": "2024-10-13T10:08:55.056Z",
+            "modified": "2024-10-13T10:12:15.871Z",
+            "headers": [
+                {
+                    "name": "token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDM4NGViNzE5MGZjOWU3OWYwZTA2MSIsImlhdCI6MTcyODgxNDI2M30.JiEZCGL06NQ3CJL4h-S7yAsfVj0nbkk_CphYG0Xoexo"
+                }
+            ]
+        },
+        {
+            "_id": "7d33ca3e-0b06-4fcb-8033-479ee3908cec",
+            "colId": "356a1274-a50a-4887-abed-537700d44f03",
+            "containerId": "ea562a49-fa1f-43a4-a8e7-2b930e4a126e",
+            "name": "GET ALL CATEGORIES ",
+            "url": "http://localhost:4000/api/category/",
+            "method": "GET",
+            "sortNum": 570000,
+            "created": "2024-10-16T18:21:42.168Z",
+            "modified": "2024-10-16T18:22:20.747Z",
+            "headers": []
+        }
+    ],
+    "ref": "w_sYS73gcNZrHvgR6fbhyVGsI0N1tRdcmv2QxNnHvjIxE2PowOYQVFnOlHb-VbO4ct53GhVt7uRSEeqzDkwaSA"
+}

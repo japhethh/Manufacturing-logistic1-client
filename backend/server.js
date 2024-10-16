@@ -20,6 +20,7 @@ import crypto from "crypto"; // Import Node.js built-in crypto module
 import emailSupplierRouter from "./routes/emailSupplierRouter.js";
 import vendorRouter from "./routes/vendorRouter.js";
 import invoiceVendorRouter from "./routes/invoiceVendorRouter.js";
+import categoryVendorRouter from "./routes/categoryVendorRouter.js";
 import { Server } from "socket.io";
 import socketService from "./config/socketService.js";
 
@@ -64,6 +65,7 @@ app.use("/api/financeApproval", financeApprovalRouter);
 app.use("/api/email", emailSupplierRouter);
 app.use("/api/vendor", vendorRouter);
 app.use("/api/invoices", invoiceVendorRouter);
+app.use("/api/category", categoryVendorRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
