@@ -261,7 +261,10 @@ const RequestList = () => {
           {/* Descriptive label */}
           <p className="py-4">
             Are you sure you want to approve this request
-            <span className="font-bold ">{`${selectedRequestId?.supplierName}`}</span>
+            <span className="font-bold ">
+              {" "}
+              {`${selectedRequestId?.supplierName}`}
+            </span>
           </p>
 
           {/* Action buttons */}
@@ -303,7 +306,10 @@ const RequestList = () => {
           {/* Descriptive label */}
           <p className="py-4">
             Are you sure you want to approve this request
-            <span className="font-bold ">{`${selectedRequestId?.supplierName}`}</span>
+            <span className="font-bold ">
+              {" "}
+              {`${selectedRequestId?.supplierName}`}
+            </span>
           </p>
 
           {/* Action buttons */}
