@@ -38,7 +38,9 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       reset();
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
 

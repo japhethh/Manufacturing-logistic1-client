@@ -161,7 +161,7 @@ const supplierSchema = mongoose.Schema(
     notes: { type: String, default: "" },
     status: {
       type: String,
-      enum: ["Pending", "Active", "Inactive"],
+      enum: ["Pending", "Active", "Deactivated"],
       default: "Pending",
     },
 

@@ -4,12 +4,15 @@ import axios from "axios";
 import { apiURL } from "../context/Store";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import store from "../context/Store";
 const RequestList = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
+
+  const { token } = store();
 
   // Fetch data on component mount
   useEffect(() => {
@@ -37,6 +40,67 @@ const RequestList = () => {
   const closeModal = () => {
     setSelectedRequestId(null);
     document.getElementById("my_modal_3").close();
+  };
+
+  const approveModal = (data) => {
+    setSelectedRequestId(data);
+    console.log(data);
+    document.getElementById("my_modal_4").showModal();
+  };
+
+  const handleApprove = async (supplierId) => {
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/supplier/approveSupplier/${supplierId}`
+      );
+
+      toast.success(response.data.message);
+      fetchAllData();
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
+    }
+  };
+
+  const deactivatedModal = (supplierId) => {
+    setSelectedRequestId(supplierId);
+    console.log(supplierId);
+    document.getElementById("my_modal_5").showModal();
+  };
+
+  const handleDeactivated = async (supplierId) => {
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/supplier/deactivatedSupplier/${supplierId}`
+      );
+
+      toast.info(response.data.message);
+      fetchAllData();
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
+    }
+  };
+
+  const deleteModal = (supplierId) => {
+    setSelectedRequestId(supplierId);
+    console.log(supplierId);
+    document.getElementById("my_modal_6").showModal();
+  };
+
+  const handleDelete = async (supplierId) => {
+    try {
+      const response = await axios.delete(
+        `${apiURL}/api/supplier/delete/${supplierId}`
+      );
+
+      toast.error(response.data.message);
+      fetchAllData();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const updateRequestStatus = (id, status) => {
@@ -69,6 +133,7 @@ const RequestList = () => {
             <th>Email</th>
             <th>Contact Phone</th>
             <th>Status</th>
+            <th>Decision</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -102,7 +167,7 @@ const RequestList = () => {
                   className={`badge ${
                     request.status === "Active"
                       ? "badge-success"
-                      : request.status === "Inactive"
+                      : request.status === "Deactivated"
                       ? "badge-error"
                       : "badge-warning"
                   }`}
@@ -110,6 +175,24 @@ const RequestList = () => {
                   {request.status}
                 </span>
               </td>
+
+              <td>
+                <div className="flex justify-start items-center gap-3 ">
+                  <button
+                    onClick={() => approveModal(request)}
+                    className="btn btn-success btn-sm text-white"
+                  >
+                    Activate
+                  </button>
+                  <button
+                    className="btn btn-error btn-sm text-white"
+                    onClick={() => deactivatedModal(request)}
+                  >
+                    Deactivated
+                  </button>
+                </div>
+              </td>
+
               <td>
                 <div className="dropdown dropdown-left">
                   <div
@@ -137,7 +220,12 @@ const RequestList = () => {
                       </Link>
                     </li>
                     <li>
-                      <a className="text-red-500 font-medium">Delete</a>
+                      <button
+                        onClick={() => deleteModal(request)}
+                        className="text-red-500 font-medium"
+                      >
+                        Delete
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -156,6 +244,139 @@ const RequestList = () => {
           </tr>
         </tfoot>
       </table>
+
+      {/* Modal Approve */}
+      <dialog id="my_modal_4" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            {/* Close button */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+
+          {/* Modal title */}
+          <h3 className="font-bold text-lg">Approve Request</h3>
+
+          {/* Descriptive label */}
+          <p className="py-4">
+            Are you sure you want to approve this request
+            <span className="font-bold ">{`${selectedRequestId?.supplierName}`}</span>
+          </p>
+
+          {/* Action buttons */}
+          <div className="flex justify-end gap-5">
+            <form method="dialog" className="modal-action">
+              <button
+                htmlFor="my_modal_4"
+                className="btn-success btn btn-md text-white"
+                onClick={() => handleApprove(selectedRequestId?._id)}
+              >
+                Confirm Approve
+              </button>
+            </form>
+            <form method="dialog" className="modal-action">
+              <button
+                htmlFor="my_modal_4"
+                className="btn btn-outline btn-error btn-md text-white"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      {/* Modal Deactivated */}
+      <dialog id="my_modal_5" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            {/* Close button */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+
+          {/* Modal title */}
+          <h3 className="font-bold text-lg">Deativated Request</h3>
+
+          {/* Descriptive label */}
+          <p className="py-4">
+            Are you sure you want to approve this request
+            <span className="font-bold ">{`${selectedRequestId?.supplierName}`}</span>
+          </p>
+
+          {/* Action buttons */}
+          <div className="flex justify-end gap-5">
+            <form method="dialog" className="modal-action">
+              <button
+                htmlFor="my_modal_5"
+                className="btn-error btn btn-md text-white"
+                onClick={() => handleDeactivated(selectedRequestId?._id)}
+              >
+                Confirm Deactivated
+              </button>
+            </form>
+            <form method="dialog" className="modal-action">
+              <button
+                htmlFor="my_modal_5"
+                className="btn-outline btn btn-error btn-md text-white"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      {/* Modal for Delete Confirmation */}
+      <dialog id="my_modal_6" className="modal">
+        <div className="modal-box">
+          {/* Close button */}
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+
+          {/* Modal title */}
+          <h3 className="font-bold text-lg">Delete Supplier Request</h3>
+
+          {/* Descriptive label */}
+          <p className="py-4">
+            Are you sure you want to{" "}
+            <span className="text-red-500 font-bold">delete</span> the request
+            from
+            <span className="font-bold">
+              {" "}
+              {selectedRequestId?.supplierName}
+            </span>
+            ? This action cannot be undone and will permanently remove the
+            request from the system.
+          </p>
+
+          {/* Action buttons */}
+          <div className="flex justify-end gap-5">
+            <form method="dialog" className="modal-action">
+              <button
+                htmlFor="my_modal_6"
+                className="btn btn-error btn-md text-white"
+                onClick={() => handleDelete(selectedRequestId?._id)}
+              >
+                Confirm Delete
+              </button>
+            </form>
+            <form method="dialog" className="modal-action">
+              <button
+                htmlFor="my_modal_6"
+                className="btn-outline btn btn-error btn-md text-white"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
 
       {/* Modal */}
       <dialog id="my_modal_3" className="modal ">
@@ -209,39 +430,80 @@ const RequestList = () => {
 
             <div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.supplierCode}</h1>
-              </div>
-              <div className="border border-1 py-2 px-2">
-                <h1>STELLA COMPANY {selectedRequestId?.supplierName}</h1>
-              </div>
-              <div className="border border-1 py-2 px-2">
                 <h1>
-                  {selectedRequestId?.firstName} {selectedRequestId?.lastName}
+                  {selectedRequestId?.supplierCode
+                    ? selectedRequestId?.supplierCode
+                    : "N/A"}
                 </h1>
               </div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.contactPerson}</h1>
+                <h1>
+                  {" "}
+                  {selectedRequestId?.supplierName
+                    ? selectedRequestId?.supplierName
+                    : "N/A"}
+                </h1>
+              </div>
+              <div className="border border-1 py-2 px-2">
+                <h1>
+                  {selectedRequestId?.firstName || selectedRequestId?.lastName
+                    ? `${selectedRequestId?.firstName ?? ""} ${
+                        selectedRequestId?.lastName ?? ""
+                      }`.trim()
+                    : "N/A"}
+                </h1>{" "}
+              </div>
+              <div className="border border-1 py-2 px-2">
+                <h1>
+                  {selectedRequestId?.contactPerson
+                    ? selectedRequestId?.contactPerson
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2 ">
-                <h1>{selectedRequestId?.contactEmail}</h1>
+                <h1>
+                  {selectedRequestId?.contactEmail
+                    ? selectedRequestId?.contactEmail
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.contactPhone}</h1>
+                <h1>
+                  {selectedRequestId?.contactPhone
+                    ? selectedRequestId?.contactPhone
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.gender}</h1>
+                <h1>
+                  {selectedRequestId?.gender
+                    ? selectedRequestId?.gender
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.address?.city}</h1>
+                <h1>
+                  {selectedRequestId?.address?.city
+                    ? selectedRequestId?.address?.city
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.address?.country}</h1>
+                <h1>
+                  {selectedRequestId?.address?.country
+                    ? selectedRequestId?.address?.country
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2">
                 <h1>Purok Mayaman</h1>
               </div>
               <div className="border border-1 py-2 px-2">
-                <h1>{selectedRequestId?.paymentTerms}</h1>
+                <h1>
+                  {selectedRequestId?.paymentTerms
+                    ? selectedRequestId?.paymentTerms
+                    : "N/A"}
+                </h1>
               </div>
               <div className="border border-1 py-2 px-2">
                 <h1>
@@ -253,7 +515,9 @@ const RequestList = () => {
                     }`}
                     className="underline text-blue-500"
                   >
-                    selectedRequestId?.website
+                    {selectedRequestId?.website
+                      ? selectedRequestId?.website
+                      : "N/A"}
                   </a>
                 </h1>
               </div>
@@ -278,10 +542,12 @@ const RequestList = () => {
                 {selectedRequestId?.materialSupplied.map((item) => (
                   <tr key={item._id}>
                     <td>{item?._id}</td>
-                    <th>{item?.materialCode}</th>
-                    <td>{item?.materialName}</td>
-                    <td className="text-green-600 font-bold text-md">{item?.pricePerUnit}</td>
-                    <td>{item?.description}</td>
+                    <th>{item?.materialCode ? item?.materialCode : "N/A"}</th>
+                    <td>{item?.materialName ? item?.materialName : "N/A"} </td>
+                    <td className="text-green-600 font-bold text-md">
+                      {item?.pricePerUnit ? item?.pricePerUnit : "N/A"}
+                    </td>
+                    <td>{item?.description ? item?.description : "N/A"}</td>
                   </tr>
                 ))}
               </tbody>

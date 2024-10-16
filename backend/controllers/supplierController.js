@@ -20,9 +20,6 @@ const getAllSupplier = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 const getSupplierById = asyncHandler(async (req, res) => {
   try {
     const supplier = await supplierModel.findById(req.params.id);
@@ -240,6 +237,7 @@ const sendApprovalEmail = asyncHandler(async (supplier, password) => {
   await transporter.sendMail(mailOptions);
 });
 
+
 const approveSupplier = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -275,18 +273,20 @@ const approveSupplier = asyncHandler(async (req, res) => {
 });
 
 // Reject supplier
-const rejectSupplier = asyncHandler(async (req, res) => {
+const deactivatedSupplier = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const exists = await supplierModel.findById(id);
-  if (!exists) {
+  const supplier = await supplierModel.findById(id);
+  if (!supplier) {
     return res
       .status(404)
       .json({ success: false, message: "Supplier not found" });
   }
 
-  await supplierModel.findByIdAndDelete(id);
+  supplier.status = "Deactivated";
 
-  res.status(200).json({ success: true, message: "Reject successfully!" });
+  await supplier.save();
+
+  res.status(200).json({ success: true, message: "Deactivated successfully!" });
 });
 
 const loginSupplier = asyncHandler(async (req, res) => {
@@ -295,6 +295,13 @@ const loginSupplier = asyncHandler(async (req, res) => {
   // Find user by email
   const user = await supplierModel.findOne({ email });
 
+  if (user.status === "Deactivated") {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Your account has been deactivated. Please contact the logistics team for assistance.",
+    });
+  }
   // If user doesn't exist or password is incorrect
   if (!user || !(await user.matchPassword(password))) {
     return res.status(400).json({
@@ -341,7 +348,7 @@ export {
   deleteSupplier,
   completeRegistration,
   approveSupplier,
-  rejectSupplier,
+  deactivatedSupplier,
   loginSupplier,
   getSearch,
 };

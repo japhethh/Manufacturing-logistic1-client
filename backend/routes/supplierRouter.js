@@ -6,10 +6,11 @@ import {
   deleteSupplier,
   completeRegistration,
   approveSupplier,
-  rejectSupplier,
+  deactivatedSupplier,
   loginSupplier,
   getSearch,
 } from "../controllers/supplierController.js";
+import { authMiddleware } from "../middleware/Auth.js";
 
 const supplierRouter = express.Router();
 
@@ -19,10 +20,9 @@ supplierRouter.get("/suppliers/:id", getSupplierById);
 supplierRouter.delete("/delete/:id", deleteSupplier);
 supplierRouter.put("/completeRegistration", completeRegistration);
 supplierRouter.put("/approveSupplier/:id", approveSupplier);
-supplierRouter.delete("/rejectSupplier/:id", rejectSupplier);
+supplierRouter.put("/deactivatedSupplier/:id", deactivatedSupplier);
 
-// New 
+// New
 supplierRouter.post("/login", loginSupplier);
 supplierRouter.post("/supplierSearch", getSearch);
 export default supplierRouter;
-
