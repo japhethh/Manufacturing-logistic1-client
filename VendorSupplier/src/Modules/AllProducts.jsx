@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { apiURL } from "../context/verifyStore";
 import Select from "react-select";
-
+import verifyStore from "../context/verifyStore";
 const AllProducts = () => {
   const [requestData, setRequestData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+
+  const { token } = verifyStore();
 
   // Fetch data on component mount
   useEffect(() => {
@@ -19,7 +21,10 @@ const AllProducts = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${apiURL}/api/material/getAllMaterial`);
+      const response = await axios.get(
+        `${apiURL}/api/material/getAllMaterial`,
+        { headers: { token: token } }
+      );
       setRequestData(response.data);
       console.log(response.data);
     } catch (error) {
@@ -41,7 +46,10 @@ const AllProducts = () => {
     try {
       await axios.put(
         `${apiURL}/api/material/updateMaterial/${selectedData._id}`,
-        selectedData
+        selectedData,
+        {
+          headers: { token: token },
+        }
       );
       toast.success("Product updated successfully!");
       fetchData(); // Refresh data
@@ -56,7 +64,9 @@ const AllProducts = () => {
   // Handle deletion of material
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${apiURL}/api/material/deleteMaterial/${id}`);
+      await axios.delete(`${apiURL}/api/material/deleteMaterial/${id}`, {
+        headers: { token: token },
+      });
       toast.info("Product deleted successfully!");
       fetchData(); // Refresh data
       setSelectedData(null); // Reset selectedData
@@ -117,13 +127,25 @@ const AllProducts = () => {
                     className="w-24 h-24 object-cover mx-auto"
                   />
                 </td>
-                <td className="border border-gray-300 p-2">{product.materialCode}</td>
-                <td className="border border-gray-300 p-2">{product.category}</td>
-                <td className="border border-gray-300 p-2">{product.materialName}</td>
-                <td className="border border-gray-300 p-2">{product.pricePerUnit}</td>
+                <td className="border border-gray-300 p-2">
+                  {product.materialCode}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {product.category}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {product.materialName}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {product.pricePerUnit}
+                </td>
                 <td className="border border-gray-300 p-2">{product.unit}</td>
-                <td className="border border-gray-300 p-2">{product.available}</td>
-                <td className="border border-gray-300 p-2">{product.description}</td>
+                <td className="border border-gray-300 p-2">
+                  {product.available}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {product.description}
+                </td>
 
                 <td className="border border-gray-300 p-2">
                   <label
@@ -398,8 +420,6 @@ const AllProducts = () => {
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 };
