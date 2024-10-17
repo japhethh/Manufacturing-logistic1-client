@@ -22,6 +22,7 @@ import Store from "../context/Store";
 import { IoSettingsOutline } from "react-icons/io5";
 import { GrCurrency } from "react-icons/gr";
 import { LuSettings2 } from "react-icons/lu";
+import { MdOutlineStore } from "react-icons/md";
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -115,6 +116,19 @@ const Sidebar = () => {
             aria-label="Dashboard"
           >
             <BsBoxSeam
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <MdOutlineStore
               onClick={toggleSidebar}
               className={`transition-all duration-300 ${
                 isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
@@ -384,6 +398,34 @@ const Sidebar = () => {
                 />
                 {!isCollapsed && (
                   <span className="text-base font-semibold">Suppliers</span>
+                )}
+              </NavLink>
+            </li>
+
+            {/* Vendor Management */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="vendormanagement"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <MdOutlineStore
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">Vendor Management</span>
                 )}
               </NavLink>
             </li>

@@ -32,6 +32,10 @@ import AutoFillPurchaseOrder from "./Components/AutoFillPurchaseOrder";
 import SystemSettings from "./Components/Settings/SystemSettings";
 import MusicClick from "./testing/MusicClick.jsx";
 import RequestList from "./Components/RequestList.jsx";
+import VendorManagement from "./Components/Procurements/VendorManagement.jsx";
+import Empty from "./Components/Empty.jsx";
+import VendorProduct from "./Components/VendorProduct.jsx";
+import VendorManagementCreate from "./Components/VendorManagementCreate.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -167,6 +171,22 @@ const App = () => {
 
           <Route path="*" element={<NotFound />} />
           <Route path="*" element={<MobileSidebar />} />
+
+          {/* 3 Cards of Vendor Management */}
+          <Route path="/vendormanagement" element={<VendorManagement />}>
+            <Route
+              path="vendormanagementcreate"
+              element={<VendorManagementCreate/>}
+            />
+            <Route
+              path="vendorproduct"
+              element={<VendorProduct/>}
+            />
+            <Route
+              path="empty"
+              element={<Empty/>}
+            />
+          </Route>
         </Routes>
       </div>
     </div>
