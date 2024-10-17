@@ -1,7 +1,11 @@
 import asyncHandler from "express-async-handler";
-
 import MaterialModel from "../models/materialModel.js";
 import supplierModel from "../models/supplierModel.js";
+import { RiGitPullRequestFill } from "react-icons/ri";
+import { FaSleigh } from "react-icons/fa6";
+import cloudinary from "../utils/cloudinary.js";
+import fs from "fs";
+
 // Create
 const createMaterial = asyncHandler(async (req, res) => {
   const {
@@ -10,7 +14,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     description,
     unit,
     pricePerUnit,
-    supplier,
+    userId,
     available,
   } = req.body;
 
@@ -20,7 +24,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     !description &&
     !unit &&
     !pricePerUnit &&
-    !supplier &&
+    !userId &&
     !available
   ) {
     return res.status(400).json("Enter all field!");
@@ -32,7 +36,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     description: description,
     unit: unit,
     pricePerUnit: pricePerUnit,
-    supplier: supplier,
+    supplier: userId,
     available: available,
   });
 
@@ -42,7 +46,15 @@ const createMaterial = asyncHandler(async (req, res) => {
 
 // Get all material
 const getAllMaterial = asyncHandler(async (req, res) => {
-  const materials = await MaterialModel.find({})
+  const { userId } = req.body;
+  const exist = await supplierModel.findById(userId);
+  if (!exist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
+
+  const materials = await MaterialModel.find({ supplier: userId })
     .populate("supplier")
     .sort({ orderDate: -1 });
 
@@ -57,25 +69,47 @@ const getAllMaterial = asyncHandler(async (req, res) => {
 // Get a single material ID
 
 const appendMaterial = asyncHandler(async (req, res) => {
-  const {
+  let {
     materialName,
-    materialCode,
     description,
     unit,
     pricePerUnit,
     available,
     tax,
     alertQuantity,
-    image,
+    userId,
   } = req.body;
 
-  const { id } = req.params;
+  let image = "";
+  // Check if a file is uploaded
+  if (req.file) {
+    try {
+      // Upload the image to Cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "material_images", // You can change the folder name
+      });
 
-  if ((!materialName || !materialCode, !unit, !pricePerUnit, !alertQuantity)) {
-    return res.status(400).json("Enter all field!");
+      // Optionally delete the local file if stored locally
+      if (req.file.path) {
+        fs.unlinkSync(req.file.path);
+      }
+
+      // Add the Cloudinary URL to the updated fields
+      image = result.secure_url;
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Image upload failed", error });
+    }
   }
 
-  const supplierUser = await supplierModel.findById(id);
+  if (!materialName && !unit && !pricePerUnit && !alertQuantity) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Enter all field!" });
+  }
+
+  const supplierUser = await supplierModel.findById(userId);
 
   if (!supplierUser) {
     return res
@@ -85,11 +119,11 @@ const appendMaterial = asyncHandler(async (req, res) => {
 
   const newMaterial = new MaterialModel({
     materialName: materialName,
-    materialCode: materialCode,
+    // materialCode: materialCode,
     description: description,
     unit: unit,
     pricePerUnit: pricePerUnit,
-    supplier: id,
+    supplier: userId,
     available: available,
     tax,
     alertQuantity,
@@ -102,7 +136,11 @@ const appendMaterial = asyncHandler(async (req, res) => {
 
   await supplierUser.save();
 
-  res.status(200).json({ success: true, data: supplierUser });
+  res.status(200).json({
+    success: true,
+    data: supplierUser,
+    message: "Created Successfully",
+  });
 });
 
 const deleteMaterial = asyncHandler(async (req, res) => {
@@ -124,7 +162,14 @@ const deleteMaterial = asyncHandler(async (req, res) => {
 
 const updateMaterial = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.body;
 
+  const exist = await supplierModel.findById(userId);
+  if (!exist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
   const materialData = await MaterialModel.findById(id);
   if (!materialData) {
     return res

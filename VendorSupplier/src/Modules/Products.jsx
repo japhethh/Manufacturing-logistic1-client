@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-
+import { useForm } from "react-hook-form";
+import { apiURL } from "../context/verifyStore";
+import axios from "axios";
+import verifyStore from "../context/verifyStore";
+import { toast } from "react-toastify";
 const Products = () => {
-  const [productName, setProductName] = useState("");
-  const [productCode, setProductCode] = useState("");
-  const [category, setCategory] = useState("");
-  const [barcodeSymbology, setBarcodeSymbology] = useState("");
-  const [cost, setCost] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [alertQuantity, setAlertQuantity] = useState("");
-  const [taxPercentage, setTaxPercentage] = useState("");
-  const [taxType, setTaxType] = useState("");
-  const [unit, setUnit] = useState("");
-  const [note, setNote] = useState("");
   const [productImage, setProductImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const { token } = verifyStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const handleImageChange = (e) => {
+    console.log(e.target.files[0]);
     const file = e.target.files[0];
     setProductImage(file);
     if (file) {
@@ -26,35 +25,66 @@ const Products = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // console.log(productImage);
+
+  const onSubmit = async (data) => {
+    console.log({ ...data, productImage });
     const formData = new FormData();
-    formData.append("name", productName);
-    formData.append("code", productCode);
-    formData.append("category", category);
-    formData.append("barcodeSymbology", barcodeSymbology);
-    formData.append("cost", parseFloat(cost));
-    formData.append("price", parseFloat(price));
-    formData.append("quantity", parseInt(quantity, 10));
-    formData.append("alertQuantity", parseInt(alertQuantity, 10));
-    formData.append("taxPercentage", parseFloat(taxPercentage));
-    formData.append("taxType", taxType);
-    formData.append("unit", unit);
-    formData.append("note", note);
+    // Append the form data values
+    formData.append("materialName", data.materialName);
+    // formData.append("materialCode", "MC-00444");
+    formData.append("category", data.category);
+    formData.append("barcodeSymbology", data.barcodeSymbology);
+    formData.append("cost", parseFloat(data.cost));
+    formData.append("pricePerUnit", parseFloat(data.pricePerUnit));
+    formData.append("available", parseInt(data.available, 10));
+    formData.append("alertQuantity", parseInt(data.alertQuantity, 10));
+    formData.append("taxPercentage", parseFloat(data.taxPercentage));
+    formData.append("taxType", data.taxType);
+    formData.append("unit", data.unit);
+    formData.append("note", data.note);
     if (productImage) {
       formData.append("image", productImage);
     }
 
-    console.log([...formData]);
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/material/appendMaterial`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: token,
+          },
+        }
+      );
+      // Handle successful submission
+      toast.success(response.data.message);
+    } catch (error) {
+      // Handle errors
+      toast.error(error?.response.data.message);
+    }
   };
+
+  // const handleImageChanges = (e) => {
+  //   const file = e.target.files[0];
+  //   setProductImage(file); // To set the file itself
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result); // This will show the preview
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   return (
     <div className="p-6 w-full bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold text-center mb-4">
         Create Product
       </h2>
-      <form onSubmit={handleSubmit}>
-        {/* Product Name, Code, and Category in one line */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Product Name, Code, and Category */}
         <div className="mb-4 flex flex-wrap space-x-4">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
@@ -62,42 +92,38 @@ const Products = () => {
             </label>
             <input
               type="text"
-              required
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
+              {...register("materialName", {
+                required: "Product name is required",
+              })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter product name"
             />
+            {errors.materialName && (
+              <span className="text-red-500 text-sm">
+                {errors.materialName.message}
+              </span>
+            )}
           </div>
-          <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-medium text-gray-700">
-              Code
-            </label>
-            <input
-              type="text"
-              value={productCode}
-              onChange={(e) => setProductCode(e.target.value)}
-              className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter product code"
-              required
-            />
-          </div>
+
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
               Category
             </label>
             <input
               type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              {...register("category", { required: "Category is required" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter category"
-              required
             />
+            {errors.category && (
+              <span className="text-red-500 text-sm">
+                {errors.category.message}
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Barcode Symbology */}
+        {/* Barcode Symbology, Cost, Price */}
         <div className="mb-4 flex flex-wrap space-x-4">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
@@ -105,42 +131,51 @@ const Products = () => {
             </label>
             <input
               type="text"
-              value={barcodeSymbology}
-              onChange={(e) => setBarcodeSymbology(e.target.value)}
+              {...register("barcodeSymbology", {
+                required: "Barcode symbology is required",
+              })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter barcode symbology"
-              required
             />
+            {errors.barcodeSymbology && (
+              <span className="text-red-500 text-sm">
+                {errors.barcodeSymbology.message}
+              </span>
+            )}
           </div>
 
-          {/* Cost */}
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
               Cost
             </label>
             <input
               type="number"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
+              {...register("cost", { required: "Cost is required" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter cost"
-              required
             />
+            {errors.cost && (
+              <span className="text-red-500 text-sm">
+                {errors.cost.message}
+              </span>
+            )}
           </div>
 
-          {/* Price */}
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
-              Price
+              Price per Unit
             </label>
             <input
               type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              {...register("pricePerUnit", { required: "Price is required" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter price"
-              required
             />
+            {errors.pricePerUnit && (
+              <span className="text-red-500 text-sm">
+                {errors.pricePerUnit.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -152,12 +187,15 @@ const Products = () => {
             </label>
             <input
               type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              {...register("available", { required: "Quantity is required" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter quantity"
-              required
             />
+            {errors.available && (
+              <span className="text-red-500 text-sm">
+                {errors.available.message}
+              </span>
+            )}
           </div>
 
           <div className="flex-1 min-w-[200px]">
@@ -166,12 +204,17 @@ const Products = () => {
             </label>
             <input
               type="number"
-              value={alertQuantity}
-              onChange={(e) => setAlertQuantity(e.target.value)}
+              {...register("alertQuantity", {
+                required: "Alert quantity is required",
+              })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter alert quantity"
-              required
             />
+            {errors.alertQuantity && (
+              <span className="text-red-500 text-sm">
+                {errors.alertQuantity.message}
+              </span>
+            )}
           </div>
 
           <div className="flex-1 min-w-[200px]">
@@ -180,12 +223,15 @@ const Products = () => {
             </label>
             <input
               type="number"
-              value={taxPercentage}
-              onChange={(e) => setTaxPercentage(e.target.value)}
+              {...register("tax", {
+                required: "Tax percentage is required",
+              })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter tax percentage"
-              required
             />
+            {errors.tax && (
+              <span className="text-red-500 text-sm">{errors.tax.message}</span>
+            )}
           </div>
 
           <div className="flex-1 min-w-[200px]">
@@ -194,12 +240,15 @@ const Products = () => {
             </label>
             <input
               type="text"
-              value={taxType}
-              onChange={(e) => setTaxType(e.target.value)}
+              {...register("taxType", { required: "Tax type is required" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter tax type"
-              required
             />
+            {errors.taxType && (
+              <span className="text-red-500 text-sm">
+                {errors.taxType.message}
+              </span>
+            )}
           </div>
 
           <div className="flex-1 min-w-[200px]">
@@ -208,12 +257,15 @@ const Products = () => {
             </label>
             <input
               type="text"
-              value={unit}
-              onChange={(e) => setUnit(e.target.value)}
+              {...register("unit", { required: "Unit is required" })}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter unit"
-              required
             />
+            {errors.unit && (
+              <span className="text-red-500 text-sm">
+                {errors.unit.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -223,68 +275,32 @@ const Products = () => {
             Note
           </label>
           <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
+            {...register("description")}
             className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-            rows="3"
-            placeholder="Add any additional notes here"
-          />
+            placeholder="Enter additional notes"
+          ></textarea>
         </div>
 
-        {/* Product Images */}
+        {/* Image Upload */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
-            Product Images
+            Product Image
           </label>
-
-          <div
-            className="mt-1 border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition duration-200"
-            onClick={() => document.getElementById("fileInput").click()} // Simulate click on the hidden file input
-          >
-            <input
-              id="fileInput"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden" // Hide the input field
-            />
-            <p className="text-gray-500">
-              Drag and drop your images here or click to select files
-            </p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 text-gray-400 my-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 7v14a1 1 0 001 1h16a1 1 0 001-1V7m-5 4h2.5a1 1 0 110 2H14m0 0H8m0 0V9m0 4h4m-4-4h4"
-              />
-            </svg>
-          </div>
-
+          <input type="file" onChange={handleImageChange} className="mt-1" />
           {imagePreview && (
-            <div className="mt-2">
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="w-full h-auto rounded-lg border border-gray-200 shadow-md"
-              />
-            </div>
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="mt-2 w-32 h-32 object-cover"
+            />
           )}
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+          className="p-3 w-full bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          Create Product
+          Submit
         </button>
       </form>
     </div>

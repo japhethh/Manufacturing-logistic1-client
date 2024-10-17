@@ -1,9 +1,10 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdCategory } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { MdBallot } from "react-icons/md";
 import { FaPrint } from "react-icons/fa6";
+
 
 const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
@@ -18,10 +19,14 @@ const CreateProduct = () => {
       )}
 
       {/* The four cards that stay at the top */}
-      <div className={`flex flex-col md:flex-row justify-start gap-4 mb-10 ${loading ? "hidden" : ""}`}>
-        <NavLink 
+      <div
+        className={`flex flex-col md:flex-row justify-start gap-4 mb-10 ${
+          loading ? "hidden" : ""
+        }`}
+      >
+        <NavLink
           to="category"
-          className="w-full md:w-1/3 lg:w-1/4" 
+          className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Pending Orders"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
@@ -32,40 +37,46 @@ const CreateProduct = () => {
           </div>
         </NavLink>
 
-        <NavLink 
+        <NavLink
           to="products"
-          className="w-full md:w-1/3 lg:w-1/4" 
+          className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Receiving Orders"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">Create Product</h2>
+              <h2 className="text-gray-800 font-semibold text-lg">
+                Create Product
+              </h2>
               <IoIosCreate className="text-3xl text-blue-600" />
             </div>
           </div>
         </NavLink>
 
-        <NavLink 
+        <NavLink
           to="allproducts"
-          className="w-full md:w-1/3 lg:w-1/4" 
+          className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Complete Orders"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">All Products</h2>
+              <h2 className="text-gray-800 font-semibold text-lg">
+                All Products
+              </h2>
               <MdBallot className="text-3xl text-blue-600" />
             </div>
           </div>
         </NavLink>
 
-        <NavLink 
+        <NavLink
           to="printproducts"
-          className="w-full md:w-1/3 lg:w-1/4" 
+          className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Complete Orders"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">Print Barcode</h2>
+              <h2 className="text-gray-800 font-semibold text-lg">
+                Print Barcode
+              </h2>
               <FaPrint className="text-3xl text-blue-600" />
             </div>
           </div>

@@ -12,6 +12,7 @@ const SystemSettings = () => {
   const [image, setImage] = useState(null); // For storing the file itself
   const [imagePreview, setImagePreview] = useState(null); // For displaying preview
   const [setUp, setSetUp] = useState(null);
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImage(file); // To set the file itself
