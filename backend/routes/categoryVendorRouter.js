@@ -13,6 +13,6 @@ categoryVendorRouter.get("/", authMiddleware, getAllCategory);
 categoryVendorRouter.post("/createCategory", authMiddleware, createCategory);
 categoryVendorRouter.get("/getSpecificCategory/:id", getSpecificCategory);
 categoryVendorRouter.delete("/deleteCategory/:id", deleteCategory);
-categoryVendorRouter.put("/updateCategory/:id", updateCategory);
+categoryVendorRouter.put("/updateCategory/:id", authMiddleware, updateCategory);
 
 export default categoryVendorRouter;

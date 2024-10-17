@@ -12,7 +12,10 @@ const Category = () => {
   const { token } = verify();
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState(""); // To determine if modal is for "add" or "delete"
-
+  const [editCategory, setEditCategory] = useState({
+    category_name: "",
+    category_code: "",
+  });
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/category/`, {
@@ -41,7 +44,7 @@ const Category = () => {
           data: null,
           render: (data) => {
             return `
-              <button class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1">Edit</button>
+              <button class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1" id=updateBtn_${data._id}>Edit</button>
               <button class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1" id="deleteBtn_${data._id}">Delete</button>
             `;
           },
@@ -50,9 +53,21 @@ const Category = () => {
       rowCallback: (row, data) => {
         // Attach an event listener to the delete button for each row
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+
         deleteBtn.addEventListener("click", () => {
           setSelectedData(data);
           setModalType("delete"); // Set modal for delete
+          setShowModal(true); // Show the modal
+        });
+
+        updateBtn.addEventListener("click", () => {
+          setSelectedData(data);
+          setEditCategory({
+            category_name: data.category_name,
+            category_code: data.category_code,
+          });
+          setModalType("edit"); // Set modal for delete
           setShowModal(true); // Show the modal
         });
       },
@@ -87,6 +102,21 @@ const Category = () => {
       fetchCategories();
       toast.success(response.data.message);
       setShowModal(false); // Close modal on success
+    } catch (error) {
+      toast.error(error?.response.data.message);
+    }
+  };
+
+  const handleEditCategory = async () => {
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/category/updateCategory/${selectedData._id}`,
+        editCategory,
+        { headers: { token: token } }
+      );
+      fetchCategories();
+      toast.success(response.data.message);
+      setShowModal(false);
     } catch (error) {
       toast.error(error?.response.data.message);
     }
@@ -165,6 +195,53 @@ const Category = () => {
                   setSelectedData(null); // Reset selectedData on cancel
                   setShowModal(false); // Close modal
                 }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {showModal && modalType === "edit" && selectedData && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-1/3">
+            <h2 className="text-lg font-semibold mb-4">Edit Category</h2>
+            <input
+              type="text"
+              value={editCategory.category_name}
+              onChange={(e) =>
+                setEditCategory({
+                  ...editCategory,
+                  category_name: e.target.value,
+                })
+              }
+              placeholder="Category Name"
+              className="border border-gray-300 rounded-lg p-2 w-full mb-4"
+            />
+            <input
+              type="text"
+              value={editCategory.category_code}
+              onChange={(e) =>
+                setEditCategory({
+                  ...editCategory,
+                  category_code: e.target.value,
+                })
+              }
+              placeholder="Category Code"
+              className="border border-gray-300 rounded-lg p-2 w-full mb-4"
+            />
+            <div className="flex justify-end">
+              <button
+                className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg"
+                onClick={handleEditCategory}
+              >
+                Save
+              </button>
+              <button
+                className="bg-gray-400 hover:bg-gray-300 text-white px-4 py-2 rounded-lg ml-2"
+                onClick={() => setShowModal(false)}
               >
                 Cancel
               </button>

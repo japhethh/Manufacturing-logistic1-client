@@ -63,6 +63,14 @@ const deleteCategory = asyncHandler(async (req, res) => {
 
 const updateCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
+
+  const { userId } = req.body;
+  const userExist = await supplierModel.findById(userId);
+  if (!userExist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
   const { category_code, category_name } = req.body;
   const updatedCategory = await categoryModel.findByIdAndUpdate(
     id,
