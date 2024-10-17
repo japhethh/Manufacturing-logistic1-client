@@ -32,6 +32,7 @@ import Category from "./Modules/Category";
 import Products from "./Modules/Products";
 import AllProducts from "./Modules/AllProducts";
 import PrintProducts from "./Modules/PrintProducts";
+import DataTableTesting from "./testing/DataTableTesting.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -172,6 +173,7 @@ const App = () => {
               path="/createinvoicevendor/:orderId"
               element={<CreateInvoiceVendor />}
             />
+            <Route path="/datatable" element={<DataTableTesting />} />
           </Routes>
         </div>
       </div>

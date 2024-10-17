@@ -1,8 +1,16 @@
 import asyncHandler from "express-async-handler";
 import categoryModel from "../models/categoryModel.js";
+import supplierModel from "../models/supplierModel.js";
 
 const getAllCategory = asyncHandler(async (req, res) => {
-  const categories = await categoryModel.find();
+  const { userId } = req.body;
+
+  const exist = await supplierModel.findById(userId);
+  if (!exist) {
+    return res.status(400).json({ success: false, message: "User not found" });
+  }
+
+  const categories = await categoryModel.find({ supplier: userId });
 
   if (!categories) {
     return res
@@ -14,11 +22,11 @@ const getAllCategory = asyncHandler(async (req, res) => {
 });
 
 const createCategory = asyncHandler(async (req, res) => {
-  const { category_code, category_name } = req.body;
-
+  const { userId } = req.body;
+  const { category_name } = req.body;
   const newCategory = new categoryModel({
-    category_code,
     category_name,
+    supplier: userId,
   });
 
   await newCategory.save();

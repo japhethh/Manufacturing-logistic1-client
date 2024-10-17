@@ -6,10 +6,11 @@ import {
   deleteCategory,
   updateCategory,
 } from "../controllers/categoryVendorController.js";
+import { authMiddleware } from "../middleware/Auth.js";
 const categoryVendorRouter = express.Router();
 
-categoryVendorRouter.get("/", getAllCategory);
-categoryVendorRouter.post("/createCategory", createCategory);
+categoryVendorRouter.get("/", authMiddleware, getAllCategory);
+categoryVendorRouter.post("/createCategory", authMiddleware, createCategory);
 categoryVendorRouter.get("/getSpecificCategory/:id", getSpecificCategory);
 categoryVendorRouter.delete("/deleteCategory/:id", deleteCategory);
 categoryVendorRouter.put("/updateCategory/:id", updateCategory);

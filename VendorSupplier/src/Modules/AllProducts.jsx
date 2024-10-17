@@ -109,7 +109,7 @@ const AllProducts = () => {
           </thead>
           <tbody>
             {requestData.map((product) => (
-              <tr key={product.id} className="hover:bg-gray-50">
+              <tr key={product._id} className="hover:bg-gray-50">
                 <td className="border border-gray-300 p-2 text-center">
                   <img
                     src={product.image}
@@ -239,8 +239,8 @@ const AllProducts = () => {
                 </label>
                 <input
                   type="number"
-                  name="quantity"
-                  id="quantity"
+                  name="available"
+                  id="available"
                   placeholder="Enter Quantity"
                   className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   value={selectedData?.available || ""}
@@ -398,6 +398,8 @@ const AllProducts = () => {
           </div>
         </div>
       </div>
+
+      
     </div>
   );
 };
