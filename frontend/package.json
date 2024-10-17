@@ -12,6 +12,8 @@
   "dependencies": {
     "@nextui-org/date-picker": "^2.1.8",
     "axios": "^1.7.7",
+    "datatables.net-dt": "^2.1.8",
+    "jquery": "^3.7.1",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.3",
     "react": "^18.3.1",
