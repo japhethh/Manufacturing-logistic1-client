@@ -42,25 +42,53 @@ const VendorManagementCreate = () => {
           render: (data) => (data ? data : "N/A"),
         },
         {
+          title: "First Name",
+          data: "firstName",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Last Name",
+          data: "lastName",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
           title: "Supplier Name",
           data: "supplierName",
           render: (data) => (data ? data : "N/A"),
         },
         {
-          title: "Contact Person",
-          data: "contactPerson",
+          title: "Email",
+          data: "email",
           render: (data) => (data ? data : "N/A"),
         },
         {
-          title: "Supplier Name",
-          data: "supplierName",
+          title: "Contact Phone",
+          data: "contactPhone",
           render: (data) => (data ? data : "N/A"),
         },
+        {
+          title: "Rating",
+          data: "rating",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Status",
+          data: "status",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Update At",
+          data: "updatedAt",
+          render: (data) => (data ? data : "N/A"),
+        },
+
         {
           title: "Actions",
           data: null,
           render: (data, type, row) => `
-            <div className="flex gap-2"> 
+          
+            <div className="flex flex-col gap-2"> 
+              <label htmlFor="my_modal_5" class="bg-blue-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="viewBtn_${row._id}">View</label>
               <label htmlFor="my_modal_6" class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">Edit</label>
               <label htmlFor="my_modal_7" class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">Delete</label>
             </div>
@@ -76,6 +104,7 @@ const VendorManagementCreate = () => {
         // Attach event listeners
         const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+        const viewBtn = row.querySelector(`#viewBtn_${data._id}`);
 
         if (deleteBtn) {
           deleteBtn.addEventListener("click", () => {
@@ -92,6 +121,13 @@ const VendorManagementCreate = () => {
             setShowModal(true); // Show the modal
           });
         }
+        if (viewBtn) {
+          viewBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("view");
+            setShowModal(true); // Show the modal
+          });
+        }
       },
     });
     return () => {
@@ -100,7 +136,25 @@ const VendorManagementCreate = () => {
   }, [suppliersData]);
 
   const onSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
+    if (!selectedData) {
+      toast.error("No data selected.");
+      return;
+    }
+
+    try {
+      await axios.put(`${apiURL}/api/supplier/addsuppliers/`, selectedData);
+      toast.success("Supplier Added successfully!");
+      fetchData(); // Refresh data
+      setSelectedData(null); // Reset selectedData
+      setShowModal(false); // Close the modal
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Added failed.");
+    }
+  };
+  const handleEdit = async (id) => {
+    console.log(selectedData);
+
     if (!selectedData) {
       toast.error("No data selected.");
       return;
@@ -108,13 +162,10 @@ const VendorManagementCreate = () => {
 
     try {
       await axios.put(
-        `${apiURL}/api/material/updateMaterial/${selectedData._id}`,
-        selectedData,
-        {
-          headers: { token: token },
-        }
+        `${apiURL}/api/supplier/updateSupplier/${id}`,
+        selectedData
       );
-      toast.success("Product updated successfully!");
+      toast.success("Supplier updated successfully!");
       fetchData(); // Refresh data
       setSelectedData(null); // Reset selectedData
       setShowModal(false); // Close the modal
@@ -126,13 +177,14 @@ const VendorManagementCreate = () => {
   // Handle deletion of material
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${apiURL}/api/material/deleteMaterial/${id}`, {
-        headers: { token: token },
-      });
-      toast.info("Product deleted successfully!");
+      const response = await axios.delete(
+        `${apiURL}/api/supplier/delete/${id}`
+      );
+      toast.info("Supplier deleted successfully!");
       fetchData(); // Refresh data
       setSelectedData(null); // Reset selectedData
       setShowModal(false); // Close the modal
+      toast.info(response.data.message);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Delete failed.");
     }
@@ -165,7 +217,7 @@ const VendorManagementCreate = () => {
 
       {/* Add Vendor Form */}
       <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
-        <form className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div className="flex flex-col md:flex-row gap-4">
             <input
               type="text"
@@ -199,7 +251,9 @@ const VendorManagementCreate = () => {
 
       {/* Vendor Data Table */}
       <div className="divider"></div>
-      <table id="supplierTable" className="display w-full"></table>
+      <div className="overflow-x-scroll mx-auto ">
+        <table id="supplierTable" className="display w-full "></table>
+      </div>
 
       {/* Delete Modal */}
       {showModal && modalType === "delete" && (
@@ -221,6 +275,437 @@ const VendorManagementCreate = () => {
               >
                 Confirm
               </button>
+              <button
+                className="btn btn-outline btn-error btn-md text-white"
+                onClick={() => {
+                  setSelectedData(null); // Reset selectedData on cancel
+                  setShowModal(false); // Close modal
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showModal && modalType === "edit" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-4/6">
+            <h3>Vendor Edit</h3>
+            <div>
+              <form onSubmit={onSubmit}>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {/* Supplier Code */}
+                  <div>
+                    <label className="block mb-2">
+                      Supplier Code <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="supplierCode"
+                      value={
+                        selectedData?.supplierCode
+                          ? selectedData?.supplierCode
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+
+                  {/* Supplier Name */}
+                  <div>
+                    <label className="block mb-2">
+                      Supplier Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="supplierName"
+                      value={
+                        selectedData?.supplierName
+                          ? selectedData?.supplierName
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Contact Person <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="contactPerson"
+                      value={
+                        selectedData?.contactPerson
+                          ? selectedData?.contactPerson
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Contact Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="contactEmail"
+                      value={
+                        selectedData?.contactEmail
+                          ? selectedData?.contactEmail
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Contact Phone <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="contactPhone"
+                      value={
+                        selectedData?.contactPhone
+                          ? selectedData?.contactPhone
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Gender <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="gender"
+                      value={
+                        selectedData?.gender ? selectedData?.gender : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      City <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="country"
+                      value={
+                        selectedData?.address?.city
+                          ? selectedData?.address?.country
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Country <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="country"
+                      value={
+                        selectedData?.address?.country
+                          ? selectedData?.address?.country
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={
+                        selectedData?.address?.address
+                          ? selectedData?.address?.address
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Payment Term <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="paymentTerms"
+                      value={
+                        selectedData?.paymentTerms
+                          ? selectedData?.paymentTerms
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                  {/* Contact Person */}
+                  <div>
+                    <label className="block mb-2">
+                      Company Website <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="companyWebsite"
+                      value={
+                        selectedData?.companyWebsite
+                          ? selectedData?.companyWebsite
+                          : "N/A"
+                      }
+                      onChange={handleInputChange}
+                      className="input input-bordered w-full max-w-xs"
+                      required
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => handleEdit(selectedData._id)}
+                className="btn btn-info btn-md text-white"
+              >
+                Confirm
+              </button>
+              <button
+                className="btn btn-outline btn-error btn-md text-white"
+                onClick={() => {
+                  setSelectedData(null); // Reset selectedData on cancel
+                  setShowModal(false); // Close modal
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal */}
+      {showModal && modalType === "view" && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="supplier-modal-title"
+        >
+          <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl h-3/4 overflow-y-auto">
+            {/* Supplier Info Card */}
+            <div>
+              <h2
+                id="supplier-modal-title"
+                className="text-2xl font-bold mb-4 text-gray-900"
+              >
+                Supplier Information
+              </h2>
+
+              {/* Supplier Name and Code */}
+              <div className="mb-6">
+                <p className="font-semibold">
+                  Supplier Name:{" "}
+                  <span className="text-gray-700">
+                    {selectedData?.supplierName}
+                  </span>
+                </p>
+                <p className="font-semibold">
+                  Supplier Code:{" "}
+                  <span className="text-gray-700">
+                    {selectedData?.supplierCode}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 ">
+              <div>
+                {/* Contact Information */}
+                <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  Contact Information
+                </h3>
+                <div className="mb-6">
+                  <p className="font-semibold">
+                    Contact Person:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.contactPerson}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Contact Email:{" "}
+                    <span className="text-gray-700">{selectedData?.email}</span>
+                  </p>
+                  <p className="font-semibold">
+                    Contact Phone:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.contactPhone}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                {/* Address */}
+                <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  Address
+                </h3>
+                <div className="mb-6">
+                  <p className="font-semibold">
+                    Street:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.address?.street}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    City:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.address?.city}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    State:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.address?.state}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Country:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.address?.country}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Zip Code:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.address?.zipCode}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                {/* Additional Information */}
+                <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  Additional Information
+                </h3>
+                <div className="mb-6">
+                  <p className="font-semibold">
+                    Company Website:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.companyWebsite || "Not Provided"}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Payment Terms:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.paymentTerms}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Rating:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.rating || "N/A"}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Status:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.status}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                {/* Account Information */}
+                <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  Account Information
+                </h3>
+                <div className="mb-6">
+                  <p className="font-semibold">
+                    Email:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.contactEmail}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    First Name:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.firstName}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Last Name:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.lastName}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Gender:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.gender}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                {/* Timestamps */}
+                <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  Timestamps
+                </h3>
+                <div className="mb-6 pb-5">
+                  <p className="font-semibold">
+                    Created At:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.createdAt}
+                    </span>
+                  </p>
+                  <p className="font-semibold">
+                    Updated At:{" "}
+                    <span className="text-gray-700">
+                      {selectedData?.updatedAt}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end gap-4">
               <button
                 className="btn btn-outline btn-error btn-md text-white"
                 onClick={() => {

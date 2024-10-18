@@ -107,6 +107,13 @@ const supplierSchema = mongoose.Schema(
         trim: true,
         maxlength: [100, "Country name cannot exceed 100 characters."],
       },
+      address: {
+        type: String,
+        trim: true,
+        required: function () {
+          return this.status === "Active";
+        },
+      },
     },
 
     // Payment and Rating
@@ -166,7 +173,7 @@ const supplierSchema = mongoose.Schema(
     },
     // Optional: Profile Image or Logo URL
     logo: { type: String, default: "" },
-    category:{type:mongoose.Schema.Types.ObjectId, ref:"categories"}
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
   },
   { timestamps: true }
 );

@@ -89,35 +89,16 @@ const createSupplier = asyncHandler(async (req, res) => {
 
 // Update
 const updateSupplier = asyncHandler(async (req, res) => {
-  const {
-    supplierName,
-    contactPerson,
-    contactEmail,
-    contactPhone,
-    address,
-    paymentTerms,
-    rating,
-    materialsSupplied,
-  } = req.body;
+  const myBody = req.body;
+  const { id } = req.params;
 
   try {
-    const updatedSupplier = await newSupplier.findByIdAndUpdate(
-      req.parms.id,
-      {
-        supplierName,
-        contactPerson,
-        contactEmail,
-        contactPhone,
-        address,
-        paymentTerms,
-        rating,
-        materialsSupplied,
-      },
-      true
-    );
+    const updatedSupplier = await supplierModel.findByIdAndUpdate(id, myBody, {
+      new: true,
+    });
 
     if (!updatedSupplier)
-      return res.status(404).json({ errors: "Supplier not found" });
+      return res.status(400).json({ message: "Supplier not found" });
 
     res.json(updatedSupplier);
   } catch (error) {
@@ -236,7 +217,6 @@ const sendApprovalEmail = asyncHandler(async (supplier, password) => {
 
   await transporter.sendMail(mailOptions);
 });
-
 
 const approveSupplier = asyncHandler(async (req, res) => {
   const { id } = req.params;
