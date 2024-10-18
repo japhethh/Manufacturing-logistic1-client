@@ -50,6 +50,7 @@ const Category = () => {
           },
         },
       ],
+      order: [[1, "desc"]],
       rowCallback: (row, data) => {
         // Attach an event listener to the delete button for each row
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);

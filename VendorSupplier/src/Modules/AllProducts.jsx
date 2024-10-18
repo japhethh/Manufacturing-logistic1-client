@@ -4,13 +4,16 @@ import { toast } from "react-toastify";
 import { apiURL } from "../context/verifyStore";
 import Select from "react-select";
 import verifyStore from "../context/verifyStore";
+import DataTable from "datatables.net-dt"; // Import DataTable
+
 const AllProducts = () => {
   const [requestData, setRequestData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-
   const { token } = verifyStore();
+  const [modalType, setModalType] = useState("");
+  const [showModal, setShowModal] = useState(false); // Declare showModal state
 
   // Fetch data on component mount
   useEffect(() => {
@@ -35,6 +38,103 @@ const AllProducts = () => {
     }
   };
 
+  // Initialize DataTable
+  useEffect(() => {
+    if (requestData.length > 0) {
+      const table = new DataTable("#productsTable", {
+        data: requestData,
+        columns: [
+          {
+            title: "Image",
+            data: "image",
+            render: (data, type, row) =>
+              `<img src="${data}" alt="${row?.materialName}" class="w-24 h-24 object-cover mx-auto" />`,
+          },
+          {
+            title: "CODE",
+            data: "materialCode",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Material Name",
+            data: "materialName",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "PPU",
+            data: "pricePerUnit",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Alert Quantity",
+            data: "alertQuantity",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Unit",
+            data: "unit",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Available",
+            data: "available",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Tax",
+            data: "tax",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Description",
+            data: "description",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Actions",
+            data: null,
+            render: (data, type, row) => `
+              <div className="flex gap-2"> 
+                <label htmlFor="my_modal_6" class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">Edit</label>
+                <label htmlFor="my_modal_7" class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">Delete</label>
+              </div>
+            `,
+          },
+        ],
+        destroy: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        order: [[1, "desc"]],
+        rowCallback: (row, data) => {
+          // Attach event listeners
+          const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+          const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+
+          if (deleteBtn) {
+            deleteBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("delete");
+              setShowModal(true); // Show the modal
+            });
+          }
+
+          if (updateBtn) {
+            updateBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("edit");
+              setShowModal(true); // Show the modal
+            });
+          }
+        },
+      });
+
+      return () => {
+        table.destroy(); // Clean up DataTable instance
+      };
+    }
+  }, [requestData]); // Only run when requestData changes
+
   // Handle form submission for updating material
   const onSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -54,8 +154,7 @@ const AllProducts = () => {
       toast.success("Product updated successfully!");
       fetchData(); // Refresh data
       setSelectedData(null); // Reset selectedData
-      // Close the modal by unchecking the checkbox
-      document.getElementById("my_modal_6").checked = false;
+      setShowModal(false); // Close the modal
     } catch (error) {
       toast.error(error?.response?.data?.message || "Update failed.");
     }
@@ -70,8 +169,7 @@ const AllProducts = () => {
       toast.info("Product deleted successfully!");
       fetchData(); // Refresh data
       setSelectedData(null); // Reset selectedData
-      // Close the modal by unchecking the checkbox
-      document.getElementById("my_modal_7").checked = false;
+      setShowModal(false); // Close the modal
     } catch (error) {
       toast.error(error?.response?.data?.message || "Delete failed.");
     }
@@ -98,328 +196,174 @@ const AllProducts = () => {
     <div className="container mx-auto mt-5">
       <h1 className="text-2xl font-bold mb-4">All Products</h1>
 
-      {/* Display loading state */}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <table className="min-w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2">Images</th>
-              <th className="border border-gray-300 p-2">Material Code</th>
-              <th className="border border-gray-300 p-2">Category</th>
-              <th className="border border-gray-300 p-2">Material Name</th>
-              {/* <th className="border border-gray-300 p-2">Cost</th> */}
-              <th className="border border-gray-300 p-2">Price Per Unit</th>
-              <th className="border border-gray-300 p-2">Unit</th>
-              <th className="border border-gray-300 p-2">Quantity</th>
-              <th className="border border-gray-300 p-2">Description</th>
-              <th className="border border-gray-300 p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requestData.map((product) => (
-              <tr key={product._id} className="hover:bg-gray-50">
-                <td className="border border-gray-300 p-2 text-center">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-24 h-24 object-cover mx-auto"
-                  />
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {product.materialCode}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {product.category}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {product.materialName}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {product.pricePerUnit}
-                </td>
-                <td className="border border-gray-300 p-2">{product.unit}</td>
-                <td className="border border-gray-300 p-2">
-                  {product.available}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {product.description}
-                </td>
+      <div className="divider"></div>
 
-                <td className="border border-gray-300 p-2">
-                  <label
-                    htmlFor="my_modal_6"
-                    className="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
-                    onClick={() => setSelectedData(product)}
-                  >
-                    Edit
-                  </label>
-                  <label
-                    htmlFor="my_modal_7"
-                    className="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
-                    onClick={() => setSelectedData(product)}
-                  >
-                    Delete
-                  </label>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <table id="productsTable" className="display w-full"></table>
+
 
       {/* Edit Modal */}
-      <input type="checkbox" id="my_modal_6" className="modal-toggle" />
-      <div className="modal" role="dialog">
-        <div className="modal-box w-11/12 max-w-5xl">
-          <h3 className="text-lg font-bold">{selectedData?.materialCode}</h3>
-          <form onSubmit={onSubmit}>
-            <div className="text-center font-semibold text-2xl py-4">
-              <h1>Update Product</h1>
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              {/* Material Category */}
-              <div>
-                <label className="block mb-2">
-                  Material Category <span className="text-red-500">*</span>
-                </label>
-                <Select
-                  value={{
-                    value: selectedData?.category,
-                    label: selectedData?.category,
-                  }}
-                  onChange={handleCategoryChange}
-                  options={[
-                    ...new Map(
-                      requestData.map((item) => [item.category, item.category])
-                    ).values(),
-                  ].map((cat) => ({
-                    value: cat,
-                    label: cat,
-                  }))}
-                  className="w-full max-w-xs"
-                  placeholder="Select category"
-                />
+      {showModal && modalType === "edit" && selectedData && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-4/6">
+            <h3 className="text-lg font-bold">{selectedData?.materialCode}</h3>
+            <form onSubmit={onSubmit}>
+              <div className="text-center font-semibold text-2xl py-4">
+                <h1>Update Product</h1>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                {/* Material Category */}
+                <div>
+                  <label className="block mb-2">
+                    Material Category <span className="text-red-500">*</span>
+                  </label>
+                  <Select
+                    value={{
+                      value: selectedData?.category,
+                      label: selectedData?.category,
+                    }}
+                    onChange={handleCategoryChange}
+                    options={[
+                      ...new Map(
+                        requestData.map((item) => [
+                          item.category,
+                          item.category,
+                        ])
+                      ).values(),
+                    ].map((cat) => ({
+                      value: cat,
+                      label: cat,
+                    }))}
+                    className="w-full max-w-xs"
+                    placeholder="Select category"
+                  />
+                </div>
+
+                {/* Material Code */}
+                <div>
+                  <label className="block mb-2">
+                    Material Code <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="materialCode"
+                    value={selectedData?.materialCode}
+                    onChange={handleInputChange}
+                    className="input input-bordered w-full max-w-xs"
+                    required
+                  />
+                </div>
+
+                {/* Material Name */}
+                <div>
+                  <label className="block mb-2">
+                    Material Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="materialName"
+                    value={selectedData?.materialName}
+                    onChange={handleInputChange}
+                    className="input input-bordered w-full max-w-xs"
+                    required
+                  />
+                </div>
               </div>
 
-              {/* Material Code */}
-              <div>
-                <label className="block mb-2">
-                  Material Code <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="materialCode"
-                  id="materialCode"
-                  placeholder="Enter Material Code"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.materialCode || ""}
-                  onChange={handleInputChange}
-                  required
-                />
+              <div className="grid grid-cols-3 gap-4 py-4">
+                {/* Price Per Unit */}
+                <div>
+                  <label className="block mb-2">
+                    Price Per Unit <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    name="pricePerUnit"
+                    value={selectedData?.pricePerUnit}
+                    onChange={handleInputChange}
+                    className="input input-bordered w-full max-w-xs"
+                    required
+                  />
+                </div>
+
+                {/* Alert Quantity */}
+                <div>
+                  <label className="block mb-2">
+                    Alert Quantity <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    name="alertQuantity"
+                    value={selectedData?.alertQuantity}
+                    onChange={handleInputChange}
+                    className="input input-bordered w-full max-w-xs"
+                    required
+                  />
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block mb-2">Description</label>
+                  <textarea
+                    name="description"
+                    value={selectedData?.description}
+                    onChange={handleInputChange}
+                    className="textarea textarea-bordered w-full max-w-xs"
+                  ></textarea>
+                </div>
               </div>
 
-              {/* Material Name */}
-              <div>
-                <label className="block mb-2">
-                  Material Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="materialName"
-                  id="materialName"
-                  placeholder="Enter Material Name"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.materialName || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Price Per Unit */}
-              <div>
-                <label className="block mb-2">
-                  Price Per Unit <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="pricePerUnit"
-                  id="pricePerUnit"
-                  placeholder="Enter Price Per Unit"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.pricePerUnit || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Quantity */}
-              <div>
-                <label className="block mb-2">
-                  Quantity <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="available"
-                  id="available"
-                  placeholder="Enter Quantity"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.available || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Alert Quantity */}
-              <div>
-                <label className="block mb-2">
-                  Alert Quantity <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="alertQuantity"
-                  id="alertQuantity"
-                  placeholder="Enter Alert Quantity"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.alertQuantity || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Tax */}
-              <div>
-                <label className="block mb-2">
-                  Tax (%) <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="tax"
-                  id="tax"
-                  placeholder="Enter Tax"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.tax || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Unit */}
-              <div>
-                <label className="block mb-2">
-                  Unit <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="unit"
-                  id="unit"
-                  placeholder="Enter Unit"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.unit || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              {/* Empty divs for grid alignment */}
-              <div></div>
-              <div></div>
-            </div>
-
-            {/* Description */}
-            <div className="grid grid-cols-1 gap-2 mt-4">
-              <div>
-                <label className="block mb-2">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  name="description"
-                  id="description"
-                  placeholder="Enter Description"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  value={selectedData?.description || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Product Images */}
-            <div className="grid grid-cols-1 gap-2 mt-4">
-              <div>
-                <label className="block mb-2">
-                  Product Images <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  onChange={(e) => {
-                    // Handle file upload if necessary
-                    const file = e.target.files[0];
-                    setSelectedData((prevData) => ({
-                      ...prevData,
-                      image: file,
-                    }));
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Modal Actions */}
-            <div className="flex justify-end gap-5 mt-4">
-              <div className="modal-action">
-                <button type="submit" className="btn btn-success text-white">
+              <div className="flex justify-end">
+                <button
+                  className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg"
+                  // onClick={handleEditCategory}
+                >
                   Save
                 </button>
-              </div>
-              <div className="modal-action">
-                <label
-                  htmlFor="my_modal_6"
-                  className="btn"
-                  onClick={() => setSelectedData(null)} // Reset selectedData on close
+                <button
+                  className="bg-gray-400 hover:bg-gray-300 text-white px-4 py-2 rounded-lg ml-2"
+                  onClick={() => setShowModal(false)}
                 >
-                  Close!
-                </label>
+                  Cancel
+                </button>
               </div>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      {/* Delete Modal */}
-      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-      <div className="modal" role="dialog">
-        <div className="modal-box">
-          <h3 className="text-lg font-bold">{selectedData?.materialCode}</h3>
-          <p className="py-4">
-            Are you sure you want to{" "}
-            <span className="text-red-500 font-bold">delete</span> the product{" "}
-            <span className="font-bold">{selectedData?.materialName}</span>?
-            This action cannot be undone and will permanently remove the product
-            from the system.
-          </p>
-
-          <div className="flex justify-end gap-4">
-            <button
-              onClick={() => handleDelete(selectedData.id)}
-              className="btn btn-error btn-md text-white"
-            >
-              Confirm
-            </button>
-
-            <label
-              htmlFor="my_modal_7"
-              className="btn btn-outline btn-error btn-md text-white"
-              onClick={() => setSelectedData(null)} // Reset selectedData on cancel
-            >
-              Cancel
-            </label>
+            </form>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* Delete Modal */}
+      {showModal && modalType === "delete" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-1/3">
+            <h3 className="text-lg font-bold">{selectedData?.materialCode}</h3>
+            <p className="py-4">
+              Are you sure you want to{" "}
+              <span className="text-red-500 font-bold">delete</span> the
+              category{" "}
+              <span className="font-bold">{selectedData?.materialName}</span>?
+              This action cannot be undone and will permanently remove the
+              category from the system.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => handleDelete(selectedData._id)}
+                className="btn btn-error btn-md text-white"
+              >
+                Confirm
+              </button>
+              <button
+                className="btn btn-outline btn-error btn-md text-white"
+                onClick={() => {
+                  setSelectedData(null); // Reset selectedData on cancel
+                  setShowModal(false); // Close modal
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
