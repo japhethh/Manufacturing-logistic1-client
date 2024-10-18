@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { apiURL } from "../context/verifyStore";
 import axios from "axios";
@@ -32,9 +32,8 @@ const Products = () => {
     const formData = new FormData();
     // Append the form data values
     formData.append("materialName", data.materialName);
-    // formData.append("materialCode", "MC-00444");
     formData.append("category", data.category);
-    formData.append("barcodeSymbology", data.barcodeSymbology);
+    // formData.append("barcodeSymbology", data.barcodeSymbology);
     formData.append("cost", parseFloat(data.cost));
     formData.append("pricePerUnit", parseFloat(data.pricePerUnit));
     formData.append("available", parseInt(data.available, 10));
@@ -125,7 +124,7 @@ const Products = () => {
 
         {/* Barcode Symbology, Cost, Price */}
         <div className="mb-4 flex flex-wrap space-x-4">
-          <div className="flex-1 min-w-[200px]">
+          {/* <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
               Barcode Symbology
             </label>
@@ -142,7 +141,7 @@ const Products = () => {
                 {errors.barcodeSymbology.message}
               </span>
             )}
-          </div>
+          </div> */}
 
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
@@ -177,10 +176,6 @@ const Products = () => {
               </span>
             )}
           </div>
-        </div>
-
-        {/* Quantity, Alert Quantity, Tax %, Tax Type, and Unit */}
-        <div className="mb-4 flex flex-wrap space-x-4">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
               Quantity
@@ -197,7 +192,10 @@ const Products = () => {
               </span>
             )}
           </div>
+        </div>
 
+        {/* Quantity, Alert Quantity, Tax %, Tax Type, and Unit */}
+        <div className="mb-4 flex flex-wrap space-x-4">
           <div className="flex-1 min-w-[200px]">
             <label className="block text-sm font-medium text-gray-700">
               Alert Quantity
