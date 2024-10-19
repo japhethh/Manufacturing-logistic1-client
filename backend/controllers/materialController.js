@@ -66,6 +66,20 @@ const getAllMaterial = asyncHandler(async (req, res) => {
 
   res.status(200).json(materials);
 });
+// Get all material
+const getAllMaterialNoToken = asyncHandler(async (req, res) => {
+  const materials = await MaterialModel.find()
+    .populate("supplier")
+    .sort({ orderDate: -1 });
+
+  if (!materials) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Material not found" });
+  }
+
+  res.status(200).json(materials);
+});
 // Get a single material ID
 
 const appendMaterial = asyncHandler(async (req, res) => {
@@ -200,4 +214,5 @@ export {
   appendMaterial,
   deleteMaterial,
   updateMaterial,
+  getAllMaterialNoToken,
 };

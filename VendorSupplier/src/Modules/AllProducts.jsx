@@ -48,7 +48,7 @@ const AllProducts = () => {
             title: "Image",
             data: "image",
             render: (data, type, row) =>
-              `<img src="${data}" alt="${row?.materialName}" class="w-24 h-24 object-cover mx-auto" />`,
+              `<img src="${data}" alt="${row?.materialName}" class="w-20 h-20 object-cover mx-auto" />`,
           },
           {
             title: "CODE",

@@ -6,6 +6,7 @@ import {
   appendMaterial,
   deleteMaterial,
   updateMaterial,
+  getAllMaterialNoToken,
 } from "../controllers/materialController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -20,6 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 materialRouter.get("/getAllMaterial", authMiddleware, getAllMaterial);
+materialRouter.get("/getAllMaterialNoToken", getAllMaterialNoToken);
 materialRouter.post("/addMaterial", authMiddleware, createMaterial);
 materialRouter.put(
   "/appendMaterial",

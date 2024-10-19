@@ -1,27 +1,135 @@
-import React, { useEffect } from "react";
-import $ from "jquery";
+import { useEffect, useState } from "react";
 import "datatables.net-dt";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { apiURL } from "../context/Store";
+import Store from "../context/Store";
+import DataTable from "datatables.net-dt";
+import { MdEdit } from "react-icons/md";
 
 // VendorProduct Component
 const VendorProduct = () => {
+  const [loading, setLoading] = useState(false);
+  const [materialsData, setMaterialsData] = useState([]);
+  const { token } = Store();
+  const [selectedData, setSelectedData] = useState();
+  const [modalType, setModalType] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
-    // Initialize DataTables on component mount
-    $(document).ready(function () {
-      $("#vendorProductTable").DataTable({
-        paging: true,
-        searching: true,
-        ordering: true,
-        info: true,
-        language: {
-          lengthMenu: "Show _MENU_ entries",
-          zeroRecords: "No products found",
-          info: "Showing _START_ to _END_ of _TOTAL_ entries",
-          infoEmpty: "No entries available",
-          infoFiltered: "(filtered from _MAX_ total entries)",
-        },
-      });
-    });
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/material/getAllMaterialNoToken`
+      );
+      setMaterialsData(response.data);
+      console.log(response.data);
+      setLoading(false);
+    } catch (error) {
+      toast.error(error?.response?.data.message || "Failed to fetch data.");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const table = new DataTable("#vendorProductTable", {
+      data: materialsData,
+      columns: [
+        {
+          title: "Image",
+          data: "image",
+          render: (data, type, row) =>
+            `<img src="${data}" alt="${row?.materialName}" class="w-20 h-20 object-cover mx-auto" />`,
+        },
+        {
+          title: "Category",
+          data: "category",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Code",
+          data: "materialCode",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Unit",
+          data: "unit",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Price Per Unit",
+          data: "pricePerUnit",
+          render: (data) => (data ? data : "N/A"),
+        },
+
+        {
+          title: "Material Item",
+          data: "materialName",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Quantity",
+          data: "available",
+          render: (data) => (data ? data : "N/A"),
+        },
+        {
+          title: "Actions",
+          data: null,
+          render: (data, type, row) => `
+          <div class="flex justify-center"> 
+            <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
+            </button>
+            <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+          `,
+        },
+      ],
+      destroy: true,
+      responsive: true,
+      ordering: true,
+      order: [[1, "desc"]],
+      rowCallback: (row, data) => {
+        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+        const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
+        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("delete");
+            setShowModal(true); // Show the modal
+          });
+        }
+        if (detailBtn) {
+          detailBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("detail");
+            setShowModal(true); // Show the modal
+          });
+        }
+
+        if (updateBtn) {
+          updateBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("edit");
+            setShowModal(true); // Show the modal
+          });
+        }
+      },
+    });
+    return () => {
+      table.destroy(); // Clean up DataTable instance
+    };
+  }, [materialsData]);
 
   return (
     <div className="p-6 bg-gray-50 shadow-lg rounded-lg">
@@ -69,68 +177,132 @@ const VendorProduct = () => {
         </form>
       </div>
 
-      {/* Vendor Product Data Table */}
+      {/* Table */}
       <div className="overflow-x-auto mb-4">
         <table
           id="vendorProductTable"
           className="display cell-border stripe hover w-full text-sm text-gray-700 border border-gray-300"
-        >
-          <thead className="bg-gray-100 text-gray-600">
-            <tr>
-              <th className="border-b border-gray-300 py-2">Product Name</th>
-              <th className="border-b border-gray-300 py-2">Price</th>
-              <th className="border-b border-gray-300 py-2">Quantity</th>
-              <th className="border-b border-gray-300 py-2">Category</th>
-              <th className="border-b border-gray-300 py-2 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Example Product Rows */}
-            <tr className="hover:bg-gray-50 transition-colors duration-200">
-              <td className="border-b border-gray-300 py-2">Product A</td>
-              <td className="border-b border-gray-300 py-2">$100</td>
-              <td className="border-b border-gray-300 py-2">50</td>
-              <td className="border-b border-gray-300 py-2">Category 1</td>
-              <td className="border-b border-gray-300 py-2 text-center">
-                <button className="text-blue-600 hover:underline mr-2">Edit</button>
-                <button className="text-red-600 hover:underline">Delete</button>
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-50 transition-colors duration-200">
-              <td className="border-b border-gray-300 py-2">Product B</td>
-              <td className="border-b border-gray-300 py-2">$150</td>
-              <td className="border-b border-gray-300 py-2">20</td>
-              <td className="border-b border-gray-300 py-2">Category 2</td>
-              <td className="border-b border-gray-300 py-2 text-center">
-                <button className="text-blue-600 hover:underline mr-2">Edit</button>
-                <button className="text-red-600 hover:underline">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        ></table>
       </div>
+      {/* end */}
 
-      {/* Entries per page and Export Button */}
-      <div className="flex justify-between items-center mt-4">
-        <div className="flex items-center">
-          <label htmlFor="entriesPerPage" className="mr-2 text-gray-700">Entries per page:</label>
-          <select
-            id="entriesPerPage"
-            className="border border-gray-300 rounded-md p-2 mr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-          <button className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200 shadow-md">
-            Apply
-          </button>
+      {/* Delete */}
+      {/* {showModal && modalType === "delete" && selectedData && (
+        <div> 
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-4/6">
+
+          </div>
+          </div>
         </div>
-        <button className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200 shadow-md">
-          Export Data
-        </button>
-      </div>
+      )} */}
+
+
+
+      {/* Detail */}
+      {showModal && modalType === "detail" && selectedData && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-4/6">
+            <div className="flex justify-center items-center">
+              <img
+                className="w-48  border-4"
+                src={selectedData?.image}
+                alt={selectedData?.materialName}
+              />
+            </div>
+            <div className="py-4 grid grid-cols-2">
+              <div className="font-semibold">
+                <div className="border border-1 py-2 px-2">
+                  <h1>Material CODE</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Material Name</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Category</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Price</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Quantity</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Alert Quantity</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Tax</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>Note</h1>
+                </div>
+              </div>
+
+              <div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>
+                    {selectedData?.materialCode
+                      ? selectedData?.materialName
+                      : "N/A"}
+                  </h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>
+                    {" "}
+                    {selectedData?.materialName
+                      ? selectedData?.materialName
+                      : "N/A"}
+                  </h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>
+                    {selectedData?.category ? selectedData?.category : "N/A"}
+                  </h1>{" "}
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>
+                    {selectedData?.pricePerUnit
+                      ? selectedData?.pricePerUnit
+                      : "N/A"}
+                  </h1>
+                </div>
+                <div className="border border-1 py-2 px-2 ">
+                  <h1>
+                    {selectedData?.available ? selectedData?.available : "N/A"}
+                  </h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>
+                    {selectedData?.alertQuantity
+                      ? selectedData?.alertQuantity
+                      : "N/A"}
+                  </h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>{selectedData?.tax ? selectedData?.tax : "N/A"}</h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1>
+                    {selectedData?.description
+                      ? selectedData?.description
+                      : "N/A"}
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="btn btn-info btn-md text-white "
+                onClick={() => {
+                  setSelectedData(null), setShowModal(false);
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
