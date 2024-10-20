@@ -3,6 +3,7 @@ import {
   getAllFinanceApproval,
   rejectedFinance,
   updateFinanceApproval,
+  pendingFinance,
 } from "../controllers/financeApprovalController.js";
 
 import express from "express";
@@ -14,5 +15,6 @@ financeApprovalRouter.put("/update/:id", updateFinanceApproval);
 // financeApprovalRouter.put("/approved/:id", approvedFinance);
 financeApprovalRouter.put("/approved/:id", approvedFinance);
 financeApprovalRouter.put("/rejected/:id", rejectedFinance);
+financeApprovalRouter.get("/pendingFinance", pendingFinance);
 
 export default financeApprovalRouter;

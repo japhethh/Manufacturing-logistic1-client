@@ -23,7 +23,7 @@ const VendorUserContextProvider = ({ children }) => {
   }, []);
 
   const [token, setToken] = useState("");
-
+  const [notifications, setNotifications] = useState([]);
   const contextValue = {
     setToken,
     token,

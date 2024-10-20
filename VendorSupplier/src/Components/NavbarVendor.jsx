@@ -3,6 +3,10 @@ import joji from "../assets/joji.jpg";
 import vendor from "../assets/vendor.png";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import verifyStore from "../context/verifyStore";
+import io from "socket.io-client";
+import NotificationItem  from '../Components/Notification/NotificationItem'
+
 import {
   FaTachometerAlt,
   FaBoxOpen,
@@ -12,9 +16,43 @@ import {
   FaComments,
   FaUserCog,
 } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 const NavbarVendor = () => {
   const navigate = useNavigate();
+
+  const ENDPOINT =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://backend-logistic1.jjm-manufacturing.com";
+
+  const { addNotification, token } = verifyStore();
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const socket = io(ENDPOINT, {
+      auth: {
+        token: token ? `Bearer ${token}` : "", // Send token for authentication if required
+      },
+      transports: ["websocket"],
+    });
+
+    // Listen for notifications from the server
+    socket.on("vendor-notification", (notification) => {
+      addNotification(notification); // Add notification to the store
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        notification,
+      ]);
+      console.log(notification);
+    });
+
+    // Cleanup on component unmount
+    return () => {
+      socket.off("vendor-notification");
+    };
+  }, [ENDPOINT, addNotification]);
+
   const menuItems = [
     {
       icon: <FaTachometerAlt className="text-2xl" />,
@@ -92,35 +130,6 @@ const NavbarVendor = () => {
                 </h2>
               </NavLink>
 
-              {/* Search Bar */}
-              <div className="mb-5">
-                <div className="relative">
-                  <input
-                    className="w-full bg-transparent placeholder:text-slate-400 text-blue-600 text-sm border border-slate-200 rounded-md pl-3 pr-10 py-2 transition duration-300 focus:outline-none focus:border-blue-500 hover:border-slate-300 shadow-sm"
-                    placeholder="Search..."
-                    aria-label="Search"
-                  />
-                  <button
-                    className="absolute top-1 right-1 flex items-center rounded bg-blue-700 py-1 px-2.5 text-white transition-all duration-300 hover:bg-blue-600 focus:bg-blue-600"
-                    type="button"
-                    aria-label="Search"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="h-4 w-4"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
               {/* Sidebar Links */}
               <ul className="space-y-4">
                 {menuItems.map((item, index) => (
@@ -133,30 +142,14 @@ const NavbarVendor = () => {
                       className="flex items-center px-4 py-2 text-gray-800 font-semibold hover:text-blue-700 duration-200"
                       onClick={() =>
                         (document.getElementById("my-drawer").checked = false)
-                      } // Close drawer on link click
+                      }
                     >
-                      <span className="mr-2">{item.icon}</span> {/* Adjusted spacing */}
+                      <span className="mr-2">{item.icon}</span>
                       <span>{item.label}</span>
                     </NavLink>
                   </li>
                 ))}
               </ul>
-
-              {/* Additional Links */}
-              <div className="grid gap-5 mt-5 border-t border-gray-200 pt-5">
-                {["Profile", "Settings", "Log out"].map((item, index) => (
-                  <NavLink
-                    key={index}
-                    className="font-semibold text-xl cursor-pointer hover:text-blue-700 transition duration-300"
-                    to={`/${item.toLowerCase().replace(" ", "-")}`}
-                    onClick={() =>
-                      (document.getElementById("my-drawer").checked = false)
-                    } // Close drawer on link click
-                  >
-                    {item}
-                  </NavLink>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -168,48 +161,50 @@ const NavbarVendor = () => {
           <span className="text-black font-bold text-2xl">Vendor Supplier</span>
         </div>
         <div className="navbar-end gap-4 flex">
-          {/* Search Button */}
-          <button
-            className="text-black size-8 p-2 hidden md:block lg:block"
-            aria-label="Search"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+
+
+          {/* Notification Dropdown */}
+          <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
+            <button className="text-black size-8 p-2 " tabIndex={0}>
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+                <span className="badge badge-xs badge-primary indicator-item">
+                  {notifications.length}
+                </span>
+              </div>
+            </button>
+            <ul
+              tabIndex={0}
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
-          {/* Notification Button */}
-          <button className="text-black size-8 p-2">
-            <div className="indicator">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                />
-              </svg>
-              <span className="badge badge-xs badge-primary indicator-item">
-                5
-              </span>
-            </div>
-          </button>
+              <div className="">
+                <h1 className="font-semibold text-2xl px-3">Notifications</h1>
+                <div className="divider"></div>
+              </div>
+
+              {notifications.length === 0 ? (
+                <li className="p-2">No new notifications</li>
+              ) : (
+                notifications.map((notification, index) => (
+                  <NotificationItem key={index} notification={notification} />
+                ))
+              )}
+            </ul>
+          </div>
+
           {/* User Profile Dropdown */}
           <div className="dropdown dropdown-end items-center hidden md:block lg:block">
             <img
@@ -224,20 +219,12 @@ const NavbarVendor = () => {
               className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 rounded-box w-52"
             >
               <li>
-                <NavLink
-                  to="/profile"
-                  className="hover:bg-gray-200"
-                  onClick={handleLogout}
-                >
+                <NavLink to="/profile" className="hover:bg-gray-200">
                   Profile
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/settings"
-                  className="hover:bg-gray-200"
-                  onClick={handleLogout}
-                >
+                <NavLink to="/settings" className="hover:bg-gray-200">
                   Settings
                 </NavLink>
               </li>

@@ -35,7 +35,7 @@ const Login = () => {
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
 
-      navigate("/");
+      navigate("/dashboardvendor");
     } catch (error) {
       reset();
       toast.error(error.response.data.message, {

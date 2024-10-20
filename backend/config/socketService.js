@@ -1,4 +1,3 @@
-
 // config/socketService.js
 export default function socketService(io) {
   io.on("connection", (socket) => {
@@ -30,6 +29,12 @@ export default function socketService(io) {
         console.log(`User ${socket.id} is not in room ${room}.`);
       }
     });
+
+    // // Simulate sending a notification to a client
+    // socket.on("send-notification", (notification) => {
+    //   // Broadcast notification to all connected clients
+    //   io.emit("receive-notification", notification);
+    // });
 
     socket.on("disconnect", () => {
       console.log(`Socket ${socket.id} disconnected`);

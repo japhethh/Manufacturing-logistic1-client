@@ -22,10 +22,11 @@ const verifyStore = create((set) => ({
   token: localStorage.getItem("token") || null,
   userData: null,
   allUsers: null,
-
   searchResults: [],
   loading: false,
   error: null,
+  notifications: [],
+
   fetchUserData: async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -75,6 +76,19 @@ const verifyStore = create((set) => ({
     localStorage.removeItem("token");
     set({ token: null, userData: null });
   },
+  // Add a new notification
+  addNotification: (notification) =>
+    set((state) => ({
+      notifications: [...state.notifications, notification],
+    })),
+
+  // Remove a notification
+  removeNotification: (id) =>
+    set((state) => ({
+      notifications: state.notifications.filter((n) => n.id !== id),
+    })),
+  // Clear all notifications
+  clearNotifications: () => set({ notifications: [] }),
 }));
 
 export default verifyStore;

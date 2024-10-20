@@ -21,6 +21,7 @@ import emailSupplierRouter from "./routes/emailSupplierRouter.js";
 import vendorRouter from "./routes/vendorRouter.js";
 import invoiceVendorRouter from "./routes/invoiceVendorRouter.js";
 import categoryVendorRouter from "./routes/categoryVendorRouter.js";
+import notificationVendorRouter from "./routes/notificationVendorRouter.js";
 import { Server } from "socket.io";
 import socketService from "./config/socketService.js";
 
@@ -66,6 +67,8 @@ app.use("/api/email", emailSupplierRouter);
 app.use("/api/vendor", vendorRouter);
 app.use("/api/invoices", invoiceVendorRouter);
 app.use("/api/category", categoryVendorRouter);
+app.use("/api/notifications", notificationVendorRouter);
+
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
@@ -89,37 +92,3 @@ const io = new Server(server, {
 app.set("socketio", io);
 
 socketService(io);
-
-// io.on("connection", (socket) => {
-//   // Login client connects successfully
-//   console.log("connected to socket.io");
-
-//   socket.on("setup", (userData) => {
-//     socket.join(userData._id); // Join the user to a room with their unique ID.
-
-//     socket.userData = userData;
-//     console.log(userData.name + "Ako yung owner");
-//     socket.emit("connected");
-//   });
-
-//   socket.on("join chat", (room) => {
-//     socket.join(room);
-//     console.log("User Join room" + room);
-//   });
-
-//   socket.on("joinRoom", (room) => {
-//     socket.join(room);
-
-//     console.log(`User ${socket.id} joined room ${room}`); // Update the log message
-//   });
-
-//   socket.on("sendMessage", ({ room, message }) => {
-//     if (socket.rooms.has(room)) {
-//       // Ensure the user is in the room
-//       console.log(`Message from ${socket.id} to room ${room}: ${message}`);
-//       io.to(room).emit("newMessage", { senderId: socket.id, message });
-//     } else {
-//       console.log(`User ${socket.id} is not in room ${room}.`);
-//     }
-//   });
-// });

@@ -1,7 +1,8 @@
 import asyncHandler from "express-async-handler";
 import financeApprovalModel from "../models/financeApprovalModel.js";
 import supplierModel from "../models/supplierModel.js";
-import purchaseOrderModel from '../models/purchaseOrderModel.js'
+import purchaseOrderModel from "../models/purchaseOrderModel.js";
+import NotificationVendorModel from "../models/notificationVendorModel.js";
 
 const getAllFinanceApproval = asyncHandler(async (req, res) => {
   const getData = await financeApprovalModel.find({}).populate("purchaseOrder");
@@ -140,21 +141,35 @@ const approvedFinance = asyncHandler(async (req, res) => {
   await existSupplier.save();
 
   const io = req.app.get("socketio");
-  
 
-  const purchaseOrderId = await purchaseOrderModel.findById(exist.purchaseOrder._id);
+  const purchaseOrderId = await purchaseOrderModel.findById(
+    exist.purchaseOrder._id
+  );
 
-
-  console.log(purchaseOrderId)
+  console.log(purchaseOrderId);
   io.emit("sendingOrder", purchaseOrderId);
+  io.emit("receive-notification", purchaseOrderId, {
+    message: "New purchase order received",
+  });
+
+  const notificationMessage = `You have a new pending purchase order ${exist.purchaseOrder.purchaseOrderNumber}`;
+
+  const newNotification = new NotificationVendorModel({
+    // user: existSupplier._id, // Associate the notification with the supplier/vendor
+    purchaseOrder: exist.purchaseOrder._id,
+    message: notificationMessage,
+    type: "pending", // Adjust type for pending notifications
+  });
+  await newNotification.save(); // Save the notification to the database
+
+  io.emit("vendor-notification", newNotification);
+
   return res.status(200).json({
     success: true,
     data: existSupplier,
     message: "Successfully Approve by Finance!",
   });
 });
-
-
 
 // REJECT
 const rejectedFinance = asyncHandler(async (req, res) => {
@@ -270,9 +285,23 @@ const rejectedFinance = asyncHandler(async (req, res) => {
   });
 });
 
+const pendingFinance = asyncHandler(async (req, res) => {
+  const pending = await financeApprovalModel
+    .find({ status: "Pending" })
+    .populate("purchaseOrder");
+  if (!pending) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Pending not found" });
+  }
+
+  res.status(200).json({ success: true, pending });
+});
+
 export {
   getAllFinanceApproval,
   updateFinanceApproval,
   approvedFinance,
   rejectedFinance,
+  pendingFinance,
 };
