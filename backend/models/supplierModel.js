@@ -110,9 +110,9 @@ const supplierSchema = mongoose.Schema(
       address: {
         type: String,
         trim: true,
-        required: function () {
-          return this.status === "Active";
-        },
+        // required: function () {
+        //   return this.status === "Active";
+        // },
       },
     },
 

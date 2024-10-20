@@ -119,7 +119,55 @@ const updateUser = asyncHandler(async (req, res) => {
   if (!updatedUser) {
     return res.status(400).json({ success: false, message: "User not found" });
   }
-  res.status(200).json({ success: true, data: updatedUser });
+  res.status(200).json({ success: true, message: "Update Successfully" });
+});
+const updateUserPassword = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { currentPass, pass, confirmPass } = req.body;
+
+  // Find the user by ID
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+
+  // Check if current password matches the user's stored password
+  const isMatch = await bcrypt.compare(currentPass, user.password);
+  if (!isMatch) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Current password is incorrect" });
+  }
+
+  // Check if the new password matches the confirm password
+  if (pass !== confirmPass) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: "New password and confirm password do not match",
+      });
+  }
+
+  // Hash the new password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(pass, salt);
+
+  // Update the user's password
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { password: hashedPassword },
+    { new: true }
+  );
+
+  if (!updatedUser) {
+    return res.status(400).json({ success: false, message: "User not found" });
+  }
+
+  res
+    .status(200)
+    .json({ success: true, message: "Password updated successfully" });
 });
 
 const getSearch = asyncHandler(async (req, res) => {
@@ -177,4 +225,5 @@ export {
   updateUser,
   adminRequest,
   getSearch,
+  updateUserPassword,
 };

@@ -36,6 +36,7 @@ import VendorManagement from "./Components/Procurements/VendorManagement.jsx";
 import Empty from "./Components/Empty.jsx";
 import VendorProduct from "./Components/VendorProduct.jsx";
 import VendorManagementCreate from "./Components/VendorManagementCreate.jsx";
+import Profile from "./Components/Profile.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -176,17 +177,12 @@ const App = () => {
           <Route path="/vendormanagement" element={<VendorManagement />}>
             <Route
               path="vendormanagementcreate"
-              element={<VendorManagementCreate/>}
+              element={<VendorManagementCreate />}
             />
-            <Route
-              path="vendorproduct"
-              element={<VendorProduct/>}
-            />
-            <Route
-              path="empty"
-              element={<Empty/>}
-            />
+            <Route path="vendorproduct" element={<VendorProduct />} />
+            <Route path="empty" element={<Empty />} />
           </Route>
+          <Route path="/profile" element={<Profile />}></Route>
         </Routes>
       </div>
     </div>

@@ -249,26 +249,26 @@ const PendingOrdersVendor = () => {
       <div className="mb-6 p-4 bg-white rounded-lg shadow">
         <h2 className="text-2xl font-semibold mb-2">Supplier Details</h2>
         <p>
-          <strong>Name:</strong> {userData.supplierName}
+          <strong>Name:</strong> {userData?.supplierName}
         </p>
         <p>
-          <strong>Contact Person:</strong> {userData.contactPerson}
+          <strong>Contact Person:</strong> {userData?.contactPerson}
         </p>
         <p>
-          <strong>Email:</strong> {userData.contactEmail}
+          <strong>Email:</strong> {userData?.contactEmail}
         </p>
         <p>
-          <strong>Phone:</strong> {userData.contactPhone}
+          <strong>Phone:</strong> {userData?.contactPhone}
         </p>
         <p>
           <strong>Address:</strong>{" "}
-          {`${userData.address?.street}, ${userData.address?.city}, ${userData.address?.state}, ${userData.address?.zipCode}, ${userData.address?.country}`}
+          {`${userData?.address?.street}, ${userData?.address?.city}, ${userData?.address?.state}, ${userData?.address?.zipCode}, ${userData?.address?.country}`}
         </p>
         <p>
-          <strong>Payment Terms:</strong> {userData.paymentTerms}
+          <strong>Payment Terms:</strong> {userData?.paymentTerms}
         </p>
         <p>
-          <strong>Status:</strong> {userData.status}
+          <strong>Status:</strong> {userData?.status}
         </p>
       </div>
 
@@ -288,25 +288,25 @@ const PendingOrdersVendor = () => {
           <tbody>
             {currentOrders.length > 0 ? (
               currentOrders.map((order) => (
-                <tr key={order._id} className="hover:bg-gray-100">
-                  <td>{order._id}</td>
-                  <td>{order.purchaseOrderNumber}</td>
-                  <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+                <tr key={order?._id} className="hover:bg-gray-100">
+                  <td>{order?._id}</td>
+                  <td>{order?.purchaseOrderNumber}</td>
+                  <td>{new Date(order?.orderDate).toLocaleDateString()}</td>
                   <td>{`₱${order.totalAmount.toLocaleString()}`}</td>
                   <td>
                     <span
                       className={`btn btn-ghost btn-xs ${
                         order.orderStatus === "Pending"
                           ? "bg-orange-500 text-white"
-                          : order.orderStatus === "In Process"
+                          : order?.orderStatus === "In Process"
                           ? "bg-green-500 text-white"
-                          : order.orderStatus === "Approved"
+                          : order?.orderStatus === "Approved"
                           ? "bg-blue-500 text-white"
-                          : order.orderStatus === "Rejected"
+                          : order?.orderStatus === "Rejected"
                           ? "bg-red-500 text-white"
-                          : order.orderStatus === "Shipped"
+                          : order?.orderStatus === "Shipped"
                           ? "bg-yellow-500 text-white"
-                          : order.orderStatus === "Delivered"
+                          : order?.orderStatus === "Delivered"
                           ? "bg-purple-500 text-white"
                           : ""
                       }`}

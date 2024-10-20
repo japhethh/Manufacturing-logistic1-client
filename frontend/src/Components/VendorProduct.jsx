@@ -131,6 +131,22 @@ const VendorProduct = () => {
     };
   }, [materialsData]);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${apiURL}/api/material/deleteMaterial/${id}`
+      );
+      toast.info("Product deleted successfully!");
+      fetchData(); // Refresh data
+      setSelectedData(null); // Reset selectedData
+      setShowModal(false); // Close the modal
+      // toast.info(response.data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Delete failed.");
+    }
+  };
+
+
   return (
     <div className="p-6 bg-gray-50 shadow-lg rounded-lg">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Vendor Product</h2>
@@ -186,18 +202,39 @@ const VendorProduct = () => {
       </div>
       {/* end */}
 
-      {/* Delete */}
-      {/* {showModal && modalType === "delete" && selectedData && (
-        <div> 
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-5 w-4/6">
-
-          </div>
+      {/* Delete Modal */}
+      {showModal && modalType === "delete" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-1/3">
+            <h3 className="text-lg font-bold">Vendor</h3>
+            <p className="py-4">
+              Are you sure you want to{" "}
+              <span className="text-red-500 font-bold">delete</span> the
+              category{" "}
+              <span className="font-bold">{selectedData?.materialName}</span>?
+              This action cannot be undone and will permanently remove the
+              category from the system.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => handleDelete(selectedData._id)}
+                className="btn btn-error btn-md text-white"
+              >
+                Confirm
+              </button>
+              <button
+                className="btn btn-outline btn-error btn-md text-white"
+                onClick={() => {
+                  setSelectedData(null); // Reset selectedData on cancel
+                  setShowModal(false); // Close modal
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-      )} */}
-
-
+      )}
 
       {/* Detail */}
       {showModal && modalType === "detail" && selectedData && (

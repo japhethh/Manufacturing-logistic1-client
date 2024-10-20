@@ -9,8 +9,9 @@ import {
   updateUser,
   adminRequest,
   getSearch,
+  updateUserPassword,
 } from "../controllers/userController.js";
-import {authMiddleware} from "../middleware/Auth.js";
+import { authMiddleware } from "../middleware/Auth.js";
 const userRouter = express.Router();
 
 userRouter.get("/", authMiddleware, getSpecificUser);
@@ -22,5 +23,6 @@ userRouter.post("/adminrequest", adminRequest);
 userRouter.get("/getAllUsers", getUser);
 userRouter.get("/getEdit/:id", getEdit);
 userRouter.get("/userSearch", getSearch);
+userRouter.put("/updatePassword/:id", updateUserPassword);
 
 export default userRouter;

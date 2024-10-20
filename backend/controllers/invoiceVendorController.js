@@ -1,43 +1,55 @@
 import asyncHandler from "express-async-handler";
 import Invoice from "../models/invoiceVendorModel.js";
-import purchaseOrderModel from '../models/purchaseOrderModel.js'
+import purchaseOrderModel from "../models/purchaseOrderModel.js";
 
-// CREATE INVOICE
 const createInvoice = async (req, res) => {
+  const {
+    _id,
+    supplier,
+    items,
+    totalAmount,
+    paymentDetails,
+    issueDate,
+    dueDate,
+    shippingDetails,
+    companyAccount,
+    tax,
+    notes,
+    status,
+  } = req.body;
+
   try {
-    // Fetch the last created invoice by sorting invoices by creation date in descending order
-    const lastInvoice = await Invoice.findOne().sort({ createdAt: -1 });
-
-    // Generate new invoice number
-    let newInvoiceNumber;
-    if (lastInvoice) {
-      // Extract the number part from the last invoice (assuming a simple numeric format)
-      const lastInvoiceNumber = parseInt(lastInvoice.invoiceNumber);
-      newInvoiceNumber = (lastInvoiceNumber + 1).toString();
-    } else {
-      // If no invoice exists, start with 1
-      newInvoiceNumber = "1";
-    }
-
-    // Create new invoice with the incremented invoice number
+    // Create new invoice document
     const newInvoice = new Invoice({
-      invoiceNumber: newInvoiceNumber,
-      purchaseOrder: req.body.purchaseOrder,
-      vendor: req.body.vendor,
-      
-      items: req.body.items,
-      totalAmount: req.body.totalAmount,
-      paymentDetails: req.body.paymentDetails,
-      issueDate: req.body.issueDate,
-      dueDate: req.body.dueDate,
-      shippingDetails: req.body.shippingDetails,
-      tax: req.body.tax,
-      notes: req.body.notes,
-      status: req.body.status,
+      purchaseOrder: _id,
+      vendor: supplier._id,
+      items: items.map((item) => ({
+        product: item._id,
+        quantity: item.quantity,
+        unitPrice: item.price,
+        totalPrice: item.totalPrice,
+      })),
+      totalAmount,
+      paymentDetails,
+      issueDate,
+      dueDate,
+      shippingDetails: {
+        shippingAddress: {
+          address: companyAccount.companyAddress,
+          city: companyAccount.companyAddress,
+          zipCode: companyAccount.zipCode,
+          country: companyAccount.country,
+        },
+      },
+      tax: { taxAmount: tax },
+      notes,
+      status,
     });
 
+    // Save the invoice document
     await newInvoice.save();
 
+    // Return success response
     res.status(201).json({
       success: true,
       message: "Invoice created successfully",
@@ -47,11 +59,10 @@ const createInvoice = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: "Server error while creating invoice",
     });
   }
 };
-
 
 // GET ALL INVOICE
 const getAllInvoice = asyncHandler(async (req, res) => {
@@ -68,20 +79,22 @@ const getAllInvoice = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, invoices });
 });
 
-
 // GET SINGLE ID
 const getSingleInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const { id } = req.params;
 
-  const singleInvoice = await purchaseOrderModel.findById(id).populate("supplier");
+  const singleInvoice = await purchaseOrderModel
+    .findById(id)
+    .populate("supplier")
+    .populate("companyAccount");
   if (!singleInvoice) {
     return res
       .status(400)
       .json({ success: false, message: "Invoice not found" });
   }
 
-  console.log(singleInvoice)
+  console.log(singleInvoice);
   res.status(200).json({ success: true, singleInvoice });
 });
 

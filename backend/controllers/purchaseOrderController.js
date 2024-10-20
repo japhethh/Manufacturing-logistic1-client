@@ -49,6 +49,13 @@ const createPurchaseOrder = async (req, res) => {
     //     .status(400)
     //     .json({ success: false, message: "Info Not Found!" });
     // }
+    const generalSetting = await generalSettingsModel.find();
+    if (!generalSetting) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Company Account not found" });
+    }
+    const companyAccountId = generalSetting[0]._id;
 
     const newPurchaseOrder = new purchaseOrderModel({
       purchaseOrderNumber: purchaseOrderNumber,
@@ -63,6 +70,7 @@ const createPurchaseOrder = async (req, res) => {
       createdBy: userId,
       category: category,
       paymentDetails: paymentDetails,
+      companyAccount: companyAccountId,
       // companyAccount: addressAccount._id,
     });
 
@@ -106,14 +114,14 @@ const createPurchaseOrder = async (req, res) => {
     // console.log(financeApproval);
     // FINANCE ------------------->
     // Axios
-    const postRequest = async () => {
-      const response = await axios.post(
-        `https://backend-finance.jjm-manufacturing.com/API/BudgetRequests/RequestBudget`,
-        financeApproval
-      );
-      console.log(response.data);
-    };
-    postRequest();
+    // const postRequest = async () => {
+    //   const response = await axios.post(
+    //     `https://backend-finance.jjm-manufacturing.com/API/BudgetRequests/RequestBudget`,
+    //     financeApproval
+    //   );
+    //   console.log(response.data);
+    // };
+    // postRequest();
 
     res.status(201).json(newPurchaseOrder);
   } catch (error) {

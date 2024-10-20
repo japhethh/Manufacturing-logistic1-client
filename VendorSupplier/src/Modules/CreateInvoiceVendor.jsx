@@ -21,6 +21,7 @@ const CreateInvoiceVendor = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     defaultValues: {},
   });
@@ -29,6 +30,16 @@ const CreateInvoiceVendor = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
+    try {
+      const response = await axios.post(`${apiURL}/api/invoices/create`, data, {
+        headers: { token: token },
+      });
+      toast.success(response.data.message);
+      navigate("/ordersvendor/ReceivingOrdersVendor");
+    } catch (error) {
+      toast.error(error?.response.data.message);
+    }
+    // const response = await
   };
 
   const fetchOrderId = async () => {
@@ -104,15 +115,18 @@ const CreateInvoiceVendor = () => {
                 <select
                   className="select select-info w-full"
                   aria-label="Customer Type"
-                  {...register("customerType", {
+                  {...register("companyName", {
                     required: "Customer is required",
                   })}
                 >
                   <option value="" disabled selected>
                     Select Customer
                   </option>
-                  <option value={purchaseData?.supplier?.supplierName} selected>
-                    {purchaseData?.supplier?.supplierName}
+                  <option
+                    value={purchaseData?.companyAccount?.companyName}
+                    selected
+                  >
+                    {purchaseData?.companyAccount?.companyName}
                   </option>
                   <option>Supplier</option>
                   <option>Client</option>
@@ -300,21 +314,23 @@ const CreateInvoiceVendor = () => {
                     Customer Name: {purchaseData?.supplier.firstName}{" "}
                     {purchaseData?.supplier.lastName}
                   </p>
-                  <p>Company Name: {purchaseData?.supplier.supplierName}</p>
                   <p>
-                    {purchaseData?.supplier?.address?.city},
-                    {purchaseData?.supplier?.address?.state},
-                    {purchaseData?.supplier?.address?.country},
-                    {purchaseData?.supplier?.address?.zipCode}
+                    Company Name: {purchaseData?.companyAccount?.companyName}
+                  </p>
+                  <p>
+                    Address: {purchaseData?.companyAccount?.companyAddress},
+                    {purchaseData?.companyAccount?.state},
+                    {purchaseData?.companyAccount?.country},
+                    {purchaseData?.companyAccount?.zipCode}
                   </p>
                   <p>
                     Phone:{" "}
-                    {purchaseData?.supplier?.contactPhone ||
+                    {purchaseData?.companyAccount?.companyPhone ||
                       "Your Company Phone"}
                   </p>
                   <p>
                     Email:{" "}
-                    {purchaseData?.supplier?.contactEmail ||
+                    {purchaseData?.companyAccount?.companyEmail ||
                       "Your Company Email"}
                   </p>
                 </div>
@@ -328,22 +344,23 @@ const CreateInvoiceVendor = () => {
                     Customer Name: {purchaseData?.supplier.firstName}{" "}
                     {purchaseData?.supplier.lastName}
                   </p>
-                  <p>Company Name: {purchaseData?.supplier.supplierName}</p>
                   <p>
-                    Address: {purchaseData?.supplier?.address?.street},{" "}
-                    {purchaseData?.supplier?.address?.city},{" "}
-                    {purchaseData?.supplier?.address?.state},{" "}
-                    {purchaseData?.supplier?.address?.country},{" "}
-                    {purchaseData?.supplier?.address?.zipCode}
-                  </p>{" "}
+                    Company Name: {purchaseData?.companyAccount?.companyName}
+                  </p>
+                  <p>
+                    Address: {purchaseData?.companyAccount?.companyAddress},
+                    {purchaseData?.companyAccount?.state},
+                    {purchaseData?.companyAccount?.country},
+                    {purchaseData?.companyAccount?.zipCode}
+                  </p>
                   <p>
                     Phone:{" "}
-                    {purchaseData?.supplier?.contactPhone ||
+                    {purchaseData?.companyAccount?.companyPhone ||
                       "Your Company Phone"}
                   </p>
                   <p>
                     Email:{" "}
-                    {purchaseData?.supplier?.contactEmail ||
+                    {purchaseData?.companyAccount?.companyEmail ||
                       "Your Company Email"}
                   </p>
                 </div>
@@ -448,6 +465,12 @@ const CreateInvoiceVendor = () => {
 
             {/* end */}
           </div>
+        </div>
+
+        <div className="py-4 mb-4 shadow-md border border-collapse px-4 min-w-40 max-w-40">
+          <h1 className="font-semibold">
+            Total: <strong>{watch("totalAmount")}</strong>
+          </h1>
         </div>
 
         <button

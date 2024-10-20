@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
+import Counter from "./Counter.js";
 
 const invoiceVendorSchema = new mongoose.Schema(
   {
     invoiceNumber: {
       type: String,
-      required: true,
       unique: true, // Ensure invoice numbers are unique
     },
     purchaseOrder: {
@@ -45,7 +45,13 @@ const invoiceVendorSchema = new mongoose.Schema(
     paymentDetails: {
       paymentMethod: {
         type: String,
-        enum: ["Credit Card", "Cash on Delivery", "Gcash", "Bank Transfer", "Other"],
+        enum: [
+          "Credit Card",
+          "Cash on Delivery",
+          "GCash",
+          "Bank Transfer",
+          "Other",
+        ],
         required: true,
       },
       paymentDate: {
@@ -55,7 +61,7 @@ const invoiceVendorSchema = new mongoose.Schema(
       transactionId: {
         type: String,
         required: false,
-    },
+      },
     },
     issueDate: {
       type: Date,
@@ -68,11 +74,11 @@ const invoiceVendorSchema = new mongoose.Schema(
     },
     shippingDetails: {
       shippingAddress: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        zipCode: { type: String, required: true },
-        country: { type: String, required: true },
+        city: { type: String },
+        state: { type: String },
+        zipCode: { type: String },
+        country: { type: String },
+        address: { type: String },
       },
       trackingNumber: {
         type: String,
@@ -82,7 +88,7 @@ const invoiceVendorSchema = new mongoose.Schema(
     tax: {
       taxRate: {
         type: Number,
-        required: true,
+        // required: true,
       },
       taxAmount: {
         type: Number,
@@ -101,6 +107,22 @@ const invoiceVendorSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+invoiceVendorSchema.pre("save", async function (next) {
+  try {
+    const counter = await Counter.findByIdAndUpdate(
+      {
+        _id: "invoiceNumber",
+      },
+      { $inc: { sequence_value: 1 } },
+      { new: true, upsert: true }
+    );
+    const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
+    this.invoiceNumber = `IC-${invoiceNumber}`;
+  } catch (error) {
+    return next(error);
+  }
+});
 
 const Invoice = mongoose.model("Invoice", invoiceVendorSchema);
 

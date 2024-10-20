@@ -4,6 +4,7 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import MobileSidebar from "./MobileSidebar";
 import Store from "../context/Store";
+import { Link } from "react-router-dom";
 
 const Search = () => {
   const { userData } = Store(); // Access global state and actions
@@ -82,9 +83,9 @@ const Search = () => {
                 </a>
               </li>
               <li>
-                <a href="#profile" className="hover:bg-gray-100 p-2 rounded">
+                <Link to="/profile" className="hover:bg-gray-100 p-2 rounded">
                   Profile
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#settings" className="hover:bg-gray-100 p-2 rounded">

@@ -412,10 +412,10 @@ const VendorManagementCreate = () => {
                     </label>
                     <input
                       type="text"
-                      name="country"
+                      name="city"
                       value={
                         selectedData?.address?.city
-                          ? selectedData?.address?.country
+                          ? selectedData?.address?.city
                           : "N/A"
                       }
                       onChange={handleInputChange}
