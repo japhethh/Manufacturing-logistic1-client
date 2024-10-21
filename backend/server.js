@@ -22,6 +22,7 @@ import vendorRouter from "./routes/vendorRouter.js";
 import invoiceVendorRouter from "./routes/invoiceVendorRouter.js";
 import categoryVendorRouter from "./routes/categoryVendorRouter.js";
 import notificationVendorRouter from "./routes/notificationVendorRouter.js";
+import notificationLogisticRouter from "./routes/notificationLogisticRouter.js";
 import { Server } from "socket.io";
 import socketService from "./config/socketService.js";
 
@@ -68,6 +69,7 @@ app.use("/api/vendor", vendorRouter);
 app.use("/api/invoices", invoiceVendorRouter);
 app.use("/api/category", categoryVendorRouter);
 app.use("/api/notifications", notificationVendorRouter);
+app.use("/api/notificationsLogistic", notificationLogisticRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
@@ -83,6 +85,7 @@ const io = new Server(server, {
       "https://manufacturing-logistic1-client-vendor.onrender.com",
       "https://manufacturing-logistic1-client.onrender.com",
       "https://logistic1.jjm-manufacturing.com",
+      "https://backend-logistic1.jjm-manufacturing.com",
     ],
     methods: ["GET", "POST", "PUT"],
     allowedHeaders: ["Content-Type"],

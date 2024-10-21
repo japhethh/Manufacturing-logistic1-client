@@ -1,4 +1,5 @@
 import MaterialModel from "../models/materialModel.js";
+import NotificationLogisticModel from "../models/notificationLogisticModel.js";
 import rawmaterialModel from "../models/rawmaterialModel.js";
 import asyncHandler from "express-async-handler";
 
@@ -25,13 +26,11 @@ const newRequested = asyncHandler(async (req, res) => {
 
   // Check for required fields
   if (!requestedBy || !material || !notes) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message:
-          "All fields (requestedBy, material, quantity, unit, notes) are required.",
-      });
+    return res.status(400).json({
+      success: false,
+      message:
+        "All fields (requestedBy, material, quantity, unit, notes) are required.",
+    });
   }
 
   const newRequest = new rawmaterialModel({
@@ -45,7 +44,23 @@ const newRequested = asyncHandler(async (req, res) => {
 
   try {
     const save = await newRequest.save();
+
     res.status(201).json(save);
+
+    const io = req.app.get("socket.io");
+
+    const notificationMessage = `You have a new Rawmaterial ${save._id}`;
+    // Notification to logistic
+    const newNotification = new NotificationLogisticModel({
+      message: notificationMessage,
+      requestRawmaterialId: save._id,
+      type: "pending",
+    });
+
+    await newNotification.save();
+
+    io.emit("logistic-notification", newNotification);
+    console.log(newNotification);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

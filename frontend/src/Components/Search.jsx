@@ -3,12 +3,61 @@ import { IoIosMenu } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import MobileSidebar from "./MobileSidebar";
-import Store from "../context/Store";
+import Store, { apiURL } from "../context/Store";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import io from "socket.io-client";
+import NotificationItem from "./Notification/NotificationItem";
 
 const Search = () => {
-  const { userData } = Store(); // Access global state and actions
+  const { userData, token } = Store(); // Access global state and actions
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [notifications, setNotifications] = useState([]);
+
+  const ENDPOINT =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://backend-logistic1.jjm-manufacturing.com";
+
+  useEffect(() => {
+    fetchNotification();
+  }, []);
+
+  const fetchNotification = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/api/notificationsLogistic`, {
+        headers: { token: token },
+      });
+      console.log(response.data);
+      setNotifications(response.data);
+    } catch (error) {
+      toast.error(error?.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    const socket = io(ENDPOINT);
+    socket.on("logistic-notification", (notification) => {
+      setNotifications((preNotification) => [...preNotification, notification]);
+
+      console.log(notification);
+
+      return () => {
+        socket.disconnect();
+      };
+    });
+  }, [ENDPOINT]);
+
+  // Function to update notifications state after marking as read
+  const handleMarkAsRead = (id) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notif) =>
+        notif?._id === id ? { ...notif, isRead: true } : notif
+      )
+    );
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -60,10 +109,56 @@ const Search = () => {
             className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
             aria-label="Toggle dark mode"
           />
-          <IoMdNotificationsOutline
-            className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
-            aria-label="Notifications"
-          />
+
+          {/* Notification Dropdown */}
+          <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
+            <button className="text-black size-8 p-2 " tabIndex={0}>
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+                <span className="badge badge-xs badge-primary indicator-item">
+                  {notifications.filter((notif) => !notif.isRead).length}
+                </span>
+              </div>
+            </button>
+            <ul
+              tabIndex={0}
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800  "
+            >
+              <div className="overflow-y-scroll max-w-96 max-h-96 w-96">
+                <div className="">
+                  <h1 className="font-semibold text-2xl px-3">Notifications</h1>
+                  <div className="divider"></div>
+                </div>
+
+                {notifications.filter((notif) => !notif.isRead).length === 0 ? (
+                  <li className="p-2">No new notifications</li>
+                ) : (
+                  notifications
+                    .filter((notif) => !notif.isRead) // Only display unread notifications
+                    .map((notification, index) => (
+                      <NotificationItem
+                        key={index}
+                        notification={notification}
+                        onMarkAsRead={handleMarkAsRead} // Pass the callback here
+                      />
+                    ))
+                )}
+              </div>
+            </ul>
+          </div>
           <div className="relative dropdown dropdown-end">
             <img
               src="https://i.pinimg.com/736x/ea/21/05/ea21052f12b135e2f343b0c5ca8aeabc.jpg"
