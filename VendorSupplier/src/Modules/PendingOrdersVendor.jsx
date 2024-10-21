@@ -36,12 +36,7 @@ const PendingOrdersVendor = () => {
 
   useEffect(() => {
     // Initialize Socket.IO connection
-    const newSocket = io(ENDPOINT, {
-      auth: {
-        token: token ? `Bearer ${token}` : "", // Send token for authentication if required
-      },
-      transports: ["websocket"],
-    });
+    const newSocket = io(ENDPOINT);
 
     // Listen for new orders
     newSocket.on("sendingOrder", (newOrder) => {

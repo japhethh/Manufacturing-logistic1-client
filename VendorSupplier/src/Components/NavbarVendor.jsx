@@ -3,9 +3,9 @@ import joji from "../assets/joji.jpg";
 import vendor from "../assets/vendor.png";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import verifyStore from "../context/verifyStore";
+import verifyStore, { apiURL } from "../context/verifyStore";
 import io from "socket.io-client";
-import NotificationItem  from '../Components/Notification/NotificationItem'
+import NotificationItem from "../Components/Notification/NotificationItem.jsx";
 
 import {
   FaTachometerAlt,
@@ -17,6 +17,8 @@ import {
   FaUserCog,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const NavbarVendor = () => {
   const navigate = useNavigate();
@@ -30,12 +32,32 @@ const NavbarVendor = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const socket = io(ENDPOINT, {
-      auth: {
-        token: token ? `Bearer ${token}` : "", // Send token for authentication if required
-      },
-      transports: ["websocket"],
-    });
+    fetchNotification();
+  }, []);
+
+  const fetchNotification = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/api/notifications`, {
+        headers: { token: token },
+      });
+      console.log(response.data);
+      setNotifications(response.data);
+    } catch (error) {
+      toast.error(error?.response.data.message);
+    }
+  };
+
+  // Function to update notifications state after marking as read
+  const handleMarkAsRead = (id) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notif) =>
+        notif?._id === id ? { ...notif, isRead: true } : notif
+      )
+    );
+  };
+
+  useEffect(() => {
+    const socket = io(ENDPOINT);
 
     // Listen for notifications from the server
     socket.on("vendor-notification", (notification) => {
@@ -49,7 +71,8 @@ const NavbarVendor = () => {
 
     // Cleanup on component unmount
     return () => {
-      socket.off("vendor-notification");
+      // socket.off("vendor-notification");
+      socket.disconnect(); // Clean up the socket connection when the component unmounts
     };
   }, [ENDPOINT, addNotification]);
 
@@ -161,8 +184,6 @@ const NavbarVendor = () => {
           <span className="text-black font-bold text-2xl">Vendor Supplier</span>
         </div>
         <div className="navbar-end gap-4 flex">
-
-
           {/* Notification Dropdown */}
           <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
             <button className="text-black size-8 p-2 " tabIndex={0}>
@@ -182,25 +203,31 @@ const NavbarVendor = () => {
                   />
                 </svg>
                 <span className="badge badge-xs badge-primary indicator-item">
-                  {notifications.length}
+                  {notifications.filter((notif) => !notif.isRead).length}
                 </span>
               </div>
             </button>
             <ul
               tabIndex={0}
-              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96"
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96 overflow-y-scroll max-w-96"
             >
               <div className="">
                 <h1 className="font-semibold text-2xl px-3">Notifications</h1>
                 <div className="divider"></div>
               </div>
 
-              {notifications.length === 0 ? (
+              {notifications.filter((notif) => !notif.isRead).length === 0 ? (
                 <li className="p-2">No new notifications</li>
               ) : (
-                notifications.map((notification, index) => (
-                  <NotificationItem key={index} notification={notification} />
-                ))
+                notifications
+                  .filter((notif) => !notif.isRead) // Only display unread notifications
+                  .map((notification, index) => (
+                    <NotificationItem
+                      key={index}
+                      notification={notification}
+                      onMarkAsRead={handleMarkAsRead} // Pass the callback here
+                    />
+                  ))
               )}
             </ul>
           </div>

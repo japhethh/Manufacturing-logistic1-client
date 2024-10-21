@@ -69,7 +69,6 @@ app.use("/api/invoices", invoiceVendorRouter);
 app.use("/api/category", categoryVendorRouter);
 app.use("/api/notifications", notificationVendorRouter);
 
-
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });
@@ -79,6 +78,8 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:4000",
+      "http://localhost:5173",
+      "http://localhost:5174",
       "https://manufacturing-logistic1-client-vendor.onrender.com",
       "https://manufacturing-logistic1-client.onrender.com",
       "https://logistic1.jjm-manufacturing.com",

@@ -1,13 +1,14 @@
 import express from "express";
 import { authMiddleware } from "../middleware/Auth.js";
-import { getAllNotification } from "../controllers/notificationVendorController.js";
+import {
+  getAllNotification,
+  updateMarkAsRead,
+} from "../controllers/notificationVendorController.js";
 
 const notificationVendorRouter = express.Router();
 
-notificationVendorRouter.get(
-  "/",
-  authMiddleware,
-  getAllNotification
-);
+notificationVendorRouter.get("/", authMiddleware, getAllNotification);
+
+notificationVendorRouter.put("/updateMarkAsRead/:id", updateMarkAsRead);
 
 export default notificationVendorRouter;

@@ -1,4 +1,4 @@
-// config/socketService.js
+// config / socketService.js;
 export default function socketService(io) {
   io.on("connection", (socket) => {
     console.log("Connected to Socket.IO");

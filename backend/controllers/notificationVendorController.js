@@ -18,4 +18,16 @@ const getAllNotification = asyncHandler(async (req, res) => {
   res.status(200).json(notifications);
 });
 
-export { getAllNotification };
+const updateMarkAsRead = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const notification = await NotificationVendorModel.findByIdAndUpdate(
+    id,
+    { isRead: true },
+    { new: true }
+  );
+
+  res.status(200).json(notification);
+});
+
+export { getAllNotification, updateMarkAsRead };
