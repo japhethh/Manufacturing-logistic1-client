@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import verify, { apiURL } from "../../context/verifyStore";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 const EditAdjustment = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,6 +13,21 @@ const EditAdjustment = () => {
   const [data, setData] = useState([]);
   const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
+  const { id } = useParams();
+
+  const fetchAllAdjust = async () => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/adjustments/getSpecificId/${id}`,
+        { headers: { token: token } }
+      );
+
+      console.log(response.data.adjusted_products);
+      console.log(response.data.adjustment);
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -54,6 +70,7 @@ const EditAdjustment = () => {
 
   useEffect(() => {
     fetchData();
+    fetchAllAdjust();
   }, []);
 
   const handleSearch = (e) => {

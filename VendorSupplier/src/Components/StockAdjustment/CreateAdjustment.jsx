@@ -28,6 +28,9 @@ const CreateAdjustment = () => {
     }
   };
 
+  
+
+
   const onSubmit = async () => {
     const details = data;
     const kupal = {

@@ -96,12 +96,31 @@ const getSpecificAdjustmentId = asyncHandler(async (req, res) => {
 
   const getSpecificData = await adjustmentModel.findById(id);
 
+  const adjusted_products = await adjusted_productsModel.find({adjustment_id:id})
+
+  res.status(200).json({success:true, adjusted_products, adjustment})
+
+
+  
+
   res.status(200).json({ success: true, data: getSpecificData });
 });
 // END
 
 // UPDATE
-const updateAdjustment = asyncHandler(async (req, res) => {});
+const updateAdjustment = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+  // const {}
+  const existing = await supplierModel.findById(userId);
+  if (!existing) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
+
+  
+});
 // END
 
 // DELETE

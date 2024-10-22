@@ -36,6 +36,7 @@ const Login = () => {
       localStorage.setItem("token", response.data.token);
 
       navigate("/dashboardvendor");
+      window.location.reload();
     } catch (error) {
       reset();
       toast.error(error.response.data.message, {

@@ -37,13 +37,13 @@ const NavbarVendor = () => {
 
   const fetchNotification = async () => {
     try {
-      const response = await axios.get(`${apiURL}/api/notifications`, {
+      const response = await axios.get(`${apiURL}/api/notifications/`, {
         headers: { token: token },
       });
       console.log(response.data);
       setNotifications(response.data);
     } catch (error) {
-      toast.error(error?.response.data.message);
+      console.log(error?.response.data.message)
     }
   };
 

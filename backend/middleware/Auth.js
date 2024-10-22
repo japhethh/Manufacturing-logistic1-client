@@ -5,7 +5,7 @@ const authMiddleware = async (req, res, next) => {
   console.log(token);
   if (!token) {
     return res
-      .status(400)
+      .status(401)
       .json({ success: false, message: "Not Authorized Login Again" });
   }
 
@@ -14,8 +14,8 @@ const authMiddleware = async (req, res, next) => {
     req.body.userId = token_decode.id;
     next();
   } catch (error) {
-    console.log(err);
-    res.status(400).json({ success: false, message: "Error" });
+    console.log(error);
+    res.status(401).json({ success: false, message: "Error" });
   }
 };
 

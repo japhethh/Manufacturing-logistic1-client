@@ -74,7 +74,9 @@ const App = () => {
           }
         } catch (error) {
           handleInvalidToken();
-          toast.error(error.message);
+          console.log(error?.response.data.message);
+
+          console.log(error.message);
         }
       } else {
         // Allow access to login or sendemail if there's no token
