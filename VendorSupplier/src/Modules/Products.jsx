@@ -12,6 +12,7 @@ const Products = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const handleImageChange = (e) => {
@@ -59,6 +60,7 @@ const Products = () => {
       );
       // Handle successful submission
       toast.success(response.data.message);
+      reset();
     } catch (error) {
       // Handle errors
       toast.error(error?.response.data.message);

@@ -31,6 +31,7 @@ const materialSchema = mongoose.Schema({
     required: true,
     default: 10,
   },
+  cost: { type: Number },
   // New properties
   note: { type: String, required: false, trim: true },
   tax: { type: Number },

@@ -341,7 +341,7 @@ const VendorProduct = () => {
         </div>
       )}
     </div>
-  );
+  )
 };
 
 export default VendorProduct;

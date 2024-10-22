@@ -34,6 +34,8 @@ import AllProducts from "./Modules/AllProducts";
 import PrintProducts from "./Modules/PrintProducts";
 import DataTableTesting from "./testing/DataTableTesting.jsx";
 import Adjustment from "./Components/StockAdjustment/Adjustment.jsx";
+import CreateAdjustment from "./Components/StockAdjustment/CreateAdjustment.jsx";
+import EditAdjustment from "./Components/StockAdjustment/EditAdjustment.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -176,6 +178,8 @@ const App = () => {
             />
             <Route path="/datatable" element={<DataTableTesting />} />
             <Route path="/adjustments" element={<Adjustment />} />
+            <Route path="/adjustments/create" element={<CreateAdjustment />} />
+            <Route path="/adjustments/:id/edit" element={<EditAdjustment />} />
           </Routes>
         </div>
       </div>

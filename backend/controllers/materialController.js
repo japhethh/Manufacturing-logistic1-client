@@ -16,6 +16,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     pricePerUnit,
     userId,
     available,
+    cost,
   } = req.body;
 
   if (
@@ -25,7 +26,8 @@ const createMaterial = asyncHandler(async (req, res) => {
     !unit &&
     !pricePerUnit &&
     !userId &&
-    !available
+    !available &&
+    !cost
   ) {
     return res.status(400).json("Enter all field!");
   }
@@ -38,6 +40,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     pricePerUnit: pricePerUnit,
     supplier: userId,
     available: available,
+    cost,
   });
 
   const result = await material.save();
@@ -92,6 +95,7 @@ const appendMaterial = asyncHandler(async (req, res) => {
     tax,
     alertQuantity,
     userId,
+    cost,
   } = req.body;
 
   let image = "";
@@ -117,7 +121,7 @@ const appendMaterial = asyncHandler(async (req, res) => {
     }
   }
 
-  if (!materialName && !unit && !pricePerUnit && !alertQuantity) {
+  if (!materialName && !unit && !pricePerUnit && !alertQuantity && !cost) {
     return res
       .status(400)
       .json({ success: false, message: "Enter all field!" });
@@ -142,6 +146,7 @@ const appendMaterial = asyncHandler(async (req, res) => {
     tax,
     alertQuantity,
     image,
+    cost,
   });
 
   const savedMaterial = await newMaterial.save();

@@ -4,11 +4,11 @@ import axios from "axios";
 import verify from "../../context/verifyStore";
 import { toast } from "react-toastify";
 import { apiURL } from "../../context/verifyStore";
+import { useNavigate } from "react-router-dom";
 
 const Adjustment = () => {
   const [adjustments, setAdjustments] = useState([]);
   const [productItems, setProductItems] = useState([]);
-  const [newCategory, setNewCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
   const { token } = verify();
   const [selectedData, setSelectedData] = useState(null);
@@ -18,6 +18,8 @@ const Adjustment = () => {
     category_name: "",
     category_code: "",
   });
+
+  const navigate = useNavigate();
 
   const fetchAdjustments = async () => {
     try {
@@ -92,11 +94,8 @@ const Adjustment = () => {
         }
 
         updateBtn.addEventListener("click", () => {
+          navigate(`/adjustments/${data._id}/edit`);
           setSelectedData(data);
-          setEditCategory({
-            category_name: data.category_name,
-            category_code: data.category_code,
-          });
           setModalType("edit");
           setShowModal(true);
         });
@@ -126,31 +125,19 @@ const Adjustment = () => {
   console.log(selectedData);
   console.log(fetchAdjustment);
 
-  const handleDelete = async (dataId) => {
+  const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `${apiURL}/api/category/deleteCategory/${dataId}`
+        `${apiURL}/api/adjustments/delete/${id}`,
+        {
+          headers: { token: token },
+        }
       );
+      toast.error(response.data.message);
       fetchAdjustments();
-      toast.info(response.data.message);
       setShowModal(false);
     } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
-  };
-
-  const handleAddCategory = async () => {
-    try {
-      const response = await axios.post(
-        `${apiURL}/api/category/createCategory`,
-        { category_name: newCategory },
-        { headers: { token: token } }
-      );
-      fetchAdjustments();
-      toast.success(response.data.message);
-      setShowModal(false);
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response.data.message);
     }
   };
 
@@ -188,9 +175,8 @@ const Adjustment = () => {
           <button
             className="bg-blue-600 hover:bg-blue-500 duration-200 text-white w-40 h-10 rounded-lg"
             onClick={() => {
-              setNewCategory("");
-              setModalType("add");
               setShowModal(true);
+              navigate("/adjustments/create");
             }}
           >
             Add Adjustments +
@@ -199,51 +185,16 @@ const Adjustment = () => {
         <div className="divider"></div>
         <table id="myTable" className="display w-full"></table>
 
-        {/* Add/Edit Modal */}
-        {showModal && modalType === "edit" && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-5 w-1/3">
-              <h2 className="text-lg font-semibold mb-4">Add Adjustments</h2>
-              <input
-                type="text"
-                value={newCategory}
-                onChange={(e) => setNewCategory(e.target.value)}
-                placeholder="Category Name"
-                className="border border-gray-300 rounded-lg p-2 w-full mb-4"
-              />
-              <div className="flex justify-end">
-                <button
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg"
-                  onClick={handleAddCategory}
-                >
-                  Add
-                </button>
-                <button
-                  className="bg-gray-400 hover:bg-gray-300 text-white px-4 py-2 rounded-lg ml-2"
-                  onClick={() => {
-                    setSelectedData(null);
-                    setShowModal(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Delete Modal */}
         {showModal && modalType === "delete" && selectedData && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-lg p-5 w-1/3">
-              <h3 className="text-lg font-bold">
-                {selectedData.category_code}
-              </h3>
+              <h3 className="text-lg font-bold">Adjustment</h3>
               <p className="py-4">
                 Are you sure you want to{" "}
                 <span className="text-red-500 font-bold">delete</span> the
                 category{" "}
-                <span className="font-bold">{selectedData.category_name}</span>?
+                <span className="font-bold">{selectedData?.reference}</span>?
               </p>
               <div className="flex justify-end gap-4">
                 <button

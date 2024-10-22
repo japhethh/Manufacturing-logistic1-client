@@ -4,7 +4,7 @@ import verify, { apiURL } from "../../context/verifyStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const CreateAdjustment = () => {
+const EditAdjustment = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [initialData, setInitialData] = useState([]);
@@ -319,4 +319,4 @@ const CreateAdjustment = () => {
   );
 };
 
-export default CreateAdjustment;
+export default EditAdjustment;

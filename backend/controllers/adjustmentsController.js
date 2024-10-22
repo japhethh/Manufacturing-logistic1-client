@@ -25,28 +25,31 @@ const getAllAdjustment = asyncHandler(async (req, res) => {
   }
 
   // Extract adjustment IDs from the adjustments array
-  const adjustmentIds = adjustments.map(adjustment => adjustment._id);
+  const adjustmentIds = adjustments.map((adjustment) => adjustment._id);
 
   // Fetch product items for all adjustments
   const productItem = await adjusted_productsModel.find({
-    adjustment_id: { $in: adjustmentIds }
+    adjustment_id: { $in: adjustmentIds },
   });
 
   // Return adjustments and corresponding product items
   res.status(200).json({
     success: true,
     data: adjustments,
-    productItem: productItem
+    productItem: productItem,
   });
 });
 // END
 
-
 // CREATE
 const createAdjustment = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  const { material_id, quantity, type, note } = req.body;
+  const { userId, details, notes } = req.body;
 
+  if (!details || details.length === 0) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Product required" });
+  }
   const existing = await supplierModel.findById(userId);
 
   if (!existing) {
@@ -56,21 +59,24 @@ const createAdjustment = asyncHandler(async (req, res) => {
   }
 
   const createAdjustment = new adjustmentModel({
-    note: note,
+    note: notes,
     supplier: userId,
   });
 
   await createAdjustment.save();
 
-  const createNew = new adjusted_productsModel({
-    adjustment_id: createAdjustment._id,
-    material_id: material_id,
-    quantity,
-    type,
-    supplier: userId,
-  });
+  for (const item of details) {
+    const { _id, quantity, type } = item;
+    const createNew = new adjusted_productsModel({
+      adjustment_id: createAdjustment._id,
+      material_id: _id,
+      quantity,
+      type,
+      supplier: userId,
+    });
 
-  await createNew.save();
+    await createNew.save();
+  }
 
   res.status(201).json({ success: true, message: "Adjustment Created!" });
 });
@@ -95,13 +101,32 @@ const getSpecificAdjustmentId = asyncHandler(async (req, res) => {
 // END
 
 // UPDATE
-const updateAdjustment = asyncHandler(async (req, res) => {
-
-});
+const updateAdjustment = asyncHandler(async (req, res) => {});
 // END
 
 // DELETE
-const deleteAdjustment = asyncHandler(async (req, res) => {});
+const deleteAdjustment = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  const { id } = req.params;
+
+  const existing = await supplierModel.findById(userId);
+  if (!existing) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found!" });
+  }
+
+  const adjustmentExisting = await adjustmentModel.findById(id);
+
+  if (!adjustmentExisting || adjustmentExisting.length === 0) {
+    return res
+      .status(400)
+      .json({ success: false, message: "AdjustmentId not found!" });
+  }
+  await adjustmentModel.findByIdAndDelete(id);
+  existing;
+  res.status(200).json({ success: true, message: "Deleted Successfully!" });
+});
 // END
 export {
   getAllAdjustment,
