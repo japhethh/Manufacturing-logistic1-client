@@ -28,9 +28,6 @@ const CreateAdjustment = () => {
     }
   };
 
-  
-
-
   const onSubmit = async () => {
     const details = data;
     const kupal = {
@@ -252,7 +249,7 @@ const CreateAdjustment = () => {
                   <td className="border border-gray-400 p-2">
                     <div className="flex justify-center items-center">
                       <button className="btn bg-[#3399FF] text-white font-bold btn-xs ">
-                        {row.pricePerUnit}
+                        {row.available}
                       </button>
                     </div>
                   </td>

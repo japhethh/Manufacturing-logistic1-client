@@ -13,6 +13,8 @@ const EditAdjustment = () => {
   const [data, setData] = useState([]);
   const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
+  // const [adjusted_products, setAdjusted_products] = useState([]);
+  const [adjustment, setAdjustment] = useState([]);
   const { id } = useParams();
 
   const fetchAllAdjust = async () => {
@@ -21,11 +23,17 @@ const EditAdjustment = () => {
         `${apiURL}/api/adjustments/getSpecificId/${id}`,
         { headers: { token: token } }
       );
-
+      // setAdjusted_products(response.data.adjusted_products);
+      setData(response.data.adjusted_products);
+      setAdjustment(response.data.adjustment);
+      setNotes(response.data.adjustment.note);
+      setDate(response.data.adjustment.date.split("T")[0]); // Ensure correct format
       console.log(response.data.adjusted_products);
+
       console.log(response.data.adjustment);
     } catch (error) {
       console.log(error?.response.data.message);
+      toast.error(error?.response.data.message);
     }
   };
 
@@ -39,6 +47,7 @@ const EditAdjustment = () => {
       );
       setInitialData(response.data);
       setSearchResults(response.data); // Set initial search results to show all items by default
+      setDate(response.data.adjustment.date);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -53,8 +62,8 @@ const EditAdjustment = () => {
     };
     console.log(kupal);
     try {
-      const response = await axios.post(
-        `${apiURL}/api/adjustments/create`,
+      const response = await axios.put(
+        `${apiURL}/api/adjustments/update/${adjustment._id}`,
         kupal,
         { headers: { token: token } }
       );
@@ -116,10 +125,21 @@ const EditAdjustment = () => {
   };
 
   // Handle deleting an item from the table
-  const handleDelete = (selectedItem) => {
-    setData((prevData) =>
-      prevData.filter((item) => item._id !== selectedItem._id)
-    );
+  const handleDelete = async (selectedItem) => {
+    try {
+      const response = await axios.delete(
+        `${apiURL}/api/adjusted_products/delete/${selectedItem._id}`,
+        { headers: { token: token } }
+      );
+
+      toast.info(response.data.message);
+
+      setData((prevData) =>
+        prevData.filter((item) => item._id !== selectedItem._id)
+      );
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
   };
 
   return (
@@ -213,7 +233,7 @@ const EditAdjustment = () => {
             </label>
             <input
               type="text"
-              value="ADJ"
+              value={adjustment?.reference}
               disabled
               id="reference"
               className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
@@ -231,7 +251,7 @@ const EditAdjustment = () => {
             <input
               type="date"
               id="date"
-              value={date} // Use date state here
+              value={date} // Use the formatted date string
               onChange={(e) => setDate(e.target.value)} // Update the date state
               className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
             />
@@ -253,20 +273,20 @@ const EditAdjustment = () => {
             </thead>
             <tbody>
               {data.map((row) => (
-                <tr key={row.id || row._id}>
+                <tr key={row?.material_id?.id || row._id}>
                   <td className="border border-gray-400 p-2">
-                    {row.id || row._id}
+                    {row?.material_id?.id || row._id}
                   </td>
                   <td className="border border-gray-400 p-2">
-                    {row.materialName || row.materialName}
+                    {row?.material_id?.materialName || row.materialName}
                   </td>
                   <td className="border border-gray-400 p-2">
-                    {row.materialCode || row.materialCode}
+                    {row?.material_id?.materialCode || row.materialCode}
                   </td>
                   <td className="border border-gray-400 p-2">
                     <div className="flex justify-center items-center">
                       <button className="btn bg-[#3399FF] text-white font-bold btn-xs ">
-                        {row.pricePerUnit}
+                        {row?.material_id?.available || row?.available}
                       </button>
                     </div>
                   </td>
@@ -283,7 +303,7 @@ const EditAdjustment = () => {
                   </td>
                   <td className="border border-gray-400 p-2">
                     <select
-                      value={row.type || "add"}
+                      value={row?.type || "add"}
                       onChange={(e) =>
                         handleTypeChange(row.id || row._id, e.target.value)
                       }

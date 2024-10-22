@@ -38,6 +38,7 @@ const materialSchema = mongoose.Schema({
   alertQuantity: { type: Number },
   image: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
+  material_id: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
   // image: {
   //   type: String,
   //   required: false,

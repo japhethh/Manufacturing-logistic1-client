@@ -15,24 +15,24 @@ const adjustmentSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-adjustmentSchema.pre("save", async function (next) {
-  try {
-    const counter = await Counter.findByIdAndUpdate(
-      {
-        _id: "adjustmentNumber",
-      },
-      { $inc: { sequence_value: 1 } },
-      { new: true, upsert: true }
-    );
+// adjustmentSchema.pre("save", async function (next) {
+//   try {
+//     const counter = await Counter.findByIdAndUpdate(
+//       {
+//         _id: "adjustmentNumber",
+//       },
+//       { $inc: { sequence_value: 1 } },
+//       { new: true, upsert: true }
+//     );
 
-    const adjustmentNumber = counter.sequence_value.toString().padStart(3, "0");
+//     const adjustmentNumber = counter.sequence_value.toString().padStart(3, "0");
 
-    this.reference = `ADJ-${adjustmentNumber}`;
-    next();
-  } catch (error) {
-    return next(error);
-  }
-});
+//     this.reference = `ADJ-${adjustmentNumber}`;
+//     next();
+//   } catch (error) {
+//     return next(error);
+//   }
+// });
 
 const adjustmentModel = mongoose.model("adjustments", adjustmentSchema);
 

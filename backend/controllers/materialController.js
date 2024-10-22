@@ -44,6 +44,9 @@ const createMaterial = asyncHandler(async (req, res) => {
   });
 
   const result = await material.save();
+
+  material.material_id = result._id;
+
   res.status(201).json({ success: true, data: result });
 });
 
@@ -59,6 +62,7 @@ const getAllMaterial = asyncHandler(async (req, res) => {
 
   const materials = await MaterialModel.find({ supplier: userId })
     .populate("supplier")
+    .populate("material_id")
     .sort({ orderDate: -1 });
 
   if (!materials) {
@@ -150,6 +154,10 @@ const appendMaterial = asyncHandler(async (req, res) => {
   });
 
   const savedMaterial = await newMaterial.save();
+
+  newMaterial.material_id = savedMaterial._id;
+
+  await newMaterial.save();
 
   supplierUser.materialSupplied.push(savedMaterial._id);
 
