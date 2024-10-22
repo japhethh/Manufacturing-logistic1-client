@@ -163,7 +163,7 @@ const approvedFinance = asyncHandler(async (req, res) => {
   await newNotification.save(); // Save the notification to the database
 
   io.emit("vendor-notification", newNotification);
-  console.log(newNotification)
+  console.log(newNotification);
 
   return res.status(200).json({
     success: true,
