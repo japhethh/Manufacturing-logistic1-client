@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema(
     pic: { type: String },
     role: {
       type: String,
-      enum: ["admin", "logistic", "pending", "vendorAdmin"],
+      enum: ["admin", "logistic","user" , "pending", "vendorAdmin"],
       default: "pending",
     },
   },

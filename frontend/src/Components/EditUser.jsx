@@ -48,14 +48,14 @@ const EditUser = () => {
         delete payload.password;
       }
 
-      const response = await axios.put(`${apiURL}/api/user/update/${id}`, payload);
-      toast.success("Updated Successfully", response.data.data.name);
+      const response = await axios.put(
+        `${apiURL}/api/user/update/${id}`,
+        payload
+      );
+      toast.success("Updated Successfully");
       navigate("/user");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-        "Update failed. Please try again."
-      );
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -88,7 +88,10 @@ const EditUser = () => {
             <div className="mx-auto w-full max-w-5/6 bg-white">
               <div className="md:flex md:justify-between md:items-center md:gap-3">
                 <div className="mb-5 flex-1">
-                  <label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
+                  <label
+                    htmlFor="name"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -100,11 +103,16 @@ const EditUser = () => {
                     {...register("name", { required: "Full name is Required" })}
                   />
                   {errors.name && (
-                    <span className="text-red-500 text-sm">{errors.name.message}</span>
+                    <span className="text-red-500 text-sm">
+                      {errors.name.message}
+                    </span>
                   )}
                 </div>
                 <div className="mb-5 flex-1">
-                  <label htmlFor="phone" className="mb-3 block text-base font-medium text-[#07074D]">
+                  <label
+                    htmlFor="phone"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Phone Number <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -116,14 +124,19 @@ const EditUser = () => {
                     {...register("phone", { required: "Phone is Required" })}
                   />
                   {errors.phone && (
-                    <span className="text-red-500 text-sm">{errors.phone.message}</span>
+                    <span className="text-red-500 text-sm">
+                      {errors.phone.message}
+                    </span>
                   )}
                 </div>
               </div>
 
               <div className="md:flex md:justify-between md:items-center md:gap-3">
                 <div className="mb-5 flex-1">
-                  <label htmlFor="email" className="mb-3 block text-base font-medium text-[#07074D]">
+                  <label
+                    htmlFor="email"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Email <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -136,12 +149,17 @@ const EditUser = () => {
                     {...register("email", { required: "Email is Required" })}
                   />
                   {errors.email && (
-                    <span className="text-red-500 text-sm">{errors.email.message}</span>
+                    <span className="text-red-500 text-sm">
+                      {errors.email.message}
+                    </span>
                   )}
                 </div>
 
                 <div className="mb-5 flex-1">
-                  <label htmlFor="userName" className="mb-3 block text-base font-medium text-[#07074D]">
+                  <label
+                    htmlFor="userName"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Username <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -150,15 +168,22 @@ const EditUser = () => {
                     id="userName"
                     placeholder="Enter your Username"
                     className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    {...register("userName", { required: "Username is Required" })}
+                    {...register("userName", {
+                      required: "Username is Required",
+                    })}
                   />
                   {errors.userName && (
-                    <span className="text-red-500">{errors.userName.message}</span>
+                    <span className="text-red-500">
+                      {errors.userName.message}
+                    </span>
                   )}
                 </div>
 
                 <div className="mb-5 flex-1">
-                  <label htmlFor="password" className="mb-3 block text-base font-medium text-[#07074D]">
+                  <label
+                    htmlFor="password"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Password
                   </label>
                   <input
@@ -174,7 +199,10 @@ const EditUser = () => {
 
               <div className="md:flex md:justify-between md:items-center md:gap-3">
                 <div className="mb-5 flex-1">
-                  <label htmlFor="role" className="mb-3 block text-base font-medium text-[#07074D]">
+                  <label
+                    htmlFor="role"
+                    className="mb-3 block text-base font-medium text-[#07074D]"
+                  >
                     Role <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -186,9 +214,8 @@ const EditUser = () => {
                     <option value="" disabled selected>
                       Select
                     </option>
-                    <option value="employee">Employee</option>
+                    <option value="user">User</option>
                     <option value="admin">Admin</option>
-                    <option value="vendorAdmin">Vendor Admin</option>
                     <option value="pending">Pending</option>
                   </select>
                   {errors.role && (

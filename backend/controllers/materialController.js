@@ -73,6 +73,31 @@ const getAllMaterial = asyncHandler(async (req, res) => {
 
   res.status(200).json(materials);
 });
+
+// Get specific Material
+const getSpecificMaterial = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  const { id } = req.params;
+
+  const existing = await supplierModel.findById(userId);
+
+  if (!existing) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found!" });
+  }
+
+  const getMaterial = await MaterialModel.findById(id);
+
+  if (!getMaterial) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Material not found!" });
+  }
+
+  res.status(200).json({ success: true, data: getMaterial });
+});
+
 // Get all material
 const getAllMaterialNoToken = asyncHandler(async (req, res) => {
   const materials = await MaterialModel.find()
@@ -147,7 +172,7 @@ const appendMaterial = asyncHandler(async (req, res) => {
     pricePerUnit: pricePerUnit,
     supplier: userId,
     available: available,
-    tax,
+    tax:tax,
     alertQuantity,
     image,
     cost,
@@ -228,4 +253,5 @@ export {
   deleteMaterial,
   updateMaterial,
   getAllMaterialNoToken,
+  getSpecificMaterial,
 };

@@ -27,6 +27,7 @@ const CreateUser = () => {
       const response = await axios.post(`${apiURL}/api/user/register`, data);
       toast.success("Created Successfully", response.data.data.name);
       navigate("/user");
+
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -218,7 +219,7 @@ const CreateUser = () => {
                       <option value="" disabled selected>
                         Select
                       </option>
-                      <option value="employee">Employee</option>
+                      <option value="user">User</option>
                       <option value="admin">Admin</option>
                     </select>
                   </div>

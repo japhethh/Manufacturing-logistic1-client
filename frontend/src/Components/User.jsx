@@ -185,7 +185,7 @@ const User = () => {
                       className={`btn btn-ghost btn-xs ${
                         user?.role === "admin"
                           ? "bg-green-500 text-white"
-                          : user?.role === "employee"
+                          : user?.role === "user"
                           ? "bg-blue-500 text-white"
                           : user?.role === "pending"
                           ? "bg-red-500 text-white"

@@ -4,29 +4,61 @@ import { apiURL } from "../context/verifyStore";
 import axios from "axios";
 import verifyStore from "../context/verifyStore";
 import { toast } from "react-toastify";
-const Products = () => {
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+const EditProducts = () => {
   const [productImage, setProductImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [category, setCategory] = useState([]);
+  const [material, setMaterial] = useState();
   const { token } = verifyStore();
+
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
 
   useEffect(() => {
     fetchCategory();
+    fetchDataId();
   }, []);
 
   const handleImageChange = (e) => {
+    console.log(e.target.files[0]);
     const file = e.target.files[0];
     setProductImage(file);
     if (file) {
       setImagePreview(URL.createObjectURL(file));
     } else {
       setImagePreview(null);
+    }
+  };
+
+  const fetchDataId = async () => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/material/getSpecificMaterial/${id}`,
+        { headers: { token: token } }
+      );
+      setMaterial(response.data.data);
+      const materialOnly = response.data.data;
+      console.log(materialOnly);
+
+      setValue("alertQuantity", materialOnly.alertQuantity);
+      setValue("available", materialOnly.available);
+      setValue("cost", materialOnly.cost);
+      setValue("image", materialOnly.image);
+      setValue("materialCode", materialOnly.materialCode);
+      setValue("materialName", materialOnly.materialName);
+      setValue("material_id", materialOnly.material_id);
+      setValue("pricePerUnit", materialOnly.pricePerUnit);
+      setValue("unit", materialOnly.unit);
+    } catch (error) {
+      console.log(error?.response.data.message);
     }
   };
 
@@ -41,8 +73,7 @@ const Products = () => {
     }
   };
 
-  console.log(category);
-  // console.log(productImage);
+  // console.log(category);
 
   const onSubmit = async (data) => {
     console.log({ ...data, productImage });
@@ -56,6 +87,7 @@ const Products = () => {
     formData.append("available", parseInt(data.available, 10));
     formData.append("alertQuantity", parseInt(data.alertQuantity, 10));
     formData.append("taxPercentage", parseFloat(data.taxPercentage));
+    formData.append("taxType", data.taxType);
     formData.append("tax", data.tax);
     formData.append("unit", data.unit);
     formData.append("note", data.note);
@@ -97,8 +129,20 @@ const Products = () => {
 
   return (
     <div className="p-6 w-full bg-white rounded-lg shadow-lg">
+      <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
+        <ul>
+          <li className="hover:underline text-blue-500 ">
+            <Link to="/dashboardvendor">Home</Link>
+          </li>
+          <li className="hover:underline text-blue-500 ">
+            <Link to="/createproduct/allproducts">All products</Link>
+          </li>
+          <li className="text-gray-500">Edit</li>
+        </ul>
+      </div>
+
       <h2 className="text-2xl font-semibold text-center mb-4">
-        Create Product
+        Update Product
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Product Name, Code, and Category */}
@@ -294,11 +338,11 @@ const Products = () => {
           type="submit"
           className="p-3 w-full bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          Submit
+          Update Product
         </button>
       </form>
     </div>
   );
 };
 
-export default Products;
+export default EditProducts;

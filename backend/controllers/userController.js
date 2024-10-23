@@ -121,6 +121,8 @@ const updateUser = asyncHandler(async (req, res) => {
   }
   res.status(200).json({ success: true, message: "Update Successfully" });
 });
+
+
 const updateUserPassword = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { currentPass, pass, confirmPass } = req.body;

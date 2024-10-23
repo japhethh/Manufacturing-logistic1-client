@@ -5,6 +5,7 @@ import { apiURL } from "../context/verifyStore";
 import Select from "react-select";
 import verifyStore from "../context/verifyStore";
 import DataTable from "datatables.net-dt"; // Import DataTable
+import { useNavigate } from "react-router-dom";
 
 const AllProducts = () => {
   const [requestData, setRequestData] = useState([]);
@@ -14,7 +15,7 @@ const AllProducts = () => {
   const { token } = verifyStore();
   const [modalType, setModalType] = useState("");
   const [showModal, setShowModal] = useState(false); // Declare showModal state
-
+  const navigate = useNavigate();
   // Fetch data on component mount
   useEffect(() => {
     fetchData();
@@ -29,7 +30,6 @@ const AllProducts = () => {
         { headers: { token: token } }
       );
       setRequestData(response.data);
-      console.log(response.data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to fetch data.");
       console.log(error?.response?.data?.message);
@@ -61,35 +61,41 @@ const AllProducts = () => {
             render: (data) => (data ? data : "N/A"),
           },
           {
-            title: "PPU",
+            title: "Cost",
+            data: "cost",
+            render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Price",
             data: "pricePerUnit",
             render: (data) => (data ? data : "N/A"),
           },
           {
-            title: "Alert Quantity",
-            data: "alertQuantity",
-            render: (data) => (data ? data : "N/A"),
-          },
-          {
-            title: "Unit",
-            data: "unit",
-            render: (data) => (data ? data : "N/A"),
-          },
-          {
-            title: "Available",
+            title: "Quantity",
             data: "available",
             render: (data) => (data ? data : "N/A"),
           },
-          {
-            title: "Tax",
-            data: "tax",
-            render: (data) => (data ? data : "N/A"),
-          },
-          {
-            title: "Description",
-            data: "description",
-            render: (data) => (data ? data : "N/A"),
-          },
+          // {
+          //   title: "Alert Quantity",
+          //   data: "alertQuantity",
+          //   render: (data) => (data ? data : "N/A"),
+          // },
+          // {
+          //   title: "Unit",
+          //   data: "unit",
+          //   render: (data) => (data ? data : "N/A"),
+          // },
+
+          // {
+          //   title: "Tax",
+          //   data: "tax",
+          //   render: (data) => (data ? data : "N/A"),
+          // },
+          // {
+          //   title: "Description",
+          //   data: "description",
+          //   render: (data) => (data ? data : "N/A"),
+          // },
           {
             title: "Actions",
             data: null,
@@ -121,9 +127,10 @@ const AllProducts = () => {
 
           if (updateBtn) {
             updateBtn.addEventListener("click", () => {
-              setSelectedData(data);
-              setModalType("edit");
-              setShowModal(true); // Show the modal
+              navigate(`/products/${data?._id}/edit`);
+              // setSelectedData(data);
+              // setModalType("edit");
+              // setShowModal(true); // Show the modal
             });
           }
         },
@@ -199,7 +206,6 @@ const AllProducts = () => {
       <div className="divider"></div>
 
       <table id="productsTable" className="display w-full"></table>
-
 
       {/* Edit Modal */}
       {showModal && modalType === "edit" && selectedData && (

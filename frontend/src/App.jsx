@@ -174,14 +174,14 @@ const App = () => {
           <Route path="*" element={<MobileSidebar />} />
 
           {/* 3 Cards of Vendor Management */}
-          <Route path="/vendormanagement" element={<VendorManagement />}>
-            <Route
-              path="vendormanagementcreate"
-              element={<VendorManagementCreate />}
-            />
-            <Route path="vendorproduct" element={<VendorProduct />} />
-            <Route path="empty" element={<Empty />} />
-          </Route>
+          <Route path="/vendormanagement" element={<VendorManagement />} />
+          <Route
+            path="/vendormanagementcreate"
+            element={<VendorManagementCreate />}
+          />
+          <Route path="/vendorproduct" element={<VendorProduct />} />
+          <Route path="/empty" element={<Empty />} />
+          {/* </Route> */}
           <Route path="/profile" element={<Profile />}></Route>
         </Routes>
       </div>

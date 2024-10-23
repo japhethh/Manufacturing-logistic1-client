@@ -16,6 +16,7 @@ const materialSchema = mongoose.Schema({
   },
   unit: {
     type: String,
+    enum:["pcs"],
     required: true,
   },
   pricePerUnit: {
