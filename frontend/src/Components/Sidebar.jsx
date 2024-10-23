@@ -23,6 +23,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { GrCurrency } from "react-icons/gr";
 import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineStore } from "react-icons/md";
+import { TbBuildingWarehouse } from "react-icons/tb";
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -977,7 +978,74 @@ const Sidebar = () => {
                           <p className="text-base">Suppliers</p>
                         </NavLink>
                       </li> */}
+          {userData && userData.role === "admin" && (
+            <div>
+              <p
+                className={`text-gray-500 font-semibold text-base ${
+                  isCollapsed ? "hidden" : ""
+                }`}
+              >
+                Account Management
+              </p>
+              <ul className="w-full menu rounded-box">
+                <li>
+                  <details>
+                    <summary className="flex items-center gap-2 cursor-pointer">
+                      <IoPeopleSharp
+                        className={`transition-all duration-300 ${
+                          isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                        }`}
+                      />
+                      {!isCollapsed && (
+                        <span className="ml-2 text-base font-semibold mr-auto">
+                          Parties
+                        </span>
+                      )}
+                    </summary>
+                    <ul className="pl-4">
+                      <li className="mt-1">
+                        <NavLink
+                          to="user"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-base-200 bg-blue-500 font-bold"
+                              : "text-black"
+                          }
+                        >
+                          <p className="text-base">Customer</p>
+                        </NavLink>
+                      </li>
+                      <li className="mt-1">
+                        <NavLink
+                          to="suppliers"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-base-200 bg-blue-500 font-bold"
+                              : "text-black"
+                          }
+                        >
+                          <p className="text-base">Suppliers</p>
+                        </NavLink>
+                      </li>
 
+                      <li className="mt-1">
+                        <NavLink
+                          to="requestlist"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "text-base-200 bg-blue-500 font-bold"
+                              : "text-black"
+                          }
+                        >
+                          <p className="text-base">Request List</p>
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </ul>
+            </div>
+          )}
                       <li className="mt-1">
                         <NavLink
                           to="requestlist"
@@ -1059,6 +1127,7 @@ const Sidebar = () => {
               </ul>
             </div>
           )}
+
 
           {/* RETURN MANAGEMENT */}
           <p
@@ -1256,6 +1325,33 @@ const Sidebar = () => {
                 </ul>
               </details>
             </li>
+          </ul>
+          {/* WAREHOUSE */}
+          <p
+            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
+              isCollapsed ? "hidden" : ""
+            }`}
+          >
+            Warehouse
+          </p>
+          <ul className="w-full menu rounded-box">
+            {/* Purchase Requisitions */}
+            <NavLink to="warehouse">
+              <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <div className="flex mt-1 items-center cursor-pointer">
+                  <TbBuildingWarehouse
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="text-base font-semibold">
+                      Warehouse
+                    </span>
+                  )}
+                </div>
+              </li>
+            </NavLink>
           </ul>
         </div>
       </div>

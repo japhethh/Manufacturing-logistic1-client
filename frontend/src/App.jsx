@@ -37,6 +37,7 @@ import Empty from "./Components/Empty.jsx";
 import VendorProduct from "./Components/VendorProduct.jsx";
 import VendorManagementCreate from "./Components/VendorManagementCreate.jsx";
 import Profile from "./Components/Profile.jsx";
+import WareHouse from "./Components/WareHouse.jsx";
 import VendorManagementAll from "./Components/Procurements/VendorManagementAll.jsx";
 
 const App = () => {
@@ -184,6 +185,9 @@ const App = () => {
           <Route path="/empty" element={<Empty />} />
           {/* </Route> */}
           <Route path="/profile" element={<Profile />}></Route>
+
+          {/* WAREHOUSE */}
+          <Route path="/warehouse" element={<WareHouse />} />
         </Routes>
       </div>
     </div>
