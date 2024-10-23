@@ -978,74 +978,7 @@ const Sidebar = () => {
                           <p className="text-base">Suppliers</p>
                         </NavLink>
                       </li> */}
-          {userData && userData.role === "admin" && (
-            <div>
-              <p
-                className={`text-gray-500 font-semibold text-base ${
-                  isCollapsed ? "hidden" : ""
-                }`}
-              >
-                Account Management
-              </p>
-              <ul className="w-full menu rounded-box">
-                <li>
-                  <details>
-                    <summary className="flex items-center gap-2 cursor-pointer">
-                      <IoPeopleSharp
-                        className={`transition-all duration-300 ${
-                          isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                        }`}
-                      />
-                      {!isCollapsed && (
-                        <span className="ml-2 text-base font-semibold mr-auto">
-                          Parties
-                        </span>
-                      )}
-                    </summary>
-                    <ul className="pl-4">
-                      <li className="mt-1">
-                        <NavLink
-                          to="user"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "text-base-200 bg-blue-500 font-bold"
-                              : "text-black"
-                          }
-                        >
-                          <p className="text-base">Customer</p>
-                        </NavLink>
-                      </li>
-                      <li className="mt-1">
-                        <NavLink
-                          to="suppliers"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "text-base-200 bg-blue-500 font-bold"
-                              : "text-black"
-                          }
-                        >
-                          <p className="text-base">Suppliers</p>
-                        </NavLink>
-                      </li>
 
-                      <li className="mt-1">
-                        <NavLink
-                          to="requestlist"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "text-base-200 bg-blue-500 font-bold"
-                              : "text-black"
-                          }
-                        >
-                          <p className="text-base">Request List</p>
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-              </ul>
-            </div>
-          )}
                       <li className="mt-1">
                         <NavLink
                           to="requestlist"
@@ -1127,7 +1060,6 @@ const Sidebar = () => {
               </ul>
             </div>
           )}
-
 
           {/* RETURN MANAGEMENT */}
           <p
@@ -1345,9 +1277,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold">
-                      Warehouse
-                    </span>
+                    <span className="text-base font-semibold">Warehouse</span>
                   )}
                 </div>
               </li>
