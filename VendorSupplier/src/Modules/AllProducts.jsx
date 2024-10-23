@@ -128,9 +128,9 @@ const AllProducts = () => {
           if (updateBtn) {
             updateBtn.addEventListener("click", () => {
               navigate(`/products/${data?._id}/edit`);
-              // setSelectedData(data);
-              // setModalType("edit");
-              // setShowModal(true); // Show the modal
+              setSelectedData(data);
+              setModalType("edit");
+              setShowModal(true); // Show the modal
             });
           }
         },

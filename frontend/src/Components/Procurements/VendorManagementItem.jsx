@@ -19,6 +19,20 @@ const VendorManagementItem = () => {
       {/* Cards section */}
       <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}>
         <NavLink 
+          to="/vendormanagement" 
+          className="w-full" 
+          aria-label="Create Vendor"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-gray-800 font-semibold text-lg">Vendor Management All</h2>
+              <AiOutlineForm className="text-4xl text-blue-500" /> {/* New Icon */}
+            </div>
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
+          </div>
+        </NavLink>
+
+        <NavLink 
           to="/vendormanagementcreate" 
           className="w-full" 
           aria-label="Create Vendor"
@@ -46,7 +60,7 @@ const VendorManagementItem = () => {
           </div>
         </NavLink>
 
-        <NavLink 
+        {/* <NavLink 
           to="/empty" 
           className="w-full" 
           aria-label="Empty"
@@ -54,11 +68,11 @@ const VendorManagementItem = () => {
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">Empty</h2>
-              <BsFolderX className="text-4xl text-yellow-500" /> {/* New Icon */}
+              <BsFolderX className="text-4xl text-yellow-500" /> 
             </div>
             <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">8</span>
           </div>
-        </NavLink>
+        </NavLink> */}
       </div>
 
       {/* Content outlet */}

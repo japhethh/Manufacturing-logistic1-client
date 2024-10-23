@@ -246,13 +246,19 @@ const VendorProduct = () => {
             <div className="bg-white rounded-lg p-5 w-4/6">
               <div className="flex justify-center items-center">
                 <img
-                  className="w-48  border-4"
+                  className="w-20  border-4"
                   src={selectedData?.image}
                   alt={selectedData?.materialName}
                 />
               </div>
               <div className="py-4 grid grid-cols-2">
                 <div className="font-semibold">
+                  <div className="border border-1 py-2 px-2 font-bold text-md">
+                    <h1>Vendor Name</h1>
+                  </div>
+                  <div className="border border-1 py-2 px-2 font-bold text-md">
+                    <h1>Vendor Code</h1>
+                  </div>
                   <div className="border border-1 py-2 px-2">
                     <h1>Material CODE</h1>
                   </div>
@@ -280,10 +286,24 @@ const VendorProduct = () => {
                 </div>
 
                 <div>
+                  <div className="border border-1 py-2 px-2 text-md">
+                    <h1>
+                      {selectedData?.supplier?.supplierName
+                        ? selectedData?.supplier?.supplierName
+                        : "N/A"}
+                    </h1>
+                  </div>
+                  <div className="border border-1 py-2 px-2 text-md">
+                    <h1>
+                      {selectedData?.supplier?.supplierCode
+                        ? selectedData?.supplier?.supplierCode
+                        : "N/A"}
+                    </h1>
+                  </div>
                   <div className="border border-1 py-2 px-2">
                     <h1>
                       {selectedData?.materialCode
-                        ? selectedData?.materialName
+                        ? selectedData?.materialCode
                         : "N/A"}
                     </h1>
                   </div>

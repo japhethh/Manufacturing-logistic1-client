@@ -124,127 +124,141 @@ const RequestList = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>Logo</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact Phone</th>
-            <th>Status</th>
-            <th>Decision</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {requests.map((request, index) => (
-            <tr key={index} className="hover:bg-gray-100">
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src={
-                          request.logo ||
-                          "https://img.daisyui.com/images/profile/demo/2@94.webp"
-                        }
-                        alt="Avatar"
-                      />
+    <div className="overflow-x-auto ">
+      <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
+        <ul>
+          <li>
+            <Link to="/">
+              <a className="underline text-blue-500"> Dashboard</a>
+            </Link>
+          </li>
+          <li>
+            <Link>Request List</Link>
+          </li>
+        </ul>
+      </div>
+      <div className="p-5">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Contact Phone</th>
+              <th>Status</th>
+              <th>Decision</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requests.map((request, index) => (
+              <tr key={index} className="hover:bg-gray-100">
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-12 w-12">
+                        <img
+                          src={
+                            request.logo ||
+                            "https://img.daisyui.com/images/profile/demo/2@94.webp"
+                          }
+                          alt="Avatar"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
-              <td>
-                <div className="font-bold">{request.firstName}</div>
-              </td>
-              <td>
-                <div className="text-sm">{request.email}</div>
-              </td>
-              <td>{request.contactPhone || "N/A"}</td>
-              <td>
-                <span
-                  className={`badge ${
-                    request.status === "Active"
-                      ? "badge-success"
-                      : request.status === "Deactivated"
-                      ? "badge-error"
-                      : "badge-warning"
-                  }`}
-                >
-                  {request.status}
-                </span>
-              </td>
+                </td>
+                <td>
+                  <div className="font-bold">{request.firstName}</div>
+                </td>
+                <td>
+                  <div className="text-sm">{request.email}</div>
+                </td>
+                <td>{request.contactPhone || "N/A"}</td>
+                <td>
+                  <span
+                    className={`badge ${
+                      request.status === "Active"
+                        ? "badge-success"
+                        : request.status === "Deactivated"
+                        ? "badge-error"
+                        : "badge-warning"
+                    }`}
+                  >
+                    {request.status}
+                  </span>
+                </td>
 
-              <td>
-                <div className="flex justify-start items-center gap-3 ">
-                  <button
-                    onClick={() => approveModal(request)}
-                    className="btn btn-success btn-sm text-white"
-                  >
-                    Activate
-                  </button>
-                  <button
-                    className="btn btn-error btn-sm text-white"
-                    onClick={() => deactivatedModal(request)}
-                  >
-                    Deactivated
-                  </button>
-                </div>
-              </td>
-
-              <td>
-                <div className="dropdown dropdown-left">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-ghost btn-circle avatar"
-                  >
-                    <HiDotsHorizontal />
+                <td>
+                  <div className="flex justify-start items-center gap-3 ">
+                    <button
+                      onClick={() => approveModal(request)}
+                      className="btn btn-success btn-sm text-white"
+                    >
+                      Activate
+                    </button>
+                    <button
+                      className="btn btn-error btn-sm text-white"
+                      onClick={() => deactivatedModal(request)}
+                    >
+                      Deactivated
+                    </button>
                   </div>
-                  <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w- p-2 shadow"
-                  >
-                    <li>
-                      <a
-                        onClick={() => openModal(request)}
-                        className="justify-between font-medium"
-                      >
-                        Details
-                      </a>
-                    </li>
-                    <li>
-                      <Link to="" className="text-blue-500 font-medium">
-                        Edit
-                      </Link>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => deleteModal(request)}
-                        className="text-red-500 font-medium"
-                      >
-                        Delete
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <th>Logo</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact Phone</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </tfoot>
-      </table>
+                </td>
 
+                <td>
+                  <div className="dropdown dropdown-left">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn btn-ghost btn-circle avatar"
+                    >
+                      <HiDotsHorizontal />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w- p-2 shadow"
+                    >
+                      <li>
+                        <a
+                          onClick={() => openModal(request)}
+                          className="justify-between font-medium"
+                        >
+                          Details
+                        </a>
+                      </li>
+                      <li>
+                        <Link to="" className="text-blue-500 font-medium">
+                          Edit
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => deleteModal(request)}
+                          className="text-red-500 font-medium"
+                        >
+                          Delete
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Logo</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Contact Phone</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      
       {/* Modal Approve */}
       <dialog id="my_modal_4" className="modal">
         <div className="modal-box">

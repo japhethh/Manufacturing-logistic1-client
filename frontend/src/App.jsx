@@ -37,6 +37,7 @@ import Empty from "./Components/Empty.jsx";
 import VendorProduct from "./Components/VendorProduct.jsx";
 import VendorManagementCreate from "./Components/VendorManagementCreate.jsx";
 import Profile from "./Components/Profile.jsx";
+import VendorManagementAll from "./Components/Procurements/VendorManagementAll.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -174,7 +175,7 @@ const App = () => {
           <Route path="*" element={<MobileSidebar />} />
 
           {/* 3 Cards of Vendor Management */}
-          <Route path="/vendormanagement" element={<VendorManagement />} />
+          <Route path="/vendormanagement" element={<VendorManagementAll />} />
           <Route
             path="/vendormanagementcreate"
             element={<VendorManagementCreate />}
