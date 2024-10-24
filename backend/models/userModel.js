@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema(
     date: { type: Date },
     address: { type: String },
     city: { type: String },
-    pic: { type: String },
+    image: { type: String },
     role: {
       type: String,
       enum: ["admin", "logistic","user" , "pending", "vendorAdmin"],

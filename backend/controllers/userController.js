@@ -3,6 +3,8 @@ import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import cloudinary from "../utils/cloudinary.js";
+import fs from "fs";
 
 // Register
 const registerUser = async (req, res) => {
@@ -107,9 +109,33 @@ const updateUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ success: false, message: "User not found" });
   }
 
+  let image = user.image;
+
+  if (req.file) {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "JJM_USER_PROFILE",
+      });
+
+      if (req.file.path) {
+        fs.unlinkSync(req.file.path);
+      }
+
+      image = result.secure_url;
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Image upload failed", error });
+    }
+  }
+
   if (updatedData.password) {
     const salt = await bcrypt.genSalt(10);
     updatedData.password = await bcrypt.hash(updatedData.password, salt);
+  }
+
+  if (image) {
+    updatedData.image = image;
   }
 
   const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
@@ -119,9 +145,13 @@ const updateUser = asyncHandler(async (req, res) => {
   if (!updatedUser) {
     return res.status(400).json({ success: false, message: "User not found" });
   }
+
+  const io = req.app.get("socketio");
+
+  io.to(updatedUser._id.toString()).emit("update-profile", updatedUser);
+
   res.status(200).json({ success: true, message: "Update Successfully" });
 });
-
 
 const updateUserPassword = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -144,12 +174,10 @@ const updateUserPassword = asyncHandler(async (req, res) => {
 
   // Check if the new password matches the confirm password
   if (pass !== confirmPass) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "New password and confirm password do not match",
-      });
+    return res.status(400).json({
+      success: false,
+      message: "New password and confirm password do not match",
+    });
   }
 
   // Hash the new password

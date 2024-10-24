@@ -30,6 +30,22 @@ export default function socketService(io) {
       }
     });
 
+    socket.on("connect_error", (err) => {
+      console.log("Connection error:", err);
+    });
+
+    socket.on("reconnect_attempt", () => {
+      console.log("Attempting to reconnect...");
+    });
+
+    socket.on("reconnect", (attemptNumber) => {
+      console.log("Reconnected successfully on attempt", attemptNumber);
+    });
+
+    socket.on("reconnect_error", (err) => {
+      console.log("Reconnection error:", err);
+    });
+
     // // Simulate sending a notification to a client
     // socket.on("send-notification", (notification) => {
     //   // Broadcast notification to all connected clients

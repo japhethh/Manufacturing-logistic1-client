@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState(null); // Initialize as null or an empty object
-  const { userData } = Store();
+  const { userData, token, fetchAllUsers } = Store();
 
   const {
     register,
@@ -25,17 +25,37 @@ const Profile = () => {
     }
   }, [userData, reset]);
 
+  useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
   const onSubmit = async (data) => {
-    console.log(data);
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("name", data.name);
+
+    if (data.image[0]) {
+      formData.append("image", data.image[0]);
+    }
+
+    console.log(formData);
     try {
       const response = await axios.put(
         `${apiURL}/api/user/update/${data._id}`,
-        data
+        formData,
+        {
+          headers: {
+            token: token,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       console.log(response.data.message);
 
       toast.success(response.data.message);
+      fetchAllUsers();
     } catch (error) {
       toast.error(error?.response.data.message);
     }
@@ -73,13 +93,23 @@ const Profile = () => {
         <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
           <div className="bg-[#fff] rounded-md shadow-md p-5 ">
             <div className="h-46 mb-3">
-              <h1>
+              <h1 className="text-center">
                 Profile Image <span className="text-red-500">*</span>
               </h1>
+              <div className="flex justify-center items-center py-2  ">
+                <label htmlFor="img" className="border-3">
+                  <img
+                    className="w-44 h-44 object-cover cursor-pointer "
+                    src={userData?.image}
+                    alt=""
+                  />
+                </label>
+              </div>
               <input
+                id="img"
                 type="file"
-                {...register("pic")}
-                className="file-input file-input-bordered w-full"
+                {...register("image")}
+                className="hidden file-input file-input-bordered w-full"
                 // Handle file change if needed
               />
             </div>

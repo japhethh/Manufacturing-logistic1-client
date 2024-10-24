@@ -15,13 +15,14 @@ const Search = () => {
   const { userData, token } = Store(); // Access global state and actions
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const [notifications, setNotifications] = useState([]);
-
+  const [user, setUser] = useState(null);
   const ENDPOINT =
     window.location.hostname === "localhost"
       ? "http://localhost:4000"
       : "https://backend-logistic1.jjm-manufacturing.com";
 
   useEffect(() => {
+    fetchUserData();
     fetchNotification();
   }, []);
 
@@ -38,7 +39,12 @@ const Search = () => {
   };
 
   useEffect(() => {
-    const socket = io(ENDPOINT);
+    const socket = io(ENDPOINT, {
+      reconnection: true, // Enables automatic reconnection
+      // reconnectionAttempts: 99999, // Number of reconnection attempts
+      // reconnectionDelay: 1000, // Delay in ms between reconnection attempts
+      // reconnectionDelayMax: 5000, // Maximum delay between reconnections
+    });
     socket.on("logistic-notification", (notification) => {
       setNotifications((preNotification) => [...preNotification, notification]);
 
@@ -48,7 +54,36 @@ const Search = () => {
         socket.disconnect();
       };
     });
+
+    socket.on("update-profile", (updateProfile) => {
+      setUser(updateProfile);
+
+      toast.warn("Kupalll");
+      return () => {
+        socket.disconnect();
+      };
+    });
   }, [ENDPOINT]);
+
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log({ error: "Token not found in localStorage", loading: false });
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${apiURL}/api/user`, {
+        headers: {
+          token: token,
+        },
+      });
+
+      setUser(response.data);
+    } catch (err) {
+      console.log(err?.response.data.message);
+    }
+  };
 
   // Function to update notifications state after marking as read
   const handleMarkAsRead = (id) => {
@@ -161,7 +196,7 @@ const Search = () => {
           </div>
           <div className="relative dropdown dropdown-end">
             <img
-              src="https://i.pinimg.com/736x/ea/21/05/ea21052f12b135e2f343b0c5ca8aeabc.jpg"
+              src={user?.image ? user?.image : userData?.image}
               tabIndex={0}
               role="button"
               alt="User profile"

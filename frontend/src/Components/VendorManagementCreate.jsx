@@ -211,7 +211,7 @@ const VendorManagementCreate = () => {
   }
 
   return (
-    <div>
+    <div className="p-5">
       <VendorManagement />
 
       <div className="p-6 bg-gray-50 shadow-lg rounded-lg">

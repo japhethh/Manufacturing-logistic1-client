@@ -148,7 +148,7 @@ const VendorProduct = () => {
   };
 
   return (
-    <div>
+    <div className="p-5">
       <VendorManagement />
       <div className="p-6 bg-gray-50 shadow-lg rounded-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">

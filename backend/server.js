@@ -30,7 +30,7 @@ import adjustmentsRouter from "./routes/adjustmentsRouter.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
-app.use(cors());
+  app.use(cors());
 app.use(express.json());
 
 ConnectDB();
