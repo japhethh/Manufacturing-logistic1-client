@@ -41,7 +41,7 @@ const InvoiceItems = () => {
         </NavLink>
 
         <NavLink
-          to="/vendormanagementcreate"
+          to="/invoice/pending"
           className="w-full"
           aria-label="Create Vendor"
         >
@@ -60,7 +60,7 @@ const InvoiceItems = () => {
         </NavLink>
 
         <NavLink
-          to="/vendorproduct"
+          to="/invoice/complete"
           className="w-full"
           aria-label="Vendor Product"
         >

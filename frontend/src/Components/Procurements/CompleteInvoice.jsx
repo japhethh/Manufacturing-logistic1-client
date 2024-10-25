@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Store from "../../context/Store";
 import InvoiceItems from "./InvoiceItems";
 
-const InvoiceAll = () => {
+const CompleteInvoice = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -14,16 +14,19 @@ const InvoiceAll = () => {
   const { token } = Store();
 
   useEffect(() => {
-    fetchAllInvoice();
+    fetchPendingInvoices();
   }, []);
 
-  const fetchAllInvoice = async () => {
+  const fetchPendingInvoices = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/invoices/`, {
         headers: { token: token },
       });
-      setInvoiceData(response.data.invoices);
-      console.log(response.data.invoices)
+      // Filter only pending invoices
+      const pendingInvoices = response.data.invoices.filter(
+        (invoice) => invoice.approvalStatus === "Approved"
+      );
+      setInvoiceData(pendingInvoices);
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -40,7 +43,7 @@ const InvoiceAll = () => {
         }
       );
       toast.success("Invoice approved and tracking order created!");
-      fetchAllInvoice(); // Refresh invoice list
+      fetchPendingInvoices(); // Refresh invoice list
     } catch (error) {
       toast.error("Error approving invoice: " + error?.response.data.message);
     }
@@ -56,7 +59,7 @@ const InvoiceAll = () => {
         }
       );
       toast.warn("Invoice rejected!");
-      fetchAllInvoice(); // Refresh invoice list
+      fetchPendingInvoices(); // Refresh invoice list
     } catch (error) {
       toast.error("Error rejecting invoice: " + error?.response.data.message);
     }
@@ -77,7 +80,7 @@ const InvoiceAll = () => {
           render: (data) => new Date(data).toLocaleDateString(),
         },
         { title: "Invoice #", data: "invoiceNumber" },
-        { title: "PurchaseOrder #", data: "purchaseOrder.purchaseOrderNumber" },
+        { title: "Purchase Order #", data: "purchaseOrder.purchaseOrderNumber" },
         { title: "Vendor", data: "vendor.supplierName" },
         {
           title: "Approval Status",
@@ -154,4 +157,4 @@ const InvoiceAll = () => {
   );
 };
 
-export default InvoiceAll;
+export default CompleteInvoice;

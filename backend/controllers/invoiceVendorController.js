@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Invoice from "../models/invoiceVendorModel.js";
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
+import TrackingOrderModel from "../models/trackingOrderModel.js";
 
 const createInvoice = async (req, res) => {
   const {
@@ -68,7 +69,9 @@ const createInvoice = async (req, res) => {
 const getAllInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
-  const invoices = await Invoice.find({}).populate("purchaseOrder").populate("vendor");
+  const invoices = await Invoice.find({})
+    .populate("purchaseOrder")
+    .populate("vendor");
 
   if (!invoices) {
     return res
@@ -126,10 +129,69 @@ const deleteInvoice = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: "Deleted Successfully" });
 });
+
+// App an invoice
+const approveInvoice = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const invoiced = await Invoice.findById(id)
+      .populate("purchaseOrder")
+      .populate("vendor");
+
+      console.log(invoiced)
+    if (!invoiced)
+      return res.status(404).json({ message: "Invoice not found." });
+
+    // Approve the invoice
+    invoiced.approvalStatus = "Approved";
+    await invoiced.save();
+
+    const newTrackingOrder = new TrackingOrderModel({
+      invoiceId: invoiced._id,
+      purchaseOrderId: invoiced.purchaseOrder._id,
+      deliveryStatus: "Pending",
+      supplier: invoiced.vendor._id,
+      invoiceAmount: invoiced.totalAmount,
+      purchaseOrderAmount: invoiced.purchaseOrder.totalAmount,
+      // quantityOrdered: invoiced.purchaseOrder.totalAmount,
+      // quantityInvoiced: invoiced.quantityInvoiced,
+      totalAmount: invoiced.totalAmount,
+    });
+
+    await newTrackingOrder.save();
+
+    res.status(200).json({ invoiced, newTrackingOrder });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// App an invoice
+const rejectInvoice = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const invoice = await Invoice.findById(id);
+    if (!invoice)
+      return res.status(404).json({ message: "Invoice not found." });
+
+    // Reject the invoice
+    invoice.approvalStatus = "Rejected";
+    await invoice.save();
+
+    res.status(200).json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export {
   createInvoice,
   getAllInvoice,
   getSingleInvoice,
   updateInvoice,
   deleteInvoice,
+  approveInvoice,
+  rejectInvoice,
 };

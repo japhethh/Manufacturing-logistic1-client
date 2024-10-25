@@ -101,8 +101,13 @@ const invoiceVendorSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Paid","Unpaid", "Cancelled"],
+      enum: ["Pending", "Paid", "Unpaid", "Cancelled"],
       default: "Unpaid", // Default status when created
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Pending", // Default status when created
     },
   },
   { timestamps: true }

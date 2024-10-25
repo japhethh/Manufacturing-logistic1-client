@@ -41,6 +41,8 @@ import WareHouse from "./Components/WareHouse.jsx";
 import VendorManagementAll from "./Components/Procurements/VendorManagementAll.jsx";
 import InvoiceItems from "./Components/Procurements/InvoiceItems.jsx";
 import InvoiceAll from "./Components/Procurements/InvoiceAll.jsx";
+import PendingInvoice from "./Components/Procurements/PendingInvoice.jsx";
+import CompleteInvoice from "./Components/Procurements/CompleteInvoice.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -192,6 +194,8 @@ const App = () => {
           <Route path="/warehouse" element={<WareHouse />} />
           <Route path="/invoice" element={<InvoiceItems />} />
           <Route path="/invoice/all" element={<InvoiceAll />} />
+          <Route path="/invoice/pending" element={<PendingInvoice />} />
+          <Route path="/invoice/complete" element={<CompleteInvoice />} />
         </Routes>
       </div>
     </div>
