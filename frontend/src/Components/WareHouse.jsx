@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
+import $ from 'jquery';
+import 'datatables.net-dt/js/dataTables.dataTables';
+import 'datatables.net-dt/css/dataTables.dataTables.css'; // Correct path
+import 'tailwindcss/tailwind.css';
 
 const WareHouse = () => {
-  // Initialize DataTables on component mount
   useEffect(() => {
     $(document).ready(function () {
       $('#inventoryTable').DataTable();
@@ -10,7 +13,7 @@ const WareHouse = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Warehouse Management</h1>
+      <h1 className="text-3xl font-bold mb-6">Logistic 1 - Warehouse Management System</h1>
 
       {/* Inventory Management Section */}
       <div className="mb-12">
@@ -59,6 +62,15 @@ const WareHouse = () => {
         <div className="shadow-lg p-4 rounded-lg bg-white">
           <p>Track outgoing shipments and manage dispatch schedules.</p>
           <button className="btn btn-secondary mt-4">View Dispatches</button>
+        </div>
+      </div>
+
+      {/* Reporting & Analytics Section */}
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Reporting & Analytics</h2>
+        <div className="shadow-lg p-4 rounded-lg bg-white">
+          <p>Generate reports and analyze warehouse operations data.</p>
+          <button className="btn btn-success mt-4">View Reports</button>
         </div>
       </div>
     </div>
