@@ -26,6 +26,7 @@ const PendingInvoice = () => {
       const pendingInvoices = response.data.invoices.filter(
         (invoice) => invoice.approvalStatus === "Pending"
       );
+      console.log(pendingInvoices)
       setInvoiceData(pendingInvoices);
     } catch (error) {
       console.log(error?.response.data.message);
