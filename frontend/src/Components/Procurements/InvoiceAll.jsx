@@ -114,10 +114,10 @@ const InvoiceAll = () => {
           render: (data) => {
             return `
               <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn" id="approveBtn_${data?._id}">
-                Approve
+                  <i class="fas fa-check"></i>
               </button>
               <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
-                Reject
+                <i class="fas fa-times"></i>
               </button>
             `;
           },

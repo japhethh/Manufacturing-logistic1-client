@@ -3,7 +3,7 @@ import { AiOutlineForm } from "react-icons/ai"; // New icon for Vendor Managemen
 import { FiPackage } from "react-icons/fi"; // New icon for Vendor Product
 import { useState } from "react";
 
-const InvoiceItems = () => {
+const TrackOrderItems = () => {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -22,14 +22,14 @@ const InvoiceItems = () => {
         }`}
       >
         <NavLink
-          to="/invoice/all"
+          to="/trackorders"
           className="w-full"
           aria-label="Create Vendor"
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
-                All Invoice
+                All Tracking Orders
               </h2>
               <AiOutlineForm className="text-4xl text-blue-500" />{" "}
               {/* New Icon */}
@@ -41,14 +41,14 @@ const InvoiceItems = () => {
         </NavLink>
 
         <NavLink
-          to="/invoice/pending"
+          to="/trackorders/pendings"
           className="w-full"
           aria-label="Create Vendor"
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
-                Pending Invoice
+                Pending Tracking Orders
               </h2>
               <AiOutlineForm className="text-4xl text-blue-500" />{" "}
               {/* New Icon */}
@@ -60,14 +60,14 @@ const InvoiceItems = () => {
         </NavLink>
 
         <NavLink
-          to="/invoice/complete"
+          to=""
           className="w-full"
           aria-label="Vendor Product"
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
-                Complete Invoice
+                Completed Tracking Orders 
               </h2>
               <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
             </div>
@@ -90,4 +90,4 @@ const InvoiceItems = () => {
   );
 };
 
-export default InvoiceItems;
+export default TrackOrderItems;

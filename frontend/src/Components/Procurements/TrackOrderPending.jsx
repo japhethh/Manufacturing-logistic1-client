@@ -4,10 +4,9 @@ import axios from "axios";
 import { apiURL } from "../../context/Store";
 import { toast } from "react-toastify";
 import Store from "../../context/Store";
-import InvoiceItems from "./InvoiceItems";
 import TrackOrderItems from "./TrackOrderItems";
 
-const TrackOrder = () => {
+const TrackOrderPending = () => {
   const [trackOrdersData, setTrackOrdersData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -21,7 +20,11 @@ const TrackOrder = () => {
   const fetchAllInvoice = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/trackingOrders/`);
-      setTrackOrdersData(response.data);
+
+      const pendingTrackingOrders = response.data.filter(
+        (trackingOrder) => trackingOrder.deliveryStatus === "Pending"
+      );
+      setTrackOrdersData(pendingTrackingOrders);
       console.log(response.data);
     } catch (error) {
       console.log(error?.response.data.message);
@@ -168,4 +171,4 @@ const TrackOrder = () => {
   );
 };
 
-export default TrackOrder;
+export default TrackOrderPending;

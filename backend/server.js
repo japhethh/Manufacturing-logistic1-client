@@ -27,6 +27,7 @@ import { Server } from "socket.io";
 import socketService from "./config/socketService.js";
 import adjusted_productsRouter from "./routes/adjusted_productsRouter.js";
 import adjustmentsRouter from "./routes/adjustmentsRouter.js";
+import trackingOrdersRouter from "./routes/trackingOrdersRouter.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -74,6 +75,7 @@ app.use("/api/notifications", notificationVendorRouter);
 app.use("/api/notificationsLogistic", notificationLogisticRouter);
 app.use("/api/adjusted_products", adjusted_productsRouter);
 app.use("/api/adjustments", adjustmentsRouter);
+app.use("/api/trackingOrders", trackingOrdersRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
