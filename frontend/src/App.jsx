@@ -43,6 +43,7 @@ import InvoiceItems from "./Components/Procurements/InvoiceItems.jsx";
 import InvoiceAll from "./Components/Procurements/InvoiceAll.jsx";
 import PendingInvoice from "./Components/Procurements/PendingInvoice.jsx";
 import CompleteInvoice from "./Components/Procurements/CompleteInvoice.jsx";
+import TrackOrder from "./Components/Procurements/TrackOrder.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -138,7 +139,7 @@ const App = () => {
             path="/createpurchaseorder"
             element={<CreatePurchaseOrder />}
           />
-          <Route path="/trackorders" element={<TrackOrders />} />
+          <Route path="/trackorders" element={<TrackOrder />} />
           <Route
             path="/orderfulfillmentstatus"
             element={<OrderFulfillmentStatus />}

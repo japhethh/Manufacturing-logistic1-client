@@ -658,7 +658,7 @@ const Sidebar = () => {
               </div>
             </li>
             {/* Invoice */}
-            <NavLink to="/invoice">
+            <NavLink to="/invoice/all">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
                   <FaFileInvoice
