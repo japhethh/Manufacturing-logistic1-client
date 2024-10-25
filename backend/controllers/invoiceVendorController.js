@@ -68,7 +68,7 @@ const createInvoice = async (req, res) => {
 const getAllInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
-  const invoices = await Invoice.find({});
+  const invoices = await Invoice.find({}).populate("purchaseOrder").populate("vendor");
 
   if (!invoices) {
     return res

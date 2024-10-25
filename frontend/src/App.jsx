@@ -39,6 +39,8 @@ import VendorManagementCreate from "./Components/VendorManagementCreate.jsx";
 import Profile from "./Components/Profile.jsx";
 import WareHouse from "./Components/WareHouse.jsx";
 import VendorManagementAll from "./Components/Procurements/VendorManagementAll.jsx";
+import InvoiceItems from "./Components/Procurements/InvoiceItems.jsx";
+import InvoiceAll from "./Components/Procurements/InvoiceAll.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -188,6 +190,8 @@ const App = () => {
 
           {/* WAREHOUSE */}
           <Route path="/warehouse" element={<WareHouse />} />
+          <Route path="/invoice" element={<InvoiceItems />} />
+          <Route path="/invoice/all" element={<InvoiceAll />} />
         </Routes>
       </div>
     </div>

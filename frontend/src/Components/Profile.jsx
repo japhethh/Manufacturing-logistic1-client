@@ -55,7 +55,7 @@ const Profile = () => {
       console.log(response.data.message);
 
       toast.success(response.data.message);
-      fetchAllUsers();
+      window.location.reload();
     } catch (error) {
       toast.error(error?.response.data.message);
     }

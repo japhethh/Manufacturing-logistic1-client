@@ -24,6 +24,7 @@ import { GrCurrency } from "react-icons/gr";
 import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineStore } from "react-icons/md";
 import { TbBuildingWarehouse } from "react-icons/tb";
+import { FaFileInvoice } from "react-icons/fa";
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -656,6 +657,21 @@ const Sidebar = () => {
                 )}
               </div>
             </li>
+            {/* Invoice */}
+            <NavLink to="/invoice">
+              <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <div className="flex mt-1 items-center cursor-pointer">
+                  <FaFileInvoice
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="text-base font-semibold">Invoice</span>
+                  )}
+                </div>
+              </li>
+            </NavLink>
           </ul>
 
           {/* VENDOR 

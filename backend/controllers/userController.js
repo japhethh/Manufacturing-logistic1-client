@@ -113,6 +113,12 @@ const updateUser = asyncHandler(async (req, res) => {
 
   if (req.file) {
     try {
+      // Delete the old image from Cloudinary if it exists
+      if (user.image) {
+        const public_id = user.image.split("/").pop().split(".")[0]; // Extract public_id from the URL
+        await cloudinary.uploader.destroy(`JJM_USER_PROFILE/${public_id}`); // Adjust path if needed
+      }
+
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "JJM_USER_PROFILE",
       });

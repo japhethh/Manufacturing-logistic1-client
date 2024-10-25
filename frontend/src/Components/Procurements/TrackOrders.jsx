@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const TrackOrders = () => {
   // Mock data for demonstration purposes
@@ -12,22 +12,22 @@ const TrackOrders = () => {
       const fetchedOrders = [
         {
           id: 1,
-          status: 'Pending',
-          shipmentTracking: '123ABC',
-          expectedDelivery: '2024-09-25',
+          status: "Pending",
+          shipmentTracking: "123ABC",
+          expectedDelivery: "2024-09-25",
           communicationLog: [
-            { date: '2024-09-15', message: 'Order placed' },
-            { date: '2024-09-16', message: 'Awaiting approval' },
+            { date: "2024-09-15", message: "Order placed" },
+            { date: "2024-09-16", message: "Awaiting approval" },
           ],
         },
         {
           id: 2,
-          status: 'Shipped',
-          shipmentTracking: '456DEF',
-          expectedDelivery: '2024-09-20',
+          status: "Shipped",
+          shipmentTracking: "456DEF",
+          expectedDelivery: "2024-09-20",
           communicationLog: [
-            { date: '2024-09-14', message: 'Order placed' },
-            { date: '2024-09-15', message: 'Shipped via DHL' },
+            { date: "2024-09-14", message: "Order placed" },
+            { date: "2024-09-15", message: "Shipped via DHL" },
           ],
         },
       ];
@@ -36,9 +36,9 @@ const TrackOrders = () => {
 
       // Alerts for overdue items
       const overdueAlerts = fetchedOrders
-        .filter(order => new Date(order.expectedDelivery) < new Date())
-        .map(order => `Order ${order.id} is overdue.`);
-      
+        .filter((order) => new Date(order.expectedDelivery) < new Date())
+        .map((order) => `Order ${order.id} is overdue.`);
+
       setAlerts(overdueAlerts);
     };
 
@@ -62,12 +62,36 @@ const TrackOrders = () => {
       )}
 
       {/* Order Details */}
-      {orders.map(order => (
-        <div key={order.id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-700">Order ID: {order.id}</h2>
-          <p className="text-gray-600">Status: <span className={`font-bold ${order.status === 'Shipped' ? 'text-blue-600' : 'text-yellow-600'}`}>{order.status}</span></p>
-          <p className="text-gray-600">Shipment Tracking: <a href={`https://tracking.example.com/${order.shipmentTracking}`} className="text-blue-500 hover:underline">{order.shipmentTracking}</a></p>
-          <p className="text-gray-600">Expected Delivery: {order.expectedDelivery}</p>
+      {orders.map((order) => (
+        <div
+          key={order.id}
+          className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm"
+        >
+          <h2 className="text-lg font-semibold text-gray-700">
+            Order ID: {order.id}
+          </h2>
+          <p className="text-gray-600">
+            Status:{" "}
+            <span
+              className={`font-bold ${
+                order.status === "Shipped" ? "text-blue-600" : "text-yellow-600"
+              }`}
+            >
+              {order.status}
+            </span>
+          </p>
+          <p className="text-gray-600">
+            Shipment Tracking:{" "}
+            <a
+              href={`https://tracking.example.com/${order.shipmentTracking}`}
+              className="text-blue-500 hover:underline"
+            >
+              {order.shipmentTracking}
+            </a>
+          </p>
+          <p className="text-gray-600">
+            Expected Delivery: {order.expectedDelivery}
+          </p>
 
           {/* Communication Log */}
           <div className="mt-4">

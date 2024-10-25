@@ -31,7 +31,7 @@ const Search = () => {
       const response = await axios.get(`${apiURL}/api/notificationsLogistic`, {
         headers: { token: token },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setNotifications(response.data);
     } catch (error) {
       toast.error(error?.response.data.message);
