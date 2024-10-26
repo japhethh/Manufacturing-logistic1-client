@@ -48,6 +48,7 @@ import TrackOrderPending from "./Components/Procurements/TrackOrderPending.jsx";
 import FulFillOrders from "./Components/FulFillOrders.jsx";
 import Dispatches from "./Components/Dispatches.jsx";
 import Report from "./Components/Report.jsx";
+import Receiving from "./Components/Receiving.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -194,8 +195,6 @@ const App = () => {
           {/* </Route> */}
           <Route path="/profile" element={<Profile />}></Route>
 
-          {/* WAREHOUSE */}
-          <Route path="/warehouse" element={<WareHouse />} />
           <Route path="/invoice" element={<InvoiceItems />} />
           <Route path="/invoice/all" element={<InvoiceAll />} />
           <Route path="/invoice/pending" element={<PendingInvoice />} />
@@ -205,9 +204,13 @@ const App = () => {
           <Route path="/trackorders/pendings" element={<TrackOrderPending />} />
 
 
+          {/* WAREHOUSE */}
+          <Route path="/warehouse" element={<WareHouse />} />
           <Route path="/fulfillorders" element={<FulFillOrders />} />
           <Route path="/dispatches" element={<Dispatches />} />
           <Route path="/report" element={<Report />} />
+          <Route path="/receiving" element={<Receiving />} />
+
 
 
         </Routes>
