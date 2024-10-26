@@ -428,11 +428,11 @@ const PendingOrdersVendor = () => {
       {modalOpen && selectedOrder && (
         <div className="modal modal-open">
           <div className="modal-box relative p-6">
-            <NavLink to={`/createinvoicevendor/${selectedOrder._id}`}>
+            {/* <NavLink to={`/createinvoicevendor/${selectedOrder._id}`}>
               <button className="bg-blue-500 px-2 py-1 font-semibold btn text-base-200 absolute right-12 top-2">
                 Create Invoice
               </button>
-            </NavLink>
+            </NavLink> */}
             <button
               onClick={closeModal}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"

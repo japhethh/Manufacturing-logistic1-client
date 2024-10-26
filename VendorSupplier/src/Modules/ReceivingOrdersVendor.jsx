@@ -242,7 +242,7 @@ const ReceiveOrdersVendor = () => {
                   </td>
                   <td className="hidden md:table-cell">
                     <div className="flex space-x-2">
-                      <button
+                      {/* <button
                         onClick={() => handleApproveClick(order._id)}
                         className="btn btn-primary btn-sm"
                       >
@@ -253,7 +253,7 @@ const ReceiveOrdersVendor = () => {
                         className="btn btn-error btn-sm"
                       >
                         Reject
-                      </button>
+                      </button> */}
                       <button
                         onClick={() => openModal(order)}
                         className="btn btn-secondary btn-sm"

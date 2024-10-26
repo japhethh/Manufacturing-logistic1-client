@@ -115,14 +115,14 @@ const createPurchaseOrder = async (req, res) => {
 
     // FINANCE ------------------->
     // Axios
-    const postRequest = async () => {
-      const response = await axios.post(
-        `https://backend-finance.jjm-manufacturing.com/API/BudgetRequests/RequestBudget`,
-        financeApproval
-      );
-      console.log(response.data);
-    };
-    postRequest();
+    // const postRequest = async () => {
+    //   const response = await axios.post(
+    //     `https://backend-finance.jjm-manufacturing.com/API/BudgetRequests/RequestBudget`,
+    //     financeApproval
+    //   );
+    //   console.log(response.data);
+    // };
+    // postRequest();
 
     res.status(201).json(newPurchaseOrder);
   } catch (error) {
