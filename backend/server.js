@@ -92,6 +92,7 @@ const io = new Server(server, {
       "https://manufacturing-logistic1-client.onrender.com",
       "https://logistic1.jjm-manufacturing.com",
       "https://backend-logistic1.jjm-manufacturing.com",
+      
     ],
     methods: ["GET", "POST", "PUT"],
     allowedHeaders: ["Content-Type"],
