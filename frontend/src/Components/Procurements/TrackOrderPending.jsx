@@ -94,10 +94,10 @@ const TrackOrderPending = () => {
             let statusClass = "";
 
             switch (data) {
-              case "Approved":
+              case "In Transit":
                 statusClass = "bg-green-100 text-green-800"; // Light green background for approved
                 break;
-              case "Rejected":
+              case "Delivered":
                 statusClass = "bg-red-100 text-red-800"; // Light red background for rejected
                 break;
               case "Pending":

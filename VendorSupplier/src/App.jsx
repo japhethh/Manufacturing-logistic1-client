@@ -37,6 +37,8 @@ import Adjustment from "./Components/StockAdjustment/Adjustment.jsx";
 import CreateAdjustment from "./Components/StockAdjustment/CreateAdjustment.jsx";
 import EditAdjustment from "./Components/StockAdjustment/EditAdjustment.jsx";
 import EditProducts from "./Modules/EditProducts.jsx";
+import AllTrackingOrders from "./Components/TrackingOrders/AllTrackingOrders.jsx";
+import OrderDetailPage from "./Components/TrackingOrders/OrderDetailPage.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -184,6 +186,8 @@ const App = () => {
             <Route path="/adjustments" element={<Adjustment />} />
             <Route path="/adjustments/create" element={<CreateAdjustment />} />
             <Route path="/adjustments/:id/edit" element={<EditAdjustment />} />
+            <Route path="/trackingOrders" element={<AllTrackingOrders />} />
+            <Route path="/order-details/:orderId" element={<OrderDetailPage />} />
           </Routes>
         </div>
       </div>

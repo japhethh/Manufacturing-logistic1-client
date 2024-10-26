@@ -5,6 +5,7 @@ import { apiURL } from "../../context/Store";
 import { toast } from "react-toastify";
 import Store from "../../context/Store";
 import InvoiceItems from "./InvoiceItems";
+import io from "socket.io-client";
 import TrackOrderItems from "./TrackOrderItems";
 
 const TrackOrder = () => {
@@ -13,6 +14,11 @@ const TrackOrder = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState("");
   const { token } = Store();
+
+  const ENDPOINT =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://backend-logistic1.jjm-manufacturing.com";
 
   useEffect(() => {
     fetchAllInvoice();
@@ -27,6 +33,30 @@ const TrackOrder = () => {
       console.log(error?.response.data.message);
     }
   };
+
+  useEffect(() => {
+    const socket = io(ENDPOINT);
+
+    socket.on("updateStatus", (updatedNotification) => {
+      setTrackOrdersData((prev) => {
+        // Update existing order or add a new one
+        const existingOrderIndex = prev.findIndex(order => order._id === updatedNotification._id);
+        if (existingOrderIndex !== -1) {
+          // Update the existing order
+          const updatedOrders = [...prev];
+          updatedOrders[existingOrderIndex] = updatedNotification; // Update the order with new data
+          return updatedOrders;
+        } else {
+          // Add the new notification to the list if it doesn't exist
+          return [updatedNotification, ...prev]; // Add new notification to the top
+        }
+      });
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []); // Empty dependency array to run only once on mount
 
   const handleApproval = async (invoiceId) => {
     console.log(invoiceId);
@@ -91,10 +121,10 @@ const TrackOrder = () => {
             let statusClass = "";
 
             switch (data) {
-              case "Approved":
+              case "In Transit":
                 statusClass = "bg-green-100 text-green-800"; // Light green background for approved
                 break;
-              case "Rejected":
+              case "Delivered":
                 statusClass = "bg-red-100 text-red-800"; // Light red background for rejected
                 break;
               case "Pending":
@@ -121,18 +151,17 @@ const TrackOrder = () => {
           data: null,
           render: (data) => {
             return `
-  <div class="flex justify-center">
-  <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${data._id}">
-    <i class="fas fa-eye"></i>
-  </button>
-  <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="approveBtn_${data._id}">
-    <i class="fas fa-edit"></i>
-  </button>
-  <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
-    <i class="fas fa-trash-alt"></i>
-  </button>
-</div>
-
+              <div class="flex justify-center">
+                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${data._id}">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="approveBtn_${data._id}">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
             `;
           },
         },

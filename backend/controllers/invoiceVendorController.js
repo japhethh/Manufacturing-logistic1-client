@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import Invoice from "../models/invoiceVendorModel.js";
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
 import TrackingOrderModel from "../models/trackingOrderModel.js";
+import NotificationVendorModel from "../models/notificationVendorModel.js";
+import generalSettingsModel from "../models/generalSettingsModel.js";
 
 const createInvoice = async (req, res) => {
   const {
@@ -139,7 +141,7 @@ const approveInvoice = asyncHandler(async (req, res) => {
       .populate("purchaseOrder")
       .populate("vendor");
 
-      console.log(invoiced)
+    console.log(invoiced);
     if (!invoiced)
       return res.status(404).json({ message: "Invoice not found." });
 
@@ -159,7 +161,22 @@ const approveInvoice = asyncHandler(async (req, res) => {
       totalAmount: invoiced.totalAmount,
     });
 
+    const notificationVendor = new NotificationVendorModel({
+      user: newTrackingOrder.purchaseOrderId.createdBy,
+      supplier: newTrackingOrder.purchaseOrderId.supplier,
+      message: `Invoice ${invoiced._id} has been approved.`,
+      type: "approved_invoice",
+      invoiceId: invoiced._id,
+    });
+
+    //I need to notify the
+
     await newTrackingOrder.save();
+    await notificationVendor.save();
+
+    const io = req.app.get("socketio");
+
+    io.emit("invoice-approve", notificationVendor);
 
     res.status(200).json({ invoiced, newTrackingOrder });
   } catch (error) {

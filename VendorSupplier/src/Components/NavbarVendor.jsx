@@ -43,7 +43,7 @@ const NavbarVendor = () => {
       console.log(response.data);
       setNotifications(response.data);
     } catch (error) {
-      console.log(error?.response.data.message)
+      console.log(error?.response.data.message);
     }
   };
 
@@ -63,10 +63,18 @@ const NavbarVendor = () => {
     socket.on("vendor-notification", (notification) => {
       addNotification(notification); // Add notification to the store
       setNotifications((prevNotifications) => [
-        ...prevNotifications,
         notification,
+        ...prevNotifications,
       ]);
       console.log(notification);
+    });
+
+    socket.on("invoice-approve", (notification) => {
+      addNotification(notification);
+      setNotifications((prevNotifications) => [
+        notification,
+        ...prevNotifications,
+      ]);
     });
 
     // Cleanup on component unmount

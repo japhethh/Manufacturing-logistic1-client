@@ -36,6 +36,11 @@ const SidebarVendor = () => {
       to: "/adjustments",
     },
     {
+      icon: <BsClipboardCheckFill className="text-2xl" />,
+      label: "Tracking Orders",
+      to: "/trackingOrders",
+    },
+    {
       icon: <FaWarehouse className="text-2xl" />,
       label: "Inventory Management",
       to: "/inventorymanagement",

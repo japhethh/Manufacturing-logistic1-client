@@ -75,27 +75,6 @@ const AllProducts = () => {
             data: "available",
             render: (data) => (data ? data : "N/A"),
           },
-          // {
-          //   title: "Alert Quantity",
-          //   data: "alertQuantity",
-          //   render: (data) => (data ? data : "N/A"),
-          // },
-          // {
-          //   title: "Unit",
-          //   data: "unit",
-          //   render: (data) => (data ? data : "N/A"),
-          // },
-
-          // {
-          //   title: "Tax",
-          //   data: "tax",
-          //   render: (data) => (data ? data : "N/A"),
-          // },
-          // {
-          //   title: "Description",
-          //   data: "description",
-          //   render: (data) => (data ? data : "N/A"),
-          // },
           {
             title: "Actions",
             data: null,

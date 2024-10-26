@@ -13,8 +13,10 @@ const getAllNotification = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Supplier not found" });
   }
 
-  const notifications = await NotificationVendorModel.find();
-
+  // Fetch notifications and sort by newest first (descending order)
+  const notifications = await NotificationVendorModel.find().sort({
+    createdAt: -1,
+  }); // Sort by createdAt in descending order
   res.status(200).json(notifications);
 });
 
