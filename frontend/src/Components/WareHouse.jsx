@@ -15,8 +15,30 @@ const SmallBusinessWarehouse = () => {
   return (
     <div className="p-6 bg-white min-h-screen text-gray-800">
       <h1 className="text-4xl font-extrabold mb-8 text-center drop-shadow-lg">
-        Small Business Warehouse
+        Warehouse Management
       </h1>
+
+      {/* Navigation Buttons */}
+      <div className="flex justify-around mb-12 space-x-4">
+        <NavLink to="/fulfillorders">
+          <div className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+            <span className="text-xl font-bold">Order Fulfillment</span>
+            <p className="text-sm mt-2 text-center">Manage picking, packing, and shipping operations</p>
+          </div>
+        </NavLink>
+        <NavLink to="/dispatches">
+          <div className="bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+            <span className="text-xl font-bold">Shipping & Dispatch</span>
+            <p className="text-sm mt-2 text-center">Track outgoing shipments and manage dispatch schedules</p>
+          </div>
+        </NavLink>
+        <NavLink to="/report">
+          <div className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+            <span className="text-xl font-bold">Reporting & Analytics</span>
+            <p className="text-sm mt-2 text-center">Generate reports and analyze warehouse data</p>
+          </div>
+        </NavLink>
+      </div>
 
       {/* Basic Inventory Management Section */}
       <div className="mb-12">
@@ -51,64 +73,6 @@ const SmallBusinessWarehouse = () => {
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Simple Order Fulfillment Section */}
-      <div className="mb-12">
-        <h2 className="text-3xl font-semibold mb-4 text-center">
-          Order Fulfillment
-        </h2>
-        <div className="shadow-lg p-6 rounded-lg bg-gray-100 text-gray-800">
-          <p className="text-center">
-            Manage picking, packing, and shipping operations for customer
-            orders.
-          </p>
-          <div className="flex justify-center mt-4">
-            <NavLink to="/fulfillorders">
-              <button className="btn btn-primary px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                Fulfill Orders
-              </button>
-            </NavLink>
-          </div>
-        </div>
-      </div>
-
-      {/* Shipping and Dispatch Section */}
-      <div>
-        <h2 className="text-3xl font-semibold mb-4 text-center">
-          Shipping & Dispatch
-        </h2>
-        <div className="shadow-lg p-6 rounded-lg bg-gray-100 text-gray-800">
-          <p className="text-center">
-            Track outgoing shipments and manage dispatch schedules.
-          </p>
-          <div className="flex justify-center mt-4">
-            <NavLink to="/dispatches">
-              <button className="btn btn-secondary px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                View Dispatches
-              </button>
-            </NavLink>
-          </div>
-        </div>
-      </div>
-
-      {/* Basic Reporting Section */}
-      <div className="mt-12">
-        <h2 className="text-3xl font-semibold mb-4 text-center">
-          Reporting & Analytics
-        </h2>
-        <div className="shadow-lg p-6 rounded-lg bg-gray-100 text-gray-800">
-          <p className="text-center">
-            Generate reports and analyze warehouse operations data.
-          </p>
-          <div className="flex justify-center mt-4">
-            <NavLink to="/report">
-              <button className="btn btn-success px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                View Reports
-              </button>
-            </NavLink>
-          </div>
         </div>
       </div>
     </div>
