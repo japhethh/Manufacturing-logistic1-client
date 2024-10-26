@@ -123,7 +123,7 @@ const InvoiceAll = () => {
           },
         },
       ],
-      order: [[0, "desc"]],
+      order: [[2, "desc"]],
       rowCallback: (row, data) => {
         const approveBtn = row.querySelector(`#approveBtn_${data?._id}`);
         const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);

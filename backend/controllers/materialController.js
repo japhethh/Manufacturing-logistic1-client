@@ -1,8 +1,6 @@
 import asyncHandler from "express-async-handler";
 import MaterialModel from "../models/materialModel.js";
 import supplierModel from "../models/supplierModel.js";
-import { RiGitPullRequestFill } from "react-icons/ri";
-import { FaSleigh } from "react-icons/fa6";
 import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
 
