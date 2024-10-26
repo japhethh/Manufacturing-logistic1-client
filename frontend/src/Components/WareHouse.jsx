@@ -38,6 +38,12 @@ const SmallBusinessWarehouse = () => {
             <p className="text-sm mt-2 text-center">Generate reports and analyze warehouse data</p>
           </div>
         </NavLink>
+        <NavLink to="/receiving">
+          <div className="bg-amber-500 hover:bg-amber-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+            <span className="text-xl font-bold">Receiving</span>
+            <p className="text-sm mt-2 text-center">Generate Receiving and analyze warehouse data</p>
+          </div>
+        </NavLink>
       </div>
 
       {/* Basic Inventory Management Section */}
