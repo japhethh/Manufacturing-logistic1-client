@@ -17,46 +17,58 @@ const VendorManagementItem = () => {
       )}
 
       {/* Cards section */}
-      <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}>
-        <NavLink 
-          to="/vendormanagement" 
-          className="w-full" 
+      <div
+        className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-opacity duration-500 ${
+          loading ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <NavLink
+          to="/vendormanagement"
+          className="w-full"
           aria-label="Create Vendor"
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">All</h2>
-              <AiOutlineForm className="text-4xl text-blue-500" /> {/* New Icon */}
+              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
+              {/* New Icon */}
             </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+              5
+            </span>
           </div>
         </NavLink>
-
-        <NavLink 
-          to="/vendormanagementcreate" 
-          className="w-full" 
+        <NavLink
+          to="/vendorproduct"
+          className="w-full"
+          aria-label="Vendor Product"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-gray-800 font-semibold text-lg">
+                Vendor Products
+              </h2>
+              <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
+            </div>
+            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
+              3
+            </span>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/vendormanagementcreate"
+          className="w-full"
           aria-label="Create Vendor"
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">Vendors</h2>
-              <AiOutlineForm className="text-4xl text-blue-500" /> {/* New Icon */}
+              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
+              {/* New Icon */}
             </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
-          </div>
-        </NavLink>
-
-        <NavLink 
-          to="/vendorproduct" 
-          className="w-full" 
-          aria-label="Vendor Product"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">Vendors Product</h2>
-              <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
-            </div>
-            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">3</span>
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+              5
+            </span>
           </div>
         </NavLink>
 
@@ -76,7 +88,11 @@ const VendorManagementItem = () => {
       </div>
 
       {/* Content outlet */}
-      <div className={`mt-8 transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}>
+      <div
+        className={`mt-8 transition-opacity duration-500 ${
+          loading ? "opacity-0" : "opacity-100"
+        }`}
+      >
         <Outlet />
       </div>
     </div>

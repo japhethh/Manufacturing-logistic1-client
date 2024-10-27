@@ -115,7 +115,7 @@ const PurchaseOrderList = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Purchase Orders</h1>
         <button
-          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-full w-[135px] md:w-[220px] lg:w-[220px]"
+          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[135px] md:w-[220px] lg:w-[220px]"
           onClick={() => navigate("/createpurchaseorder")}
         >
           + Create Purchase Order
@@ -137,6 +137,7 @@ const PurchaseOrderList = () => {
           <thead>
             <tr className="bg-gray-100 text-left">
               <th className="py-2 px-4">#</th>
+              <th className="py-2 px-4">Created At</th>
               <th
                 className="py-2 px-4 cursor-pointer"
                 onClick={() => requestSort("purchaseOrderNumber")}
@@ -175,6 +176,9 @@ const PurchaseOrderList = () => {
             {currentOrders.map((order, index) => (
               <tr key={order._id} className="border-b">
                 <td className="py-2 px-4">{indexOfFirstOrder + index + 1}</td>
+                <td className="py-2 px-4">
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </td>
                 <td className="py-2 px-4">{order.purchaseOrderNumber}</td>
                 <td className="py-2 px-4">
                   {order.supplier?.supplierName || "N/A"}
@@ -187,11 +191,11 @@ const PurchaseOrderList = () => {
                 </td>
                 <td className="py-2 px-4">
                   <div
-                    className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
+                    className={`inline-block px-2 py-1 rounded ${
                       order.orderStatus === "Pending"
-                        ? "bg-yellow-100 border-yellow-400" // Light yellow for Pending
+                        ? "bg-blue-100 text-blue-800" // Light yellow for Pending
                         : order.orderStatus === "Approved" // Moved Approved to be right after Pending
-                        ? "bg-blue-100 border-blue-400" // Light blue for Approved
+                        ? "bg-green-100 text-green-800" // Light blue for Approved
                         : order.orderStatus === "In Process"
                         ? "bg-blue-100 border-blue-300" // Light blue for In Process
                         : order.orderStatus === "Shipped"
@@ -207,15 +211,15 @@ const PurchaseOrderList = () => {
                 </td>
                 <td className="py-2 px-4">
                   <div
-                    className={`border text-gray-700 font-semibold text-center rounded-md p-1 ${
+                    className={`inline-block px-2 py-1 rounded ${
                       order.financeApproval?.status === "Pending"
-                        ? "bg-yellow-100 border-yellow-300"
+                        ? "bg-blue-100 text-blue-800"
                         : order.financeApproval?.status === "Reviewed"
                         ? "bg-blue-100 border-blue-300"
                         : order.financeApproval?.status === "Approved"
-                        ? "bg-green-100 border-green-300"
+                        ? "bg-green-100 text-green-800"
                         : order.financeApproval?.status === "Rejected"
-                        ? "bg-gray-100 border-gray-300"
+                        ? "bg-red-100 text-red-800"
                         : "bg-gray-200 border-gray-400" // Default case for unknown statuses
                     }`}
                   >
@@ -238,18 +242,18 @@ const PurchaseOrderList = () => {
                 </td>
                 <td className="py-2 px-4 flex space-x-2">
                   <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-500 transition"
+                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-500 transition text-sm"
                     onClick={() =>
                       navigate(`/purchase_orders/view_po/${order._id}`)
                     }
                   >
-                    <FiEye className="inline" /> View
+                    <FiEye className="inline text-lg" /> 
                   </button>
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-500 transition"
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-500 transition text-sm"
                     onClick={() => handleDeleteClick(order._id)}
                   >
-                    <FiTrash className="inline" /> Delete
+                    <FiTrash className="inline text-lg" /> 
                   </button>
                 </td>
               </tr>

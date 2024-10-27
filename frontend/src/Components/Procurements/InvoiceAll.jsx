@@ -23,7 +23,7 @@ const InvoiceAll = () => {
         headers: { token: token },
       });
       setInvoiceData(response.data.invoices);
-      console.log(response.data.invoices)
+      console.log(response.data.invoices);
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -119,6 +119,9 @@ const InvoiceAll = () => {
               <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
                 <i class="fas fa-times"></i>
               </button>
+              <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer payBtn" id="payBtn_${data?._id}">
+                    <i class="fas fa-money-bill"></i> Pay
+                </button>
             `;
           },
         },

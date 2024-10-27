@@ -108,7 +108,7 @@ const User = () => {
           <div>
             <button
               onClick={handleCreate}
-              className="px-4 py-3 font-semibold text-sm rounded-full bg-blue-700 text-white mb-2"
+              className="px-4 py-3 font-semibold text-sm rounded-md bg-blue-700 text-white mb-2"
             >
               Add Employee +
             </button>

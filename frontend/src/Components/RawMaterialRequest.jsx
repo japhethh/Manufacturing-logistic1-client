@@ -121,7 +121,7 @@ const RawMaterialRequest = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Raw Material Requests</h1>
         <button
-          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-full w-[150px] md:w-[180px]"
+          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[150px] md:w-[180px]"
           onClick={() => navigate("/create-request")}
         >
           + Create Request
@@ -166,7 +166,7 @@ const RawMaterialRequest = () => {
                       <select
                         value={request.requestStatus}
                         onChange={(e) => handleStatusChange(request._id, e.target.value)}
-                        className={`rounded-full px-2 py-1 font-semibold text-base-200 ${request.requestStatus === "Pending" ? "bg-yellow-500" : request.requestStatus === "Approved" ? "bg-green-500" : "bg-red-500"}`}
+                        className={`inline-block px-2 py-1 rounded text-white ${request.requestStatus === "Pending" ? "bg-yellow-500" : request.requestStatus === "Approved" ? "bg-green-500" : "bg-red-500"}`}
                       >
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>

@@ -166,7 +166,7 @@ const VendorManagementAll = () => {
       destroy: true,
       responsive: true,
       ordering: true,
-      order: [[1, "desc"]],
+      order: [[2, "desc"]],
       rowCallback: (row, data) => {
         const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);

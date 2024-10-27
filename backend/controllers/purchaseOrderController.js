@@ -91,7 +91,7 @@ const createPurchaseOrder = async (req, res) => {
       purchaseOrder: savePO._id,
       typeOfRequest: "request",
       category: savePO.category,
-      
+
       department: "Logistic1",
       totalBudget: savePO.totalAmount,
       documents: savePO.pdfURL,
@@ -139,11 +139,8 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
       .populate("supplier")
       .populate({
         path: "financeApproval",
-        // populate: {
-        //   path: "purchaseOrder",
-        // },
       })
-
+      .sort({ createdAt: -1 })
       // .sort({ orderDate: -1, "supplier.supplierName": 1 }) // Sort by orderDate (descending) and supplierName (ascending)
       .exec(); // Populate the createdBy field with user info
     // .populate("rawmaterialRequest", "name description"); // Populate the raw material request

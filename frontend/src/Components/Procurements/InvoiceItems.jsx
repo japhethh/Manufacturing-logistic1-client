@@ -26,7 +26,7 @@ const InvoiceItems = () => {
           className="w-full"
           aria-label="Create Vendor"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
                 All Invoice
@@ -45,7 +45,7 @@ const InvoiceItems = () => {
           className="w-full"
           aria-label="Create Vendor"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
                 Pending Invoice
@@ -64,7 +64,7 @@ const InvoiceItems = () => {
           className="w-full"
           aria-label="Vendor Product"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
                 Complete Invoice

@@ -380,7 +380,8 @@ const CreatePurchaseOrder = () => {
         {/* Order Summary */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
           {/* Tax */}
-          <div>
+          
+          {/* <div>
             <label
               htmlFor="tax"
               className="block text-base font-medium text-[#07074D]"
@@ -399,7 +400,7 @@ const CreatePurchaseOrder = () => {
               }
               className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
             />
-          </div>
+          </div> */}
 
           {/* Category Selection */}
           <div>
