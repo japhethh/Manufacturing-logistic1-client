@@ -156,7 +156,7 @@ const VendorProduct = () => {
         </h2>
 
         {/* Add Product Form */}
-        <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
+        {/* <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
           <form className="space-y-4">
             <div className="flex flex-col md:flex-row gap-4">
               <input
@@ -195,7 +195,7 @@ const VendorProduct = () => {
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
 
         {/* Table */}
         <div className="overflow-x-auto mb-4">

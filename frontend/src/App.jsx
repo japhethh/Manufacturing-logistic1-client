@@ -49,6 +49,7 @@ import FulFillOrders from "./Components/FulFillOrders.jsx";
 import Dispatches from "./Components/Dispatches.jsx";
 import Report from "./Components/Report.jsx";
 import Receiving from "./Components/Receiving.jsx";
+import QCInspection from "./Components/QualityControl/QCInspection..jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -203,16 +204,16 @@ const App = () => {
           <Route path="/trackorders" element={<TrackOrder />} />
           <Route path="/trackorders/pendings" element={<TrackOrderPending />} />
 
-
           {/* WAREHOUSE */}
           <Route path="/warehouse" element={<WareHouse />} />
           <Route path="/fulfillorders" element={<FulFillOrders />} />
           <Route path="/dispatches" element={<Dispatches />} />
           <Route path="/report" element={<Report />} />
           <Route path="/receiving" element={<Receiving />} />
-
-
-
+          <Route
+            path="/quality-control/:invoiceId"
+            element={<QCInspection />}
+          />
         </Routes>
       </div>
     </div>

@@ -145,6 +145,7 @@ const VendorManagementAll = () => {
           data: "available",
           render: (data) => (data ? data : "N/A"),
         },
+        {title:"Vendor",data:"supplier.supplierName"},
         {
           title: "Actions",
           data: null,

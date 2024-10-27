@@ -25,7 +25,7 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">Vendor Management All</h2>
+              <h2 className="text-gray-800 font-semibold text-lg">All</h2>
               <AiOutlineForm className="text-4xl text-blue-500" /> {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
@@ -39,7 +39,7 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">Vendor Management Create</h2>
+              <h2 className="text-gray-800 font-semibold text-lg">Vendors</h2>
               <AiOutlineForm className="text-4xl text-blue-500" /> {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
@@ -53,7 +53,7 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">Vendor Product</h2>
+              <h2 className="text-gray-800 font-semibold text-lg">Vendors Product</h2>
               <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
             </div>
             <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">3</span>

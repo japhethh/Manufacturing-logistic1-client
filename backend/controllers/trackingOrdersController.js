@@ -8,7 +8,8 @@ const getAllTrackingOrders = asyncHandler(async (req, res) => {
   const trackingOrders = await TrackingOrderModel.find()
     .populate("supplier")
     .populate("purchaseOrderId")
-    .populate("invoiceId");
+    .populate("invoiceId")
+    .populate("generalSettings");
 
   res.status(200).json(trackingOrders);
 });
@@ -27,7 +28,11 @@ const updateStatus = asyncHandler(async (req, res) => {
     id,
     { deliveryStatus },
     { new: true }
-  );
+  )
+    .populate("supplier")
+    .populate("purchaseOrderId")
+    .populate("invoiceId")
+    .populate("generalSettings");
 
   if (!updatedStatus) {
     return res.status(400).json({ success: false, message: "Update failed" });

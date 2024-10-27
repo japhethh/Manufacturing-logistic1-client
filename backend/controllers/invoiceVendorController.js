@@ -149,6 +149,15 @@ const approveInvoice = asyncHandler(async (req, res) => {
     invoiced.approvalStatus = "Approved";
     await invoiced.save();
 
+    const generalSettings = await generalSettingsModel.find();
+    if (generalSettings === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "General Settings not found!" });
+    }
+
+    const general = generalSettings[0];
+
     const newTrackingOrder = new TrackingOrderModel({
       invoiceId: invoiced._id,
       purchaseOrderId: invoiced.purchaseOrder._id,
@@ -156,6 +165,7 @@ const approveInvoice = asyncHandler(async (req, res) => {
       supplier: invoiced.vendor._id,
       invoiceAmount: invoiced.totalAmount,
       purchaseOrderAmount: invoiced.purchaseOrder.totalAmount,
+      generalSettings: general,
       // quantityOrdered: invoiced.purchaseOrder.totalAmount,
       // quantityInvoiced: invoiced.quantityInvoiced,
       totalAmount: invoiced.totalAmount,

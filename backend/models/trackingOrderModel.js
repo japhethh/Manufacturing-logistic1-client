@@ -50,6 +50,10 @@ const TrackingOrderSchema = mongoose.Schema(
     completedDate: {
       type: Date,
     },
+    generalSettings: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "GeneralSettings",
+    },
   },
   { timestamps: true }
 );

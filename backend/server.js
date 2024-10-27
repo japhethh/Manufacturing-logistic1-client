@@ -28,10 +28,11 @@ import socketService from "./config/socketService.js";
 import adjusted_productsRouter from "./routes/adjusted_productsRouter.js";
 import adjustmentsRouter from "./routes/adjustmentsRouter.js";
 import trackingOrdersRouter from "./routes/trackingOrdersRouter.js";
+import QCInspectionRouter from "./routes/QCInspectionRouter.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
-  app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 ConnectDB();
@@ -76,6 +77,7 @@ app.use("/api/notificationsLogistic", notificationLogisticRouter);
 app.use("/api/adjusted_products", adjusted_productsRouter);
 app.use("/api/adjustments", adjustmentsRouter);
 app.use("/api/trackingOrders", trackingOrdersRouter);
+app.use("/api/qualityControl", QCInspectionRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
@@ -92,7 +94,6 @@ const io = new Server(server, {
       "https://manufacturing-logistic1-client.onrender.com",
       "https://logistic1.jjm-manufacturing.com",
       "https://backend-logistic1.jjm-manufacturing.com",
-      
     ],
     methods: ["GET", "POST", "PUT"],
     allowedHeaders: ["Content-Type"],

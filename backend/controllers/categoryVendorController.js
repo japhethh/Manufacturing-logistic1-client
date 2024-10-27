@@ -24,6 +24,7 @@ const getAllCategory = asyncHandler(async (req, res) => {
 const createCategory = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const { category_name } = req.body;
+  
   const newCategory = new categoryModel({
     category_name,
     supplier: userId,

@@ -4,7 +4,6 @@ import axios from "axios";
 import { apiURL } from "../../context/Store";
 import { toast } from "react-toastify";
 import Store from "../../context/Store";
-import InvoiceItems from "./InvoiceItems";
 import io from "socket.io-client";
 import TrackOrderItems from "./TrackOrderItems";
 
@@ -21,10 +20,10 @@ const TrackOrder = () => {
       : "https://backend-logistic1.jjm-manufacturing.com";
 
   useEffect(() => {
-    fetchAllInvoice();
+    fetchAllTrackingOrders();
   }, []);
 
-  const fetchAllInvoice = async () => {
+  const fetchAllTrackingOrders = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/trackingOrders/`);
       setTrackOrdersData(response.data);
@@ -69,7 +68,7 @@ const TrackOrder = () => {
         }
       );
       toast.success("Invoice approved and tracking order created!");
-      fetchAllInvoice(); // Refresh invoice list
+      fetchAllTrackingOrders(); // Refresh invoice list
     } catch (error) {
       toast.error("Error approving invoice: " + error?.response.data.message);
     }
@@ -85,7 +84,7 @@ const TrackOrder = () => {
         }
       );
       toast.warn("Invoice rejected!");
-      fetchAllInvoice(); // Refresh invoice list
+      fetchAllTrackingOrders(); // Refresh invoice list
     } catch (error) {
       toast.error("Error rejecting invoice: " + error?.response.data.message);
     }
