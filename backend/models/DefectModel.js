@@ -1,21 +1,30 @@
 import mongoose from "mongoose";
 
-const DefectSchema = mongoose.Schema({
-  defectId: { type: String, required: true, unique: true },
-  inspectionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "QCInspection",
-    required: true,
+const DefectSchema = new mongoose.Schema(
+  {
+    defectId: { type: mongoose.Schema.Types.ObjectId, ref: "Defect" },
+    defectCode: { type: String, required: true },
+    invoiceId: { type: mongoose.Schema.Types.ObjectId, ref: "Invoice" },
+    inspectionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "QCInspection",
+      required: true,
+    },
+    defectDescription: { type: String, required: true },
+    severity: {
+      type: String,
+      enum: ["Minor", "Major", "Critical"],
+      required: true,
+    },
+    actionTaken: { type: String },
+    resolved: { type: Boolean, default: false },
+    images: [{ type: String }],
+    status: { type: String, enum: ["Pending", "Resolved", "Closed"] },
   },
-  description: { type: String, required: true }, // Description of the defect
-  severity: {
-    type: String,
-    enum: ["Minor", "Major", "Critical"],
-    required: true,
-  },
-  actionTaken: { type: String }, // Steps taken to rectify the defect
-  resolved: { type: Boolean, default: false }, // Indicates if the defect has been resolved
-});
+  {
+    timestamps: true, // Adds `createdAt` and `updatedAt` timestamps
+  }
+);
 
 const DefectModel = mongoose.model("Defect", DefectSchema);
 

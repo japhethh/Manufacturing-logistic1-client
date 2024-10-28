@@ -50,6 +50,7 @@ import Dispatches from "./Components/Dispatches.jsx";
 import Report from "./Components/Report.jsx";
 import Receiving from "./Components/Receiving.jsx";
 import QCInspection from "./Components/QualityControl/QCInspection..jsx";
+import DiscrepancyReport from "./Components/ReturnManagement/DiscrepancyReport.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -132,13 +133,15 @@ const App = () => {
           <Route path="/music" element={<MusicClick />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
-          <Route path="/supplierlist" element={<SupplierList />} />
 
+          {/* USER */}
           <Route path="/login" element={<Log />} />
           <Route path="/user" element={<User />} />
           <Route path="/requestlist" element={<RequestList />} />
           <Route path="/user/createuser" element={<CreateUser />} />
-          <Route path="/suppliers" element={<CreateSupplier />} />
+
+          {/* SUPPLIER */}
+          <Route path="/supplierlist" element={<SupplierList />} />
           <Route path="/suppliers" element={<CreateSupplier />} />
           <Route path="/user/edit/:id" element={<EditUser />} />
           <Route
@@ -196,11 +199,13 @@ const App = () => {
           {/* </Route> */}
           <Route path="/profile" element={<Profile />}></Route>
 
+          {/* INVOICE */}
           <Route path="/invoice" element={<InvoiceItems />} />
           <Route path="/invoice/all" element={<InvoiceAll />} />
           <Route path="/invoice/pending" element={<PendingInvoice />} />
           <Route path="/invoice/complete" element={<CompleteInvoice />} />
 
+          {/* TRACKING ORDER */}
           <Route path="/trackorders" element={<TrackOrder />} />
           <Route path="/trackorders/pendings" element={<TrackOrderPending />} />
 
@@ -214,6 +219,9 @@ const App = () => {
             path="/quality-control/:invoiceId"
             element={<QCInspection />}
           />
+
+          {/* Return management */}
+          <Route path="/discrepancy_report" element={<DiscrepancyReport />} />
         </Routes>
       </div>
     </div>

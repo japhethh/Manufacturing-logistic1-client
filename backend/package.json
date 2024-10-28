@@ -32,6 +32,7 @@
     "pdfmake": "^0.2.13",
     "socket.io": "^4.8.0",
     "streamifier": "^0.1.1",
+    "uuid": "^11.0.0",
     "validator": "^13.12.0"
   }
 }
