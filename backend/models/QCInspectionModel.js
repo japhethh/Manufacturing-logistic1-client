@@ -1,15 +1,13 @@
 import mongoose from "mongoose";
 
 const QCInspectionSchema = mongoose.Schema({
-  inspectionId: { type: mongoose.Schema.Types.ObjectId, ref: "QCInspection" }, // Reference to itself
-  inspectionCode: { type: String, required: true, unique: true }, // Custom unique code
-
+  inspectionCode: { type: String, required: true, unique: true },
+  inspectionId: { type: mongoose.Schema.Types.ObjectId, ref: "QCInspection" },
   productId: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Material",
-      // required: true,
-    }
+    },
   ],
   invoiceId: {
     type: mongoose.Schema.Types.ObjectId,

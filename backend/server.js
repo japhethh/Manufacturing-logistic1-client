@@ -29,6 +29,7 @@ import adjusted_productsRouter from "./routes/adjusted_productsRouter.js";
 import adjustmentsRouter from "./routes/adjustmentsRouter.js";
 import trackingOrdersRouter from "./routes/trackingOrdersRouter.js";
 import QCInspectionRouter from "./routes/QCInspectionRouter.js";
+import defectRouter from "./routes/defectRouter.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -78,6 +79,7 @@ app.use("/api/adjusted_products", adjusted_productsRouter);
 app.use("/api/adjustments", adjustmentsRouter);
 app.use("/api/trackingOrders", trackingOrdersRouter);
 app.use("/api/qualityControl", QCInspectionRouter);
+app.use("/api/defect",defectRouter)
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);

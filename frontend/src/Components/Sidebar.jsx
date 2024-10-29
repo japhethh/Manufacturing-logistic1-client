@@ -16,7 +16,6 @@ import { FaChalkboardTeacher, FaLuggageCart } from "react-icons/fa";
 import { VscServerEnvironment } from "react-icons/vsc";
 import { BiDollarCircle, BiPurchaseTagAlt } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
-import { TbFileInvoice } from "react-icons/tb";
 import { IoPeopleSharp } from "react-icons/io5";
 import Store from "../context/Store";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -25,6 +24,9 @@ import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineStore } from "react-icons/md";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { FaFileInvoice } from "react-icons/fa";
+import { MdOutlineReportProblem } from "react-icons/md";
+import { IoMdReturnLeft } from "react-icons/io";
+import { MdInventory } from "react-icons/md";
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -673,278 +675,6 @@ const Sidebar = () => {
               </li>
             </NavLink>
           </ul>
-
-          {/* VENDOR 
-          <p
-            className={`text-gray-500 font-semibold text-base ${
-              isCollapsed ? "hidden" : ""
-            }`}
-          >
-            Vendor
-          </p>
-          <ul className="w-full menu rounded-box">
-            SUPPLIER ONBOARDING
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <BsBoxSeam
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Supplier Onboarding
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  PROCUREMENT SUB MENU ITEMS
-                  <li className="mt-1">
-                    <NavLink
-                      to="registrationrequest"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Registration Requests</p>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <NavLink
-                      to="complianceverification"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Compliance Verification</p>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            SUPPLIER DASHBOARD
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <FaChalkboardTeacher
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Supplier Dashboard
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Order Overview</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Payment Status
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            ORDER MANAGEMENT
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <VscServerEnvironment
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Order Management
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">View Purchase Orders</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Confirm Delivery Dates
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            DOCUMENT EXCHANGE
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <IoDocumentAttachOutline
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Document Exchange
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Upload/Download Documents</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Contract Agreement
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            BIDS AND TENDERS
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <BiDollarCircle
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Bids & Tenders
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Active Tenders</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Submit Bids/Quotations
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            INVOICE PAYMENT
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <TbFileInvoice
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Submit Invoices
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Payment Tracking</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Payment Tracking
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            SUPPORT DISPUTES
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex items-center gap-2 cursor-pointer">
-                  <MdOutlineSupportAgent
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Support & Disputes
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Raise A Tickets</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Dispute Resolutions Status
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
-*/}
           {userData && userData.role === "admin" && (
             <div>
               <p
@@ -1086,192 +816,124 @@ const Sidebar = () => {
             Return Management
           </p>
           <ul className="w-full menu rounded-box">
-            {/* Return Authorization (RMA) */}
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <IoReturnUpForward
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold">
-                      Return Authorization (RMA)
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="rawmaterialrequest"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Create Return Request</p>
-                    </NavLink>
-                  </li>
-                  <li className="mt-1">
-                    <NavLink
-                      to="purchaseorder"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Approvals & Denials</p>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
+            {/* Discrepancy Reports */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="/discrepancy_report"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <MdOutlineReportProblem
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Discrepancy Reports
+                  </span>
+                )}
+              </NavLink>
             </li>
-            {/* Reverse Logistics */}
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <FaChalkboardTeacher
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Reverse Logistics
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Schedule Return Pickups</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Track Return Shipments
-                    </a>
-                  </li>
-                </ul>
-              </details>
+
+            {/*  Return Authorization */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="vendormanagement"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <IoMdReturnLeft
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Return Authorization
+                  </span>
+                )}
+              </NavLink>
             </li>
-            {/* Return Documentation */}
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <VscServerEnvironment
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Return Documentation
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Return Orders</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Reason codes & Notes
-                    </a>
-                  </li>
-                </ul>
-              </details>
+
+            {/*  Inventory Updates*/}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="vendormanagement"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <MdInventory
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Inventory Updates
+                  </span>
+                )}
+              </NavLink>
             </li>
-            {/* Inventory Updates */}
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <MdOutlineInventory2
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Inventory Updates
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Update Stock Levels</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Restocking Procedures
-                    </a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            {/* Warranty & claims */}
-            <li>
-              <details className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <MdOutlineHandshake
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="ml-2 text-base font-semibold mr-auto">
-                      Warranty & claims
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 ${isCollapsed ? "hidden" : ""}`}>
-                  <li className="mt-1">
-                    <NavLink
-                      to="supplierlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-base-200 bg-blue-500 font-bold"
-                          : "text-black"
-                      }
-                    >
-                      <p className="text-base">Warranty Status</p>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <a href="#submenu2" className="text-base">
-                      Claim Submission
-                    </a>
-                  </li>
-                </ul>
-              </details>
+
+            {/* Vendor Discrepancies */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="vendormanagement"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <MdOutlineStore
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Vendor Discrepancies
+                  </span>
+                )}
+              </NavLink>
             </li>
           </ul>
           {/* WAREHOUSE */}

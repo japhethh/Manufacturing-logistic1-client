@@ -3,41 +3,46 @@ import QCInspectionModel from "../models/QCInspectionModel.js";
 import DefectModel from "../models/DefectModel.js";
 import expressAsyncHandler from "express-async-handler";
 import Counter from "../models/Counter.js";
+import cloudinary from "../utils/cloudinary.js";
+import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
 
 const qcCreate = expressAsyncHandler(async (req, res) => {
   try {
-    const inspectionData = req.body;
-    console.log(inspectionData);
+    const { productId, inspector, status, discrepancies, invoiceId } = req.body;
 
-    // Find and update the counter for generating unique inspectionCode
+    // console.log(req.body);
+
     const counter = await Counter.findByIdAndUpdate(
       { _id: "inspectionCode" },
       { $inc: { sequence_value: 1 } },
       { new: true, upsert: true }
     );
 
-    // Generate a formatted inspection code, e.g., "INS-001"
     const inspectionNumber = counter.sequence_value.toString().padStart(3, "0");
     const inspectionCode = `INS-${inspectionNumber}`;
 
-    // Create the QCInspectionModel instance manually
     const newQCInspection = new QCInspectionModel({
       inspectionCode,
-      // productId: inspectionData.productId,
-      invoiceId: inspectionData.invoiceId,
-      inspectionDate: inspectionData.inspectionDate || new Date(),
-      inspector: inspectionData.inspector,
-      status: inspectionData.status,
-      discrepancies: inspectionData.discrepancies || [],
+      invoiceId,
+      inspector,
+      status,
+      discrepancies: discrepancies || [],
     });
 
-    // Save the new QC inspection document
+    const saveNewQualityControl = await newQCInspection.save();
+
+    newQCInspection.inspectionId = saveNewQualityControl._id;
+
     await newQCInspection.save();
+
+    // console.log(newQCInspection);
 
     res.status(201).json({
       message: "QC inspection recorded successfully!",
-      inspectionId: newQCInspection._id,
-      inspectionCode: newQCInspection.inspectionCode, // Return the inspectionCode
+      inspectionId: newQCInspection.inspectionId,
+      invoiceId: invoiceId,
+      inspectionCode: newQCInspection.inspectionCode,
     });
   } catch (error) {
     res
@@ -46,21 +51,55 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export default qcCreate;
-
 // Create Defect
 const defectCreate = expressAsyncHandler(async (req, res) => {
   try {
-    const defectData = req.body;
-    const defect = await DefectModel.create(defectData);
-    res
-      .status(201)
-      .json({ message: "Defect reported successfully!", defectId: defect._id });
+    const { defectDescription, invoiceId, inspector, inspectionId, severity } =
+      req.body;
+
+    // Generate defect code
+    const counter = await Counter.findByIdAndUpdate(
+      { _id: "defectCode" },
+      { $inc: { sequence_value: 1 } },
+      { new: true, upsert: true }
+    );
+    const defectNumber = counter.sequence_value.toString().padStart(3, "0");
+    const defectCode = `DEF-${defectNumber}`;
+
+    const uploadedImages = [];
+
+    // Upload images to Cloudinary, each file individually
+    for (const file of req.files) {
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "defect_images", // Specify the Cloudinary folder
+      });
+      uploadedImages.push(result.secure_url); // Add Cloudinary URL to the array
+
+      // Optionally delete the local file after upload
+      fs.unlinkSync(file.path);
+    }
+
+    // Create the defect with the uploaded image URLs
+    const defect = new DefectModel({
+      defectDescription,
+      inspector,
+      invoiceId,
+      inspectionId,
+      severity,
+      defectCode,
+      images: uploadedImages,
+    });
+
+    const savedDefect = await defect.save();
+
+    res.status(201).json({
+      message: "Defect reported successfully!",
+      defectId: savedDefect._id,
+    });
   } catch (error) {
     res
       .status(400)
       .json({ message: "Error reporting defect: " + error.message });
   }
 });
-
 export { qcCreate, defectCreate };
