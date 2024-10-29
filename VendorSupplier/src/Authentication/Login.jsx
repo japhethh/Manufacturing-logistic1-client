@@ -48,15 +48,15 @@ const Login = () => {
   return (
     // component
 
-    <div className="flex items-center px-4 sm:px-56 w-full min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-56 w-full bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600">
       <div className="flex flex-col sm:flex-row gap-5 items-center w-full">
         {/* Login */}
-        <div className="max-w-md w-full px-8 py-6 bg-white rounded-lg shadow-lg">
-          <h1 className="mb-4 text-2xl font-bold text-center text-gray-900">
+        <div className="max-w-md w-full px-10 py-8 bg-white rounded-xl shadow-2xl">
+          <h1 className="mb-6 text-3xl font-bold text-center text-gray-900">
             LOGIN
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4">
+            <div className="mb-5">
               <label
                 htmlFor="email"
                 className="block mb-2 text-sm font-medium text-gray-700"
@@ -66,7 +66,7 @@ const Login = () => {
               <input
                 type="email"
                 id="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="your@email.com"
                 {...register("email")}
               />
@@ -74,7 +74,7 @@ const Login = () => {
                 <p className="text-xs text-red-500">{errors.email.message}</p>
               )}
             </div>
-            <div className="mb-4">
+            <div className="mb-5">
               <label
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium text-gray-700"
@@ -84,7 +84,7 @@ const Login = () => {
               <input
                 type="password"
                 id="password"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your password"
                 {...register("password")}
               />
@@ -95,17 +95,17 @@ const Login = () => {
               )}
               <a
                 href="#"
-                className="text-xs text-gray-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="text-xs text-gray-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Forgot Password?
               </a>
             </div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-5">
               <div className="flex items-center">
                 <input
                   type="checkbox"
                   id="remember"
-                  className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 focus:outline-none"
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:outline-none"
                   defaultChecked
                 />
                 <label
@@ -118,7 +118,7 @@ const Login = () => {
               <NavLink to="/sendemail">
                 <a
                   href="#"
-                  className="text-xs text-indigo-500 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="text-xs text-blue-500 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Create Account
                 </a>
@@ -126,19 +126,18 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="flex justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Login
             </button>
           </form>
         </div>
-
         {/* Text */}
         <div className="text-center sm:text-left mt-8 sm:mt-0">
-          <p className="text-5xl sm:text-7xl font-bold text-black">
+          <p className="text-6xl sm:text-7xl font-bold text-white">
             Vendor Portal
           </p>
-          <p className="text-black/70 mt-4 text-base sm:text-lg font-medium">
+          <p className="text-white/80 mt-4 text-base sm:text-lg font-medium">
             Sign in to access your account and manage your preferences.
           </p>
         </div>
