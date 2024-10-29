@@ -48,7 +48,7 @@ const Log = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-6 md:px-56 w-full bg-gradient-to-r from-blue-500 to-green-500">
+    <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-6 md:px-56 w-full bg-gradient-to-r from-blue-500 to-teal-500">
     <div className="flex flex-col md:flex-row gap-6 items-center w-full">
       {/* LOG IN */}
       <div className="bg-white shadow-2xl rounded-lg px-8 py-8 max-w-sm w-full mt-8 md:mt-0">
