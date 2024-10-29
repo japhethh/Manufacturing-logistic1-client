@@ -6,7 +6,9 @@ import { apiURL } from "../context/verifyStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { VendorUserContext } from "../context/VendorUserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 const schema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   password: z.string().min(1, "Password is required"),
@@ -15,18 +17,24 @@ const schema = z.object({
 const Login = () => {
   const { setToken } = useContext(VendorUserContext);
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }, 
+    reset 
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: {
-      email: "",
-      password: "",
+    defaultValues: { 
+      email: "", 
+      password: "" 
     },
   });
+  
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -34,7 +42,6 @@ const Login = () => {
       const response = await axios.post(`${apiURL}/api/supplier/login`, data);
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
-
       navigate("/dashboardvendor");
       window.location.reload();
     } catch (error) {
@@ -46,8 +53,6 @@ const Login = () => {
   };
 
   return (
-    // component
-
     <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-56 w-full bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600">
       <div className="flex flex-col sm:flex-row gap-5 items-center w-full">
         {/* Login */}
@@ -74,7 +79,7 @@ const Login = () => {
                 <p className="text-xs text-red-500">{errors.email.message}</p>
               )}
             </div>
-            <div className="mb-5">
+            <div className="mb-5 relative">
               <label
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium text-gray-700"
@@ -82,16 +87,20 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your password"
                 {...register("password")}
               />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
               {errors.password && (
-                <p className="text-xs text-red-500">
-                  {errors.password.message}
-                </p>
+                <p className="text-xs text-red-500">{errors.password.message}</p>
               )}
               <a
                 href="#"
