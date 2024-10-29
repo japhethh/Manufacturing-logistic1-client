@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import DataTable from "datatables.net-dt";
 import { apiURL } from "../context/verifyStore";
 import verifyStore from "../context/verifyStore";
 import { toast } from "react-toastify";
@@ -9,19 +10,11 @@ const ReceiveOrdersVendor = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const [selectedOrder, setSelectedOrder] = useState(null); // For View Modal
-  const [modalOpen, setModalOpen] = useState(false); // View Modal
-
-  const [reason, setReason] = useState(""); // For Reject Modal
-  const [rejectModalOpen, setRejectModalOpen] = useState(false); // Reject Modal
-
-  const [approveModalOpen, setApproveModalOpen] = useState(false); // Approve Modal
-  const [currentOrderId, setCurrentOrderId] = useState(null); // Current order ID for approval
-
-  // Pagination States
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Number of orders per page
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const [currentOrderId, setCurrentOrderId] = useState(null);
 
   const { token, userData } = verifyStore();
 
@@ -30,18 +23,24 @@ const ReceiveOrdersVendor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Fetch pending orders from the API
+  useEffect(() => {
+    if (orders.length > 0) {
+      initializeDataTable();
+    }
+  }, [orders]);
+
   const fetchPendingOrders = async () => {
     try {
       const response = await axios.get(
         `${apiURL}/api/vendor/getAllReceivingOrders`,
         {
           headers: {
-            token, // Use Bearer token for authorization
+            token,
           },
         }
       );
-      setOrders(response.data.pendingOrders);
+      setOrders(response.data.receivingOrders);
+      console.log(response.data.receivingOrders);
     } catch (err) {
       setError("An error occurred while fetching data.");
       console.error(err);
@@ -50,48 +49,69 @@ const ReceiveOrdersVendor = () => {
     }
   };
 
-  // Update orders after approval/rejection
-  const handleUpdate = () => {
-    fetchPendingOrders();
-  };
-
-  // Approve an order
-  const approveOrder = async (orderId) => {
-    try {
-      await axios.put(
-        `${apiURL}/api/vendor/purchaseOrders/approve/${orderId}`,
-        {},
+  const initializeDataTable = () => {
+    // Initialize DataTable
+    const table = new DataTable("#ordersTable", {
+      data: orders,
+      columns: [
+        { title: "Order ID", data: "_id" },
+        { title: "Purchase Order Number", data: "purchaseOrderNumber" },
         {
-          headers: {
-            token: token,
+          title: "Order Date",
+          data: "orderDate",
+          render: (data) => new Date(data).toLocaleDateString(),
+        },
+        {
+          title: "Total Amount",
+          data: "totalAmount",
+          render: (data) => `₱${data.toLocaleString()}`,
+        },
+        {
+          title: "Status",
+          data: "orderStatus",
+          render: (data) => {
+            const statusClass =
+              {
+                Pending: "bg-orange-500",
+                "In Process": "bg-green-500",
+                Approved: "bg-blue-500",
+                Rejected: "bg-red-500",
+                Shipped: "bg-yellow-500",
+                Delivered: "bg-purple-500",
+              }[data] || "";
+            return `<span class="btn btn-ghost btn-xs ${statusClass} text-white">${data}</span>`;
           },
-        }
-      );
-      handleUpdate();
-      toast.success("Successfully Approved!");
-    } catch (error) {
-      console.error(
-        "Failed to approve order:",
-        error.response?.data || error.message
-      );
-      toast.error(error.response?.data || error.message);
-    }
+        },
+        {
+          title: "Actions",
+          data: null,
+          render: (data) => `
+            <div class="flex space-x-2">
+              <button class="btn btn-secondary btn-sm" onclick="viewOrder('${data._id}')">View</button>
+            </div>
+          `,
+        },
+      ],
+      destroy: true, // Allows reinitialization of DataTable
+    });
+
+    // Expose viewOrder function to be called from the DataTable
+    window.viewOrder = (orderId) => {
+      const order = orders.find((o) => o._id === orderId);
+      if (order) openModal(order);
+    };
   };
 
-  // Handle Approve Button Click (opens Approve Modal)
-  const handleApproveClick = (orderId) => {
-    setCurrentOrderId(orderId);
-    setApproveModalOpen(true);
+  const openModal = (order) => {
+    setSelectedOrder(order);
+    setModalOpen(true);
   };
 
-  // Confirm Approval
-  const confirmApprove = () => {
-    approveOrder(currentOrderId);
-    setApproveModalOpen(false);
-    setCurrentOrderId(null);
+  const closeModal = () => {
+    setSelectedOrder(null);
+    setModalOpen(false);
   };
 
-  // Reject an order
   const handleReject = async () => {
     if (!reason.trim()) {
       toast.error("Please provide a reason for rejection.");
@@ -107,56 +127,16 @@ const ReceiveOrdersVendor = () => {
         }
       );
       toast.success("Order rejected successfully!");
-      handleUpdate(); // Refresh orders
+      fetchPendingOrders();
     } catch (err) {
       toast.error("Error rejecting the order.");
       console.error(err);
     } finally {
-      setRejectModalOpen(false); // Close the modal
-      setReason(""); // Reset reason input
-      setSelectedOrder(null); // Reset selected order
+      setRejectModalOpen(false);
+      setReason("");
+      setSelectedOrder(null);
     }
   };
-
-  // Open View Modal
-  const openModal = (order) => {
-    setSelectedOrder(order);
-    setModalOpen(true);
-  };
-
-  // Close View Modal
-  const closeModal = () => {
-    setSelectedOrder(null);
-    setModalOpen(false);
-  };
-
-  // Open Reject Modal
-  const openRejectModal = (order) => {
-    setSelectedOrder(order);
-    setRejectModalOpen(true);
-  };
-
-  // Close Reject Modal
-  const closeRejectModal = () => {
-    setSelectedOrder(null);
-    setRejectModalOpen(false);
-    setReason("");
-  };
-
-  // Pagination Logic
-  const indexOfLastOrder = currentPage * itemsPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
-  const totalPages = Math.ceil(orders.length / itemsPerPage);
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Generate page numbers for pagination
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
 
   // Loader and Error Handling
   if (loading) {
@@ -200,7 +180,7 @@ const ReceiveOrdersVendor = () => {
 
       {/* Pending Orders Table */}
       <div className="overflow-x-auto mb-6">
-        <table className="table w-full">
+        <table id="ordersTable" className="table w-full">
           <thead className="bg-gray-200">
             <tr className="text-gray-600">
               <th>Order ID</th>
@@ -211,125 +191,9 @@ const ReceiveOrdersVendor = () => {
               <th className="hidden md:table-cell">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {currentOrders.length > 0 ? (
-              currentOrders.map((order) => (
-                <tr key={order._id} className="hover:bg-gray-100">
-                  <td>{order._id}</td>
-                  <td>{order.purchaseOrderNumber}</td>
-                  <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                  <td>{`₱${order.totalAmount.toLocaleString()}`}</td>
-                  <td>
-                    <span
-                      className={`btn btn-ghost btn-xs ${
-                        order?.orderStatus === "Pending"
-                          ? "bg-orange-500 text-white"
-                          : order?.orderStatus === "In Process"
-                          ? "bg-green-500 text-white"
-                          : order?.orderStatus === "Approved"
-                          ? "bg-blue-500 text-white"
-                          : order?.orderStatus === "Rejected"
-                          ? "bg-red-500 text-white"
-                          : order?.orderStatus === "Shipped"
-                          ? "bg-yellow-500 text-white"
-                          : order?.orderStatus === "Delivered"
-                          ? "bg-purple-500 text-white"
-                          : ""
-                      }`}
-                    >
-                      {order.orderStatus}
-                    </span>
-                  </td>
-                  <td className="hidden md:table-cell">
-                    <div className="flex space-x-2">
-                      {/* <button
-                        onClick={() => handleApproveClick(order._id)}
-                        className="btn btn-primary btn-sm"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => openRejectModal(order)}
-                        className="btn btn-error btn-sm"
-                      >
-                        Reject
-                      </button> */}
-                      <button
-                        onClick={() => openModal(order)}
-                        className="btn btn-secondary btn-sm"
-                      >
-                        View
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="py-4 text-center">
-                  No pending orders found.
-                </td>
-              </tr>
-            )}
-          </tbody>
+          <tbody>{/* DataTable will populate this */}</tbody>
         </table>
       </div>
-
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-4 space-x-2">
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            className={`btn btn-sm ${
-              currentPage === 1 ? "btn-disabled" : "btn-outline"
-            }`}
-          >
-            Previous
-          </button>
-          {pageNumbers.map((number) => (
-            <button
-              key={number}
-              onClick={() => paginate(number)}
-              className={`btn btn-sm ${
-                currentPage === number ? "btn-active" : "btn-outline"
-              }`}
-            >
-              {number}
-            </button>
-          ))}
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className={`btn btn-sm ${
-              currentPage === totalPages ? "btn-disabled" : "btn-outline"
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      )}
-
-      {/* Approve Modal */}
-      {approveModalOpen && (
-        <div className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Approve Order</h3>
-            <p>Are you sure you want to approve this order?</p>
-            <div className="modal-action">
-              <button onClick={confirmApprove} className="btn btn-success">
-                Yes
-              </button>
-              <button
-                onClick={() => setApproveModalOpen(false)}
-                className="btn btn-error"
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Reject Modal */}
       {rejectModalOpen && (
@@ -346,7 +210,7 @@ const ReceiveOrdersVendor = () => {
               <button onClick={handleReject} className="btn btn-error">
                 Confirm
               </button>
-              <button onClick={closeRejectModal} className="btn">
+              <button onClick={() => setRejectModalOpen(false)} className="btn">
                 Cancel
               </button>
             </div>
@@ -383,68 +247,49 @@ const ReceiveOrdersVendor = () => {
                 {new Date(selectedOrder.orderDate).toLocaleDateString()}
               </p>
               <p>
-                <strong>Total Amount:</strong>{" "}
-                {`₱${selectedOrder.totalAmount.toLocaleString()}`}
+                <strong>Total Amount:</strong> ₱
+                {selectedOrder.totalAmount.toLocaleString()}
               </p>
               <p>
-                <strong>Status:</strong> {selectedOrder.orderStatus}
+                <strong>Order Status:</strong> {selectedOrder.orderStatus}
               </p>
               <p>
-                <strong>Category:</strong> {selectedOrder.category}
-              </p>
-              <p>
-                <strong>Payment Terms:</strong> {selectedOrder.paymentTerm}
-              </p>
-              <p>
-                <strong>Payment Method:</strong>
-                {selectedOrder.paymentDetails?.paymentMethod}
-              </p>
-              <p>
-                <strong>Notes:</strong>{" "}
-                {selectedOrder.notes || "No notes provided."}
+                <strong>Reason for Rejection:</strong>{" "}
+                {selectedOrder.rejectionReason || "N/A"}
               </p>
               <p>
                 <strong>PDF:</strong>{" "}
                 <a
-                  href={selectedOrder.pdfURL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 underline"
+                  href={selectedOrder.pdfURL}
                 >
                   Download
-                </a>
+                </a>{" "}
               </p>
             </div>
 
-            {/* Add space before items section */}
-            <div className="my-6 border-t border-gray-300 pt-4">
-              {/* Items Table */}
-              {selectedOrder.items && selectedOrder.items.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="text-md font-semibold mb-2">Order Items</h4>
-                  <table className="table w-full border">
-                    <thead>
-                      <tr>
-                        <th>Item Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total Price</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedOrder.items.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-200">
-                          <td>{item.name}</td>
-                          <td>{item.quantity}</td>
-                          <td>{`₱${item.price.toLocaleString()}`}</td>
-                          <td>{`₱${item.totalPrice.toLocaleString()}`}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
+            {/* Items Table */}
+            <h4 className="font-semibold mt-4">Items in Order:</h4>
+            <table className="table w-full mt-2">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedOrder.items.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.name}</td>
+                    <td>{item.quantity}</td>
+                    <td>₱{item.price.toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}

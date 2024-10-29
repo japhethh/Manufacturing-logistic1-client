@@ -52,7 +52,7 @@ const getAllReceivingOrders = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     data: supplier,
-    pendingOrders: supplier.purchaseOrders,
+    receivingOrders: supplier.purchaseOrders,
   });
 });
 

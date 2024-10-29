@@ -51,6 +51,8 @@ import Report from "./Components/Report.jsx";
 import Receiving from "./Components/Receiving.jsx";
 import QCInspection from "./Components/QualityControl/QCInspection..jsx";
 import DiscrepancyReport from "./Components/ReturnManagement/DiscrepancyReport.jsx";
+import GCashPaymentForm from "./Components/Testing/GCashPaymentForm.jsx";
+import PaymentLinks from "./Components/Testing/PaymentLinks.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -130,6 +132,9 @@ const App = () => {
       <div className="flex-col w-full ">
         {!token && location.pathname === "/login" ? null : <Search />}
         <Routes>
+          {/* GCash */}
+          <Route path="/paymentform" element={<GCashPaymentForm />} />
+          <Route path="/paymentlinks" element={<PaymentLinks />} />
           <Route path="/music" element={<MusicClick />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />

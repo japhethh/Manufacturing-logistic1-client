@@ -936,6 +936,76 @@ const Sidebar = () => {
               </NavLink>
             </li>
           </ul>
+
+          {/* Audit Management */}
+          <p
+            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
+              isCollapsed ? "hidden" : ""
+            }`}
+          >
+            Audit Management
+          </p>
+          <ul className="w-full menu rounded-box">
+            {/* Discrepancy Reports */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="/discrepancy_report"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <MdOutlineReportProblem
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Discrepancy Reports
+                  </span>
+                )}
+              </NavLink>
+            </li>
+
+            {/*  Return Authorization */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="vendormanagement"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <IoMdReturnLeft
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">
+                    Return Authorization
+                  </span>
+                )}
+              </NavLink>
+            </li>
+          </ul>
           {/* WAREHOUSE */}
           <p
             className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${

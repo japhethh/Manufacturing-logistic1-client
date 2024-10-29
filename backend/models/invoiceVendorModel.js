@@ -113,21 +113,21 @@ const invoiceVendorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-invoiceVendorSchema.pre("save", async function (next) {
-  try {
-    const counter = await Counter.findByIdAndUpdate(
-      {
-        _id: "invoiceNumber",
-      },
-      { $inc: { sequence_value: 1 } },
-      { new: true, upsert: true }
-    );
-    const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
-    this.invoiceNumber = `IC-${invoiceNumber}`;
-  } catch (error) {
-    return next(error);
-  }
-});
+// invoiceVendorSchema.pre("save", async function (next) {
+//   try {
+//     const counter = await Counter.findByIdAndUpdate(
+//       {
+//         _id: "invoiceNumber",
+//       },
+//       { $inc: { sequence_value: 1 } },
+//       { new: true, upsert: true }
+//     );
+//     const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
+//     this.invoiceNumber = `IC-${invoiceNumber}`;
+//   } catch (error) {
+//     return next(error);
+//   }
+// });
 
 const Invoice = mongoose.model("Invoice", invoiceVendorSchema);
 

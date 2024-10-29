@@ -4,6 +4,7 @@ import purchaseOrderModel from "../models/purchaseOrderModel.js";
 import TrackingOrderModel from "../models/trackingOrderModel.js";
 import NotificationVendorModel from "../models/notificationVendorModel.js";
 import generalSettingsModel from "../models/generalSettingsModel.js";
+import Counter from "../models/Counter.js";
 
 const createInvoice = async (req, res) => {
   const {
@@ -22,8 +23,23 @@ const createInvoice = async (req, res) => {
   } = req.body;
 
   try {
+    const counter = await Counter.findByIdAndUpdate(
+      {
+        _id: "invoiceNumber",
+      },
+      {
+        $inc: { sequence_value: 1 },
+      },
+      { new: true }
+    );
+
+    const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
+
+    const reference = `INV-${invoiceNumber}`;
+
     // Create new invoice document
     const newInvoice = new Invoice({
+      invoiceNumber: reference,
       purchaseOrder: _id,
       vendor: supplier._id,
       items: items.map((item) => ({

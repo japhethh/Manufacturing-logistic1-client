@@ -5,6 +5,7 @@ import { apiURL } from "../../context/Store";
 import { toast } from "react-toastify";
 import Store from "../../context/Store";
 import InvoiceItems from "./InvoiceItems";
+import { useForm } from "react-hook-form";
 
 const InvoiceAll = () => {
   const [invoiceData, setInvoiceData] = useState([]);
@@ -12,6 +13,7 @@ const InvoiceAll = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState("");
   const { token } = Store();
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     fetchAllInvoice();
@@ -29,8 +31,17 @@ const InvoiceAll = () => {
     }
   };
 
+  const updateInvoiceStatus = (invoiceId, status) => {
+    setInvoiceData((prevData) =>
+      prevData.map((invoice) =>
+        invoice._id === invoiceId
+          ? { ...invoice, approvalStatus: status }
+          : invoice
+      )
+    );
+  };
+
   const handleApproval = async (invoiceId) => {
-    console.log(invoiceId);
     try {
       await axios.post(
         `${apiURL}/api/invoices/approve/${invoiceId}`,
@@ -40,7 +51,7 @@ const InvoiceAll = () => {
         }
       );
       toast.success("Invoice approved and tracking order created!");
-      fetchAllInvoice(); // Refresh invoice list
+      updateInvoiceStatus(invoiceId, "Approved");
     } catch (error) {
       toast.error("Error approving invoice: " + error?.response.data.message);
     }
@@ -56,9 +67,53 @@ const InvoiceAll = () => {
         }
       );
       toast.warn("Invoice rejected!");
-      fetchAllInvoice(); // Refresh invoice list
+      updateInvoiceStatus(invoiceId, "Rejected");
     } catch (error) {
       toast.error("Error rejecting invoice: " + error?.response.data.message);
+    }
+  };
+
+  const handlePayment = async (invoiceId) => {
+    const invoiceToPay = invoiceData.find(
+      (invoice) => invoice._id === invoiceId
+    );
+    if (!invoiceToPay) {
+      toast.error("Invoice not found!");
+      return;
+    }
+
+    setSelectedData(invoiceToPay);
+    setModalType("payform");
+    setShowModal(true);
+  };
+
+  const handlePaymentSubmit = async (data) => {
+    const { description } = data;
+    const invoiceToPay = selectedData;
+
+    const { totalAmount } = invoiceToPay;
+
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/payment/payment-link`,
+        {
+          invoiceId: invoiceToPay._id,
+          amount: totalAmount,
+          description,
+        },
+        {
+          headers: { token: token },
+        }
+      );
+
+      const generatedLink = response.data.link;
+      window.open(generatedLink, "_blank");
+      toast.success("Payment processed successfully!");
+      fetchAllInvoice();
+      setSelectedData(null);
+      setShowModal(false);
+    } catch (error) {
+      toast.error("Error processing payment: " + error?.response.data.message);
     }
   };
 
@@ -79,49 +134,66 @@ const InvoiceAll = () => {
         { title: "Invoice #", data: "invoiceNumber" },
         { title: "PurchaseOrder #", data: "purchaseOrder.purchaseOrderNumber" },
         { title: "Vendor", data: "vendor.supplierName" },
+        { title: "Vendor Email", data: "vendor.email" },
+        { title: "Vendor Phone", data: "vendor.contactPhone" },
         {
           title: "Approval Status",
           data: "approvalStatus",
           render: (data) => {
             let statusClass = "";
-
             switch (data) {
               case "Approved":
-                statusClass = "bg-green-100 text-green-800"; // Light green background for approved
+                statusClass = "bg-green-100 text-green-800";
                 break;
               case "Rejected":
-                statusClass = "bg-red-100 text-red-800"; // Light red background for rejected
+                statusClass = "bg-red-100 text-red-800";
                 break;
               case "Pending":
               default:
-                statusClass = "bg-blue-100 text-blue-800"; // Light blue background for pending
+                statusClass = "bg-blue-100 text-blue-800";
                 break;
             }
-
             return `<span class="${statusClass} inline-block px-2 py-1 rounded">${data}</span>`;
           },
         },
         {
           title: "Total Amount",
           data: "totalAmount",
-          render: (data) => `$${data.toFixed(2)}`,
+          render: (data) => `₱${data.toFixed(2)}`,
         },
+        {
+          title:"Status", data:"status"
+        }
+        ,
         { title: "Payment", data: "paymentDetails.paymentMethod" },
-
         {
           title: "Actions",
           data: null,
           render: (data) => {
+            const isProcessed =
+              data.approvalStatus === "Approved" ||
+              data.approvalStatus === "Rejected";
+
+            const isProcessedPay = data.approvalStatus === "Pending";
             return `
-              <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn" id="approveBtn_${data?._id}">
+              <div>
+                <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn hover:bg-green-600 transition ease-in-out duration-200" ${
+                  isProcessed ? "style='display:none;'" : ""
+                } id="approveBtn_${data?._id}">
                   <i class="fas fa-check"></i>
-              </button>
-              <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
-                <i class="fas fa-times"></i>
-              </button>
-              <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer payBtn" id="payBtn_${data?._id}">
-                    <i class="fas fa-money-bill"></i> Pay
                 </button>
+                <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn hover:bg-red-600 transition ease-in-out duration-200" ${
+                  isProcessed ? "style='display:none;'" : ""
+                } id="rejectBtn_${data?._id}">
+                  <i class="fas fa-times"></i>
+                </button>
+                <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer payBtn hover:bg-blue-600 transition ease-in-out duration-200"
+                ${isProcessedPay ? "style='display:none;'" : ""} id="payBtn_${
+              data?._id
+            }">
+                  <i class="fas fa-money-bill"></i> Pay
+                </button>
+              </div>
             `;
           },
         },
@@ -130,13 +202,18 @@ const InvoiceAll = () => {
       rowCallback: (row, data) => {
         const approveBtn = row.querySelector(`#approveBtn_${data?._id}`);
         const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
+        const payBtn = row.querySelector(`#payBtn_${data?._id}`);
 
-        approveBtn.addEventListener("click", () => {
+        approveBtn?.addEventListener("click", () => {
           handleApproval(data._id);
         });
 
-        rejectBtn.addEventListener("click", () => {
+        rejectBtn?.addEventListener("click", () => {
           handleRejection(data._id);
+        });
+
+        payBtn?.addEventListener("click", () => {
+          handlePayment(data._id);
         });
       },
     });
@@ -152,7 +229,63 @@ const InvoiceAll = () => {
       <div className="overflow-x-auto">
         <table id="myTable" className="display w-full text-sm"></table>
       </div>
-      {showModal && <div className="modal">{/* Modal Content Here */}</div>}
+
+      {/* Payment Form */}
+      {showModal && modalType === "payform" && selectedData && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="bg-white rounded-xl shadow-lg p-6 w-4/6 max-w-md">
+            <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
+              Payment Details
+            </h2>
+            <form
+              onSubmit={handleSubmit(handlePaymentSubmit)}
+              className="space-y-4"
+            >
+              <div className="flex flex-col">
+                <label htmlFor="description" className="mb-1 text-gray-700">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  {...register("description", { required: true })}
+                  className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter description"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="totalAmount" className="mb-1 text-gray-700">
+                  Total Amount
+                </label>
+                <input
+                  type="text"
+                  id="totalAmount"
+                  value={selectedData.totalAmount.toFixed(2)}
+                  disabled
+                  className="border border-gray-300 rounded-md p-2 bg-gray-100"
+                />
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  Pay Now
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
