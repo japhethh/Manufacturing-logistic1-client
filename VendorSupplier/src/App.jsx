@@ -187,7 +187,10 @@ const App = () => {
             <Route path="/adjustments/create" element={<CreateAdjustment />} />
             <Route path="/adjustments/:id/edit" element={<EditAdjustment />} />
             <Route path="/trackingOrders" element={<AllTrackingOrders />} />
-            <Route path="/order-details/:orderId" element={<OrderDetailPage />} />
+            <Route
+              path="/order-details/:orderId"
+              element={<OrderDetailPage />}
+            />
           </Routes>
         </div>
       </div>

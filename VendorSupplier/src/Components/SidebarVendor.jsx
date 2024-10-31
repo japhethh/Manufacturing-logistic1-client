@@ -78,7 +78,7 @@ const SidebarVendor = () => {
               alt="Vendor Management Logo"
               className="w-16 h-16 rounded-full border border-gray-300 transition-transform transform hover:scale-105" // Slightly enlarges logo on hover
             />
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-xl font-bold text-gray-800">
               Vendor Management
             </h2>
           </NavLink>
