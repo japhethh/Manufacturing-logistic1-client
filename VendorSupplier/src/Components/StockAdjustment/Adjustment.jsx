@@ -59,12 +59,12 @@ const Adjustment = () => {
           data: null,
           render: (data, type, row) => `
           <div class="flex justify-center"> 
-            <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+            <button class="bg-blue-500 hover:bg-blue-400 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
+            <button class="bg-green-700 hover:bg-green-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
             </button>
-            <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
+            <button class="bg-red-500 hover:bg-red-400 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
@@ -192,7 +192,7 @@ const Adjustment = () => {
               <h3 className="text-lg font-bold">Adjustment</h3>
               <p className="py-4">
                 Are you sure you want to{" "}
-                <span className="text-red-500 font-bold">delete</span> the
+                <span className="text-red-600 font-bold">delete</span> the
                 category{" "}
                 <span className="font-bold">{selectedData?.reference}</span>?
               </p>

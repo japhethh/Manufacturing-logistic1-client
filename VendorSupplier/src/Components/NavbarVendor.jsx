@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import verifyStore, { apiURL } from "../context/verifyStore";
 import io from "socket.io-client";
 import NotificationItem from "../Components/Notification/NotificationItem.jsx";
+import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 
 import {
   FaTachometerAlt,
@@ -217,15 +218,14 @@ const NavbarVendor = () => {
             </button>
             <ul
               tabIndex={0}
-              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96 overflow-y-scroll max-w-96"
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96 h-[600px] overflow-y-auto"
             >
               <div className="">
-                <h1 className="font-semibold text-2xl px-3">Notifications</h1>
+                <h1 className="font-bold text-2xl px-3">Notifications</h1>
                 <div className="divider"></div>
               </div>
-
               {notifications.filter((notif) => !notif.isRead).length === 0 ? (
-                <li className="p-2">No new notifications</li>
+                <li className="p-2">No notifications</li>
               ) : (
                 notifications
                   .filter((notif) => !notif.isRead) // Only display unread notifications
@@ -247,29 +247,39 @@ const NavbarVendor = () => {
               tabIndex={0}
               role="button"
               alt="User Profile"
-              className="rounded-full size-8"
+              className="rounded-full w-8 h-8 cursor-pointer"
             />
             <ul
               tabIndex={0}
               className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-52"
             >
-              {/* Under Construction */}
+              {/* Profile */}
               <li>
-                <NavLink to="/dashboardvendor" className="hover:bg-gray-200">
+                <NavLink
+                  to="/profile"
+                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2"
+                >
+                  <FaUser className="text-xl" />
                   Profile
                 </NavLink>
               </li>
-              {/* Under Construction */}
+              {/* Settings */}
               <li>
-                <NavLink to="/dashboardvendor" className="hover:bg-gray-200">
+                <NavLink
+                  to="/settings"
+                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2"
+                >
+                  <FaCog className="text-xl" />
                   Settings
                 </NavLink>
               </li>
+              {/* Logout */}
               <li>
                 <span
-                  className="hover:bg-gray-200 cursor-pointer"
+                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2 cursor-pointer"
                   onClick={handleLogout}
                 >
+                  <FaSignOutAlt className="text-xl" />
                   Log out
                 </span>
               </li>
