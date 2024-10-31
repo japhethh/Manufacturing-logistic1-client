@@ -10,13 +10,12 @@ import {
   FaUserCog,
 } from "react-icons/fa";
 import { BsClipboardCheckFill } from "react-icons/bs";
-
 import { AiFillProduct } from "react-icons/ai";
 
 const SidebarVendor = () => {
   const menuItems = [
     {
-      icon: <FaTachometerAlt className="text-2xl" />, // Increased icon size
+      icon: <FaTachometerAlt className="text-2xl" />,
       label: "Dashboard",
       to: "/dashboardvendor",
     },
@@ -69,14 +68,14 @@ const SidebarVendor = () => {
 
   return (
     <div className="bg-white shadow-lg h-screen sticky top-0 w-64 lg:flex hidden flex-col transition-all duration-300">
-      <nav className="p-5 flex flex-col">
+      <nav className="p-5 flex flex-col h-full overflow-y-auto"> {/* Add overflow for scroll */}
         {/* Sidebar Header with Logo */}
         <div className="flex items-center justify-between mb-6">
           <NavLink to="/dashboardvendor" className="flex items-center gap-3">
             <img
               src={vendor}
               alt="Vendor Management Logo"
-              className="w-16 h-16 rounded-full border border-gray-300 transition-transform transform hover:scale-105" // Slightly enlarges logo on hover
+              className="w-16 h-16 rounded-full border border-gray-300 transition-transform transform hover:scale-105"
             />
             <h2 className="text-xl font-bold text-gray-800">
               Vendor Management
@@ -101,8 +100,7 @@ const SidebarVendor = () => {
                 aria-label={item.label}
               >
                 <span className="mr-3">{item.icon}</span>
-                <span className="text-lg font-medium">{item.label}</span>{" "}
-                {/* Slightly increased text size */}
+                <span className="text-lg font-medium">{item.label}</span>
               </NavLink>
             </li>
           ))}
@@ -114,9 +112,8 @@ const SidebarVendor = () => {
             to="/profile"
             className="flex items-center px-4 py-3 text-gray-800 font-medium hover:text-blue-700 transition duration-200"
           >
-            <FaUserCog className="mr-3 text-2xl" /> {/* Increased icon size */}
-            <span className="text-lg font-medium">Profile</span>{" "}
-            {/* Slightly increased text size */}
+            <FaUserCog className="mr-3 text-2xl" />
+            <span className="text-lg font-medium">Profile</span>
           </NavLink>
         </div>
       </nav>
