@@ -5,7 +5,7 @@ const InvoicesVendor = () => {
   const [dueDate, setDueDate] = useState(null);
   
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-200 min-h-screen">
       {/* Page Title */}
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Invoice Management</h1>
 
@@ -92,7 +92,7 @@ const InvoicesVendor = () => {
       {/* Invoice Reports */}
       <div className="mb-8 bg-white card shadow-lg p-6 border border-gray-200 rounded-lg">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Invoice Reports</h2>
-        <button className="btn btn-outline btn-success w-full">Generate Invoice Report</button>
+        <button className="btn btn-outline btn-primary w-full">Generate Invoice Report</button>
       </div>
     </div>
   );

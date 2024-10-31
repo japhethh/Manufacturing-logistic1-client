@@ -107,9 +107,10 @@ const SidebarVendor = () => {
         </ul>
 
         {/* Profile Link at the Bottom */}
+        {/* Under Construction */}
         <div className="mt-auto border-t pt-4">
           <NavLink
-            to="/profile"
+            to="/dashboardvendor"
             className="flex items-center px-4 py-3 text-gray-800 font-medium hover:text-blue-700 transition duration-200"
           >
             <FaUserCog className="mr-3 text-2xl" />

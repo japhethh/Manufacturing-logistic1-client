@@ -251,15 +251,17 @@ const NavbarVendor = () => {
             />
             <ul
               tabIndex={0}
-              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 rounded-box w-52"
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-52"
             >
+              {/* Under Construction */}
               <li>
-                <NavLink to="/profile" className="hover:bg-gray-200">
+                <NavLink to="/dashboardvendor" className="hover:bg-gray-200">
                   Profile
                 </NavLink>
               </li>
+              {/* Under Construction */}
               <li>
-                <NavLink to="/settings" className="hover:bg-gray-200">
+                <NavLink to="/dashboardvendor" className="hover:bg-gray-200">
                   Settings
                 </NavLink>
               </li>
