@@ -68,7 +68,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="flex">
-        <div className="flex-col w-full container-md mx-auto p-4 ">
+        <div className="flex-col w-full container-md mx-auto">
           {/* <iframe
             src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917"
             width="100%"
@@ -76,109 +76,110 @@ const Dashboard = () => {
             frameBorder="0"
           ></iframe> */}
           <div className="bg-gray-200 text-black h-auto p-5">
-            {/* 4 cards */}
+            {/* 5 cards */}
             <p className="font-semibold">Overview</p>
             {/* cards */}
-            <div className="flex gap-4 p-4 overflow-x-auto flex-wrap">
+            <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {/* Suppliers Card */}
-              <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-semibold text-sm">
+                  <p className="text-gray-700 font-semibold text-lg">
                     Totals Suppliers
                   </p>
-                  <FaBoxes className="text-gray-600 text-xl" />
+                  <FaBoxes className="text-gray-700 text-2xl" />
                 </div>
-                <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">{supplier?.length}</p>
-                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+                <div className="flex gap-3 my-3 items-center">
+                  <p className="text-4xl font-bold">{supplier?.length}</p>
+                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
                     <IoIosArrowUp className="text-green-700" /> 10.8%
                   </p>
                 </div>
                 <div className="my-3">
                   <p className="text-green-700 font-semibold">
                     +$128.58{" "}
-                    <span className="text-gray-500">than past week</span>
+                    <span className="text-gray-600">than past week</span>
                   </p>
                 </div>
               </div>
+
               {/* Revenue Card */}
-              <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-semibold text-sm">Revenue</p>
-                  <HiOutlineCurrencyDollar className="text-gray-600 text-xl" />
+                  <p className="text-gray-700 font-semibold text-lg">Revenue</p>
+                  <HiOutlineCurrencyDollar className="text-gray-700 text-2xl" />
                 </div>
-                <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">$537.83</p>
-                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+                <div className="flex gap-3 my-3 items-center">
+                  <p className="text-4xl font-bold">$537.83</p>
+                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
                     <IoIosArrowUp className="text-green-700" /> 10.8%
                   </p>
                 </div>
                 <div className="my-3">
                   <p className="text-green-700 font-semibold">
                     +$128.58{" "}
-                    <span className="text-gray-500">than past week</span>
+                    <span className="text-gray-600">than past week</span>
                   </p>
                 </div>
               </div>
 
               {/* Sales Card */}
-              <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-semibold text-sm">Sales</p>
-                  <GrMoney className="text-gray-600 text-xl" />
+                  <p className="text-gray-700 font-semibold text-lg">Sales</p>
+                  <GrMoney className="text-gray-700 text-2xl" />
                 </div>
-                <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">4859</p>
-                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+                <div className="flex gap-3 my-3 items-center">
+                  <p className="text-4xl font-bold">4859</p>
+                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
                     <IoIosArrowUp className="text-green-700" /> 18.2%
                   </p>
                 </div>
                 <div className="my-3">
                   <p className="text-green-700 font-semibold">
-                    +47 <span className="text-gray-500">than past week</span>
+                    +47 <span className="text-gray-600">than past week</span>
                   </p>
                 </div>
               </div>
 
               {/* Customer Card */}
-              <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-semibold text-sm">
+                  <p className="text-gray-700 font-semibold text-lg">
                     Customer
                   </p>
-                  <MdOutlinePeopleAlt className="text-gray-600 text-xl" />
+                  <MdOutlinePeopleAlt className="text-gray-700 text-2xl" />
                 </div>
-                <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">2235</p>
-                  <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-3 py-1 text-sm font-semibold">
+                <div className="flex gap-3 my-3 items-center">
+                  <p className="text-4xl font-bold">2235</p>
+                  <p className="flex items-center gap-1 bg-red-100 text-red-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
                     <IoIosArrowDown className="text-red-700" /> 12.4%
                   </p>
                 </div>
                 <div className="my-3">
                   <p className="text-red-700 font-semibold">
-                    -215 <span className="text-gray-500">than past week</span>
+                    -215 <span className="text-gray-600">than past week</span>
                   </p>
                 </div>
               </div>
 
               {/* Spending Card */}
-              <div className="bg-white shadow-lg w-[280px] flex-1 p-5 rounded-lg mt-3 transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-600 font-semibold text-sm">
+                  <p className="text-gray-700 font-semibold text-lg">
                     Spending
                   </p>
-                  <RiPassPendingLine className="text-gray-600 text-xl" />
+                  <RiPassPendingLine className="text-gray-700 text-2xl" />
                 </div>
-                <div className="flex gap-3 my-3">
-                  <p className="text-3xl font-bold">$219.65</p>
-                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold">
+                <div className="flex gap-3 my-3 items-center">
+                  <p className="text-4xl font-bold">$219.65</p>
+                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
                     <IoIosArrowUp className="text-green-700" /> 9.1%
                   </p>
                 </div>
                 <div className="my-3">
                   <p className="text-green-700 font-semibold">
                     +$88.67{" "}
-                    <span className="text-gray-500">than past week</span>
+                    <span className="text-gray-600">than past week</span>
                   </p>
                 </div>
               </div>
@@ -249,12 +250,12 @@ const Dashboard = () => {
             {/* 3 cards */}
             <div className="flex gap-5 flex-wrap">
               {/* Recent Orders */}
-              <div className="overflow-x-auto bg-white rounded-lg shadow-sm p-2.5 border border-gray-200">
-                <table className="table w-full text-xs">
-                  {/* Table head */}
+              <div className="overflow-x-auto bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+                <table className="table w-full text-sm">
+                  {/* Table Head */}
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="p-1">
+                      <th className="p-2">
                         <label>
                           <input
                             type="checkbox"
@@ -272,42 +273,38 @@ const Dashboard = () => {
                           />
                         </label>
                       </th>
-                      <th className="text-left">Product</th>
-                      <th className="text-left">Price</th>
-                      <th className="text-left">Date</th>
-                      <th className="text-left">Status</th>
-                      <th className="text-left">Action</th>
+                      <th className="text-left p-2">Product</th>
+                      <th className="text-left p-2">Price</th>
+                      <th className="text-left p-2">Date</th>
+                      <th className="text-left p-2">Status</th>
+                      <th className="text-left p-2">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {/* Row 1 */}
                     <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-1">
+                      <td className="p-2">
                         <label>
                           <input type="checkbox" className="checkbox" />
                         </label>
                       </td>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <div className="avatar">
-                            <div className="mask mask-squircle h-8 w-8">
-                              <img
-                                src="https://www.byrdie.com/thmb/2_StIwiboKhwe6WiQW3A5_PCjpc=/3000x3000/filters:no_upscale():max_bytes(150000):strip_icc()/1cfaad9e-be47-4755-8d89-9dd27eaf0095_1.3ecc0d85625d5020c4f9807b4d5e7c96-520e913cbf7448878006fb529447fed2.jpg"
-                                alt="Shampoo"
-                              />
-                            </div>
+                      <td className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-8 w-8">
+                            <img
+                              src="https://www.byrdie.com/thmb/2_StIwiboKhwe6WiQW3A5_PCjpc=/3000x3000/filters:no_upscale():max_bytes(150000):strip_icc()/1cfaad9e-be47-4755-8d89-9dd27eaf0095_1.3ecc0d85625d5020c4f9807b4d5e7c96-520e913cbf7448878006fb529447fed2.jpg"
+                              alt="Shampoo"
+                            />
                           </div>
-                          <div>
-                            <div className="font-medium text-gray-700">
-                              Shampoo
-                            </div>
-                          </div>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-700">Shampoo</p>
                         </div>
                       </td>
                       <td className="font-medium text-gray-600">$1.99</td>
                       <td className="text-gray-500">18 Sept 2024</td>
                       <td>
-                        <span className="badge bg-green-100 text-green-600 border border-green-600 rounded-full py-0.4 px-0.8 text-xs">
+                        <span className="badge bg-green-100 text-green-600 border border-green-600 rounded-full py-1 px-2 text-xs">
                           Delivered
                         </span>
                       </td>
@@ -320,32 +317,28 @@ const Dashboard = () => {
                     </tr>
                     {/* Row 2 */}
                     <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-1">
+                      <td className="p-2">
                         <label>
                           <input type="checkbox" className="checkbox" />
                         </label>
                       </td>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <div className="avatar">
-                            <div className="mask mask-squircle h-8 w-8">
-                              <img
-                                src="https://plazavea.vteximg.com.br/arquivos/ids/23016863-1000-1000/imageUrl_1.jpg?v=638060295883870000"
-                                alt="Perfume"
-                              />
-                            </div>
+                      <td className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-8 w-8">
+                            <img
+                              src="https://plazavea.vteximg.com.br/arquivos/ids/23016863-1000-1000/imageUrl_1.jpg?v=638060295883870000"
+                              alt="Perfume"
+                            />
                           </div>
-                          <div>
-                            <div className="font-medium text-gray-700">
-                              Perfume
-                            </div>
-                          </div>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-700">Perfume</p>
                         </div>
                       </td>
                       <td className="font-medium text-gray-600">$1.99</td>
                       <td className="text-gray-500">18 Sept 2024</td>
                       <td>
-                        <span className="badge bg-blue-100 text-blue-600 border border-blue-600 rounded-full py-0.4 px-0.8 text-xs">
+                        <span className="badge bg-blue-100 text-blue-600 border border-blue-600 rounded-full py-1 px-2 text-xs">
                           On Going
                         </span>
                       </td>
@@ -358,32 +351,28 @@ const Dashboard = () => {
                     </tr>
                     {/* Row 3 */}
                     <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-1">
+                      <td className="p-2">
                         <label>
                           <input type="checkbox" className="checkbox" />
                         </label>
                       </td>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <div className="avatar">
-                            <div className="mask mask-squircle h-8 w-8">
-                              <img
-                                src="https://cdn.shopify.com/s/files/1/0314/8555/8922/products/DinnerLady-NicShot-NicShot-100VG-18mg-3pk-UK_1024x1024@2x.jpg?v=1585150206"
-                                alt="E-juice"
-                              />
-                            </div>
+                      <td className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-8 w-8">
+                            <img
+                              src="https://cdn.shopify.com/s/files/1/0314/8555/8922/products/DinnerLady-NicShot-NicShot-100VG-18mg-3pk-UK_1024x1024@2x.jpg?v=1585150206"
+                              alt="E-juice"
+                            />
                           </div>
-                          <div>
-                            <div className="font-medium text-gray-700">
-                              E-juice
-                            </div>
-                          </div>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-700">E-juice</p>
                         </div>
                       </td>
                       <td className="font-medium text-gray-600">$1.59</td>
                       <td className="text-gray-500">18 Sept 2024</td>
                       <td>
-                        <span className="badge bg-green-100 text-green-600 border border-green-600 rounded-full py-0.4 px-0.8 text-xs">
+                        <span className="badge bg-green-100 text-green-600 border border-green-600 rounded-full py-1 px-2 text-xs">
                           Delivered
                         </span>
                       </td>
@@ -396,32 +385,28 @@ const Dashboard = () => {
                     </tr>
                     {/* Row 4 */}
                     <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-1">
+                      <td className="p-2">
                         <label>
                           <input type="checkbox" className="checkbox" />
                         </label>
                       </td>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <div className="avatar">
-                            <div className="mask mask-squircle h-8 w-8">
-                              <img
-                                src="https://i0.wp.com/www.babypromv.com/wp-content/uploads/2019/07/4e2bc5c3-077e-476a-9408-5f06ab2c73bf_1.7f26f2b8c0ccad58fc2a50bd471589f3-1.jpeg?fit=2642,2642&ssl=1"
-                                alt="Lotion"
-                              />
-                            </div>
+                      <td className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-8 w-8">
+                            <img
+                              src="https://i0.wp.com/www.babypromv.com/wp-content/uploads/2019/07/4e2bc5c3-077e-476a-9408-5f06ab2c73bf_1.7f26f2b8c0ccad58fc2a50bd471589f3-1.jpeg?fit=2642,2642&ssl=1"
+                              alt="Lotion"
+                            />
                           </div>
-                          <div>
-                            <div className="font-medium text-gray-700">
-                              Lotion
-                            </div>
-                          </div>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-700">Lotion</p>
                         </div>
                       </td>
                       <td className="font-medium text-gray-600">$2.55</td>
                       <td className="text-gray-500">18 Sept 2024</td>
                       <td>
-                        <span className="badge bg-red-100 text-red-600 border border-red-600 rounded-full py-0.4 px-0.8 text-xs">
+                        <span className="badge bg-red-100 text-red-600 border border-red-600 rounded-full py-1 px-2 text-xs">
                           Canceled
                         </span>
                       </td>
@@ -436,13 +421,13 @@ const Dashboard = () => {
                 </table>
               </div>
 
-              {/* chat */}
-              <div className="border max-md:w-full w-[300px] h-[300px] p-5 rounded-lg bg-white  shadow-lg">
+              {/* Chat */}
+              <div className="border max-md:w-full w-[300px] h-[300px] p-5 rounded-lg bg-white shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl">
                 <div className="flex gap-2 items-center mb-4">
-                  <MdOutlineChat className="text-lg" />
-                  <p className="font-semibold">Quick Chat</p>
+                  <MdOutlineChat className="text-lg text-blue-500" />
+                  <p className="font-semibold text-blue-500">Quick Chat</p>
                 </div>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center mb-3">
                   <img
                     src="https://i.pinimg.com/564x/30/e1/68/30e168340e36e773713698f3051cf875.jpg"
                     alt="Profile"
@@ -456,7 +441,7 @@ const Dashboard = () => {
                     <p className="text-sm text-gray-600">Hello</p>
                   </div>
                 </div>
-                <div className="flex gap-3 items-center mt-3">
+                <div className="flex gap-3 items-center mb-3">
                   <img
                     src="https://i.pinimg.com/736x/e0/68/21/e06821a26c25c59066d6a4309361bda2.jpg"
                     alt="Profile"
@@ -470,7 +455,7 @@ const Dashboard = () => {
                     <p className="text-sm text-gray-600">Hello</p>
                   </div>
                 </div>
-                <div className="flex gap-3 items-center mt-3">
+                <div className="flex gap-3 items-center mb-3">
                   <img
                     src="https://i.pinimg.com/564x/4b/fa/f2/4bfaf26416c0aef7c498e38ed1b567fb.jpg"
                     alt="Profile"
@@ -484,7 +469,7 @@ const Dashboard = () => {
                     <p className="text-sm text-gray-600">Hello</p>
                   </div>
                 </div>
-                <div className="flex gap-3 items-center mt-3">
+                <div className="flex gap-3 items-center mb-3">
                   <img
                     src="https://i.pinimg.com/564x/78/2a/9b/782a9ba357d834585425bedc618445ce.jpg"
                     alt="Profile"
@@ -499,13 +484,14 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
+
               {/* Top Countries */}
               <div className="mt-5 md:mt-3 lg:mt-2 bg-white rounded-xl shadow-lg">
                 {/* Chart is visible on small screens */}
                 <div className="block">
                   <div className="w-full h-[200px]">
                     <AreaChart
-                      width={350}
+                      width={window.innerWidth < 768 ? 350 : 500}
                       height={200}
                       data={data}
                       margin={{
