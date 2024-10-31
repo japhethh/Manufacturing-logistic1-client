@@ -8,7 +8,7 @@ const OrdersVendor = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="p-6 bg-gradient-to-b from-gray-200 to-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-200 min-h-screen">
       {/* Loading Spinner */}
       {loading && (
         <div className="flex justify-center items-center h-screen">

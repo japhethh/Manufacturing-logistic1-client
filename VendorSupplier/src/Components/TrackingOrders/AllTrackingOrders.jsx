@@ -150,9 +150,9 @@ const AllTrackingOrders = () => {
   };
 
   return (
-    <div className="p-5 w-[1280px]">
+    <div className="p-5 w-[1280px] bg-gray-200">
       <TrackingOrderItems />
-      <div className="overflow-x-scroll w-full">
+      <div className="overflow-x-scroll w-full bg-white p-5 rounded-xl">
         <table id="myTable" className="display min-w-full table-xs"></table>
       </div>
     </div>

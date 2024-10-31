@@ -157,7 +157,7 @@ const Adjustment = () => {
   };
 
   return (
-    <div className="bg-base-200 h-auto w-full p-5">
+    <div className="bg-gray-200 h-auto w-full p-5">
       <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
         <ul>
           <li>
