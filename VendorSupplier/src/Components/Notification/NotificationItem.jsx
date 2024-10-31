@@ -29,18 +29,21 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
 
   return (
     <li
-  key={notification._id}
-  className={`hover:bg-gray-200 rounded-md cursor-pointer ${notification?.isRead ? "bg-gray-100" : "bg-white"} shadow-sm transition-all duration-200 ease-in-out`}
-  onClick={handleMarkAsRead}
->
-  <NavLink to={`/notifications/${notification?._id}`}>
-    <div className="flex flex-col gap-2">
-      <span className="font-semibold truncate">{notification?.message}</span>
-      <span className="text-sm text-gray-500">{formattedDate}</span>
-    </div>
-  </NavLink>
-</li>
-
+      key={notification._id}
+      className={`hover:bg-gray-200 rounded-md cursor-pointer ${
+        notification?.isRead ? "bg-gray-100" : "bg-white"
+      } shadow-sm transition-all duration-200 ease-in-out p-4`}
+      onClick={handleMarkAsRead}
+    >
+      <NavLink to={`/notifications/${notification?._id}`}>
+        <div className="flex flex-col items-start gap-2">
+          <span className="font-semibold truncate">
+            {notification?.message}
+          </span>
+          <span className="text-sm text-gray-500">{formattedDate}</span>
+        </div>
+      </NavLink>
+    </li>
   );
 };
 

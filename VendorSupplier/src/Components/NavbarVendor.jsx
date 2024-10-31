@@ -217,27 +217,28 @@ const NavbarVendor = () => {
               </div>
             </button>
             <ul
-              tabIndex={0}
-              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96 h-[600px] overflow-y-auto"
-            >
-              <div className="">
-                <h1 className="font-bold text-2xl px-3">Notifications</h1>
-                <div className="divider"></div>
-              </div>
-              {notifications.filter((notif) => !notif.isRead).length === 0 ? (
-                <li className="p-2">No notifications</li>
-              ) : (
-                notifications
-                  .filter((notif) => !notif.isRead) // Only display unread notifications
-                  .map((notification, index) => (
-                    <NotificationItem
-                      key={index}
-                      notification={notification}
-                      onMarkAsRead={handleMarkAsRead} // Pass the callback here
-                    />
-                  ))
-              )}
-            </ul>
+  tabIndex={0}
+  className="mt-2 p-4 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96 h-[600px] overflow-y-auto"
+>
+  <div className="pb-2">
+    <h1 className="font-bold text-2xl px-3">Notifications</h1>
+    <div className="border-b border-gray-300 my-2"></div> {/* Updated divider */}
+  </div>
+  
+  {notifications.filter((notif) => !notif.isRead).length === 0 ? (
+    <li className="p-4 text-center text-gray-600">No notifications</li>
+  ) : (
+    notifications
+      .filter((notif) => !notif.isRead) 
+      .map((notification, index) => (
+        <NotificationItem
+          key={index}
+          notification={notification}
+          onMarkAsRead={handleMarkAsRead}
+        />
+      ))
+  )}
+</ul>
           </div>
 
           {/* User Profile Dropdown */}
