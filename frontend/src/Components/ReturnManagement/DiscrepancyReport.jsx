@@ -17,7 +17,8 @@ const DiscrepancyReport = () => {
     category_name: "",
     category_code: "",
   });
-
+  const [selectImage, setSelectImage] = useState(null);
+  const [showImageModal, setShowImageModal] = useState(false); // New state for image modal
   const navigate = useNavigate();
 
   const fetchDiscrepancyReport = async () => {
@@ -26,10 +27,15 @@ const DiscrepancyReport = () => {
         headers: { token: token },
       });
       setDiscrepancyData(response.data);
-      console.log(response.data);
+      console.log(response.data)
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error fetching data");
     }
+  };
+
+  const handleImage = (image) => {
+    setSelectImage(image);
+    setShowImageModal(true); // Show the image modal
   };
 
   useEffect(() => {
@@ -51,7 +57,8 @@ const DiscrepancyReport = () => {
             <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
+            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}">
+              <i class="fas fa-eye"></i>
             </button>
             <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
@@ -74,10 +81,10 @@ const DiscrepancyReport = () => {
 
         if (detailBtn) {
           detailBtn.addEventListener("click", () => {
-            // setSelectedData(data);
+            setSelectedData(data);
             setModalType("detail");
-            setShowModal(true); // Show the modal
-            fetchAdjusted_products(data._id);
+            setShowModal(true);
+            // fetchAdjusted_products(data._id);
             setFetchAdjustment(data);
           });
         }
@@ -96,23 +103,17 @@ const DiscrepancyReport = () => {
     };
   }, [discrepancyData]);
 
-  const fetchAdjusted_products = async (id) => {
-    try {
-      const response = await axios.get(
-        `${apiURL}/api/adjusted_products/getSpecificId/${id}`,
-        { headers: { token: token } }
-      );
-
-      console.log(response.data.data);
-      setSelectedData(response.data.data);
-    } catch (error) {
-      toast.error(error?.reponse.data.message);
-      console.log(error?.response.data.message);
-    }
-  };
-
-  console.log(selectedData);
-  console.log(fetchAdjustment);
+  // const fetchAdjusted_products = async (id) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${apiURL}/api/adjusted_products/getSpecificId/${id}`,
+  //       { headers: { token: token } }
+  //     );
+  //     setSelectedData(response.data.data);
+  //   } catch (error) {
+  //     toast.error(error?.response.data.message);
+  //   }
+  // };
 
   const handleDelete = async (id) => {
     try {
@@ -130,20 +131,7 @@ const DiscrepancyReport = () => {
     }
   };
 
-  const handleEditCategory = async () => {
-    try {
-      const response = await axios.put(
-        `${apiURL}/api/category/updateCategory/${selectedData._id}`,
-        editCategory,
-        { headers: { token: token } }
-      );
-      fetchDiscrepancyReport();
-      toast.success(response.data.message);
-      setShowModal(false);
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
-  };
+
 
   return (
     <div className="bg-base-200 h-auto w-full p-5">
@@ -212,74 +200,64 @@ const DiscrepancyReport = () => {
           selectedData &&
           fetchAdjustment && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white rounded-lg p-5 w-4/6">
-                <div className="py-4 grid grid-cols-2">
-                  <div className="font-semibold">
-                    <div className="border border-1 py-2 px-2">
-                      <h1>Date</h1>
-                    </div>
-                    <div className="border border-1 py-2 px-2">
-                      <h1>Reference</h1>
-                    </div>
+              <div className="bg-white rounded-lg p-5 w-3/6">
+                {/* Head */}
+                <div>
+                  <div className="grid grid-cols-4 ">
+                    {selectedData?.images.map((item, index) => (
+                      <div key={index}>
+                        <img
+                          className="w-32 cursor-pointer"
+                          onClick={() => handleImage(item)}
+                          src={item}
+                          alt="Images"
+                        />
+                      </div>
+                    ))}
                   </div>
+                </div>
+                {/* Body */}
 
-                  <div>
-                    <div className="border border-1 py-2 px-2">
-                      <h1>
-                        {fetchAdjustment?.date
-                          ? new Date(fetchAdjustment.date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )
-                          : "N/A"}
-                      </h1>
+                <div>
+                  <h1 className="text-2xl font-semibold py-1">Details</h1>
+                </div>
+                <div className="flex ">
+                  {/* Reference */}
+                  <div className="flex-1 ">
+                    <div className="flex w-full">
+                      <div className="border-2 p-2 flex-1">Reference</div>
+                      <div className="border-2 p-2 flex-1">
+                        {selectedData?.defectCode}
+                      </div>
                     </div>
-                    <div className="border border-1 py-2 px-2">
-                      <h1>
-                        {" "}
-                        {fetchAdjustment?.reference
-                          ? fetchAdjustment?.reference
-                          : "N/A"}
-                      </h1>
+
+                    {/* Defect Description */}
+                    <div className="flex w-full">
+                      <div className="border-2 p-2 flex-1">
+                        Defect Description
+                      </div>
+                      <div className="border-2 p-2 flex-1">
+                        {selectedData?.defectDescription}
+                      </div>
+                    </div>
+
+                    {/* Severity */}
+                    <div className="flex w-full">
+                      <div className="border-2 p-2 flex-1">Severity</div>
+                      <div className="border-2 p-2 flex-1">
+                        {selectedData?.severity}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="table-responsive">
-                  <table className="table table-primary">
-                    <thead>
-                      <tr>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Code</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedData.map((item, index) => (
-                        <tr key={item?._id} className="">
-                          <td scope="row">{item?.material_id?.materialName}</td>
-                          <td>{item?.material_id?.materialCode}</td>
-                          <td>{item?.quantity}</td>
-                          <td>
-                            {item?.type === "add" ? "(+)" : "(-)"} {item?.type}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="flex justify-end">
+                <div className="flex justify-end py-3">
                   <button
                     className="btn btn-info btn-md text-white "
                     onClick={() => {
                       setSelectedData(null), setShowModal(false);
                       setFetchAdjustment(null);
+                      setSelectImage(null);
                     }}
                   >
                     Close
@@ -289,53 +267,15 @@ const DiscrepancyReport = () => {
             </div>
           )}
 
-        {/* Edit Modal */}
-        {showModal && modalType === "edit" && selectedData && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-5 w-1/3">
-              <h2 className="text-lg font-semibold mb-4">Edit Category</h2>
-              <input
-                type="text"
-                value={editCategory.category_name}
-                onChange={(e) =>
-                  setEditCategory({
-                    ...editCategory,
-                    category_name: e.target.value,
-                  })
-                }
-                placeholder="Category Name"
-                className="border border-gray-300 rounded-lg p-2 w-full mb-4"
-              />
-              <input
-                type="text"
-                value={editCategory.category_code}
-                onChange={(e) =>
-                  setEditCategory({
-                    ...editCategory,
-                    category_code: e.target.value,
-                  })
-                }
-                placeholder="Category Code"
-                className="border border-gray-300 rounded-lg p-2 w-full mb-4"
-              />
-              <div className="flex justify-end">
-                <button
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg"
-                  onClick={handleEditCategory}
-                >
-                  Save Changes
-                </button>
-                <button
-                  className="bg-gray-400 hover:bg-gray-300 text-white px-4 py-2 rounded-lg ml-2"
-                  onClick={() => {
-                    setShowModal(false);
-                    setSelectedData(null);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+        {/* Full-Screen Image Modal */}
+        {showImageModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90">
+            <img
+              className="max-w-full max-h-full"
+              src={selectImage}
+              alt="Full View"
+              onClick={() => setShowImageModal(false)} // Close the modal when clicking on the image
+            />
           </div>
         )}
       </div>
