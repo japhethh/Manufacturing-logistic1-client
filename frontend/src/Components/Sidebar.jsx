@@ -27,6 +27,7 @@ import { FaFileInvoice } from "react-icons/fa";
 import { MdOutlineReportProblem } from "react-icons/md";
 import { IoMdReturnLeft } from "react-icons/io";
 import { MdInventory } from "react-icons/md";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
 
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -670,6 +671,21 @@ const Sidebar = () => {
                   />
                   {!isCollapsed && (
                     <span className="text-base font-semibold">Invoice</span>
+                  )}
+                </div>
+              </li>
+            </NavLink>
+            {/* Invoice */}
+            <NavLink to="/paymentList">
+              <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
+                <div className="flex mt-1 items-center cursor-pointer">
+                  <FaMoneyCheckDollar
+                    className={`transition-all duration-300 ${
+                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                    }`}
+                  />
+                  {!isCollapsed && (
+                    <span className="text-base font-semibold">Payment</span>
                   )}
                 </div>
               </li>

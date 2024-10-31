@@ -13,7 +13,11 @@ const InvoiceAll = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState("");
   const { token } = Store();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     fetchAllInvoice();
@@ -162,10 +166,26 @@ const InvoiceAll = () => {
           render: (data) => `₱${data.toFixed(2)}`,
         },
         {
-          title:"Status", data:"status"
-        }
-        ,
-        { title: "Payment", data: "paymentDetails.paymentMethod" },
+          title: "Status",
+          data: "status",
+          render: (data) => {
+            let status = "";
+            switch (data) {
+              case "Paid":
+                status = "bg-[#F6FFED] border border-[#B7EB8F] text-[#52C41A]";
+                break;
+              case "Unpaid":
+                status = "bg-[#FFF7E6] border border-[#FFE4B6] text-[#FB9916]";
+                break;
+            }
+
+            return `<span class="${status} inline-block px-2 py-1 rounded">${data}</span>`;
+          },
+        },
+        {
+          title: "Payment",
+          data: "paymentDetails.paymentMethod",
+        },
         {
           title: "Actions",
           data: null,
@@ -265,6 +285,30 @@ const InvoiceAll = () => {
                   disabled
                   className="border border-gray-300 rounded-md p-2 bg-gray-100"
                 />
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="payment" className="mb-1 text-gray-700">
+                  Payment
+                </label>
+                <select
+                  name="payment"
+                  id="payment"
+                  {...register("status", { required: "Required to choose!" })}
+                  className="border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  <option value={selectedData.status}>
+                    {selectedData.status}
+                  </option>
+                  <option value="">Select Option</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                </select>
+                {errors.phone && (
+                  <span className="text-red-500 text-sm">
+                    {errors.phone.message}
+                  </span>
+                )}
               </div>
 
               <div className="flex justify-end">

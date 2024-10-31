@@ -109,6 +109,10 @@ const invoiceVendorSchema = new mongoose.Schema(
       enum: ["Pending", "Approved", "Rejected"],
       default: "Pending", // Default status when created
     },
+    description: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );

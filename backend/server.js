@@ -30,7 +30,9 @@ import adjustmentsRouter from "./routes/adjustmentsRouter.js";
 import trackingOrdersRouter from "./routes/trackingOrdersRouter.js";
 import QCInspectionRouter from "./routes/QCInspectionRouter.js";
 import defectRouter from "./routes/defectRouter.js";
-import paymentRoutes from './routes/payment.js';
+import paymentRoutes from "./routes/payment.js";
+import LogisticPaymentListRouter from "./routes/LogisticPaymentListRouter.js";
+import retrievePaymentRouter from "./routes/retrievePayment.js";
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -82,8 +84,8 @@ app.use("/api/trackingOrders", trackingOrdersRouter);
 app.use("/api/qualityControl", QCInspectionRouter);
 app.use("/api/defect", defectRouter);
 app.use("/api/payment", paymentRoutes);
-
-
+app.use("/api/paymentlist", LogisticPaymentListRouter);
+app.use("/api/retrievePayment", retrievePaymentRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);

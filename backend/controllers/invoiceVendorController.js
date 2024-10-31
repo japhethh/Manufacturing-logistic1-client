@@ -5,6 +5,7 @@ import TrackingOrderModel from "../models/trackingOrderModel.js";
 import NotificationVendorModel from "../models/notificationVendorModel.js";
 import generalSettingsModel from "../models/generalSettingsModel.js";
 import Counter from "../models/Counter.js";
+import userModel from "../models/userModel.js";
 
 const createInvoice = async (req, res) => {
   const {
@@ -229,6 +230,42 @@ const rejectInvoice = asyncHandler(async (req, res) => {
   }
 });
 
+const paymentUpdate = asyncHandler(async (req, res) => {
+  try {
+    const { description, status, userId } = req.body;
+    const { id } = req.params;
+
+    // Check if required fields are provided
+    if (!description || !status || !userId || !id) {
+      return res.status(400).json({ success: false, message: "All fields are required!" });
+    }
+
+    // Check if the user exists
+    const existingUser = await userModel.findById(userId);
+    if (!existingUser) {
+      return res.status(404).json({ success: false, message: "User not found!" });
+    }
+
+    // Update the invoice status and description
+    const updatedInvoice = await Invoice.findByIdAndUpdate(
+      id,
+      { status, description },
+      { new: true }
+    );
+
+    if (!updatedInvoice) {
+      return res.status(404).json({ success: false, message: "Invoice not found!" });
+    }
+
+    // Send a successful response with updated data
+    res.status(200).json({ success: true, data: updatedInvoice });
+  } catch (error) {
+    // Handle unexpected errors
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
+  }
+});
+
+
 export {
   createInvoice,
   getAllInvoice,
@@ -237,4 +274,5 @@ export {
   deleteInvoice,
   approveInvoice,
   rejectInvoice,
+  paymentUpdate,
 };

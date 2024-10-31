@@ -7,6 +7,7 @@ import {
   deleteInvoice,
   approveInvoice,
   rejectInvoice,
+  paymentUpdate,
 } from "../controllers/invoiceVendorController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -19,5 +20,5 @@ invoiceVendorRouter.put("/update/:id", authMiddleware, updateInvoice);
 invoiceVendorRouter.delete("/delete/:id", authMiddleware, deleteInvoice);
 invoiceVendorRouter.post("/approve/:id", authMiddleware, approveInvoice);
 invoiceVendorRouter.post("/reject/:id", authMiddleware, rejectInvoice);
-
+invoiceVendorRouter.put("/updateStatus/:id", authMiddleware, paymentUpdate);
 export default invoiceVendorRouter;

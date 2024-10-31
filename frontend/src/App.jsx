@@ -53,6 +53,8 @@ import QCInspection from "./Components/QualityControl/QCInspection..jsx";
 import DiscrepancyReport from "./Components/ReturnManagement/DiscrepancyReport.jsx";
 import GCashPaymentForm from "./Components/Testing/GCashPaymentForm.jsx";
 import PaymentLinks from "./Components/Testing/PaymentLinks.jsx";
+import PaymentAllList from "./Components/Payment/PaymentAllList.jsx";
+import ViewDetails from "./Components/Payment/ViewDetails.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -135,6 +137,11 @@ const App = () => {
           {/* GCash */}
           <Route path="/paymentform" element={<GCashPaymentForm />} />
           <Route path="/paymentlinks" element={<PaymentLinks />} />
+
+          {/* PAYMENT LIST */}
+          <Route path="/paymentList" element={<PaymentAllList />} />
+          <Route path="/payment-details/:id" element={<ViewDetails />} />
+
           <Route path="/music" element={<MusicClick />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/rawmaterialrequest" element={<RawMaterialRequest />} />
