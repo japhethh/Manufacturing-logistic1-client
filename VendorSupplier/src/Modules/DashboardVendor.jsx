@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'; // Import if you're using React Router for navigation
+import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -31,51 +31,44 @@ const COLORS = ['#4F46E5', '#60A5FA', '#FBBF24'];
 
 const DashboardVendor = () => {
   return (
-    <div className="p-6 bg-gray-200 min-h-screen w-full">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Vendor Supplier Dashboard</h1>
-
-      {/* CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">Total Vendors</h2>
-          <p className="text-3xl font-bold text-blue-600">50</p>
-        </div>
-        <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">Pending Registrations</h2>
-          <p className="text-3xl font-bold text-blue-600">10</p>
-        </div>
-        <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">Active Contracts</h2>
-          <p className="text-3xl font-bold text-blue-600">30</p>
-        </div>
-        <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">Recent Communications</h2>
-          <ul className="mt-2">
-            <li>
-              <Link to="/vendor/communication/1" className="text-blue-500 hover:underline">
-                Vendor A - Follow-up
-              </Link>
-            </li>
-            <li>
-              <Link to="/vendor/communication/2" className="text-blue-500 hover:underline">
-                Vendor B - Quote Request
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">Inventory Status</h2>
-          <p className="text-3xl font-bold text-blue-600">20 Items Low</p>
-        </div>
-        <div className="bg-white p-5 rounded-lg shadow-md transition-transform transform hover:scale-105">
-          <h2 className="text-xl font-semibold text-gray-700">Payments Due</h2>
-          <p className="text-3xl font-bold text-blue-600">$5000</p>
-        </div>
+    <div className="p-8 bg-gray-100 min-h-screen w-full">
+      <h1 className="text-2xl font-bold mb-10 text-gray-800">Vendor Supplier Dashboard</h1>
+      
+      {/* Cards Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {[
+          { title: 'Total Vendors', value: '50', color: 'text-blue-600' },
+          { title: 'Pending Registrations', value: '10', color: 'text-yellow-600' },
+          { title: 'Active Contracts', value: '30', color: 'text-green-600' },
+          { title: 'Recent Communications', content: (
+              <ul className="mt-3 space-y-1">
+                <li>
+                  <Link to="/vendor/communication/1" className="text-blue-500 hover:underline">
+                    Vendor A - Follow-up
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/vendor/communication/2" className="text-blue-500 hover:underline">
+                    Vendor B - Quote Request
+                  </Link>
+                </li>
+              </ul>
+            ) 
+          },
+          { title: 'Inventory Status', value: '20 Items Low', color: 'text-red-600' },
+          { title: 'Payments Due', value: '$5000', color: 'text-purple-600' },
+        ].map((card, index) => (
+          <div key={index} className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-2xl font-semibold text-gray-800">{card.title}</h2>
+            {card.value ? <p className={`text-4xl font-bold ${card.color}`}>{card.value}</p> : card.content}
+          </div>
+        ))}
       </div>
-
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-5 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Vendors Over Time</h2>
+      
+      {/* Charts Section */}
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-5">Vendors Over Time</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={lineData}>
               <XAxis dataKey="name" />
@@ -86,9 +79,8 @@ const DashboardVendor = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-
-        <div className="bg-white p-5 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Vendor Status Distribution</h2>
+        <div className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-5">Vendor Status Distribution</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#8884d8">
@@ -101,9 +93,10 @@ const DashboardVendor = () => {
           </ResponsiveContainer>
         </div>
       </div>
-
-      <div className="mt-8">
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-500 transition duration-200">
+      
+      {/* Add New Vendor Button */}
+      <div className="mt-10 text-center">
+        <button className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-500 transition duration-200">
           Add New Vendor
         </button>
       </div>
