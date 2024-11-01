@@ -260,6 +260,8 @@ const InvoicesVendor = () => {
       {/* Invoice Reports */}
       {/* <div className="mb-8 bg-white card shadow-lg p-6 border border-gray-200 rounded-lg">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Invoice Reports</h2>
+        <button className="btn btn-outline btn-primary w-full">Generate Invoice Report</button>
+      </div>
         <button className="btn btn-outline btn-success w-full">Generate Invoice Report</button>
       </div> */}
     </div>

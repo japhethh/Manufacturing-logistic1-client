@@ -21,7 +21,7 @@ const AllTrackingOrders = () => {
     try {
       const response = await axios.get(`${apiURL}/api/trackingOrders/`);
       setTrackingOrdersData(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       toast.error("Error fetching tracking orders data");
     }
@@ -60,10 +60,10 @@ const AllTrackingOrders = () => {
 
               switch (data) {
                 case "In Transit":
-                  statusClass = "bg-green-100 text-green-800"; // Light green background for approved
+                  statusClass = "bg-yellow-100 text-yellow-800"; // Light green background for approved
                   break;
                 case "Delivered":
-                  statusClass = "bg-red-100 text-red-800"; // Light red background for rejected
+                  statusClass = "bg-green-100 text-green-800"; // Light red background for rejected
                   break;
                 case "Pending":
                 default:
@@ -150,9 +150,9 @@ const AllTrackingOrders = () => {
   };
 
   return (
-    <div className="p-5 w-[70%]">
+    <div className="p-5 w-[1280px] bg-gray-200">
       <TrackingOrderItems />
-      <div className="overflow-x-scroll w-full">
+      <div className="overflow-x-scroll w-full bg-white p-5 rounded-xl">
         <table id="myTable" className="display min-w-full table-xs"></table>
       </div>
     </div>

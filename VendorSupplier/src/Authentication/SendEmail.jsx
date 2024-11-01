@@ -76,7 +76,7 @@ const VendorRegistrationForm = () => {
   };
 
   return (
-    <div className="flex items-center py-5 justify-center min-h-screen bg-gradient-to-r from-blue-100 to-blue-300">
+    <div className="flex items-center py-5 justify-center min-h-screen bg-gradient-to-r from-pink-300 via-purple-400 to-blue-400">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg"

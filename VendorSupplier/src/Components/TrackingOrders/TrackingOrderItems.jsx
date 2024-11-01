@@ -1,13 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { AiOutlineForm } from "react-icons/ai"; // New icon for Vendor Management Create
-import { FiPackage } from "react-icons/fi"; // New icon for Vendor Product
+import { AiOutlineForm } from "react-icons/ai";
+import { FiPackage } from "react-icons/fi";
+import { MdOutlineSpatialTracking } from "react-icons/md";
 import { useState } from "react";
 
 const TrackingOrderItems = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="px-6 pt-6  bg-gradient-to-b from-gray-100 to-gray-50 relative w-full">
+    <div className="w-auto">
       {/* Loading Spinner */}
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
@@ -50,7 +51,7 @@ const TrackingOrderItems = () => {
               <h2 className="text-gray-800 font-semibold text-lg">
                 Pending Tracking Orders
               </h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
+              <MdOutlineSpatialTracking className="text-4xl text-blue-500" />{" "}
               {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
@@ -69,9 +70,9 @@ const TrackingOrderItems = () => {
               <h2 className="text-gray-800 font-semibold text-lg">
                 Complete Tracking Orders
               </h2>
-              <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
+              <FiPackage className="text-4xl text-blue-500" /> {/* New Icon */}
             </div>
-            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               3
             </span>
           </div>

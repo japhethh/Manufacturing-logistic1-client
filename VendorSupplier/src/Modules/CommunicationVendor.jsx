@@ -31,7 +31,7 @@ const CommunicationVendor = () => {
   );
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-200 min-h-screen">
       {/* Page Title */}
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Vendor Communication</h1>
 
@@ -115,16 +115,16 @@ const CommunicationVendor = () => {
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Important Contacts</h2>
         <ul className="space-y-2">
           <li className="flex justify-between items-center bg-gray-50 p-4 rounded-md border border-gray-200">
-            <span>Vendor A</span>
-            <button className="btn btn-outline btn-success btn-sm">Contact</button>
+            <span className='font-semibold'>Vendor A</span>
+            <button className="btn btn-outline btn-primary btn-sm">Contact</button>
           </li>
           <li className="flex justify-between items-center bg-gray-50 p-4 rounded-md border border-gray-200">
-            <span>Vendor B</span>
-            <button className="btn btn-outline btn-success btn-sm">Contact</button>
+            <span className='font-semibold'>Vendor B</span>
+            <button className="btn btn-outline btn-primary btn-sm">Contact</button>
           </li>
           <li className="flex justify-between items-center bg-gray-50 p-4 rounded-md border border-gray-200">
-            <span>Vendor C</span>
-            <button className="btn btn-outline btn-success btn-sm">Contact</button>
+            <span className='font-semibold'>Vendor C</span>
+            <button className="btn btn-outline btn-primary btn-sm">Contact</button>
           </li>
         </ul>
       </div>

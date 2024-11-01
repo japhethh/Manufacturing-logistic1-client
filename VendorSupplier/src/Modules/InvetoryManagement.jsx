@@ -1,7 +1,7 @@
 
 const InventoryManagement = () => {
   return (
-    <div className="p-6 bg-white min-h-screen">
+    <div className="p-6 bg-gray-200 min-h-screen">
       {/* Page Title */}
       <h1 className="text-2xl font-bold mb-8 text-gray-800">Inventory Management</h1>
 
@@ -67,7 +67,7 @@ const InventoryManagement = () => {
       {/* Inventory Reports */}
       <div className="mb-8 card shadow-lg bg-white p-6 border border-gray-200">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Inventory Reports</h2>
-        <button className="btn btn-outline btn-success">Generate Stock Level Report</button>
+        <button className="btn btn-outline btn-primary">Generate Stock Level Report</button>
       </div>
     </div>
   );
