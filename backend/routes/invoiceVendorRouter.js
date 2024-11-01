@@ -8,12 +8,14 @@ import {
   approveInvoice,
   rejectInvoice,
   paymentUpdate,
+  getVendorAllInvoice
 } from "../controllers/invoiceVendorController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
 const invoiceVendorRouter = express.Router();
 
 invoiceVendorRouter.get("/", authMiddleware, getAllInvoice);
+invoiceVendorRouter.get("/vendorList", authMiddleware, getVendorAllInvoice);
 invoiceVendorRouter.get("/:id", authMiddleware, getSingleInvoice);
 invoiceVendorRouter.post("/create", authMiddleware, createInvoice);
 invoiceVendorRouter.put("/update/:id", authMiddleware, updateInvoice);

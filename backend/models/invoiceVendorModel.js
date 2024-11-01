@@ -97,6 +97,7 @@ const invoiceVendorSchema = new mongoose.Schema(
     },
     notes: {
       type: String,
+      trim:true,
       required: false,
     },
     status: {
@@ -113,6 +114,8 @@ const invoiceVendorSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    discount:{type:Number},
+    shippingCharges:{type:Number}
   },
   { timestamps: true }
 );

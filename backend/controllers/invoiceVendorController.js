@@ -6,6 +6,7 @@ import NotificationVendorModel from "../models/notificationVendorModel.js";
 import generalSettingsModel from "../models/generalSettingsModel.js";
 import Counter from "../models/Counter.js";
 import userModel from "../models/userModel.js";
+import supplierModel from "../models/supplierModel.js";
 
 const createInvoice = async (req, res) => {
   const {
@@ -89,6 +90,30 @@ const getAllInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
   const invoices = await Invoice.find({})
+    .populate("purchaseOrder")
+    .populate("vendor");
+
+  if (!invoices) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invoice not found" });
+  }
+
+  res.status(200).json({ success: true, invoices });
+});
+
+// GET ALL INVOICE
+const getVendorAllInvoice = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const existing = await supplierModel.findById(userId);
+  if (!existing) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found!" });
+  }
+
+  const invoices = await Invoice.find({ vendor: existing._id })
     .populate("purchaseOrder")
     .populate("vendor");
 
@@ -237,13 +262,17 @@ const paymentUpdate = asyncHandler(async (req, res) => {
 
     // Check if required fields are provided
     if (!description || !status || !userId || !id) {
-      return res.status(400).json({ success: false, message: "All fields are required!" });
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required!" });
     }
 
     // Check if the user exists
     const existingUser = await userModel.findById(userId);
     if (!existingUser) {
-      return res.status(404).json({ success: false, message: "User not found!" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found!" });
     }
 
     // Update the invoice status and description
@@ -254,17 +283,20 @@ const paymentUpdate = asyncHandler(async (req, res) => {
     );
 
     if (!updatedInvoice) {
-      return res.status(404).json({ success: false, message: "Invoice not found!" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Invoice not found!" });
     }
 
     // Send a successful response with updated data
     res.status(200).json({ success: true, data: updatedInvoice });
   } catch (error) {
     // Handle unexpected errors
-    res.status(500).json({ success: false, message: "Server error", error: error.message });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
   }
 });
-
 
 export {
   createInvoice,
@@ -275,4 +307,5 @@ export {
   approveInvoice,
   rejectInvoice,
   paymentUpdate,
+  getVendorAllInvoice,
 };

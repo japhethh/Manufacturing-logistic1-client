@@ -39,6 +39,7 @@ import EditAdjustment from "./Components/StockAdjustment/EditAdjustment.jsx";
 import EditProducts from "./Modules/EditProducts.jsx";
 import AllTrackingOrders from "./Components/TrackingOrders/AllTrackingOrders.jsx";
 import OrderDetailPage from "./Components/TrackingOrders/OrderDetailPage.jsx";
+import CreateInvoice from "./Components/Invoice/CreateInvoice.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -166,7 +167,6 @@ const App = () => {
             />
 
             <Route path="/shipmentvendor" element={<ShipmentVendor />} />
-            <Route path="/invoicesvendor" element={<InvoicesVendor />} />
             <Route
               path="/communicationvendor"
               element={<CommunicationVendor />}
@@ -178,10 +178,16 @@ const App = () => {
             <Route path="/verify" element={<Verify />} />
             <Route path="/sendemail" element={<SendEmail />} />
             <Route path="/socketTest" element={<Socket />} />
+
+            {/* INVOICE */}
             <Route
               path="/createinvoicevendor/:orderId"
               element={<CreateInvoiceVendor />}
             />
+            <Route path="/invoicesvendor" element={<InvoicesVendor />} />
+            <Route path="/createInvoice" element={<CreateInvoice />} />
+            {/* END */}
+
             <Route path="/datatable" element={<DataTableTesting />} />
             <Route path="/adjustments" element={<Adjustment />} />
             <Route path="/adjustments/create" element={<CreateAdjustment />} />
