@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { IoIosMenu } from "react-icons/io";
 import { MdOutlineDarkMode } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import MobileSidebar from "./MobileSidebar";
 import Store, { apiURL } from "../context/Store";
 import { Link } from "react-router-dom";

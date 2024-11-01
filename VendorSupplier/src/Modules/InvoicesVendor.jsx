@@ -5,14 +5,49 @@ import { toast } from "react-toastify";
 import { apiURL } from "../context/verifyStore";
 import verifyStore from "../context/verifyStore";
 import { Link } from "react-router-dom";
-
+import io from "socket.io-client";
 const InvoicesVendor = () => {
   const [invoiceData, setInvoiceData] = useState([]);
-  const [dueDate, setDueDate] = useState(null);
   const { token } = verifyStore();
-
-  const invoiceLength = invoiceData.length; // Now this will return 0 when the array is empty
+  const invoiceLength = invoiceData.length;
   console.log(invoiceLength);
+
+  const ENDPOINT =
+    window.location.hostname === "localhost"
+      ? "http://localhost:4000"
+      : "https://backend-logistic1.jjm-manufacturing.com";
+
+  // SOCKET CONNECTION
+  useEffect(() => {
+    const socket = io(ENDPOINT);
+
+    // socket.on("updateInvoiceApprove", (approved) => {
+    //   setInvoiceData((preInvoice) => [...preInvoice, approved]);
+    // });
+
+    // test
+    socket.on("updateInvoiceApprove", (approved) => {
+      setInvoiceData((prev) => {
+        const existingOrderIndex = prev.findIndex(
+          (order) => order._id === approved._id
+        );
+        if (existingOrderIndex !== -1) {
+          const updatedOrders = [...prev];
+          updatedOrders[existingOrderIndex] = approved;
+          return updatedOrders;
+        } else {
+          return [approved, ...prev];
+        }
+      });
+    });
+
+    console.log(invoiceData);
+
+    return () => {
+      socket.disconnect();
+    };
+  });
+  // end
 
   useEffect(() => {
     fetchInvoice();
@@ -28,6 +63,22 @@ const InvoicesVendor = () => {
     } catch (error) {
       console.log(error?.reponse.data.message);
     }
+  };
+
+  // FETCH THE PENDING INVOICE
+  const pendingInvoice = () => {
+    const filter = invoiceData.filter(
+      (invoice) => invoice.approvalStatus === "Pending"
+    );
+
+    return filter.length;
+  };
+
+  // PAID INVOICE
+  const paidInvoice = () => {
+    const filter = invoiceData.filter((invoice) => invoice.status === "Paid");
+
+    return filter.length;
   };
 
   useEffect(() => {
@@ -97,38 +148,8 @@ const InvoicesVendor = () => {
           title: "Payment",
           data: "paymentDetails.paymentMethod",
         },
-        // {
-        //   title: "Actions",
-        //   data: null,
-        //   render: (data) => {
-        //     const isProcessed =
-        //       data.approvalStatus === "Approved" ||
-        //       data.approvalStatus === "Rejected";
-
-        //     const isProcessedPay = data.approvalStatus === "Pending";
-        //     return `
-        //       <div>
-        //         <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn hover:bg-green-600 transition ease-in-out duration-200" ${
-        //           isProcessed ? "style='display:none;'" : ""
-        //         } id="approveBtn_${data?._id}">
-        //           <i class="fas fa-check"></i>
-        //         </button>
-        //         <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn hover:bg-red-600 transition ease-in-out duration-200" ${
-        //           isProcessed ? "style='display:none;'" : ""
-        //         } id="rejectBtn_${data?._id}">
-        //           <i class="fas fa-times"></i>
-        //         </button>
-        //         <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer payBtn hover:bg-blue-600 transition ease-in-out duration-200"
-        //         ${isProcessedPay ? "style='display:none;'" : ""} id="payBtn_${
-        //       data?._id
-        //     }">
-        //           <i class="fas fa-money-bill"></i> Pay
-        //         </button>
-        //       </div>
-        //     `;
-        //   },
-        // },
       ],
+      order: [[2, "desc"]],
     });
 
     return () => {
@@ -148,9 +169,7 @@ const InvoicesVendor = () => {
               </span>
             </Link>
           </li>
-          <li>
-            Example Main
-          </li>
+          <li>Example Main</li>
         </ul>
       </div>
       {/* Page Title */}
@@ -173,14 +192,18 @@ const InvoicesVendor = () => {
           </div>
           <div className="stat bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
             <div className="stat-title text-gray-600">Pending Payment</div>
-            <div className="stat-value text-3xl text-blue-500">75</div>
+            <div className="stat-value text-3xl text-blue-500">
+              {pendingInvoice()}
+            </div>
             <div className="stat-desc text-gray-500">
               Invoices Pending Payment
             </div>
           </div>
           <div className="stat bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
             <div className="stat-title text-gray-600">Paid Invoices</div>
-            <div className="stat-value text-3xl text-green-500">75</div>
+            <div className="stat-value text-3xl text-green-500">
+              {paidInvoice()}
+            </div>
             <div className="stat-desc text-gray-500">Invoices Paid</div>
           </div>
         </div>

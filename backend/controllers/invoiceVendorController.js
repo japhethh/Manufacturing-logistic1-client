@@ -208,8 +208,6 @@ const approveInvoice = asyncHandler(async (req, res) => {
       invoiceAmount: invoiced.totalAmount,
       purchaseOrderAmount: invoiced.purchaseOrder.totalAmount,
       generalSettings: general,
-      // quantityOrdered: invoiced.purchaseOrder.totalAmount,
-      // quantityInvoiced: invoiced.quantityInvoiced,
       totalAmount: invoiced.totalAmount,
     });
 
@@ -229,6 +227,7 @@ const approveInvoice = asyncHandler(async (req, res) => {
     const io = req.app.get("socketio");
 
     io.emit("invoice-approve", notificationVendor);
+    io.emit("updateInvoiceApprove", invoiced);
 
     res.status(200).json({ invoiced, newTrackingOrder });
   } catch (error) {
