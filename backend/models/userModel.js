@@ -15,8 +15,19 @@ const userSchema = mongoose.Schema(
     image: { type: String },
     role: {
       type: String,
-      enum: ["admin", "logistic","user" , "pending", "vendorAdmin","qualityControl"],
+      enum: [
+        "admin",
+        "logistic",
+        "user",
+        "pending",
+        "vendorAdmin",
+        "qualityControl",
+      ],
       default: "pending",
+    },
+    generalSetting: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "GeneralSettings",
     },
   },
   { timestamps: true }

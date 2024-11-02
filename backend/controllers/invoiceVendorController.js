@@ -85,6 +85,79 @@ const createInvoice = async (req, res) => {
   }
 };
 
+const createVendorInvoice = asyncHandler(async (req, res) => {
+  const {
+    _id,  
+    userId,
+    items,
+    totalAmount,
+    paymentDetails,
+    paymentDate,
+    dueDate,
+    tax,
+    discount,
+    notes,
+    status,
+    shippingCharges,
+  } = req.body;
+
+  const existing = await supplierModel.findById(userId);
+  if (!existing) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found!" });
+  }
+
+  const counter = await Counter.findByIdAndUpdate(
+    { _id: "invoiceNumber" },
+    { $inc: { sequence_value: 1 } },
+    { new: true }
+  );
+
+  const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
+  const reference = `INV-${invoiceNumber}`;
+
+  const index1 = await generalSettingsModel.find({});
+  const companyAccount = index1[0];
+
+  const newInvoice = new Invoice({
+    invoiceNumber: reference,
+    vendor: userId,
+    logisticCustomer: _id,
+    items: items.map((item) => ({
+      product: item.product,
+      quantity: item.quantity,
+      unitPrice: item.unitPrice,
+      totalPrice: item.totalPrice,
+    })),
+    totalAmount,
+    paymentDetails,
+    issueDate: new Date(),
+    dueDate,
+    shippingDetails: {
+      shippingAddress: {
+        address: companyAccount.companyAddress,
+        city: companyAccount.city,
+        zipCode: companyAccount.zipCode,
+        country: companyAccount.country,
+      },
+    },
+    tax: { taxAmount: tax.taxAmount },
+    discount,
+    notes,
+    status,
+    shippingCharges,
+  });
+
+  await newInvoice.save();
+
+  res.status(201).json({
+    success: true,
+    message: "Created Successfully!",
+    data: newInvoice,
+  });
+});
+
 // GET ALL INVOICE
 const getAllInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -307,4 +380,5 @@ export {
   rejectInvoice,
   paymentUpdate,
   getVendorAllInvoice,
+  createVendorInvoice,
 };

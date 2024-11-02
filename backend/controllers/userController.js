@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
+import generalSettingsModel from "../models/generalSettingsModel.js";
 
 // Register
 const registerUser = async (req, res) => {
@@ -19,6 +20,8 @@ const registerUser = async (req, res) => {
       .json({ success: false, message: "Existing Account!" });
   }
 
+  const generalAccount = await generalSettingsModel.find({});
+  const index1 = generalAccount[0]
   const newUser = new User({
     name: name,
     email: email,
@@ -28,6 +31,7 @@ const registerUser = async (req, res) => {
     phone: phone,
     address: address,
     city: city,
+    generalSetting:index1._id,
   });
 
   const getUser = await newUser.save();
@@ -64,7 +68,7 @@ const adminRequest = async (req, res) => {
 // Get All users
 const getUser = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate("generalSetting");
     if (!users) {
       return res.status(400).json("Errors");
     }
@@ -102,7 +106,7 @@ const getEdit = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
-
+  console.log(req.body)
   const user = await User.findById(id);
 
   if (!user) {

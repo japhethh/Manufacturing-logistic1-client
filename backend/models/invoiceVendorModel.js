@@ -10,7 +10,7 @@ const invoiceVendorSchema = new mongoose.Schema(
     purchaseOrder: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "PurchaseOrder", // Reference to the associated purchase order
-      required: true,
+      // required: true,
     },
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
@@ -115,26 +115,11 @@ const invoiceVendorSchema = new mongoose.Schema(
       trim: true,
     },
     discount:{type:Number},
-    shippingCharges:{type:Number}
+    shippingCharges:{type:Number},
+    logisticCustomer:{type:String, required:true}
   },
   { timestamps: true }
 );
-
-// invoiceVendorSchema.pre("save", async function (next) {
-//   try {
-//     const counter = await Counter.findByIdAndUpdate(
-//       {
-//         _id: "invoiceNumber",
-//       },
-//       { $inc: { sequence_value: 1 } },
-//       { new: true, upsert: true }
-//     );
-//     const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
-//     this.invoiceNumber = `IC-${invoiceNumber}`;
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
 
 const Invoice = mongoose.model("Invoice", invoiceVendorSchema);
 
