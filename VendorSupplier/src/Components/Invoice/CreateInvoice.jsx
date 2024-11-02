@@ -10,6 +10,7 @@ const CreateInvoice = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const [materialData, setMaterialData] = useState([]);
   const [logisticUsers, setLogisticUsers] = useState([]);
@@ -66,10 +67,22 @@ const CreateInvoice = () => {
     console.log(data);
 
     try {
-      const response = await axios.post(`${apiURL}/api/invoices/create`, data, {
-        headers: { token: token },
-      });
+      const response = await axios.post(
+        `${apiURL}/api/invoices/manualCreate`,
+        data,
+        {
+          headers: { token: token },
+        }
+      );
       toast.success(response.data.message);
+      reset();
+      setItems([
+        {
+          product: null,
+          quantity: null,
+          discount: null,
+        },
+      ]);
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -94,7 +107,10 @@ const CreateInvoice = () => {
       {/* Create Invoice */}
       <div className="mb-8 bg-white card shadow-lg p-6 border border-gray-200 rounded-lg">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">
-          Create Invoice
+          Create Invoice 
+        </h2>
+        <h2 className="text-5xl font-semibold text-gray-700 mb-4">
+          On Going...
         </h2>
 
         {/* <button onClick={handleAddItem} className="btn btn-primary">
@@ -132,13 +148,13 @@ const CreateInvoice = () => {
             <div>
               <label className="label">
                 <span className="label-text text-black/70 font-medium">
-                  Payment Details
+                  Payment Method
                 </span>
               </label>
               <select
-                id="paymentDetails"
-                {...register("paymentDetails", {
-                  required: "Required to Payment Details",
+                id="paymentMethod"
+                {...register("paymentMethod", {
+                  required: "Required to Payment Method",
                 })}
                 className="select select-bordered w-full bg-gray-50"
               >
@@ -148,9 +164,9 @@ const CreateInvoice = () => {
                 <option value="Cash on Delivery">Cash on Delivery</option>
                 <option value="Bank Transfer">Bank Transfer</option>
               </select>
-              {errors.paymentDetails && (
+              {errors.paymentMethod && (
                 <span className="text-red-500 text-sm">
-                  {errors.paymentDetails.message}
+                  {errors.paymentMethod.message}
                 </span>
               )}
             </div>

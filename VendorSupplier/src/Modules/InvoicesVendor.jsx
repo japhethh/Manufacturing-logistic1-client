@@ -96,10 +96,26 @@ const InvoicesVendor = () => {
           render: (data) => new Date(data).toLocaleDateString(),
         },
         { title: "Invoice #", data: "invoiceNumber" },
-        { title: "PurchaseOrder #", data: "purchaseOrder.purchaseOrderNumber" },
-        { title: "Vendor", data: "vendor.supplierName" },
-        { title: "Vendor Email", data: "vendor.email" },
-        { title: "Vendor Phone", data: "vendor.contactPhone" },
+        {
+          title: "PurchaseOrder #",
+          data: null,
+          render: (data) => data?.purchaseOrder?.purchaseOrderNumber || 'N/A',
+        },
+        {
+          title: "Vendor",
+          data: null,
+          render: (data) => data?.vendor?.supplierName || 'N/A',
+        },
+        {
+          title: "Vendor Email",
+          data: null,
+          render: (data) => data?.vendor?.email || 'N/A', // Update according to your data structure
+        },
+        {
+          title: "Vendor Phone",
+          data: null,
+          render: (data) => data?.vendor?.contactPhone || 'N/A', // Update according to your data structure
+        },
         {
           title: "Approval Status",
           data: "approvalStatus",
@@ -140,7 +156,6 @@ const InvoicesVendor = () => {
               case "Pending":
                 status = "bg-blue-100 border border-blue-700 text-blue-700";
             }
-
             return `<span class="${status} inline-block px-2 py-1 rounded">${data}</span>`;
           },
         },
@@ -151,11 +166,12 @@ const InvoicesVendor = () => {
       ],
       order: [[2, "desc"]],
     });
-
+  
     return () => {
       table.destroy();
     };
   }, [invoiceData]);
+  
 
   return (
     <div className="p-2 bg-gray-100 ">

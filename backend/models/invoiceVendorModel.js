@@ -30,11 +30,11 @@ const invoiceVendorSchema = new mongoose.Schema(
         },
         unitPrice: {
           type: Number,
-          required: true,
+          required: false,
         },
         totalPrice: {
           type: Number,
-          required: true, // Calculated as quantity * unitPrice
+          required: false, // Calculated as quantity * unitPrice
         },
       },
     ],
@@ -92,7 +92,7 @@ const invoiceVendorSchema = new mongoose.Schema(
       },
       taxAmount: {
         type: Number,
-        required: true,
+        // required: true,
       },
     },
     notes: {

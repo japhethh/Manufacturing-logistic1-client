@@ -87,14 +87,14 @@ const createInvoice = async (req, res) => {
 
 const createVendorInvoice = asyncHandler(async (req, res) => {
   const {
-    _id,  
+    customer,  
     userId,
     items,
     totalAmount,
-    paymentDetails,
+    paymentMethod,
     paymentDate,
     dueDate,
-    tax,
+    // tax,
     discount,
     notes,
     status,
@@ -120,10 +120,12 @@ const createVendorInvoice = asyncHandler(async (req, res) => {
   const index1 = await generalSettingsModel.find({});
   const companyAccount = index1[0];
 
+  
+
   const newInvoice = new Invoice({
     invoiceNumber: reference,
     vendor: userId,
-    logisticCustomer: _id,
+    logisticCustomer: customer,
     items: items.map((item) => ({
       product: item.product,
       quantity: item.quantity,
@@ -131,7 +133,10 @@ const createVendorInvoice = asyncHandler(async (req, res) => {
       totalPrice: item.totalPrice,
     })),
     totalAmount,
-    paymentDetails,
+    paymentDetails:{
+      paymentMethod:paymentMethod,
+      paymentDate:paymentDate,
+    },
     issueDate: new Date(),
     dueDate,
     shippingDetails: {
@@ -142,7 +147,7 @@ const createVendorInvoice = asyncHandler(async (req, res) => {
         country: companyAccount.country,
       },
     },
-    tax: { taxAmount: tax.taxAmount },
+    // tax: { taxAmount: tax.taxAmount },
     discount,
     notes,
     status,
