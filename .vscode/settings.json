@@ -24,6 +24,8 @@
     "printproducts",
     "purchaseorder",
     "purchaseorderlist",
+    "rawmaterial",
+    "Rawmaterial",
     "rawmaterialrequest",
     "registrationrequest",
     "renewalsexpirations",
