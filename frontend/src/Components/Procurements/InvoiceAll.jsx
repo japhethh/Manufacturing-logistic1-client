@@ -136,10 +136,26 @@ const InvoiceAll = () => {
           render: (data) => new Date(data).toLocaleDateString(),
         },
         { title: "Invoice #", data: "invoiceNumber" },
-        { title: "PurchaseOrder #", data: "purchaseOrder.purchaseOrderNumber" },
-        { title: "Vendor", data: "vendor.supplierName" },
-        { title: "Vendor Email", data: "vendor.email" },
-        { title: "Vendor Phone", data: "vendor.contactPhone" },
+        {
+          title: "PurchaseOrder #",
+          data: null,
+          render: (data) => data?.purchaseOrder?.purchaseOrderNumber || `N/A`,
+        },
+        {
+          title: "Vendor",
+          data: null,
+          render: (data) => data?.vendor?.supplierName || `N/A`,
+        },
+        {
+          title: "Vendor Email",
+          data: null,
+          render: (data) => data?.vendor?.supplierName || `N/A`,
+        },
+        {
+          title: "Vendor Phone",
+          data: null,
+          render: (data) => data?.vendor?.contactPhone || `N/A`,
+        },
         {
           title: "Approval Status",
           data: "approvalStatus",
