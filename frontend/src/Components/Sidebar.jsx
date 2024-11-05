@@ -101,7 +101,7 @@ const Sidebar = () => {
         {/* Messages Link */}
         <Link to="/messages">
           <div
-            className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-green-300"
+            className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-blue-300"
             aria-label="Messages"
           >
             <BsChatRightText
