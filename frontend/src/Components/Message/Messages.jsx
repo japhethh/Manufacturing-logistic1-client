@@ -14,10 +14,10 @@ import { FaSearch, FaCog, FaEllipsisV, FaPlus } from 'react-icons/fa';
 
 // Sidebar Component
 const Sidebar = ({ contacts }) => (
-  <div className="w-1/4 bg-gray-200 p-4 overflow-y-auto">
+  <div className="w-1/4 bg-gray-100 p-4 overflow-y-auto shadow-md">
     <div className="flex justify-between items-center mb-4">
-      <h2 className="text-xl font-bold">Louie Barletta</h2>
-      <button className="bg-blue-500 text-white p-2 rounded">
+      <h2 className="text-xl font-bold text-gray-800">Manufacturing Chat</h2>
+      <button className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition duration-200">
         <FaPlus />
       </button>
     </div>
@@ -31,10 +31,10 @@ const Sidebar = ({ contacts }) => (
 
 // Contact Component
 const Contact = ({ contact }) => (
-  <div className="flex items-center space-x-4">
+  <div className="flex items-center space-x-4 p-2 hover:bg-gray-200 rounded-lg transition duration-150">
     <Avatar src="https://via.placeholder.com/40" name={contact.name} className="rounded-full border" />
     <div>
-      <p className="font-bold">{contact.name}</p>
+      <p className="font-semibold text-gray-800">{contact.name}</p>
       <p className="text-sm text-gray-600">{contact.lastMessage}</p>
       <p className="text-xs text-gray-400">{contact.time}</p>
     </div>
@@ -44,15 +44,15 @@ const Contact = ({ contact }) => (
 // Chat Header Component
 const ChatHeader = ({ title }) => (
   <div className="flex justify-between items-center mb-4">
-    <h2 className="text-xl font-bold">{title}</h2>
+    <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
     <div className="space-x-2">
-      <button className="bg-gray-300 p-2 rounded">
+      <button className="bg-gray-300 p-2 rounded hover:bg-gray-400 transition duration-200">
         <FaSearch />
       </button>
-      <button className="bg-gray-300 p-2 rounded">
+      <button className="bg-gray-300 p-2 rounded hover:bg-gray-400 transition duration-200">
         <FaCog />
       </button>
-      <button className="bg-gray-300 p-2 rounded">
+      <button className="bg-gray-300 p-2 rounded hover:bg-gray-400 transition duration-200">
         <FaEllipsisV />
       </button>
     </div>
@@ -60,7 +60,7 @@ const ChatHeader = ({ title }) => (
 );
 
 // Main Chat UI Component
-const ChatUI = () => {
+const Messages = () => {
   const [isTyping, setIsTyping] = useState(false);
 
   const handleTyping = () => {
@@ -69,14 +69,10 @@ const ChatUI = () => {
   };
 
   const contacts = [
-    { name: 'Annie Carpenter', lastMessage: 'Did you talk to Mark?', time: '10:37 AM' },
-    { name: 'Mark Appleyard', lastMessage: 'Lunch tomorrow. I\'ll call you', time: '2:31 AM' },
-    { name: 'Bradley Stokes', lastMessage: 'Sent a photo', time: 'December 2' },
-    { name: 'Emilie Wagner', lastMessage: 'You: I\'m there in 10 min', time: 'December 2' },
-    { name: 'Lewis Butler', lastMessage: '', time: 'December 2' },
-    { name: 'Jeff Ballard', lastMessage: 'Nice, let\'s talk on Tuesday.', time: 'December 2' },
-    { name: 'Delia Nelson', lastMessage: 'You: lol', time: 'December 3' },
-    { name: 'Juan Robbins', lastMessage: '', time: 'December 3' }
+    { name: 'Warehouse Manager', lastMessage: 'Inventory check complete.', time: '8:10 AM' },
+    { name: 'Logistics Coordinator', lastMessage: 'Order shipped to client.', time: 'Yesterday' },
+    { name: 'Supplier Relations', lastMessage: 'New parts shipment on 12/5.', time: 'December 2' },
+    { name: 'Production Lead', lastMessage: 'New production cycle started.', time: 'December 2' },
   ];
 
   return (
@@ -85,21 +81,18 @@ const ChatUI = () => {
       <Sidebar contacts={contacts} />
 
       {/* Main Chat Window */}
-      <div className="w-3/4 bg-white p-4 relative overflow-y-auto">
-        <ChatHeader title="Mark Appleyard" />
+      <div className="w-3/4 bg-white p-4 relative overflow-y-auto shadow-md">
+        <ChatHeader title="Logistics Coordinator" />
         <MainContainer>
           <ChatContainer>
-            <MessageList typingIndicator={isTyping ? <TypingIndicator content="User is typing..." className="typing-indicator" /> : null}>
+            <MessageList typingIndicator={isTyping ? <TypingIndicator content="Coordinator is typing..." className="typing-indicator" /> : null}>
               {[
-                { message: 'I\'ve sent you an email with the materials.', sender: 'You', direction: 'outgoing' },
-                { message: 'Yes. Should we move it to next week?', sender: 'Mark' },
-                { message: 'Sure, whatever suits you. 😅 I\'m free whenever 😁', sender: 'You', direction: 'outgoing' },
-                { message: 'And I\'ll update the calendar. I thought I already updated it.', sender: 'Mark' },
-                { message: 'It\'s all good fam.', sender: 'You', direction: 'outgoing' },
-                { message: 'I rescheduled it to every first Wednesday in the month. But we can do it next week whenever you want?', sender: 'Mark' },
-                { message: 'Cool bro. ✌️ Next Thursday at about 13:00?', sender: 'You', direction: 'outgoing' },
-                { message: 'Ok, I\'ll let you know.', sender: 'Mark' },
-                { message: '👌', sender: 'You', direction: 'outgoing' }
+                { message: 'All orders from Warehouse 2 are shipped.', sender: 'You', direction: 'outgoing' },
+                { message: 'Great! Has the client confirmed receipt?', sender: 'Logistics Coordinator' },
+                { message: 'Not yet. I’ll send a follow-up.', sender: 'You', direction: 'outgoing' },
+                { message: 'Thanks. Also, did we finalize the restocking for December?', sender: 'Logistics Coordinator' },
+                { message: 'Yes, the materials are set to arrive on the 15th.', sender: 'You', direction: 'outgoing' },
+                { message: 'Perfect. Let’s monitor the timeline closely.', sender: 'Logistics Coordinator' },
               ].map((msg, idx) => (
                 <Message
                   key={idx}
@@ -116,7 +109,7 @@ const ChatUI = () => {
               ))}
             </MessageList>
             <MessageInput 
-              className="bg-white"
+              className="bg-gray-50 border border-gray-300 rounded-lg p-2"
               placeholder="Type message here"
               onChange={handleTyping}
               onSend={(messageText) => console.log('Message sent:', messageText)}
@@ -128,4 +121,4 @@ const ChatUI = () => {
   );
 };
 
-export default ChatUI;
+export default Messages;
