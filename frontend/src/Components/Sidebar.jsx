@@ -28,7 +28,7 @@ import { MdOutlineReportProblem } from "react-icons/md";
 import { IoMdReturnLeft } from "react-icons/io";
 import { MdInventory } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
-
+import { BsChatRightText } from "react-icons/bs";
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -84,7 +84,7 @@ const Sidebar = () => {
         {/* Dashboard Link */}
         <Link to="/">
           <div
-            className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-gray-300"
+            className="flex items-center gap-2 p-2 mb-2 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-blue-300"
             aria-label="Dashboard"
           >
             <MdOutlineScreenshotMonitor
@@ -94,6 +94,23 @@ const Sidebar = () => {
             />
             {!isCollapsed && (
               <p className="text-base font-semibold">Dashboard</p>
+            )}
+          </div>
+        </Link>
+
+        {/* Messages Link */}
+        <Link to="/messages">
+          <div
+            className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-green-300"
+            aria-label="Messages"
+          >
+            <BsChatRightText
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7 mx-auto" : "w-5 h-5"
+              }`}
+            />
+            {!isCollapsed && (
+              <p className="text-base font-semibold">Messages</p>
             )}
           </div>
         </Link>
