@@ -15,6 +15,7 @@ import { VscServerEnvironment } from "react-icons/vsc";
 import { BiDollarCircle, BiPurchaseTagAlt } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 import { TbFileInvoice } from "react-icons/tb";
+import { BsChatRightText } from "react-icons/bs";
 
 const MobileSidebar = () => {
   return (
@@ -35,6 +36,15 @@ const MobileSidebar = () => {
         >
           <MdOutlineScreenshotMonitor />
           <p className="text-base font-semibold">Dashboard</p>
+        </div>
+      </Link>
+      <Link to="/messages">
+        <div
+          className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-gray-300"
+          aria-label="Dashboard"
+        >
+          <BsChatRightText />
+          <p className="text-base font-semibold">Messages</p>
         </div>
       </Link>
 
