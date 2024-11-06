@@ -8,20 +8,59 @@ import {
   SmilePlus,
   Phone,
   Video,
-  Menu,
-  X,
+  Package,
+  Truck,
+  Factory,
+  Clipboard,
 } from "lucide-react";
 
-const Avatar = ({ src, fallback, className, isOnline }) => (
-  <div className={`relative ${className}`}>
-    <div className="rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-200 shadow-lg">
-      <img src={src} alt="avatar" className="w-full h-full object-cover" />
+const Avatar3D = ({ name, isOnline, className }) => {
+  // Generate consistent colors based on name
+  const getColor = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const color = Math.floor(Math.abs(Math.sin(hash) * 16777215));
+    return `#${color.toString(16).padStart(6, '0')}`;
+  };
+
+  const baseColor = getColor(name);
+
+  return (
+    <div className={`relative ${className}`}>
+      <div className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-200" style={{
+        background: `linear-gradient(135deg, ${baseColor}, #ffffff)`
+      }}>
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          {/* Base circle for head */}
+          <circle cx="50" cy="45" r="35" fill={baseColor} />
+          {/* Eyes */}
+          <circle cx="35" cy="40" r="5" fill="white" />
+          <circle cx="65" cy="40" r="5" fill="white" />
+          {/* Smile */}
+          <path
+            d="M 30 55 Q 50 70 70 55"
+            fill="none"
+            stroke="white"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          {/* Hard hat */}
+          <path
+            d="M 15 35 Q 50 10 85 35"
+            fill="#FFD700"
+            stroke="#FFA500"
+            strokeWidth="2"
+          />
+        </svg>
+      </div>
+      {isOnline && (
+        <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-white"></span>
+      )}
     </div>
-    {isOnline && (
-      <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-white"></span>
-    )}
-  </div>
-);
+  );
+};
 
 const Contact = ({ contact, active, onClick }) => (
   <div
@@ -30,12 +69,8 @@ const Contact = ({ contact, active, onClick }) => (
       active ? "bg-blue-50 scale-[0.98]" : ""
     }`}
   >
-    <Avatar
-      src={contact.avatar}
-      fallback={contact.name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")}
+    <Avatar3D
+      name={contact.name}
       className="h-12 w-12"
       isOnline={contact.online}
     />
@@ -58,15 +93,14 @@ const Contact = ({ contact, active, onClick }) => (
 
 const Message = ({ message, isOutgoing }) => (
   <div className={`flex gap-3 ${isOutgoing ? "flex-row-reverse" : ""} mb-4`}>
-    <Avatar
-      src={message.avatar}
-      fallback={message.sender[0]}
+    <Avatar3D
+      name={message.sender}
       className="h-8 w-8 self-end"
     />
     <div
       className={`flex flex-col ${
         isOutgoing ? "items-end" : ""
-      } max-w-[80%] sm:max-w-[70%]`}
+      } max-w-[85%] sm:max-w-[75%]`}
     >
       <div
         className={`px-4 py-2 rounded-2xl ${
@@ -75,19 +109,14 @@ const Message = ({ message, isOutgoing }) => (
             : "bg-gray-100"
         } shadow-sm`}
       >
-        <p className="break-words">{message.message}</p>
+        <p className="break-words text-sm">{message.message}</p>
       </div>
       <span className="text-xs text-gray-500 mt-1">{message.time}</span>
     </div>
   </div>
 );
 
-const IconButton = ({
-  icon: Icon,
-  onClick,
-  className = "",
-  active = false,
-}) => (
+const IconButton = ({ icon: Icon, onClick, className = "", active = false }) => (
   <button
     onClick={onClick}
     className={`p-2 hover:bg-gray-100 rounded-xl transition-all duration-200 ${
@@ -104,56 +133,46 @@ const ChatUI = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
-      sender: "Mark Appleyard",
-      message: "Hey! I just finished the new design concepts 🎨",
+      sender: "Production Manager",
+      message: "Line 3 efficiency has increased by 15% after the new updates 📈",
       time: "10:32 AM",
-      avatar: "/api/placeholder/400/400",
     },
     {
       sender: "You",
-      message:
-        "They look amazing! I especially love the color palette you chose 👏",
+      message: "Great news! How's the inventory level for raw materials looking?",
       time: "10:33 AM",
-      avatar: "/api/placeholder/400/400",
     },
     {
-      sender: "Mark Appleyard",
-      message:
-        "Thanks! Should we schedule a meeting to discuss the implementation?",
+      sender: "Production Manager",
+      message: "Current stock at 85%. We should schedule the next delivery by Friday.",
       time: "10:34 AM",
-      avatar: "/api/placeholder/400/400",
     },
     {
       sender: "You",
-      message:
-        "Absolutely! How about tomorrow at 2 PM? We can go through all the details 📅",
+      message: "I'll coordinate with logistics. Any maintenance issues to report?",
       time: "10:35 AM",
-      avatar: "/api/placeholder/400/400",
     },
   ]);
 
   const contacts = [
     {
-      name: "Mark Appleyard",
-      lastMessage: "Should we schedule a meeting...",
+      name: "Production Manager",
+      lastMessage: "Current stock at 85%...",
       time: "10:34 AM",
-      avatar: "/api/placeholder/400/400",
       unread: 2,
       online: true,
     },
     {
-      name: "Sarah Wilson",
-      lastMessage: "The project files are ready!",
+      name: "Logistics Coordinator",
+      lastMessage: "3 shipments scheduled today",
       time: "9:45 AM",
-      avatar: "/api/placeholder/400/400",
       unread: 0,
       online: true,
     },
     {
-      name: "Alex Chen",
-      lastMessage: "Great work on the presentation!",
+      name: "Quality Inspector",
+      lastMessage: "Batch #2234 approved",
       time: "Yesterday",
-      avatar: "/api/placeholder/400/400",
       unread: 1,
       online: false,
     },
@@ -170,47 +189,45 @@ const ChatUI = () => {
             hour: "2-digit",
             minute: "2-digit",
           }),
-          avatar: "/api/placeholder/400/400",
         },
       ]);
       setMessage("");
     }
   };
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
 
   return (
-    <div className="h-screen flex bg-white">
-      {/* Mobile Menu Button */}
-      <button
-        onClick={toggleSidebar}
-        className="lg:hidden fixed top-3 left-14 z-50 bg-blue-100 font-semibold rounded-xl shadow-lg p-2"
-      >
-        {isSidebarOpen ? "Close Chat" : "Open Chat"}
-      </button>
-
+    <div className="h-[calc(100vh-2rem)] max-h-[900px] m-4 flex bg-white rounded-2xl shadow-xl overflow-hidden">
       {/* Sidebar */}
       <div
-        className={`fixed lg:static inset-y-0 left-0 w-80 bg-white border-r transform transition-transform duration-300 ease-in-out z-40
-        ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`w-full max-w-xs bg-white border-r transform transition-all duration-300 ease-in-out
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} 
+          fixed lg:static inset-y-0 left-0 z-40`}
       >
         <div className="p-4 border-b">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-semibold text-xl">Messages</h2>
-            <IconButton icon={Plus} />
+            <h2 className="font-semibold text-xl">Factory Chat</h2>
+            <div className="flex gap-2">
+              <IconButton icon={Factory} className="text-blue-500" />
+              <IconButton icon={Plus} />
+            </div>
           </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
             <input
               type="text"
-              placeholder="Search chats..."
+              placeholder="Search personnel..."
               className="w-full pl-9 pr-4 py-2 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
             />
           </div>
         </div>
-        <div className="h-[calc(100vh-96px)] overflow-y-auto">
+        <div className="h-[calc(100vh-12rem)] overflow-y-auto">
           {contacts.map((contact, index) => (
             <Contact
               key={contact.name}
@@ -225,14 +242,19 @@ const ChatUI = () => {
         </div>
       </div>
 
-      {/* Chat Area */}
-      <div className="flex-1 flex flex-col">
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Chat Header */}
         <div className="p-4 border-b flex justify-between items-center bg-white/80 backdrop-blur-sm sticky top-0">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="lg:hidden mr-2"
+          >
+            <Package className="h-6 w-6" />
+          </button>
           <div className="flex items-center gap-3">
-            <Avatar
-              src={contacts[activeContact].avatar}
-              fallback={contacts[activeContact].name[0]}
+            <Avatar3D
+              name={contacts[activeContact].name}
               className="h-12 w-12"
               isOnline={contacts[activeContact].online}
             />
@@ -244,15 +266,15 @@ const ChatUI = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <IconButton icon={Phone} className="hidden sm:block" />
-            <IconButton icon={Video} className="hidden sm:block" />
+            <IconButton icon={Truck} className="hidden sm:block" />
+            <IconButton icon={Clipboard} className="hidden sm:block" />
             <IconButton icon={Search} />
             <IconButton icon={MoreVertical} />
           </div>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-100">
+        <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-50">
           {messages.map((msg, index) => (
             <Message
               key={index}
@@ -271,9 +293,14 @@ const ChatUI = () => {
             placeholder="Type your message..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="flex-1 p-2 border rounded-full"
+            onKeyPress={handleKeyPress}
+            className="flex-1 p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
           />
-          <IconButton icon={Send} onClick={handleSend} />
+          <IconButton 
+            icon={Send} 
+            onClick={handleSend}
+            className="bg-blue-500 text-white hover:bg-blue-600"
+          />
         </div>
       </div>
     </div>
