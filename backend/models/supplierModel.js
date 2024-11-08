@@ -13,7 +13,7 @@ const supplierSchema = mongoose.Schema(
       },
       type: String,
       trim: true,
-      maxlength: [50, "Last name cannot exceed 50 characters."],
+      maxlength: [50, "Last name cannot exceed 50 characters."], 
     },
 
     // New drop
