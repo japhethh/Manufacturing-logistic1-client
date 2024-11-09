@@ -1,28 +1,6 @@
 import asyncHandler from "express-async-handler";
 import chatModel from "../models/chatsModel.js";
 
-// Create
-const createChat = asyncHandler(async (req, res) => {
-  const { participants, title } = req.body;
-
-  // Validate the request body
-  if (
-    !participants ||
-    !Array.isArray(participants) ||
-    participants.length === 0
-  ) {
-    return res
-      .status(400)
-      .json({ message: "Participants are required to create a chat." });
-  }
-
-  const chat = await chatModel.create({ title, participants });
-
-  await chat.save();
-
-  res.status(201).json({ success: true, data: chat });
-});
-
 // Get All
 const getChatWithParticipants = asyncHandler(async (req, res) => {
   const { chatId } = req.params;
@@ -60,4 +38,83 @@ const allChats = asyncHandler(async (req, res) => {
   res.status(200).json(getAll);
 });
 
-export { createChat, allChats, getChatWithParticipants };
+// Access Chat
+const accessChat = asyncHandler(async (req, res) => {
+  const { userId, supplierId } = req.body;
+
+  console.log(userId);
+  console.log(supplierId);
+
+  if (!userId || !supplierId) {
+    return res
+      .status(400)
+      .json({ message: "User id and Supplier ID are required" });
+  }
+
+  let chat = await chatModel.findOne({
+    participants: {
+      $elemMatch: {
+        participantType: "User",
+        participantId: userId,
+      },
+    },
+
+    participants: {
+      $elemMatch: {
+        participantType: "Supplier",
+        participantId: supplierId,
+      },
+    },
+  });
+
+  // If the chat exists, return it
+
+  if (chat) {
+    return res.status(200).json(chat);
+  }
+
+  chat = new chatModel({
+    title: "User-Supplier Chat",
+    participants: [
+      { participantType: "User", participantId: userId },
+      { participantType: "Supplier", participantId: supplierId },
+    ],
+  });
+
+  await chat.save();
+
+  // Populate the participants' details in the response
+  const fullChat = await chat.populate({
+    path: "participants.participantId",
+    select: "name email",
+  });
+
+  res.status(201).json(fullChat);
+});
+
+const getUserChats = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User Id is required" });
+  }
+
+  // Find all chats where the user is a participant
+  const chats = await chatModel
+    .find({
+      participants: {
+        $elemMatch: { participantId: userId },
+      },
+    })
+    .populate("participants.participantId", "name email")
+
+  if (!chats || chats.length === 0) {
+    return res.status(400).json({ success: false, message: "No chats found" });
+  }
+
+  res.status(200).json(chats);
+});
+
+export { allChats, getChatWithParticipants, accessChat, getUserChats };

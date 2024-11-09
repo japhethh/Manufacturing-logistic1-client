@@ -1,13 +1,15 @@
 import express from "express";
 import {
-  createChat,
   getChatWithParticipants,
   allChats,
+  accessChat,
+  getUserChats,
 } from "../controllers/chatController.js";
+import { authMiddleware } from "../middleware/Auth.js";
 const chatRouter = express.Router();
 
 chatRouter.get("/getSpecificChat/:chatId", getChatWithParticipants);
-chatRouter.post("/create", createChat);
 chatRouter.get("/getAllChats", allChats);
-
+chatRouter.post("/accessChat", authMiddleware, accessChat);
+chatRouter.get("/getUserChats", authMiddleware, getUserChats);
 export default chatRouter;
