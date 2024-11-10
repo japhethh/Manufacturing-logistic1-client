@@ -92,6 +92,58 @@ const accessChat = asyncHandler(async (req, res) => {
   res.status(201).json(fullChat);
 });
 
+const accessChatSupplier = asyncHandler(async (req, res) => {
+  const { userId, otherId } = req.body;
+
+  console.log(otherId);
+
+  if (!userId || !otherId) {
+    return res.status(400).json({
+      success: false,
+      message: "User id and Supplier are required!",
+    });
+  }
+
+  let chat = await chatModel.findOne({
+    participants: {
+      $elemMatch: {
+        participantType: "Supplier",
+        participantId: userId,
+      },
+    },
+
+    participants: {
+      $elemMatch: {
+        participantType: "User",
+        participantId: otherId,
+      },
+    },
+  });
+
+  if (chat) {
+    return res.status(200).json(chat);
+  }
+
+  // Gagawin ko to kasi ito yung gusto ko
+  chat = new chatModel({
+    title: "None",
+    participants: [
+      { participantType: "Supplier", participantId: userId },
+      { participantType: "User", participantId: otherId },
+    ],
+  });
+
+  await chat.save();
+
+  // Populate the participants' details in the response
+  const fullChat = await chat.populate({
+    path: "participants.participantId",
+    select: "name email",
+  });
+
+  res.status(201).json(fullChat);
+});
+
 const getUserChats = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
@@ -108,13 +160,18 @@ const getUserChats = asyncHandler(async (req, res) => {
         $elemMatch: { participantId: userId },
       },
     })
-    .populate("participants.participantId", "name email")
+    .populate("participants.participantId");
 
   if (!chats || chats.length === 0) {
     return res.status(400).json({ success: false, message: "No chats found" });
   }
-
   res.status(200).json(chats);
 });
 
-export { allChats, getChatWithParticipants, accessChat, getUserChats };
+export {
+  allChats,
+  getChatWithParticipants,
+  accessChat,
+  getUserChats,
+  accessChatSupplier,
+};

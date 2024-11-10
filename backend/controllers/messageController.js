@@ -88,7 +88,6 @@ const sendMessage = asyncHandler(async (req, res) => {
       participant.participantId.toString() === userId.toString()
   );
 
-
   if (!isParticipant) {
     return res.status(403).json({
       message: "You are not authorized to send messages in this chat.",
@@ -111,6 +110,14 @@ const sendMessage = asyncHandler(async (req, res) => {
 
   // Populate the sender's details for the response
   const fullMessage = await message.populate("sending", "name email");
+
+  await chatModel.findByIdAndUpdate(
+    chatId,
+    {
+      lastMessage: message.content,
+    },
+    { new: true }
+  );
 
   res.status(201).json(fullMessage);
   // End

@@ -4,6 +4,7 @@ const chatSchema = mongoose.Schema(
   {
     title: { type: String, trim: true },
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+    lastMessage: { type: String, trim: true },
     participants: [
       {
         participantType: {

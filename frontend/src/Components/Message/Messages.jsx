@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Store, { apiURL } from "../../context/Store";
+
 import {
   Search,
   MoreVertical,
@@ -6,8 +9,6 @@ import {
   Send,
   Paperclip,
   SmilePlus,
-  Phone,
-  Video,
   Package,
   Truck,
   Factory,
@@ -18,20 +19,23 @@ const Avatar3D = ({ name, isOnline, className }) => {
   // Generate consistent colors based on name
   const getColor = (str) => {
     let hash = 0;
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < str?.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     const color = Math.floor(Math.abs(Math.sin(hash) * 16777215));
-    return `#${color.toString(16).padStart(6, '0')}`;
+    return `#${color.toString(16).padStart(6, "0")}`;
   };
 
   const baseColor = getColor(name);
 
   return (
     <div className={`relative ${className}`}>
-      <div className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-200" style={{
-        background: `linear-gradient(135deg, ${baseColor}, #ffffff)`
-      }}>
+      <div
+        className="rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-200"
+        style={{
+          background: `linear-gradient(135deg, ${baseColor}, #ffffff)`,
+        }}
+      >
         <svg viewBox="0 0 100 100" className="w-full h-full">
           {/* Base circle for head */}
           <circle cx="50" cy="45" r="35" fill={baseColor} />
@@ -62,41 +66,65 @@ const Avatar3D = ({ name, isOnline, className }) => {
   );
 };
 
-const Contact = ({ contact, active, onClick }) => (
-  <div
-    onClick={onClick}
-    className={`p-3 flex items-center gap-3 hover:bg-gray-100/80 cursor-pointer rounded-xl transition-all duration-200 ${
-      active ? "bg-blue-50 scale-[0.98]" : ""
-    }`}
-  >
-    <Avatar3D
-      name={contact.name}
-      className="h-12 w-12"
-      isOnline={contact.online}
-    />
-    <div className="flex-1 min-w-0">
-      <div className="flex justify-between items-start">
-        <p className="font-medium truncate">{contact.name}</p>
-        <span className="text-xs text-gray-500">{contact.time}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <p className="text-sm text-gray-600 truncate">{contact.lastMessage}</p>
-        {contact.unread > 0 && (
-          <span className="h-5 w-5 flex items-center justify-center rounded-full bg-blue-500 text-xs text-white font-medium">
-            {contact.unread}
-          </span>
-        )}
-      </div>
-    </div>
-  </div>
-);
+const Contact = ({ contact, active, onClick }) => {
+  // Find the User participant for display on the sidebar
+  const userParticipant = contact.participants?.find(
+    (participant) => participant.participantType === "User"
+  );
+
+  return contact.participants?.map(
+    (con, index) =>
+      index === 1 && ( // Only render when index is 1
+        <div
+          key={index}
+          onClick={onClick}
+          className={`p-3 flex items-center gap-3 hover:bg-gray-100/80 cursor-pointer rounded-xl transition-all duration-200 ${
+            active ? "bg-blue-50 scale-[0.98]" : ""
+          }`}
+        >
+          <Avatar3D
+            name={con.name ? con.name : con.firstName}
+            className="h-12 w-12"
+            isOnline={contact?.online}
+          />
+          <div className="flex-1 min-w-0">
+            <div className="flex justify-between items-start">
+              <p className="font-medium truncate">
+                {/* Display user's name if participant is of type User */}
+                {con.participantType === "User"
+                  ? userParticipant?.name ||
+                    userParticipant?.participantId?.name
+                  : con?.participantId?.supplierName}
+              </p>
+              <span className="text-xs text-gray-500">
+                {contact?.createdAt
+                  ? new Date(contact.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "N/A"}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-gray-600 truncate">
+                {contact?.lastMessage}
+              </p>
+              {contact?.unread > 0 && (
+                <span className="h-5 w-5 flex items-center justify-center rounded-full bg-blue-500 text-xs text-white font-medium">
+                  {contact?.unread}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )
+  );
+};
 
 const Message = ({ message, isOutgoing }) => (
   <div className={`flex gap-3 ${isOutgoing ? "flex-row-reverse" : ""} mb-4`}>
-    <Avatar3D
-      name={message.sender}
-      className="h-8 w-8 self-end"
-    />
+    <Avatar3D name={message?.sender} className="h-8 w-8 self-end" />
     <div
       className={`flex flex-col ${
         isOutgoing ? "items-end" : ""
@@ -109,14 +137,19 @@ const Message = ({ message, isOutgoing }) => (
             : "bg-gray-100"
         } shadow-sm`}
       >
-        <p className="break-words text-sm">{message.message}</p>
+        <p className="break-words text-sm">{message?.message}</p>
       </div>
-      <span className="text-xs text-gray-500 mt-1">{message.time}</span>
+      <span className="text-xs text-gray-500 mt-1">{message?.time}</span>
     </div>
   </div>
 );
 
-const IconButton = ({ icon: Icon, onClick, className = "", active = false }) => (
+const IconButton = ({
+  icon: Icon,
+  onClick,
+  className = "",
+  active = false,
+}) => (
   <button
     onClick={onClick}
     className={`p-2 hover:bg-gray-100 rounded-xl transition-all duration-200 ${
@@ -127,56 +160,86 @@ const IconButton = ({ icon: Icon, onClick, className = "", active = false }) => 
   </button>
 );
 
+// Starting point
 const ChatUI = () => {
   const [activeContact, setActiveContact] = useState(0);
   const [message, setMessage] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { token } = Store();
+  const [contacts, setContacts] = useState([]);
+  const [selectedData, setSelectedData] = useState(null);
+
+  console.log(selectedData);
+
+  const { userData } = Store();
+
   const [messages, setMessages] = useState([
     {
       sender: "Production Manager",
-      message: "Line 3 efficiency has increased by 15% after the new updates 📈",
+      message:
+        "Line 3 efficiency has increased by 15% after the new updates 📈",
       time: "10:32 AM",
     },
     {
       sender: "You",
-      message: "Great news! How's the inventory level for raw materials looking?",
+      message:
+        "Great news! How's the inventory level for raw materials looking?",
       time: "10:33 AM",
     },
     {
       sender: "Production Manager",
-      message: "Current stock at 85%. We should schedule the next delivery by Friday.",
+      message:
+        "Current stock at 85%. We should schedule the next delivery by Friday.",
       time: "10:34 AM",
     },
     {
       sender: "You",
-      message: "I'll coordinate with logistics. Any maintenance issues to report?",
+      message:
+        "I'll coordinate with logistics. Any maintenance issues to report?",
       time: "10:35 AM",
     },
   ]);
 
-  const contacts = [
-    {
-      name: "Production Manager",
-      lastMessage: "Current stock at 85%...",
-      time: "10:34 AM",
-      unread: 2,
-      online: true,
-    },
-    {
-      name: "Logistics Coordinator",
-      lastMessage: "3 shipments scheduled today",
-      time: "9:45 AM",
-      unread: 0,
-      online: true,
-    },
-    {
-      name: "Quality Inspector",
-      lastMessage: "Batch #2234 approved",
-      time: "Yesterday",
-      unread: 1,
-      online: false,
-    },
-  ];
+  // const contacts = [
+  //   {
+  //     name: "Production Manager",
+  //     lastMessage: "Current stock at 85%...",
+  //     time: "10:34 AM",
+  //     unread: 2,
+  //     online: true,
+  //   },
+  //   {
+  //     name: "Logistics Coordinator",
+  //     lastMessage: "3 shipments scheduled today",
+  //     time: "9:45 AM",
+  //     unread: 0,
+  //     online: true,
+  //   },
+  //   {
+  //     name: "Quality Inspector",
+  //     lastMessage: "Batch #2234 approved",
+  //     time: "Yesterday",
+  //     unread: 1,
+  //     online: false,
+  //   },
+  // ];
+
+  useEffect(() => {
+    fetchChats();
+  }, []);
+
+  const fetchChats = async () => {
+    try {
+      const response = await axios(`${apiURL}/api/chat/getUserChats`, {
+        headers: { token: token },
+      });
+
+      console.log(response.data);
+      setContacts(response.data);
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
+  };
 
   const handleSend = () => {
     if (message.trim()) {
@@ -196,10 +259,18 @@ const ChatUI = () => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
+  };
+
+  console.log(selectedData);
+
+  const genSender = (log, users) => {
+    return users[0]?.participantId?._id === log?._id
+      ? users[1]?.participantId?.supplierName
+      : "";
   };
 
   return (
@@ -207,7 +278,11 @@ const ChatUI = () => {
       {/* Sidebar */}
       <div
         className={`w-full max-w-xs bg-white border-r transform transition-all duration-300 ease-in-out
-          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} 
+          ${
+            isSidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          } 
           fixed lg:static inset-y-0 left-0 z-40`}
       >
         <div className="p-4 border-b">
@@ -229,18 +304,22 @@ const ChatUI = () => {
         </div>
         <div className="h-[calc(100vh-12rem)] overflow-y-auto">
           {contacts.map((contact, index) => (
-            <Contact
-              key={contact.name}
-              contact={contact}
-              active={index === activeContact}
-              onClick={() => {
-                setActiveContact(index);
-                setIsSidebarOpen(false);
-              }}
-            />
+            <div key={index}>
+              <Contact
+                key={contact?.name}
+                contact={contact}
+                active={index === activeContact}
+                onClick={() => {
+                  setActiveContact(index);
+                  setSelectedData(contact);
+                  setIsSidebarOpen(false);
+                }}
+              />
+            </div>
           ))}
         </div>
       </div>
+      {/* End */}
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -254,14 +333,19 @@ const ChatUI = () => {
           </button>
           <div className="flex items-center gap-3">
             <Avatar3D
-              name={contacts[activeContact].name}
+              name={contacts[activeContact]?.name}
               className="h-12 w-12"
-              isOnline={contacts[activeContact].online}
+              isOnline={contacts[activeContact]?.online}
             />
             <div>
-              <h3 className="font-semibold">{contacts[activeContact].name}</h3>
+              <h3 className="font-semibold">
+                {selectedData
+                  ? genSender(userData, selectedData.participants)
+                  : "Unknown"}
+              </h3>
+
               <span className="text-sm text-gray-500">
-                {contacts[activeContact].online ? "Online" : "Offline"}
+                {contacts[activeContact]?.online ? "Online" : "Offline"}
               </span>
             </div>
           </div>
@@ -296,8 +380,8 @@ const ChatUI = () => {
             onKeyPress={handleKeyPress}
             className="flex-1 p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
           />
-          <IconButton 
-            icon={Send} 
+          <IconButton
+            icon={Send}
             onClick={handleSend}
             className="bg-blue-500 text-white hover:bg-blue-600"
           />
