@@ -27,7 +27,6 @@ const CreateUser = () => {
       const response = await axios.post(`${apiURL}/api/user/register`, data);
       toast.success("Created Successfully", response.data.data.name);
       navigate("/user");
-
     } catch (error) {
       toast.error(
         error.response?.data?.message ||

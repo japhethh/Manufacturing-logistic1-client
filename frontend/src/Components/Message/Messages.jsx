@@ -168,37 +168,39 @@ const ChatUI = () => {
   const { token } = Store();
   const [contacts, setContacts] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([])
 
   console.log(selectedData);
 
   const { userData } = Store();
 
-  const [messages, setMessages] = useState([
-    {
-      sender: "Production Manager",
-      message:
-        "Line 3 efficiency has increased by 15% after the new updates 📈",
-      time: "10:32 AM",
-    },
-    {
-      sender: "You",
-      message:
-        "Great news! How's the inventory level for raw materials looking?",
-      time: "10:33 AM",
-    },
-    {
-      sender: "Production Manager",
-      message:
-        "Current stock at 85%. We should schedule the next delivery by Friday.",
-      time: "10:34 AM",
-    },
-    {
-      sender: "You",
-      message:
-        "I'll coordinate with logistics. Any maintenance issues to report?",
-      time: "10:35 AM",
-    },
-  ]);
+  // const [messages, setMessages] = useState([
+  //   {
+  //     sender: "Production Manager",
+  //     message:
+  //       "Line 3 efficiency has increased by 15% after the new updates 📈",
+  //     time: "10:32 AM",
+  //   },
+  //   {
+  //     sender: "You",
+  //     message:
+  //       "Great news! How's the inventory level for raw materials looking?",
+  //     time: "10:33 AM",
+  //   },
+  //   {
+  //     sender: "Production Manager",
+  //     message:
+  //       "Current stock at 85%. We should schedule the next delivery by Friday.",
+  //     time: "10:34 AM",
+  //   },
+  //   {
+  //     sender: "You",
+  //     message:
+  //       "I'll coordinate with logistics. Any maintenance issues to report?",
+  //     time: "10:35 AM",
+  //   },
+  // ]);
 
   // const contacts = [
   //   {
@@ -240,6 +242,11 @@ const ChatUI = () => {
       console.log(error?.response.data.message);
     }
   };
+
+
+  const fetchMessage = async() => {
+    const response = await axios.get(`${apiURL}/api/message/`)
+  }
 
   const handleSend = () => {
     if (message.trim()) {

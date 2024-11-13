@@ -168,10 +168,38 @@ const getUserChats = asyncHandler(async (req, res) => {
   res.status(200).json(chats);
 });
 
+const getChatWithMessages = asyncHandler(async (req, res) => {
+  const { userId, supplierId } = req.body;
+  const { chatId } = req.params;
+
+  const chat = chatModel.findById(chatId).populate({
+    path: "messages",
+    model: "Message",
+    populate: {
+      path: "sending",
+    },
+  });
+
+  if (!chat) {
+    return res.status(404).json({ success: false, message: "Chat not found!" });
+  }
+  // Filter participants based on specific user and supplier IDs
+  const filteredParticipants = chat.participants.filter(
+    (participant) =>
+      (participant.participantType === "User" &&
+        participant.participantId._id.toString() === userId) ||
+      (participant.participantType === "Supplier" &&
+        participant.participantId._id.toString() === supplierId)
+  );
+
+  return res.json({ chat, participants: filteredParticipants });
+});
+
 export {
   allChats,
   getChatWithParticipants,
   accessChat,
   getUserChats,
   accessChatSupplier,
+  getChatWithMessages,
 };
