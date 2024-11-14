@@ -67,6 +67,7 @@ const Avatar3D = ({ name, isOnline, className }) => {
 };
 
 const Contact = ({ contact, active, onClick }) => {
+  console.log(contact?._id);
   // Find the User participant for display on the sidebar
   const userParticipant = contact.participants?.find(
     (participant) => participant.participantType === "User"
@@ -124,7 +125,7 @@ const Contact = ({ contact, active, onClick }) => {
 
 const Message = ({ message, isOutgoing }) => (
   <div className={`flex gap-3 ${isOutgoing ? "flex-row-reverse" : ""} mb-4`}>
-    <Avatar3D name={message?.sender} className="h-8 w-8 self-end" />
+    <Avatar3D name={message?.sending} className="h-8 w-8 self-end" />
     <div
       className={`flex flex-col ${
         isOutgoing ? "items-end" : ""
@@ -137,9 +138,9 @@ const Message = ({ message, isOutgoing }) => (
             : "bg-gray-100"
         } shadow-sm`}
       >
-        <p className="break-words text-sm">{message?.message}</p>
+        <p className="break-words text-sm">{message?.content}</p>
       </div>
-      <span className="text-xs text-gray-500 mt-1">{message?.time}</span>
+      <span className="text-xs text-gray-500 mt-1 ">{message?.createdAt}</span>
     </div>
   </div>
 );
@@ -170,65 +171,12 @@ const ChatUI = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
-
   console.log(selectedData);
 
   const { userData } = Store();
 
-  // const [messages, setMessages] = useState([
-  //   {
-  //     sender: "Production Manager",
-  //     message:
-  //       "Line 3 efficiency has increased by 15% after the new updates 📈",
-  //     time: "10:32 AM",
-  //   },
-  //   {
-  //     sender: "You",
-  //     message:
-  //       "Great news! How's the inventory level for raw materials looking?",
-  //     time: "10:33 AM",
-  //   },
-  //   {
-  //     sender: "Production Manager",
-  //     message:
-  //       "Current stock at 85%. We should schedule the next delivery by Friday.",
-  //     time: "10:34 AM",
-  //   },
-  //   {
-  //     sender: "You",
-  //     message:
-  //       "I'll coordinate with logistics. Any maintenance issues to report?",
-  //     time: "10:35 AM",
-  //   },
-  // ]);
-
-  // const contacts = [
-  //   {
-  //     name: "Production Manager",
-  //     lastMessage: "Current stock at 85%...",
-  //     time: "10:34 AM",
-  //     unread: 2,
-  //     online: true,
-  //   },
-  //   {
-  //     name: "Logistics Coordinator",
-  //     lastMessage: "3 shipments scheduled today",
-  //     time: "9:45 AM",
-  //     unread: 0,
-  //     online: true,
-  //   },
-  //   {
-  //     name: "Quality Inspector",
-  //     lastMessage: "Batch #2234 approved",
-  //     time: "Yesterday",
-  //     unread: 1,
-  //     online: false,
-  //   },
-  // ];
-
   useEffect(() => {
     fetchChats();
-
     if (selectedData) {
       fetchMessage();
     }
@@ -236,7 +184,7 @@ const ChatUI = () => {
 
   const fetchChats = async () => {
     try {
-      const response = await axios(`${apiURL}/api/chat/getUserChats`, {
+      const response = await axios.get(`${apiURL}/api/chat/getUserChats`, {
         headers: { token: token },
       });
 
@@ -247,11 +195,18 @@ const ChatUI = () => {
     }
   };
 
-  const fetchMessage = async () => {
-    const response = await axios.get(
-      `${apiURL}/api/message/messages/${selectedData?._id}`
-    );
-    console.log(response.data);
+  const fetchMessage = async (chatId) => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/chat/getChatWithMessages/${chatId?._id}`,
+
+        { headers: { token: token } }
+      );
+      // setMessages(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
   };
 
   const handleSend = () => {
@@ -323,10 +278,12 @@ const ChatUI = () => {
                 contact={contact}
                 active={index === activeContact}
                 onClick={() => {
+                  console.log(contact);
+                  fetchMessage(contact);
                   setActiveContact(index);
                   setSelectedData(contact);
+                  console.log(selectedData);
                   setIsSidebarOpen(false);
-                  fetchMessage();
                 }}
               />
             </div>
@@ -373,11 +330,11 @@ const ChatUI = () => {
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-50">
-          {messages.map((msg, index) => (
+          {selectedData?.messages.map((msg, index) => (
             <Message
               key={index}
               message={msg}
-              isOutgoing={msg.sender === "You"}
+              isOutgoing={msg.sending === userData?._id}
             />
           ))}
         </div>

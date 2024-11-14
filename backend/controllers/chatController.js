@@ -174,7 +174,7 @@ const getUserChats = asyncHandler(async (req, res) => {
         $elemMatch: { participantId: userId },
       },
     })
-    .populate("participants.participantId");
+    .populate("participants.participantId").populate("messages");
 
   if (!chats || chats.length === 0) {
     return res.status(400).json({ success: false, message: "No chats found" });
@@ -183,7 +183,7 @@ const getUserChats = asyncHandler(async (req, res) => {
 });
 
 // Get Chat With Messages
-// Get Chat With Messages
+
 const getChatWithMessages = asyncHandler(async (req, res) => {
   const { userId, supplierId } = req.body;
   const { chatId } = req.params;
