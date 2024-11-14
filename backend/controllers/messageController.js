@@ -123,6 +123,32 @@ const sendMessage = asyncHandler(async (req, res) => {
   // End
 });
 
+const getMessagesByChatId = asyncHandler(async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    // Check if the chat exists
+    const chat = await chatModel.findById(chatId);
+
+    if (!chat) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Chat not found" });
+    }
+
+    const message = await messageModel
+      .find({ chat: chatId })
+      // .populate("sending")
+      // .populate("chat", "title")
+      .sort({ createdAt: 1 });
+
+    res.status(200).json(message);
+  } catch (error) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
 export {
   create,
   getAll,
@@ -130,4 +156,5 @@ export {
   updateMessage,
   deleteMessage,
   sendMessage,
+  getMessagesByChatId,
 };

@@ -6,6 +6,7 @@ import {
   deleteMessage,
   getSpecificMessage,
   sendMessage,
+  getMessagesByChatId,
 } from "../controllers/messageController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 const messageRouter = express.Router();
@@ -16,5 +17,5 @@ messageRouter.put("/update/:id", updateMessage);
 messageRouter.get("/getId/:id", getSpecificMessage);
 messageRouter.post("/delete/:id", deleteMessage);
 messageRouter.post("/sendMessage", authMiddleware, sendMessage);
-
+messageRouter.get("/messages/:chatId", getMessagesByChatId);
 export default messageRouter;

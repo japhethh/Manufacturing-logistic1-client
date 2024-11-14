@@ -51,19 +51,33 @@ const accessChat = asyncHandler(async (req, res) => {
       .json({ message: "User id and Supplier ID are required" });
   }
 
+  // let chat = await chatModel.findOne({
+  //   participants: {
+  //     $elemMatch: {
+  //       participantType: "User",
+  //       participantId: userId,
+  //     },
+  //   },
+
+  //   participants: {
+  //     $elemMatch: {
+  //       participantType: "Supplier",
+  //       participantId: supplierId,
+  //     },
+  //   },
+  // });
+
   let chat = await chatModel.findOne({
     participants: {
-      $elemMatch: {
-        participantType: "User",
-        participantId: userId,
-      },
-    },
-
-    participants: {
-      $elemMatch: {
-        participantType: "Supplier",
-        participantId: supplierId,
-      },
+      $all: [
+        { $elemMatch: { participantType: "User", participantId: userId } },
+        {
+          $elemMatch: {
+            participantType: "Supplier",
+            participantId: supplierId,
+          },
+        },
+      ],
     },
   });
 
@@ -168,28 +182,33 @@ const getUserChats = asyncHandler(async (req, res) => {
   res.status(200).json(chats);
 });
 
+// Get Chat With Messages
+// Get Chat With Messages
 const getChatWithMessages = asyncHandler(async (req, res) => {
   const { userId, supplierId } = req.body;
   const { chatId } = req.params;
-
-  const chat = chatModel.findById(chatId).populate({
+  console.log(userId);
+  // Use lean() to get plain JavaScript objects to avoid circular references
+  const chat = await chatModel.findById(chatId).populate({
     path: "messages",
-    model: "Message",
-    populate: {
-      path: "sending",
-    },
+    // model: "Message",
+    // populate: {
+    //   path: "sending",
+    // },
   });
+  // .lean(); // Converts to plain JavaScript object
 
   if (!chat) {
     return res.status(404).json({ success: false, message: "Chat not found!" });
   }
+
   // Filter participants based on specific user and supplier IDs
-  const filteredParticipants = chat.participants.filter(
+  const filteredParticipants = chat.participants?.filter(
     (participant) =>
-      (participant.participantType === "User" &&
-        participant.participantId._id.toString() === userId) ||
       (participant.participantType === "Supplier" &&
-        participant.participantId._id.toString() === supplierId)
+        participant.participantId._id.toString() === supplierId) ||
+      (participant.participantType === "User" &&
+        participant.participantId._id.toString() === userId)
   );
 
   return res.json({ chat, participants: filteredParticipants });

@@ -169,7 +169,7 @@ const ChatUI = () => {
   const [contacts, setContacts] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([]);
 
   console.log(selectedData);
 
@@ -228,6 +228,10 @@ const ChatUI = () => {
 
   useEffect(() => {
     fetchChats();
+
+    if (selectedData) {
+      fetchMessage();
+    }
   }, []);
 
   const fetchChats = async () => {
@@ -243,10 +247,12 @@ const ChatUI = () => {
     }
   };
 
-
-  const fetchMessage = async() => {
-    const response = await axios.get(`${apiURL}/api/message/`)
-  }
+  const fetchMessage = async () => {
+    const response = await axios.get(
+      `${apiURL}/api/message/messages/${selectedData?._id}`
+    );
+    console.log(response.data);
+  };
 
   const handleSend = () => {
     if (message.trim()) {
@@ -320,6 +326,7 @@ const ChatUI = () => {
                   setActiveContact(index);
                   setSelectedData(contact);
                   setIsSidebarOpen(false);
+                  fetchMessage();
                 }}
               />
             </div>
