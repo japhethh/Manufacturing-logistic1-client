@@ -7,6 +7,7 @@ import verifyStore, { apiURL } from "../context/verifyStore";
 import io from "socket.io-client";
 import NotificationItem from "../Components/Notification/NotificationItem.jsx";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { MdNotifications } from "react-icons/md";
 
 import {
   FaTachometerAlt,
@@ -202,6 +203,7 @@ const NavbarVendor = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  className="w-6 h-6 text-gray-700" // Added size and color
                 >
                   <path
                     strokeLinecap="round"
@@ -215,31 +217,32 @@ const NavbarVendor = () => {
                 </span>
               </div>
             </button>
-            <ul
+            <div
               tabIndex={0}
-              className="mt-2 p-4 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 w-96 h-[600px] overflow-y-auto"
+              className="mt-2 p-4 shadow-lg rounded-lg dropdown-content bg-white text-gray-800 w-96 max-h-[600px] overflow-y-auto flex flex-col"
             >
               <div className="pb-2">
                 <h1 className="font-bold text-2xl px-3">Notifications</h1>
-                <div className="border-b border-gray-300 my-2"></div>{" "}
-                {/* Updated divider */}
+                <div className="border-b border-gray-300 my-2"></div>
               </div>
               {notifications.filter((notif) => !notif.isRead).length === 0 ? (
-                <li className="p-4 text-center text-gray-600">
+                <div className="flex-grow flex items-center justify-center text-gray-600">
                   No notifications
-                </li>
+                </div>
               ) : (
-                notifications
-                  .filter((notif) => !notif.isRead) // Only display unread notifications
-                  .map((notification, index) => (
-                    <NotificationItem
-                      key={index}
-                      notification={notification}
-                      onMarkAsRead={handleMarkAsRead}
-                    />
-                  ))
+                <div className="flex-grow space-y-4">
+                  {notifications
+                    .filter((notif) => !notif.isRead)
+                    .map((notification, index) => (
+                      <NotificationItem
+                        key={index}
+                        notification={notification}
+                        onMarkAsRead={handleMarkAsRead}
+                      />
+                    ))}
+                </div>
               )}
-            </ul>
+            </div>
           </div>
 
           {/* User Profile Dropdown */}

@@ -28,22 +28,24 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
   };
 
   return (
-    <li
-      key={notification._id}
-      className={`hover:bg-gray-200 rounded-md cursor-pointer ${
-        notification?.isRead ? "bg-gray-100" : "bg-white"
-      } shadow-sm transition-all duration-200 ease-in-out p-4`}
-      onClick={handleMarkAsRead}
+    <div
+      className={`hover:bg-gray-200 rounded-md cursor-pointer shadow-sm transition-all duration-200 ease-in-out p-4 flex items-start gap-4 ${
+        notification.isRead ? 'bg-gray-100' : 'bg-white'
+      }`}
+      onClick={onMarkAsRead}
     >
-      <NavLink to={`/notifications/${notification?._id}`}>
+      <NavLink to={`/notifications/${notification._id}`} className="flex-grow">
         <div className="flex flex-col items-start gap-2">
-          <span className="font-semibold truncate">
-            {notification?.message}
+          <span className="font-semibold text-xs truncate">
+            {notification.message}
           </span>
           <span className="text-sm text-gray-500">{formattedDate}</span>
         </div>
       </NavLink>
-    </li>
+      {!notification.isRead && (
+        <div className="w-2 h-2 bg-primary rounded-full" />
+      )}
+    </div>
   );
 };
 
