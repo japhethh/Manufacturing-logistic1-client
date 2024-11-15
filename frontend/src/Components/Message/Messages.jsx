@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Store, { apiURL } from "../../context/Store";
-
+import { toast } from "react-toastify";
 import {
   Search,
   MoreVertical,
@@ -67,7 +67,6 @@ const Avatar3D = ({ name, isOnline, className }) => {
 };
 
 const Contact = ({ contact, active, onClick }) => {
-  console.log(contact?._id);
   // Find the User participant for display on the sidebar
   const userParticipant = contact.participants?.find(
     (participant) => participant.participantType === "User"
@@ -170,13 +169,15 @@ const ChatUI = () => {
   const [contacts, setContacts] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
-  console.log(selectedData);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [supplierData, setSupplierData] = useState([]);
+  const [initialData, setInitialData] = useState([]);
 
   const { userData } = Store();
-
   useEffect(() => {
     fetchChats();
+    fetchSuppliers();
     if (selectedData) {
       fetchMessage();
     }
@@ -209,20 +210,52 @@ const ChatUI = () => {
     }
   };
 
-  const handleSend = () => {
-    if (message.trim()) {
-      setMessages([
-        ...messages,
+  const fetchSuppliers = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/api/supplier/suppliers`);
+      console.log(response.data);
+      setSupplierData(response.data);
+      setInitialData(response.data);
+      setSearchResults(response.data);
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
+  };
+
+  // const handleSend = () => {
+  //   if (content.trim()) {
+  //     setMessages([
+  //       ...messages,
+  //       {
+  //         sending: "67353c3c66599d42f4b38209",
+  //         content: content,
+  //         sendingType: "User",
+  //         createdAt: new Date().toLocaleTimeString([], {
+  //           hour: "2-digit",
+  //           minute: "2-digit",
+  //         }),
+  //       },
+  //     ]);
+  //     setMessage("");
+  //   }
+  // };
+
+  const handleSend = async () => {
+    if (!message.trim()) return; // Prevent sending empty messages
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/message/sendMessage`,
+        { content: message, sendingType: "User", chatId: selectedData?._id },
         {
-          sender: "You",
-          message: message,
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ]);
-      setMessage("");
+          headers: { token: token },
+        }
+      );
+      toast.success("Message sent successfully!");
+      setMessage(""); // Clear message field on success
+      console.log(response.data);
+    } catch (error) {
+      toast.warn(error?.response.data.message || "Failed to send message.");
+      console.log(error?.response.data.message);
     }
   };
 
@@ -233,12 +266,29 @@ const ChatUI = () => {
     }
   };
 
-  console.log(selectedData);
+  // console.log(selectedData);
 
   const genSender = (log, users) => {
-    return users[0]?.participantId?._id === log?._id
-      ? users[1]?.participantId?.supplierName
-      : "";
+    if (users[0]?.participantId?._id === log?._id) {
+      return users[1]?.participantId?.supplierName || users[1]?.name;
+    } else if (users[1]?.participantId?._id === log?._id) {
+      return users[0]?.participantId?.supplierName || users[0]?.name;
+    }
+    return "";
+  };
+
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    if (term) {
+      const filteredResults = initialData.filter((item) =>
+        item.supplierName.toLowerCase().includes(term.toLowerCase())
+      );
+      setSearchResults(filteredResults);
+    } else {
+      setSearchResults(initialData); // Show all items if search term is cleared
+    }
   };
 
   return (
@@ -261,15 +311,77 @@ const ChatUI = () => {
               <IconButton icon={Plus} />
             </div>
           </div>
-          <div className="relative">
+
+          {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
             <input
               type="text"
               placeholder="Search personnel..."
               className="w-full pl-9 pr-4 py-2 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
             />
+          </div> */}
+
+          <div className=" bg-white shadow-md p-4">
+            <div>
+              <label className="input input-bordered flex items-center gap-2">
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="Search by Material Name"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </label>
+
+              {searchTerm && (
+                <ul className="menu bg-base-100 w-full p-2 mt-2">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((item) => (
+                      <li
+                        key={item._id}
+                        className="p-2 border-b"
+                        onClick={() => setSelectedData(item)}
+                      >
+                        <div
+                          className="flex justify-between items-center cursor-pointer"
+                          // onClick={() => handleAddToTable(item)} // Add item to table on click
+                        >
+                          <img
+                            src={item.image}
+                            alt={item.materialName}
+                            className="h-10 w-10 object-cover rounded-md"
+                          />
+                          <div>
+                            <p>
+                              <strong>Supplier:</strong> {item?.supplierName}
+                            </p>
+                          </div>
+                        </div>
+                      </li>
+                    ))
+                  ) : (
+                    <li>No materials found.</li>
+                  )}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Search */}
+
         <div className="h-[calc(100vh-12rem)] overflow-y-auto">
           {contacts.map((contact, index) => (
             <div key={index}>
@@ -283,6 +395,7 @@ const ChatUI = () => {
                   setActiveContact(index);
                   setSelectedData(contact);
                   console.log(selectedData);
+                  console.log(contact);
                   setIsSidebarOpen(false);
                 }}
               />
@@ -306,7 +419,7 @@ const ChatUI = () => {
             <Avatar3D
               name={contacts[activeContact]?.name}
               className="h-12 w-12"
-              isOnline={contacts[activeContact]?.online}
+              isOnline={true}
             />
             <div>
               <h3 className="font-semibold">

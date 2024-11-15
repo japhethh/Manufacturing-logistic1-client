@@ -74,6 +74,10 @@ const deleteMessage = asyncHandler(async (req, res) => {
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId, sendingType, userId } = req.body;
 
+  console.log(req.body.content);
+  console.log(req.body.chatId);
+  console.log(req.body.sendingType);
+  console.log(req.body.userId);
   if (!content || !chatId || !sendingType || !userId) {
     return res.status(400).json({ message: "All fields are required." });
   }
