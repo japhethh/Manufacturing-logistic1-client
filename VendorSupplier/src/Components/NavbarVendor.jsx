@@ -1,5 +1,5 @@
 import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb";
-import joji from "../assets/joji.jpg";
+import men from "../assets/men.jpg";
 import vendor from "../assets/vendor.png";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -246,9 +246,9 @@ const NavbarVendor = () => {
           </div>
 
           {/* User Profile Dropdown */}
-          <div className="dropdown dropdown-end items-center hidden md:block lg:block">
+          <div className="dropdown dropdown-end ml-2 items-center hidden md:block lg:block">
             <img
-              src={joji}
+              src={men}
               tabIndex={0}
               role="button"
               alt="User Profile"
