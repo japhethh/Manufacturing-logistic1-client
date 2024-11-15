@@ -8,7 +8,7 @@ const VendorManagementItem = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="px-6 pt-6  bg-gradient-to-b from-gray-100 to-gray-50 relative">
+    <div className="px-6 pt-6 relative">
       {/* Loading Spinner */}
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
