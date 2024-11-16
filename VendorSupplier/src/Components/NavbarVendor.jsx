@@ -1,14 +1,6 @@
 import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb";
-import men from "../assets/men.jpg";
-import vendor from "../assets/vendor.png";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-import verifyStore, { apiURL } from "../context/verifyStore";
-import io from "socket.io-client";
-import NotificationItem from "../Components/Notification/NotificationItem.jsx";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { MdNotifications } from "react-icons/md";
-
 import {
   FaTachometerAlt,
   FaBoxOpen,
@@ -18,9 +10,19 @@ import {
   FaComments,
   FaUserCog,
 } from "react-icons/fa";
+import { AiFillProduct } from "react-icons/ai"; // Add this import
+import { BsClipboardCheckFill } from "react-icons/bs"; // Add this import
+import men from "../assets/men.jpg";
+import vendor from "../assets/vendor.png";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import verifyStore, { apiURL } from "../context/verifyStore";
+import io from "socket.io-client";
+import NotificationItem from "../Components/Notification/NotificationItem.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 
 const NavbarVendor = () => {
   const navigate = useNavigate();
@@ -96,6 +98,21 @@ const NavbarVendor = () => {
       icon: <FaBoxOpen className="text-2xl" />,
       label: "Orders",
       to: "/ordersvendor",
+    },
+    {
+      icon: <AiFillProduct className="text-2xl" />,
+      label: "Products",
+      to: "/createproduct",
+    },
+    {
+      icon: <BsClipboardCheckFill className="text-2xl" />,
+      label: "Stock Adjustments",
+      to: "/adjustments",
+    },
+    {
+      icon: <BsClipboardCheckFill className="text-2xl" />,
+      label: "Tracking Orders",
+      to: "/trackingOrders",
     },
     {
       icon: <FaWarehouse className="text-2xl" />,
