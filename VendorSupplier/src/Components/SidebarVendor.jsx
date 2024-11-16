@@ -68,7 +68,7 @@ const SidebarVendor = () => {
 
   return (
     <div className="bg-white shadow-lg h-screen sticky top-0 w-64 lg:flex hidden flex-col transition-all duration-300">
-      <nav className="p-5 flex flex-col h-full overflow-y-auto"> {/* Add overflow for scroll */}
+      <nav className="p-5 flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-800 scrollbar-track-gray-100">
         {/* Sidebar Header with Logo */}
         <div className="flex items-center justify-between mb-6">
           <NavLink to="/dashboardvendor" className="flex items-center gap-3">
