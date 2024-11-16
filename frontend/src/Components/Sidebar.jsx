@@ -365,6 +365,19 @@ const Sidebar = () => {
               }`}
             />
           </div>
+          <div
+            className={`flex items-center transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-300 ${
+              isCollapsed ? "p-2 mb-2" : "hidden"
+            }`}
+            aria-label="Dashboard"
+          >
+            <IoSettingsOutline
+              onClick={toggleSidebar}
+              className={`transition-all duration-300 ${
+                isCollapsed ? "w-7 h-7" : "hidden w-0 h-0"
+              }`}
+            />
+          </div>
         </div>
 
         {/* Apps Section */}
@@ -718,7 +731,7 @@ const Sidebar = () => {
                 Account Management
               </p>
               <ul className="w-full menu rounded-box">
-                <li>
+                <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                   <details>
                     <summary className="flex items-center gap-2 cursor-pointer">
                       <IoPeopleSharp
@@ -780,7 +793,7 @@ const Sidebar = () => {
           {userData && userData.role === "admin" && (
             <div>
               <ul className="w-full menu rounded-box">
-                <li>
+                <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                   <details>
                     <summary className="flex items-center gap-2 cursor-pointer">
                       <IoSettingsOutline
