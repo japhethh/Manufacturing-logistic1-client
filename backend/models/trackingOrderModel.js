@@ -15,7 +15,7 @@ const TrackingOrderSchema = mongoose.Schema(
     },
     deliveryStatus: {
       type: String,
-      enum: ["Pending","Dispatch","In Transit", "Delivered"],
+      enum: ["Pending", "Dispatch", "In Transit", "Delivered"],
       default: "Pending",
     },
     supplier: {
@@ -50,6 +50,7 @@ const TrackingOrderSchema = mongoose.Schema(
     completedDate: {
       type: Date,
     },
+    alreadyDispatch: { type: Boolean },
     generalSettings: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "GeneralSettings",
