@@ -92,6 +92,8 @@ const ReceiveOrdersVendor = () => {
           `,
         },
       ],
+      order: [[2, "desc"]],
+
       destroy: true, // Allows reinitialization of DataTable
     });
 

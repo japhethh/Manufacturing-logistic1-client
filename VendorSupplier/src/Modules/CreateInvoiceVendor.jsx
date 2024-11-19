@@ -29,6 +29,7 @@ const CreateInvoiceVendor = () => {
   // USEEFFECT
 
   const onSubmit = async (data) => {
+    
     console.log(data);
     try {
       const response = await axios.post(`${apiURL}/api/invoices/create`, data, {
@@ -93,7 +94,7 @@ const CreateInvoiceVendor = () => {
               type="submit"
               className="px-3 py-1 bg-green-600 hover:bg-green-500 duration-150 rounded-lg text-white"
             >
-              Send For Approval
+              Send For Approvalsss
             </button>
             <NavLink to="/ordersvendor/ReceivingOrdersVendor">
               <IoClose className="size-6 cursor-pointer" />

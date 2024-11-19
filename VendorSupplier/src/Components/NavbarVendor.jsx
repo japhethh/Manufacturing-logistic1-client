@@ -192,6 +192,8 @@ const NavbarVendor = () => {
         <div className="navbar-center">
           <span className="text-black font-bold text-2xl">Vendor Supplier</span>
         </div>
+
+        {/*  */}
         <div className="navbar-end gap-4 flex">
           {/* Notification Dropdown */}
           <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
@@ -199,6 +201,7 @@ const NavbarVendor = () => {
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

@@ -15,7 +15,7 @@ const TrackingOrderSchema = mongoose.Schema(
     },
     deliveryStatus: {
       type: String,
-      enum: ["Pending", "In Transit", "Delivered"],
+      enum: ["Pending","Dispatch","In Transit", "Delivered"],
       default: "Pending",
     },
     supplier: {

@@ -16,6 +16,7 @@ const purchaseOrderSchema = mongoose.Schema(
     items: [
       {
         name: { type: String, required: true },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
         discount: { type: Number },

@@ -3,12 +3,13 @@ import axios from "axios";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import NotificationService from "../../services/NotificationService";
+import { RiContactsBookLine } from "react-icons/ri";
 
 const CreatePurchaseOrder = () => {
   const [formData, setFormData] = useState({
     supplier: "",
     orderDate: null,
-    items: [{ name: "", quantity: 0, price: 0, discount: 0 }],
+    items: [{ name: "", productId: "", quantity: 0, price: 0, discount: 0 }],
     tax: 0,
     category: "",
     notes: "",
@@ -60,6 +61,7 @@ const CreatePurchaseOrder = () => {
     if (selectedMaterial) {
       const updatedItems = [...formData.items];
       updatedItems[index].name = materialName;
+      updatedItems[index].productId = selectedMaterial._id;
       updatedItems[index].price = selectedMaterial.pricePerUnit;
       setFormData({ ...formData, items: updatedItems });
     }
@@ -156,6 +158,7 @@ const CreatePurchaseOrder = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(formData);
     if (!validateForm()) {
       return;
     }
@@ -169,6 +172,7 @@ const CreatePurchaseOrder = () => {
         supplier: formData.supplier,
         items: formData.items.map((item) => ({
           name: item.name,
+          productId: item.productId,
           quantity: parseFloat(item.quantity),
           price: parseFloat(item.price),
           discount: parseFloat(item.discount),
@@ -287,11 +291,8 @@ const CreatePurchaseOrder = () => {
                   className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
                 >
                   <option value="">Select Item</option>
-                  {selectedMaterials.map((material) => (
-                    <option
-                      key={material.materialName}
-                      value={material.materialName}
-                    >
+                  {selectedMaterials.map((material, index) => (
+                    <option key={index} value={material.materialName}>
                       {material.materialName}
                     </option>
                   ))}
@@ -379,7 +380,7 @@ const CreatePurchaseOrder = () => {
 
         {/* Order Summary */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-         {/* Category */}
+          {/* Category */}
           <div>
             <label
               htmlFor="category"

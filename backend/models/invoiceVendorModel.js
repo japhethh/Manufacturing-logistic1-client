@@ -24,6 +24,10 @@ const invoiceVendorSchema = new mongoose.Schema(
           ref: "Material", // Reference to the product
           required: true,
         },
+        productName: {
+          type: String,
+          required: true,
+        },
         quantity: {
           type: Number,
           required: true,
@@ -97,7 +101,7 @@ const invoiceVendorSchema = new mongoose.Schema(
     },
     notes: {
       type: String,
-      trim:true,
+      trim: true,
       required: false,
     },
     status: {
@@ -114,9 +118,9 @@ const invoiceVendorSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    discount:{type:Number},
-    shippingCharges:{type:Number},
-    logisticCustomer:{type:String, required:true}
+    discount: { type: Number },
+    shippingCharges: { type: Number },
+    // logisticCustomer:{type:String, required:true}
   },
   { timestamps: true }
 );

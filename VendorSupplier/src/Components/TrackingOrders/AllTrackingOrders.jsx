@@ -86,6 +86,9 @@ const AllTrackingOrders = () => {
                     <option value="Pending" ${
                       data.deliveryStatus === "Pending" ? "selected" : ""
                     }>Pending</option>
+                    <option value="Dispatch" ${
+                      data.deliveryStatus === "Dispatch" ? "selected" : ""
+                    }>Dispatch</option>
                     <option value="In Transit" ${
                       data.deliveryStatus === "In Transit" ? "selected" : ""
                     }>In Transit</option>

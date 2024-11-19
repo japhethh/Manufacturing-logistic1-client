@@ -7,8 +7,9 @@ import generalSettingsModel from "../models/generalSettingsModel.js";
 import Counter from "../models/Counter.js";
 import userModel from "../models/userModel.js";
 import supplierModel from "../models/supplierModel.js";
+import expressAsyncHandler from "express-async-handler";
 
-const createInvoice = async (req, res) => {
+const createInvoice = expressAsyncHandler( async (req, res) => {
   const {
     _id,
     supplier,
@@ -45,7 +46,8 @@ const createInvoice = async (req, res) => {
       purchaseOrder: _id,
       vendor: supplier._id,
       items: items.map((item) => ({
-        product: item._id,
+        product: item.productId,
+        productName: item.name,
         quantity: item.quantity,
         unitPrice: item.price,
         totalPrice: item.totalPrice,
@@ -77,13 +79,13 @@ const createInvoice = async (req, res) => {
       invoice: newInvoice,
     });
   } catch (error) {
-    console.error(error);
+    console.error(error?.message);
     res.status(500).json({
       success: false,
       message: "Server error while creating invoice",
     });
   }
-};
+});
 
 const createVendorInvoice = asyncHandler(async (req, res) => {
   const {

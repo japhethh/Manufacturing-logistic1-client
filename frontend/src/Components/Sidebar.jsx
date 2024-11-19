@@ -397,7 +397,7 @@ const Sidebar = () => {
             </NavLink>
 
             {/* Suppliers */}
-            <li
+            {/* <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
               }`}
@@ -422,7 +422,7 @@ const Sidebar = () => {
                   <span className="text-base font-semibold">Suppliers</span>
                 )}
               </NavLink>
-            </li>
+            </li> */}
 
             {/* Vendor Management */}
             <li

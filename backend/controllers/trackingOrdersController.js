@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import TrackingOrderModel from "../models/trackingOrderModel.js";
 import supplierModel from "../models/supplierModel.js";
+import Invoice from "../models/invoiceVendorModel.js";
+import MaterialModel from "../models/materialModel.js";
 
 const getAllTrackingOrders = asyncHandler(async (req, res) => {
   // const { id } = req.params;
@@ -36,6 +38,34 @@ const updateStatus = asyncHandler(async (req, res) => {
 
   if (!updatedStatus) {
     return res.status(400).json({ success: false, message: "Update failed" });
+  }
+  console.log(updatedStatus.invoiceId.items.length);
+
+  // Retrieve the invoice to access its items
+  const invoice = await Invoice.findById(updatedStatus.invoiceId.id);
+  if (!invoice || !invoice.items) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invoice or items not found" });
+  }
+
+  for (const item of invoice.items) {
+    // Attempt to decrement the stock using $inc
+    const updateResult = await MaterialModel.findOneAndUpdate(
+      { _id: item.product, available: { $gte: item.quantity } }, // Ensure sufficient stock
+      { $inc: { available: -item.quantity } }, // Decrement the stock
+      { new: true } // Return the updated document
+    );
+
+    // Check if the update was successful
+    if (!updateResult) {
+      return res.status(400).json({
+        success: false,
+        message: `Insufficient stock or material not found for product ID: ${item.product}`,
+      });
+    }
+
+    console.log(`Product ID: ${item.product}, Reduced by: ${item.quantity}`);
   }
 
   const io = req.app.get("socketio");

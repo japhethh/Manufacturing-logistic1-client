@@ -222,24 +222,6 @@ const ChatUI = () => {
     }
   };
 
-  // const handleSend = () => {
-  //   if (content.trim()) {
-  //     setMessages([
-  //       ...messages,
-  //       {
-  //         sending: "67353c3c66599d42f4b38209",
-  //         content: content,
-  //         sendingType: "User",
-  //         createdAt: new Date().toLocaleTimeString([], {
-  //           hour: "2-digit",
-  //           minute: "2-digit",
-  //         }),
-  //       },
-  //     ]);
-  //     setMessage("");
-  //   }
-  // };
-
   const handleSend = async () => {
     if (!message.trim()) return; // Prevent sending empty messages
     try {
@@ -321,61 +303,76 @@ const ChatUI = () => {
             />
           </div> */}
 
-          <div className=" bg-white shadow-md p-4">
+          <div className=" bg-white shadow-md p-4 relative">
             <div>
-              <label className="input input-bordered flex items-center gap-2">
-                <input
-                  type="text"
-                  className="grow"
-                  placeholder="Search by Material Name"
-                  value={searchTerm}
-                  onChange={handleSearch}
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </label>
+              <div className="flex justify-between items-center gap-2 ">
+                <div className="w-52">
+                  <label className="input  input-bordered flex items-center gap-2">
+                    <input
+                      type="text"
+                      className="grow"
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={handleSearch}
+                    />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="h-4 w-4 opacity-70"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </label>
+                </div>
 
-              {searchTerm && (
-                <ul className="menu bg-base-100 w-full p-2 mt-2">
-                  {searchResults.length > 0 ? (
-                    searchResults.map((item) => (
-                      <li
-                        key={item._id}
-                        className="p-2 border-b"
-                        onClick={() => setSelectedData(item)}
-                      >
-                        <div
-                          className="flex justify-between items-center cursor-pointer"
-                          // onClick={() => handleAddToTable(item)} // Add item to table on click
+                <div>
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="font-bold text-xl btn"
+                  >
+                    x
+                  </button>
+                </div>
+              </div>
+
+              <div className="overflow-y-scroll  w-full left-[10px] max-h-96 absolute z-50 ">
+                {searchTerm && (
+                  <ul className="menu rounded-md bg-base-100 w-full p-2 mt-2">
+                    {searchResults.length > 0 ? (
+                      searchResults.map((item) => (
+                        <li
+                          key={item._id}
+                          className="p-2 border-b"
+                          onClick={() => setSelectedData(item)}
                         >
-                          <img
-                            src={item.image}
-                            alt={item.materialName}
-                            className="h-10 w-10 object-cover rounded-md"
-                          />
-                          <div>
-                            <p>
-                              <strong>Supplier:</strong> {item?.supplierName}
-                            </p>
+                          <div
+                            className="flex justify-between items-center cursor-pointer"
+                            // onClick={() => handleAddToTable(item)} // Add item to table on click
+                          >
+                            <img
+                              src={item.image}
+                              alt={item.materialName}
+                              className="h-10 w-10 object-cover rounded-md"
+                            />
+                            <div>
+                              <p>
+                                <strong>Supplier:</strong> {item?.supplierName}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </li>
-                    ))
-                  ) : (
-                    <li>No materials found.</li>
-                  )}
-                </ul>
-              )}
+                        </li>
+                      ))
+                    ) : (
+                      <li>No materials found.</li>
+                    )}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </div>
