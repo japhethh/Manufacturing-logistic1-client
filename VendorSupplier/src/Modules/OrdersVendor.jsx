@@ -4,6 +4,23 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { FaCalendarCheck } from "react-icons/fa";
 import { useState } from "react";
 
+// Reusable Card Component
+const DashboardCard = ({ to, title, icon: Icon, badgeCount, badgeColor }) => (
+  <NavLink to={to} className="w-full md:w-1/3 lg:w-1/4" aria-label={title}>
+    <div className="card bg-white shadow-lg rounded-lg p-6 transition-transform duration-300 transform hover:scale-105 hover:shadow-xl">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-gray-800 font-semibold text-lg">{title}</h2>
+        <Icon className="text-3xl text-blue-600" />
+      </div>
+      <span
+        className={`badge ${badgeColor} rounded-full px-3 py-1 text-xs font-medium`}
+      >
+        {badgeCount}
+      </span>
+    </div>
+  </NavLink>
+);
+
 const OrdersVendor = () => {
   const [loading, setLoading] = useState(false);
 
@@ -12,56 +29,40 @@ const OrdersVendor = () => {
       {/* Loading Spinner */}
       {loading && (
         <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-600"></div>
         </div>
       )}
 
-      {/* The three cards that stay at the top */}
-      <div className={`flex flex-col md:flex-row justify-start  gap-4 mb-10 ${loading ? "hidden" : ""}`}>
-        <NavLink 
-          to="PendingOrdersVendor" 
-          className="w-full md:w-1/3 lg:w-1/4" 
-          aria-label="Pending Orders"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">Pending Orders</h2>
-              <MdOutlinePendingActions className="text-3xl text-blue-600" />
-            </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">5</span>
-          </div>
-        </NavLink>
-
-        <NavLink 
-          to="ReceivingOrdersVendor" 
-          className="w-full md:w-1/3 lg:w-1/4" 
-          aria-label="Receiving Orders"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">Receiving Orders</h2>
-              <GiReceiveMoney className="text-3xl text-blue-600" />
-            </div>
-            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">3</span>
-          </div>
-        </NavLink>
-
-        <NavLink 
-          to="CompleteOrdersVendor" 
-          className="w-full md:w-1/3 lg:w-1/4" 
-          aria-label="Complete Orders"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">Complete Orders</h2>
-              <FaCalendarCheck className="text-3xl text-blue-600" />
-            </div>
-            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">8</span>
-          </div>
-        </NavLink>
+      {/* Dashboard Cards */}
+      <div
+        className={`flex flex-col md:flex-row justify-start gap-6 mb-10 ${
+          loading ? "hidden" : ""
+        }`}
+      >
+        <DashboardCard
+          to="PendingOrdersVendor"
+          title="Pending Orders"
+          icon={MdOutlinePendingActions}
+          badgeCount={5}
+          badgeColor="bg-blue-200 text-blue-800"
+        />
+        <DashboardCard
+          to="ReceivingOrdersVendor"
+          title="Receiving Orders"
+          icon={GiReceiveMoney}
+          badgeCount={3}
+          badgeColor="bg-green-200 text-green-800"
+        />
+        <DashboardCard
+          to="CompleteOrdersVendor"
+          title="Complete Orders"
+          icon={FaCalendarCheck}
+          badgeCount={8}
+          badgeColor="bg-yellow-200 text-yellow-800"
+        />
       </div>
 
-      {/* This is where the selected component will be displayed */}
+      {/* Outlet for Selected Component */}
       <div className={`mt-8 ${loading ? "hidden" : ""}`}>
         <Outlet />
       </div>

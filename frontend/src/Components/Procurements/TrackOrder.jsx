@@ -39,7 +39,9 @@ const TrackOrder = () => {
     socket.on("updateStatus", (updatedNotification) => {
       setTrackOrdersData((prev) => {
         // Update existing order or add a new one
-        const existingOrderIndex = prev.findIndex(order => order._id === updatedNotification._id);
+        const existingOrderIndex = prev.findIndex(
+          (order) => order._id === updatedNotification._id
+        );
         if (existingOrderIndex !== -1) {
           // Update the existing order
           const updatedOrders = [...prev];
@@ -186,10 +188,13 @@ const TrackOrder = () => {
   }, [trackOrdersData]);
 
   return (
-    <div className="p-5 w-[80%] ">
+    <div className="p-5 w-full lg:w-[1250px] mx-auto">
       <TrackOrderItems />
       <div className="overflow-x-auto">
-        <table id="myTable" className="display min-w-full table-xs"></table>
+        <table
+          id="myTable"
+          className="display table-auto w-full table-xs"
+        ></table>
       </div>
       {showModal && <div className="modal">{/* Modal Content Here */}</div>}
     </div>

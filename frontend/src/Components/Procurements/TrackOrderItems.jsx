@@ -7,7 +7,7 @@ const TrackOrderItems = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="px-6 pt-6  bg-gradient-to-b from-gray-100 to-gray-50 relative w-full">
+    <div className="px-6 pt-6 relative w-full">
       {/* Loading Spinner */}
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
@@ -59,15 +59,11 @@ const TrackOrderItems = () => {
           </div>
         </NavLink>
 
-        <NavLink
-          to=""
-          className="w-full"
-          aria-label="Vendor Product"
-        >
+        <NavLink to="" className="w-full" aria-label="Vendor Product">
           <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
-                Completed Tracking Orders 
+                Completed Tracking Orders
               </h2>
               <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
             </div>

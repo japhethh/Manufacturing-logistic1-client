@@ -161,7 +161,7 @@ const TrackOrderPending = () => {
   }, [trackOrdersData]);
 
   return (
-    <div className="p-5 w-[80%] ">
+    <div className="p-5 w-full lg:w-[1250px] mx-auto">
       <TrackOrderItems />
       <div className="overflow-x-auto">
         <table id="myTable" className="display min-w-full table-xs"></table>

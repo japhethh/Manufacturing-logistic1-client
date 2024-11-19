@@ -213,7 +213,7 @@ const InvoiceAll = () => {
             const isProcessedPay = data.approvalStatus === "Pending";
             return `
               <div>
-                <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn hover:bg-green-600 transition ease-in-out duration-200" ${
+                <button class="bg-green-500 text-xs text-white px-2 py-1 mb-1 rounded-lg mx-1 cursor-pointer approveBtn hover:bg-green-600 transition ease-in-out duration-200" ${
                   isProcessed ? "style='display:none;'" : ""
                 } id="approveBtn_${data?._id}">
                   <i class="fas fa-check"></i>
