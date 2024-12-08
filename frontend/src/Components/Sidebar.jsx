@@ -467,64 +467,6 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/* Quotation */}
-            <li>
-              <details
-                className={`menu-item transition-all duration-300 ${
-                  isCollapsed ? "hidden" : ""
-                }`}
-              >
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <MdOutlineCalculate
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="text-base font-semibold mr-auto">
-                      Quotation
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Request For Quotations */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="rawmaterialrequest"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-              ${
-                isActive
-                  ? "text-base-200 bg-blue-500 font-bold"
-                  : "text-black hover:bg-gray-100"
-              }`
-                      }
-                    >
-                      <span className="text-base">
-                        Request For Quotations (RFQ's)
-                      </span>
-                    </NavLink>
-                  </li>
-                  {/* Compare Supplier Quotes */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="purchaseorder"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-              ${
-                isActive
-                  ? "text-base-200 bg-blue-500 font-bold"
-                  : "text-black hover:bg-gray-100"
-              }`
-                      }
-                    >
-                      <span className="text-base">Compare Supplier Quotes</span>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
-            </li>
-
             {/* Purchase Orders */}
             <li>
               <details
@@ -593,103 +535,10 @@ const Sidebar = () => {
                       <span className="text-base">Track Orders</span>
                     </NavLink>
                   </li>
-                  {/* Order Fulfillment Status */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="/orderfulfillmentstatus"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-              ${
-                isActive
-                  ? "text-base-200 bg-blue-500 font-bold"
-                  : "text-black hover:bg-gray-100"
-              }`
-                      }
-                    >
-                      <span className="text-base">
-                        Order Fulfillment Status
-                      </span>
-                    </NavLink>
-                  </li>
                 </ul>
               </details>
             </li>
 
-            {/* Contact */}
-            <li>
-              <details
-                className={`menu-item transition-all duration-300 ${
-                  isCollapsed ? "hidden" : ""
-                }`}
-              >
-                <summary className="flex mt-1 items-center gap-2 cursor-pointer">
-                  <RiContactsFill
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="text-base font-semibold mr-auto">
-                      Contact
-                    </span>
-                  )}
-                </summary>
-                <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* View Contacts */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="viewcontacts"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-              ${
-                isActive
-                  ? "text-base-200 bg-blue-500 font-bold"
-                  : "text-black hover:bg-gray-100"
-              }`
-                      }
-                    >
-                      <span className="text-base">View Contacts</span>
-                    </NavLink>
-                  </li>
-                  {/* Renewals & Expirations */}
-                  <li className="mt-1">
-                    <NavLink
-                      to="renewalsexpirations"
-                      className={({ isActive }) =>
-                        `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
-              ${
-                isActive
-                  ? "text-base-200 bg-blue-500 font-bold"
-                  : "text-black hover:bg-gray-100"
-              }`
-                      }
-                    >
-                      <span className="text-base">Renewals & Expirations</span>
-                    </NavLink>
-                  </li>
-                </ul>
-              </details>
-            </li>
-
-            {/* Budget Approval */}
-            <li
-              className={`menu-item transition-all duration-300 ${
-                isCollapsed ? "hidden" : ""
-              }`}
-            >
-              <div className="flex mt-1 items-center gap-2 cursor-pointer">
-                <GiTakeMyMoney
-                  className={`transition-all duration-300 ${
-                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                  }`}
-                />
-                {!isCollapsed && (
-                  <span className="text-base font-semibold">
-                    Budget Approval
-                  </span>
-                )}
-              </div>
-            </li>
             {/* Invoice */}
             <NavLink to="/invoice/all">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
@@ -755,7 +604,7 @@ const Sidebar = () => {
                               : "text-black"
                           }
                         >
-                          <p className="text-base">All Users</p>
+                          <p className="text-base">View All Accounts</p>
                         </NavLink>
                       </li>
                       {/* <li className="mt-1">
@@ -780,7 +629,7 @@ const Sidebar = () => {
                               : "text-black"
                           }
                         >
-                          <p className="text-base">Request List</p>
+                          <p className="text-base">Account Request</p>
                         </NavLink>
                       </li>
                     </ul>
@@ -892,8 +741,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/*  Return Authorization */}
-            <li
+            {/* <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
               }`}
@@ -922,7 +770,6 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/*  Inventory Updates*/}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -952,7 +799,6 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/* Vendor Discrepancies */}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -980,7 +826,7 @@ const Sidebar = () => {
                   </span>
                 )}
               </NavLink>
-            </li>
+            </li> */}
           </ul>
 
           {/* Audit Management */}

@@ -27,9 +27,7 @@ const CreateInvoiceVendor = () => {
   });
 
   // USEEFFECT
-
   const onSubmit = async (data) => {
-    
     console.log(data);
     try {
       const response = await axios.post(`${apiURL}/api/invoices/create`, data, {

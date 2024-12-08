@@ -6,39 +6,158 @@ import axios from "axios";
 import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
-import Pagination from "./Pagination";
-
+// import Pagination from "./Pagination";
+import DataTable from "datatables.net-dt";
+import defaultProfile from "./Assets/defaultProfile.png";
 const User = () => {
   const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState(null); // For Details Modal
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null); // For Delete Confirmation Modal
-  const [searchQuery, setSearchQuery] = useState(""); // For search input
 
   const { apiURL } = useContext(UserContext);
 
   const { fetchAllUsers, allUsers, searchUsers } = Store();
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(5); // You can change this to adjust how many users per page
 
   useEffect(() => {
     fetchAllUsers();
   }, [fetchAllUsers]);
 
-  useEffect(() => {
-    if (searchQuery) {
-      searchUsers(searchQuery);
-    } else {
-      fetchAllUsers();
-    }
-  }, [searchQuery, fetchAllUsers, searchUsers]);
+  // useEffect(() => {
+  //   if (searchQuery) {
+  //     searchUsers(searchQuery);
+  //   } else {
+  //     fetchAllUsers();
+  //   }
+  // }, [searchQuery, fetchAllUsers, searchUsers]);
 
-  // Get current users for pagination
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = allUsers.slice(indexOfFirstUser, indexOfLastUser);
-  const totalUsers = allUsers.length;
+  useEffect(() => {
+    const table = new DataTable("#myTable", {
+      data: allUsers,
+      columns: [
+        {
+          title: "Image",
+          data: null,
+          render: (data) => {
+            const imageUrl = data?.image ? data?.image : defaultProfile;
+            return `<img
+                      src="${imageUrl}"
+                      alt="Profile"
+                      class="rounded-full"
+                      style="width: 50px; height: 50px; object-fit: cover;"
+                    />`;
+          },
+        },
+        {
+          title: "Name",
+          data: null,
+          render: (data) => data?.name || "N/A",
+        },
+        {
+          title: "Email",
+          data: null,
+          render: (data) => data?.email || "N/A",
+        },
+        {
+          title: "Phone",
+          data: null,
+          render: (data) => data?.phone || "N/A",
+        },
+        {
+          title: "Username",
+          data: null,
+          render: (data) => data?.userName || "N/A",
+        },
+        {
+          title: "Role",
+          data: null,
+          render: (data) => {
+            const roleClass =
+              data?.role === "admin"
+                ? "bg-green-500 text-white"
+                : data?.role === "user"
+                ? "bg-blue-500 text-white"
+                : data?.role === "pending"
+                ? "bg-red-500 text-white"
+                : "";
+
+            return `<button class="btn btn-ghost btn-xs ${roleClass}">
+                      ${data?.role || "N/A"}
+                    </button>`;
+          },
+        },
+        {
+          title: "Decision",
+          data: null,
+          render: (data) => `
+            <div class="dropdown dropdown-left">
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost btn-circle avatar"
+                id="dropdownBtn_${data._id}"
+              >
+                <i class="fas fa-ellipsis-h"></i>
+              </div>
+              <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow"
+              >
+                <li>
+                  <a
+                    id="detailsBtn_${data._id}"
+                    class="justify-between font-medium"
+                  >
+                    Details
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-blue-500 font-medium"
+                    id="editBtn_${data._id}"
+                  >
+                    Edit
+                  </a>
+                </li>
+                <li>
+                  <button
+                    id="deleteBtn_${data._id}"
+                    class="text-red-500 font-medium"
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          `,
+        },
+      ],
+
+      rowCallback: (row, data) => {
+        const detailsBtn = row.querySelector(`#detailsBtn_${data?._id}`);
+        const editBtn = row.querySelector(`#editBtn_${data?._id}`);
+
+        const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
+
+        detailsBtn.addEventListener("click", () => handleDetails(data));
+
+        editBtn.addEventListener("click", () =>
+          navigate(`/user/edit/${data._id}`)
+        );
+
+        deleteBtn.addEventListener("click", () => {
+          openDeleteModal(data);
+        });
+      },
+    });
+
+    // Cleanup function to destroy the DataTable instance on unmount
+    return () => {
+      table.destroy();
+    };
+  }, [allUsers]);
 
   // Change page
 
@@ -82,12 +201,6 @@ const User = () => {
     openDeleteModal(user);
   };
 
-  // Pagination JSX
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(allUsers.length / usersPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
   return (
     <div className="container mx-auto px-4">
       <div className="breadcrumbs text-sm mb-5">
@@ -98,7 +211,7 @@ const User = () => {
             </NavLink>
           </li>
           <li>
-            <span>User</span>
+            <span>View All Accounts</span>
           </li>
         </ul>
       </div>
@@ -110,49 +223,15 @@ const User = () => {
               onClick={handleCreate}
               className="px-4 py-3 font-semibold text-sm rounded-md bg-blue-700 text-white mb-2"
             >
-              Add Employee +
+              Add Account +
             </button>
           </div>
         </div>
 
-        <div className="flex justify-end mb-4">
-          <label className="input input-bordered flex items-center gap-2 w-1/5">
-            <input
-              type="text"
-              className="grow"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </label>
-        </div>
-
         <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Action</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
+          <table className="table w-full" id="myTable">
+            <thead className="text-white bg-blue-800"></thead>
+            {/* <tbody>
               {currentUsers.map((user, index) => (
                 <tr key={index}>
                   <td>
@@ -237,18 +316,8 @@ const User = () => {
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </tbody> */}
           </table>
-        </div>
-
-        {/* Pagination Controls */}
-        <div className="flex justify-center mt-4">
-          <Pagination
-            totalItems={totalUsers}
-            itemsPerPage={usersPerPage}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
         </div>
 
         {/* Details Modal */}
@@ -281,7 +350,7 @@ const User = () => {
                   onClick={() =>
                     document.getElementById("details_modal").close()
                   }
-                  className="btn btn-sm btn-circle btn-outline"
+                  className="btn btn-primary btn-sm"
                 >
                   Close
                 </button>
@@ -304,7 +373,7 @@ const User = () => {
               <div className="modal-action">
                 <button
                   onClick={confirmDelete}
-                  className="btn btn-danger btn-sm"
+                  className="btn btn-error text-white btn-sm"
                 >
                   Confirm Delete
                 </button>
@@ -312,7 +381,7 @@ const User = () => {
                   onClick={() =>
                     document.getElementById("delete_modal").close()
                   }
-                  className="btn btn-sm btn-circle btn-outline"
+                  className="btn btn-sm "
                 >
                   Close
                 </button>

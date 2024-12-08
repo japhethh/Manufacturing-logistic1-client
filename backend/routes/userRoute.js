@@ -12,6 +12,7 @@ import {
   updateUserPassword,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/Auth.js";
+
 import multer from "multer";
 const userRouter = express.Router();
 

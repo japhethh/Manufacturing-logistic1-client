@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { IoClose } from "react-icons/io5";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { apiURL } from "../context/Store";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import store from "../context/Store";
+import DataTable from "datatables.net-dt";
 const RequestList = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +18,130 @@ const RequestList = () => {
   useEffect(() => {
     fetchAllData();
   }, []);
+
+  useEffect(() => {
+    const table = new DataTable("#myTable", {
+      data: requests, // Use the requests array as data source
+      columns: [
+        {
+          title: "SupplierName",
+          data: "supplierName",
+        },
+        {
+          title: "Email",
+          data: "email",
+        },
+        {
+          title: "Contact Phone",
+          data: "contactPhone",
+        },
+        {
+          title: "Status",
+          data: null,
+          render: (data) => {
+            if (data?.status) {
+              const badgeClass =
+                data.status === "Active"
+                  ? "badge-success"
+                  : data.status === "Deactivated"
+                  ? "badge-error"
+                  : "badge-warning";
+              return `<span class="badge ${badgeClass}">${data.status}</span>`;
+            }
+            return "N/A";
+          },
+        },
+        {
+          title: "Action",
+          data: null,
+          render: (data) =>
+            `
+            <button class="btn btn-success btn-sm text-white" id="activateBtn_${data._id}">
+              Activate
+            </button>
+            <button class="btn btn-error btn-sm text-white" id="deactivateBtn_${data._id}">
+              Deactivate
+            </button>
+            `,
+        },
+        {
+          title: "Decision",
+          data: null,
+          render: (data) => `
+            <div class="dropdown dropdown-left">
+              <div
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost btn-circle avatar"
+                id="dropdownBtn_${data._id}"
+              >
+                <i class="fas fa-ellipsis-h"></i>
+              </div>
+              <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 p-2 shadow"
+              >
+                <li>
+                  <a
+                    id="detailsBtn_${data._id}"
+                    class="justify-between font-medium"
+                  >
+                    Details
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-blue-500 font-medium"
+                    id="editBtn_${data._id}"
+                  >
+                    Edit
+                  </a>
+                </li>
+                <li>
+                  <button
+                    id="deleteBtn_${data._id}"
+                    class="text-red-500 font-medium"
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          `,
+        },
+      ],
+      order: [[0, "desc"]],
+      rowCallback: (row, data) => {
+        // Add event listeners to dropdown buttons
+        const detailsBtn = row.querySelector(`#detailsBtn_${data._id}`);
+        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+        const activateBtn = row.querySelector(`#activateBtn_${data._id}`);
+        const deactivateBtn = row.querySelector(`#deactivateBtn_${data._id}`);
+
+        if (detailsBtn) {
+          detailsBtn.addEventListener("click", () => openModal(data));
+        }
+
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", () => deleteModal(data));
+        }
+
+        if (activateBtn) {
+          activateBtn.addEventListener("click", () => approveModal(data));
+        }
+
+        if (deactivateBtn) {
+          deactivateBtn.addEventListener("click", () => deactivatedModal(data));
+        }
+      },
+    });
+
+    // Cleanup function to destroy the DataTable instance when the component unmounts
+    return () => {
+      table.destroy();
+    };
+  }, [requests]);
 
   const fetchAllData = async () => {
     try {
@@ -133,12 +257,20 @@ const RequestList = () => {
             </Link>
           </li>
           <li>
-            <Link>Request List</Link>
+            <Link>Account Request</Link>
           </li>
         </ul>
       </div>
-      <div className="p-5">
-        <table className="table w-full">
+
+      <div className="p-5 ">
+        <div>
+          <h1 className="font-bold text-2xl ">Account Request</h1>
+        </div>
+        <div className="p-5">
+          <table id="myTable">
+            <thead className="text-white bg-blue-800"></thead>
+          </table>
+          {/* <table className="table w-full">
           <thead>
             <tr>
               <th>Logo</th>
@@ -256,9 +388,10 @@ const RequestList = () => {
               <th>Action</th>
             </tr>
           </tfoot>
-        </table>
+        </table> */}
+        </div>
       </div>
-      
+
       {/* Modal Approve */}
       <dialog id="my_modal_4" className="modal">
         <div className="modal-box">

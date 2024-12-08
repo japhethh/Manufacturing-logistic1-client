@@ -116,6 +116,7 @@ const updateUser = asyncHandler(async (req, res) => {
   let image = user.image;
 
   if (req.file) {
+    
     try {
       // Delete the old image from Cloudinary if it exists
       if (user.image) {

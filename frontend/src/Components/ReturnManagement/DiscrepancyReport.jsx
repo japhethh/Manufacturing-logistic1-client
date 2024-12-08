@@ -27,7 +27,7 @@ const DiscrepancyReport = () => {
         headers: { token: token },
       });
       setDiscrepancyData(response.data);
-      console.log(response.data)
+      console.log(response.data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error fetching data");
     }
@@ -42,6 +42,9 @@ const DiscrepancyReport = () => {
     fetchDiscrepancyReport();
   }, []);
 
+  //   <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+  //   <i class="fas fa-edit"></i>
+  // </button>
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: discrepancyData,
@@ -54,9 +57,6 @@ const DiscrepancyReport = () => {
           data: null,
           render: (data, type, row) => `
           <div class="flex justify-center"> 
-            <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
-              <i class="fas fa-edit"></i>
-            </button>
             <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}">
               <i class="fas fa-eye"></i>
             </button>
@@ -71,7 +71,7 @@ const DiscrepancyReport = () => {
       rowCallback: (row, data) => {
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
-        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+        // const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
 
         deleteBtn.addEventListener("click", () => {
           setSelectedData(data);
@@ -89,12 +89,12 @@ const DiscrepancyReport = () => {
           });
         }
 
-        updateBtn.addEventListener("click", () => {
-          navigate(`/adjustments/${data._id}/edit`);
-          setSelectedData(data);
-          setModalType("edit");
-          setShowModal(true);
-        });
+        // updateBtn.addEventListener("click", () => {
+        //   navigate(`/adjustments/${data._id}/edit`);
+        //   setSelectedData(data);
+        //   setModalType("edit");
+        //   setShowModal(true);
+        // });
       },
     });
 
@@ -130,8 +130,6 @@ const DiscrepancyReport = () => {
       toast.error(error?.response.data.message);
     }
   };
-
-
 
   return (
     <div className="bg-base-200 h-auto w-full p-5">
