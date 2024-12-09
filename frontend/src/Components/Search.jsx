@@ -104,38 +104,13 @@ const Search = () => {
 
   return (
     <div className="w-full py-4 px-4 bg-white text-gray-800 shadow-md sticky top-0 z-50">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-end">
         {/* Sidebar toggle button */}
         <div className="lg:hidden flex items-center">
           <label htmlFor="my-drawer" className="drawer-button">
             <IoIosMenu size={24} />
           </label>
         </div>
-
-        {/* Search form for medium and larger screens */}
-        <form
-          method="GET"
-          action=""
-          className="hidden md:flex flex-grow mx-auto max-w-2xl"
-        >
-          <div className="relative flex items-center w-full rounded-full shadow-lg">
-            <input
-              name="episodequery"
-              id="title"
-              className="w-[590px] p-2 pl-4 pr-12 border border-stone-300 rounded-lg text-gray-70"
-              type="text"
-              placeholder="Search..."
-              aria-label="Search"
-            />
-            <button
-              type="submit"
-              className="absolute right-0 top-0 bottom-0 flex items-center px-4 text-white bg-blue-700 hover:bg-blue-600 duration-150 rounded-lg"
-              aria-label="Search"
-            >
-              <span className="text-sm font-semibold">Search</span>
-            </button>
-          </div>
-        </form>
 
         {/* Right-side icons and user profile */}
         <div className="flex items-center gap-3 md:gap-4">

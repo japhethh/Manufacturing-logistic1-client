@@ -113,10 +113,6 @@ const CreatePurchaseOrder = () => {
     return { subtotal, taxAmount, total };
   };
 
-  const generatePurchaseOrderNumber = () => {
-    return `PO-${Date.now()}`;
-  };
-
   const validateForm = () => {
     if (!formData.supplier) {
       NotificationService.warning("Please select a supplier.", {
@@ -164,11 +160,10 @@ const CreatePurchaseOrder = () => {
     }
 
     try {
-      const purchaseOrderNumber = generatePurchaseOrderNumber();
       const { total } = calculateSummary();
 
       const purchaseOrderData = {
-        purchaseOrderNumber,
+        // purchaseOrderNumber,
         supplier: formData.supplier,
         items: formData.items.map((item) => ({
           name: item.name,

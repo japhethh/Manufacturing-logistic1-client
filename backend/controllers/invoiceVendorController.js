@@ -9,7 +9,7 @@ import userModel from "../models/userModel.js";
 import supplierModel from "../models/supplierModel.js";
 import expressAsyncHandler from "express-async-handler";
 
-const createInvoice = expressAsyncHandler( async (req, res) => {
+const createInvoice = expressAsyncHandler(async (req, res) => {
   const {
     _id,
     supplier,
@@ -33,7 +33,7 @@ const createInvoice = expressAsyncHandler( async (req, res) => {
       {
         $inc: { sequence_value: 1 },
       },
-      { new: true }
+      { new: true, upsert: true }
     );
 
     const invoiceNumber = counter.sequence_value.toString().padStart(3, "0");
@@ -89,7 +89,7 @@ const createInvoice = expressAsyncHandler( async (req, res) => {
 
 const createVendorInvoice = asyncHandler(async (req, res) => {
   const {
-    customer,  
+    customer,
     userId,
     items,
     totalAmount,
@@ -122,8 +122,6 @@ const createVendorInvoice = asyncHandler(async (req, res) => {
   const index1 = await generalSettingsModel.find({});
   const companyAccount = index1[0];
 
-  
-
   const newInvoice = new Invoice({
     invoiceNumber: reference,
     vendor: userId,
@@ -135,9 +133,9 @@ const createVendorInvoice = asyncHandler(async (req, res) => {
       totalPrice: item.totalPrice,
     })),
     totalAmount,
-    paymentDetails:{
-      paymentMethod:paymentMethod,
-      paymentDate:paymentDate,
+    paymentDetails: {
+      paymentMethod: paymentMethod,
+      paymentDate: paymentDate,
     },
     issueDate: new Date(),
     dueDate,

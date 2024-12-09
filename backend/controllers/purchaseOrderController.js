@@ -5,12 +5,13 @@ import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
 import financeApprovalModel from "../models/financeApprovalModel.js";
 import axios from "axios";
 import generalSettingsModel from "../models/generalSettingsModel.js";
+import Counter from "../models/Counter.js";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
     // Destructure fields from req.body
     const {
-      purchaseOrderNumber,
+      // purchaseOrderNumber,
       supplier,
       orderDate,
       items,
@@ -27,7 +28,6 @@ const createPurchaseOrder = async (req, res) => {
 
     // Check if any required fields are missing
     if (
-      !purchaseOrderNumber ||
       !supplier ||
       !orderDate ||
       !items ||
@@ -57,13 +57,27 @@ const createPurchaseOrder = async (req, res) => {
     }
     const companyAccountId = generalSetting[0]._id;
 
+    const counter = await Counter.findByIdAndUpdate(
+      {
+        _id: "purchaseNumber",
+      },
+      {
+        $inc: { sequence_value: 1 },
+      },
+      { new: true, upsert: true }
+    );
+
+    const purchaseNumber = counter.sequence_value.toString().padStart(3, "0");
+
+    const reference = `PO-${purchaseNumber}`;
+
     const newPurchaseOrder = new purchaseOrderModel({
-      purchaseOrderNumber: purchaseOrderNumber,
+      purchaseOrderNumber: reference,
       supplier: supplier,
       orderDate: orderDate,
       items: items,
       tax: tax,
-      totalAmount: totalAmount, // Calculate totalAmount on the server if not included
+      totalAmount: totalAmount,
       notes: notes,
       paymentTerm: paymentTerm,
       approvalStatus: approvalStatus,
@@ -71,7 +85,6 @@ const createPurchaseOrder = async (req, res) => {
       category: category,
       paymentDetails: paymentDetails,
       companyAccount: companyAccountId,
-      // companyAccount: addressAccount._id,
     });
 
     const savePO = await newPurchaseOrder.save();

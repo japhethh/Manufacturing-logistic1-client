@@ -16,21 +16,13 @@ const User = () => {
 
   const { apiURL } = useContext(UserContext);
 
-  const { fetchAllUsers, allUsers, searchUsers } = Store();
+  const { fetchAllUsers, allUsers } = Store();
 
   // Pagination state
 
   useEffect(() => {
     fetchAllUsers();
   }, [fetchAllUsers]);
-
-  // useEffect(() => {
-  //   if (searchQuery) {
-  //     searchUsers(searchQuery);
-  //   } else {
-  //     fetchAllUsers();
-  //   }
-  // }, [searchQuery, fetchAllUsers, searchUsers]);
 
   useEffect(() => {
     const table = new DataTable("#myTable", {
@@ -197,9 +189,9 @@ const User = () => {
     }
   };
 
-  const handleDelete = (user) => {
-    openDeleteModal(user);
-  };
+  // const handleDelete = (user) => {
+  //   openDeleteModal(user);
+  // };
 
   return (
     <div className="container mx-auto px-4">

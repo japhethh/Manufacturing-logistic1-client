@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FiTrash, FiEye } from "react-icons/fi";
+import DataTable from "datatables.net-dt";
+import { MdRemoveRedEye } from "react-icons/md";
 
 const PurchaseOrderList = () => {
   const { apiURL } = useContext(UserContext);
@@ -12,19 +14,144 @@ const PurchaseOrderList = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  // Pagination, sorting, and search states
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({
-    key: "purchaseOrderNumber",
-    direction: "ascending",
-  });
-  const [searchQuery, setSearchQuery] = useState("");
-
   useEffect(() => {
     fetchPurchaseOrder();
   }, []);
 
+  useEffect(() => {
+    const table = new DataTable("#myTable", {
+      data: purchaseOrderData,
+      columns: [
+        {
+          title: "#",
+          data: null,
+          render: (data) => `${data?.purchaseOrderNumber || "N/A"}`,
+        },
+        {
+          title: "CreatedAt",
+          data: null,
+          render: (data) => `${data?.createdAt || "N/A"}`,
+        },
+        {
+          title: "Supplier",
+          data: null,
+          render: (data) => `${data?.supplier?.supplierName || "N/A"}`,
+        },
+        {
+          title: "Total Amount",
+          data: null,
+          render: (data) => `${data?.totalAmount || "N/A"}`,
+        },
+        {
+          title: "Order Status",
+          data: null,
+          render: (data) => {
+            const orderStatus = data?.orderStatus || "N/A";
+            let statusClass = "";
+
+            switch (orderStatus) {
+              case "Pending":
+                statusClass = "bg-blue-100 text-blue-800"; // Light blue for Pending
+                break;
+              case "Approved":
+                statusClass = "bg-green-100 text-green-800"; // Light green for Approved
+                break;
+              case "In Process":
+                statusClass = "bg-yellow-100 text-yellow-800"; // Light yellow for In Process
+                break;
+              case "Shipped":
+                statusClass = "bg-orange-100 text-orange-800"; // Light orange for Shipped
+                break;
+              case "Delivered":
+                statusClass = "bg-gray-100 text-gray-800"; // Light gray for Delivered
+                break;
+              default:
+                statusClass = "bg-gray-200 text-gray-800"; // Default for unknown status
+                break;
+            }
+
+            return `<span class="${statusClass} py-1 px-2 rounded">${orderStatus}</span>`;
+          },
+        },
+        {
+          title: "Approval Status",
+          data: null,
+          render: (data) => {
+            const orderStatus = data?.financeApproval?.status || "N/A";
+            let statusClass = "";
+
+            switch (orderStatus) {
+              case "Pending":
+                statusClass = "bg-blue-100 text-blue-800"; // Light blue for Pending
+                break;
+              case "Approved":
+                statusClass = "bg-green-100 text-green-800"; // Light green for Approved
+                break;
+              case "In Process":
+                statusClass = "bg-yellow-100 text-yellow-800"; // Light yellow for In Process
+                break;
+              case "Shipped":
+                statusClass = "bg-orange-100 text-orange-800"; // Light orange for Shipped
+                break;
+              case "Delivered":
+                statusClass = "bg-gray-100 text-gray-800"; // Light gray for Delivered
+                break;
+              default:
+                statusClass = "bg-gray-200 text-gray-800"; // Default for unknown status
+                break;
+            }
+
+            return `<span class="${statusClass} py-1 px-2 rounded">${orderStatus}</span>`;
+          },
+        },
+        {
+          title: "Pdf",
+          data: null,
+          render: (data) =>
+            `<a class="text-blue-500 underline" href="${
+              data?.pdfURL ? data?.pdfURL : "N/A"
+            }" target="_blank">Download PDF</a>`,
+        },
+        {
+          title: "Action",
+          data: null,
+          render: (data) => {
+            return `
+              <div class="py-2 px-4 flex space-x-2">
+                <button
+                  id="detailsBtn_${data?._id}"
+                  class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-500 transition text-sm"
+                  onclick="window.location.href='/purchase_orders/view_po/${data._id}'"
+                >
+                  <span class="inline text-lg"><i class="fa fa-eye text-sm"></i></span>
+                </button>
+                <button
+                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-500 transition text-sm"
+                  id="deleteBtn_${data?._id}"
+                >
+                  <span class="inline text-lg"><i class="fa fa-trash text-sm"></i></span>
+                </button>
+              </div>
+            `;
+          },
+        },
+      ],
+      order: [[0, "desc"]],
+      rowCallback: (row, data) => {
+        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", () =>
+            handleDeleteClick(data?._id)
+          );
+        }
+      },
+    });
+
+    return () => {
+      table.destroy();
+    };
+  }, [purchaseOrderData]);
   const fetchPurchaseOrder = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/purchase-order/`);
@@ -63,53 +190,6 @@ const PurchaseOrderList = () => {
     setShowModal(true);
   };
 
-  const sortedData = () => {
-    const filteredOrders = purchaseOrderData.filter(
-      (order) =>
-        order.purchaseOrderNumber
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        (order.supplier?.supplierName || "")
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-    );
-
-    return filteredOrders.sort((a, b) => {
-      const aValue =
-        sortConfig.key === "supplierName"
-          ? a.supplier?.supplierName
-          : a[sortConfig.key];
-      const bValue =
-        sortConfig.key === "supplierName"
-          ? b.supplier?.supplierName
-          : b[sortConfig.key];
-
-      return sortConfig.direction === "ascending"
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
-    });
-  };
-
-  const requestSort = (key) => {
-    const direction =
-      sortConfig.key === key && sortConfig.direction === "ascending"
-        ? "descending"
-        : "ascending";
-    setSortConfig({ key, direction });
-  };
-
-  const getSortArrow = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? " ▲" : " ▼";
-    }
-    return "";
-  };
-
-  const indexOfLastOrder = currentPage * itemsPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
-  const currentOrders = sortedData().slice(indexOfFirstOrder, indexOfLastOrder);
-  const totalPages = Math.ceil(sortedData().length / itemsPerPage);
-
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
@@ -122,18 +202,8 @@ const PurchaseOrderList = () => {
         </button>
       </div>
 
-      <div className="mb-4">
-        <input
-          type="text"
-          className="border rounded px-2 py-1 w-full"
-          placeholder="Search by PO Number or Supplier"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-
-      <div className="overflow-x-auto border border-gray-200 shadow-sm">
-        <table className="min-w-full bg-white">
+      <div className="overflow-x-auto border border-gray-200 shadow-sm p-3">
+        {/* <table className="min-w-full bg-white">
           <thead>
             <tr className="bg-gray-100 text-left">
               <th className="py-2 px-4">#</th>
@@ -247,53 +317,23 @@ const PurchaseOrderList = () => {
                       navigate(`/purchase_orders/view_po/${order._id}`)
                     }
                   >
-                    <FiEye className="inline text-lg" /> 
+                    <FiEye className="inline text-lg" />
                   </button>
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-500 transition text-sm"
                     onClick={() => handleDeleteClick(order._id)}
                   >
-                    <FiTrash className="inline text-lg" /> 
+                    <FiTrash className="inline text-lg" />
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
+        </table> */}
+
+        <table className="table" id="myTable">
+          <thead className="bg-blue-800 text-white"></thead>
         </table>
-      </div>
-
-      <div className="mt-4 flex justify-center items-center space-x-2">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => setCurrentPage(index + 1)}
-            className={`px-4 py-2 rounded ${
-              currentPage === index + 1
-                ? "bg-blue-600 text-white"
-                : "bg-gray-300"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-
-        <button
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
       </div>
 
       {showModal && (
@@ -303,16 +343,16 @@ const PurchaseOrderList = () => {
             <p>Are you sure you want to delete this purchase order?</p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                className="bg-gray-300 px-4 py-2 rounded"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
                 className="bg-red-600 text-white px-4 py-2 rounded"
                 onClick={deletePurchaseOrder}
               >
                 Delete
+              </button>
+              <button
+                className="bg-gray-300 px-4 py-2 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
               </button>
             </div>
           </div>

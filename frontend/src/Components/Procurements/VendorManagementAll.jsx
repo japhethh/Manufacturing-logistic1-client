@@ -145,7 +145,7 @@ const VendorManagementAll = () => {
           data: "available",
           render: (data) => (data ? data : "N/A"),
         },
-        {title:"Vendor",data:"supplier.supplierName"},
+        { title: "Vendor", data: "supplier.supplierName" },
         {
           title: "Actions",
           data: null,
@@ -223,14 +223,18 @@ const VendorManagementAll = () => {
           {/* Vendors */}
           <div className="divider mb-5"></div>
           <h1 className="font-bold text-2xl py-2">Vendor Management</h1>
-          <table id="myTable" className="display w-full "></table>
+          <table id="myTable" className="display w-full ">
+            <thead className="text-white bg-blue-800"></thead>
+          </table>
         </div>
 
         <div className="p-5 shadow-md overflow-x-scroll w-full">
           {/* Vendor Create */}
           <div className="divider mb-5"></div>
           <h1 className="font-bold text-2xl py-2">Vendors Products</h1>
-          <table id="myTable1" className="display w-full"></table>
+          <table id="myTable1" className="display w-full">
+            <thead className="text-white bg-blue-800"></thead>
+          </table>
         </div>
       </div>
 
