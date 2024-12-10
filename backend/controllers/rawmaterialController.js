@@ -1,3 +1,4 @@
+import Counter from "../models/Counter.js";
 import MaterialModel from "../models/materialModel.js";
 import NotificationLogisticModel from "../models/notificationLogisticModel.js";
 import rawmaterialModel from "../models/rawmaterialModel.js";
@@ -33,7 +34,20 @@ const newRequested = asyncHandler(async (req, res) => {
     });
   }
 
+  const counter = await Counter.findByIdAndUpdate(
+    {
+      _id: "rawmaterialNumber",
+    },
+    { $inc: { sequence_value: 1 } },
+    { new: true, upsert: true }
+  );
+
+  const rawmaterialNumber = counter.sequence_value.toString().padStart(3, "0");
+
+  const reference = `RAWMATERIAL-${rawmaterialNumber}`;
+
   const newRequest = new rawmaterialModel({
+    rawmaterialNumber: reference,
     requestedBy,
     material,
     quantity,

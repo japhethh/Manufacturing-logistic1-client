@@ -4,6 +4,7 @@ import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import DataTable from "datatables.net-dt";
 
 const RawMaterialRequest = () => {
   const [requests, setRequests] = useState([]);
@@ -12,11 +13,14 @@ const RawMaterialRequest = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteRequestId, setDeleteRequestId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   // Pagination and sorting states
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({ key: "requestDate", direction: "ascending" });
+  const [sortConfig, setSortConfig] = useState({
+    key: "requestDate",
+    direction: "ascending",
+  });
 
   const navigate = useNavigate();
   const { apiURL } = useContext(UserContext);
@@ -25,10 +29,95 @@ const RawMaterialRequest = () => {
     fetchRequests();
   }, []);
 
+  useEffect(() => {
+    const table = new DataTable("#myTable", {
+      data: requests,
+      columns: [
+        {
+          title: "Reference",
+          data: null,
+          render: (data) =>
+            `${data?.rawmaterialNumber ? data?.rawmaterialNumber : "N/A"}`,
+        },
+        {
+          title: "requestDate",
+          data: null,
+          render: (data) =>
+            `${
+              data?.requestDate
+                ? new Date(data.requestDate).toLocaleString()
+                : "N/A"
+            }`,
+        },
+        {
+          title: "Requested By",
+          data: null,
+          render: (data) => `${data?.requestedBy ? data?.requestedBy : "N/A"}`,
+        },
+        {
+          title: "Materials",
+          data: null,
+          render: (data) => {
+            // Check if 'material' exists and contains items
+            if (data?.material && data.material.length > 0) {
+              return data.material
+                .map(
+                  (material) =>
+                    `<div>• <strong>${
+                      material.materialName || "N/A"
+                    }</strong>: ${material.quantity || "N/A"} ${
+                      material.unit || "N/A"
+                    }</div>`
+                )
+                .join(""); // Join the materials with no separator for proper line breaks
+            } else {
+              return "N/A";
+            }
+          },
+        },
+        {
+          title: "Action",
+          data: null,
+          render: (data) => {
+            return `
+              <div class="py-2 px-4 flex gap-2">
+                <button
+                  class="bg-green-500 font-semibold text-white px-4 py-2 rounded"
+                  id="createPOBtn_${data._id}"
+                >
+                  Create PO
+                </button>
+                <button
+                  class="bg-red-500 font-semibold text-white px-4 py-2 rounded"
+                  id="deleteBtn_${data._id}"
+                >
+                  Delete
+                </button>
+              </div>`;
+          },
+        },
+      ],
+      order: [[0, "desc"]],
+      rowCallback: (row, data) => {
+        const createPOBtn = row.querySelector(`#createPOBtn_${data._id}`);
+        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+
+        // Attach event listeners for buttons
+        createPOBtn.addEventListener("click", () => handleEdit(data));
+        deleteBtn.addEventListener("click", () => openDeleteModal(data._id));
+      },
+    });
+
+    return () => {
+      table.destroy();
+    };
+  }, [requests]);
+
   const fetchRequests = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/rawmaterial/request`);
       setRequests(response.data);
+      console.log(response.data);
     } catch (error) {
       setError("Error fetching raw material requests.");
     } finally {
@@ -70,7 +159,7 @@ const RawMaterialRequest = () => {
 
   const handleEdit = (request) => {
     const requestData = {
-      supplier: request.supplier, 
+      supplier: request.supplier,
       orderDate: new Date(),
       items: request.material.map((material) => ({
         name: material.materialName,
@@ -93,27 +182,37 @@ const RawMaterialRequest = () => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
         return sortConfig.direction === "ascending"
-          ? aValue < bValue ? -1 : 1
-          : aValue > bValue ? -1 : 1;
+          ? aValue < bValue
+            ? -1
+            : 1
+          : aValue > bValue
+          ? -1
+          : 1;
       });
     }
     return sorted;
   };
 
   const requestSort = (key) => {
-    const direction = (sortConfig.key === key && sortConfig.direction === "ascending") ? "descending" : "ascending";
+    const direction =
+      sortConfig.key === key && sortConfig.direction === "ascending"
+        ? "descending"
+        : "ascending";
     setSortConfig({ key, direction });
   };
 
   // Filter by search term
-  const filteredRequests = sortedRequests().filter(request =>
+  const filteredRequests = sortedRequests().filter((request) =>
     request.requestedBy.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Pagination logic
   const indexOfLastRequest = currentPage * itemsPerPage;
   const indexOfFirstRequest = indexOfLastRequest - itemsPerPage;
-  const currentRequests = filteredRequests.slice(indexOfFirstRequest, indexOfLastRequest);
+  const currentRequests = filteredRequests.slice(
+    indexOfFirstRequest,
+    indexOfLastRequest
+  );
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
 
   return (
@@ -128,112 +227,16 @@ const RawMaterialRequest = () => {
         </button>
       </div>
 
-      <input
-        type="text"
-        placeholder="Search by requested by..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="border rounded px-2 py-1 mb-4"
-      />
-
       <div className="overflow-x-auto bg-white shadow-md">
         {loading ? (
           <div className="py-4 text-center">Loading...</div>
         ) : error ? (
           <div className="py-4 text-center text-red-500">{error}</div>
         ) : (
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-100 text-left">
-              <tr>
-                <th className="py-2 px-4">#</th>
-                <th className="py-2 px-4 cursor-pointer" onClick={() => requestSort("requestDate")}>
-                  Requested Date {sortConfig.key === "requestDate" ? (sortConfig.direction === "ascending" ? '▲' : '▼') : ''}
-                </th>
-                <th className="py-2 px-4">Status</th>
-                <th className="py-2 px-4">Requested By</th>
-                <th className="py-2 px-4">Priority</th>
-                <th className="py-2 px-4">Materials</th>
-                <th className="py-2 px-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentRequests.length > 0 ? (
-                currentRequests.map((request, index) => (
-                  <tr key={request._id} className="border-b">
-                    <td className="py-2 px-4">{indexOfFirstRequest + index + 1}</td>
-                    <td className="py-2 px-4">{new Date(request.requestDate).toLocaleString()}</td>
-                    <td className="px-4 py-2 border">
-                      <select
-                        value={request.requestStatus}
-                        onChange={(e) => handleStatusChange(request._id, e.target.value)}
-                        className={`inline-block px-2 py-1 rounded text-white ${request.requestStatus === "Pending" ? "bg-yellow-500" : request.requestStatus === "Approved" ? "bg-green-500" : "bg-red-500"}`}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Rejected">Rejected</option>
-                      </select>
-                    </td>
-                    <td className="py-2 px-4">{request.requestedBy}</td>
-                    <td className="py-2 px-4">{request.priority}</td>
-                    <td className="py-2 px-4">
-                      {request.material.map((material) => (
-                        <div key={material._id}>
-                          {material.materialName} (Qty: {material.quantity} {material.unit})
-                        </div>
-                      ))}
-                    </td>
-                    <td className="py-2 px-4 flex gap-2">
-                      <button
-                        className="bg-green-600 text-white px-4 py-2 rounded"
-                        onClick={() => handleEdit(request)}
-                      >
-                        Create PO
-                      </button>
-                      <button
-                        className="bg-red-600 text-white px-4 py-2 rounded"
-                        onClick={() => openDeleteModal(request._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="py-4 text-center">No requests found</td>
-                </tr>
-              )}
-            </tbody>
+          <table className="min-w-full text-sm display" id="myTable">
+            <thead className="bg-blue-800 text-white"></thead>
           </table>
         )}
-      </div>
-
-      <div className="mt-4 flex justify-center items-center space-x-2">
-        <button
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => setCurrentPage(index + 1)}
-            className={`px-4 py-2 rounded ${currentPage === index + 1 ? "bg-blue-600 text-white" : "bg-gray-300"}`}
-          >
-            {index + 1}
-          </button>
-        ))}
-
-        <button
-          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
       </div>
 
       {modalOpen && (

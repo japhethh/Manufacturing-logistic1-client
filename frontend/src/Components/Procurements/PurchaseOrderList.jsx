@@ -331,7 +331,7 @@ const PurchaseOrderList = () => {
           </tbody>
         </table> */}
 
-        <table className="table" id="myTable">
+        <table className="table display" id="myTable">
           <thead className="bg-blue-800 text-white"></thead>
         </table>
       </div>
@@ -343,16 +343,16 @@ const PurchaseOrderList = () => {
             <p>Are you sure you want to delete this purchase order?</p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                className="bg-red-600 text-white px-4 py-2 rounded"
-                onClick={deletePurchaseOrder}
-              >
-                Delete
-              </button>
-              <button
                 className="bg-gray-300 px-4 py-2 rounded"
                 onClick={() => setShowModal(false)}
               >
                 Cancel
+              </button>
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded"
+                onClick={deletePurchaseOrder}
+              >
+                Delete
               </button>
             </div>
           </div>

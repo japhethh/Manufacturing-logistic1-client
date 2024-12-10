@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const rawmaterialSchema = mongoose.Schema({
+  rawmaterialNumber: { type: String },
   requestDate: {
     type: Date,
     default: Date.now,
