@@ -116,7 +116,7 @@ const AllTrackingOrders = () => {
           { title: "Payment Term", data: "purchaseOrderId.paymentTerm" },
           { title: "Ratings", data: "supplier.rating" },
         ],
-        order: [[0, "desc"]],
+        order: [[2, "desc"]],
         rowCallback: (row, data) => {
           const statusSelect = row.querySelector(`#statusSelect_${data._id}`);
           const detailBtn = row.querySelector(`#detailBtn_${data._id}`);

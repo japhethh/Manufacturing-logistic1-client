@@ -192,9 +192,12 @@ const Search = () => {
                 </Link>
               </li>
               <li>
-                <a href="#settings" className="hover:bg-gray-100 p-2 rounded">
+                <Link
+                  to="/system_settings"
+                  className="hover:bg-gray-100 p-2 rounded"
+                >
                   Settings
-                </a>
+                </Link>
               </li>
               <li>
                 <a

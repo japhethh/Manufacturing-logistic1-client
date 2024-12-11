@@ -40,6 +40,7 @@ import EditProducts from "./Modules/EditProducts.jsx";
 import AllTrackingOrders from "./Components/TrackingOrders/AllTrackingOrders.jsx";
 import OrderDetailPage from "./Components/TrackingOrders/OrderDetailPage.jsx";
 import CreateInvoice from "./Components/Invoice/CreateInvoice.jsx";
+import RejectedOrdersVendor from "./Modules/RejectedOrdersVendor.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -147,6 +148,10 @@ const App = () => {
               <Route
                 path="CompleteOrdersVendor"
                 element={<CompleteOrdersVendor />}
+              />
+              <Route
+                path="RejectedOrdersVendor"
+                element={<RejectedOrdersVendor />}
               />
             </Route>
 

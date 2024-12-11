@@ -79,23 +79,22 @@ const CreateInvoiceVendor = () => {
               Invoice #{purchaseData?.purchaseOrderNumber}
             </p>
             <IoMdCopy className="size-6 cursor-pointer" />
-            <p className="bg-gray-400 rounded-full px-1">Draft</p>
           </div>
           <div className="flex gap-3 items-center">
-            <div className="form-control">
+            {/* <div className="form-control">
               <label className="label cursor-pointer gap-2">
                 <span className="font-medium text-lg">Reminders</span>
                 <input type="checkbox" className="toggle" defaultChecked />
               </label>
-            </div>
+            </div> */}
             <button
               type="submit"
-              className="px-3 py-1 bg-green-600 hover:bg-green-500 duration-150 rounded-lg text-white"
+              className="px-3 py-2 bg-green-600 hover:bg-green-500 duration-150 rounded-lg text-white"
             >
-              Send For Approvalsss
+              Send For Approvals
             </button>
             <NavLink to="/ordersvendor/ReceivingOrdersVendor">
-              <IoClose className="size-6 cursor-pointer" />
+              <IoClose className="size-8 ml-3 cursor-pointer  " />
             </NavLink>
           </div>
         </div>

@@ -7,6 +7,7 @@ import {
   approveOrders,
   rejectOrders,
   getAllCompleteOrders,
+  getAllRejectedOrders,
 } from "../controllers/vendorController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -22,6 +23,8 @@ vendorRouter.get(
 );
 
 vendorRouter.get("/getAllCompleteOrders", authMiddleware, getAllCompleteOrders);
+vendorRouter.get("/getAllRejectedOrders", authMiddleware, getAllRejectedOrders);
+
 vendorRouter.put(
   "/purchaseOrders/approve/:orderId",
   authMiddleware,

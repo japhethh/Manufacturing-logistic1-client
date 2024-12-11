@@ -2,7 +2,9 @@ import { NavLink, Outlet } from "react-router-dom";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { GiReceiveMoney } from "react-icons/gi";
 import { FaCalendarCheck } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { apiURL } from "../context/verifyStore";
 
 // Reusable Card Component
 const DashboardCard = ({ to, title, icon: Icon, badgeCount, badgeColor }) => (
@@ -23,6 +25,14 @@ const DashboardCard = ({ to, title, icon: Icon, badgeCount, badgeColor }) => (
 
 const OrdersVendor = () => {
   const [loading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   fetchPendingOrders();
+  // }, []);
+
+  // const fetchPendingOrders = async () => {
+  //   const response = await axios.get(`${apiURL}/api/`);
+  // };
 
   return (
     <div className="p-6 bg-gray-200 min-h-screen">
@@ -55,7 +65,14 @@ const OrdersVendor = () => {
         />
         <DashboardCard
           to="CompleteOrdersVendor"
-          title="Complete Orders"
+          title="Completed Orders"
+          icon={FaCalendarCheck}
+          badgeCount={8}
+          badgeColor="bg-yellow-200 text-yellow-800"
+        />
+        <DashboardCard
+          to="RejectedOrdersVendor"
+          title="Rejected Orders"
           icon={FaCalendarCheck}
           badgeCount={8}
           badgeColor="bg-yellow-200 text-yellow-800"

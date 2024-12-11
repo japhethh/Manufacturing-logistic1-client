@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -7,94 +6,130 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from 'recharts';
-
-// Sample data for charts
-const lineData = [
-  { name: 'Jan', vendors: 10 },
-  { name: 'Feb', vendors: 15 },
-  { name: 'Mar', vendors: 20 },
-  { name: 'Apr', vendors: 25 },
-  { name: 'May', vendors: 30 },
-];
-
-const pieData = [
-  { name: 'Active', value: 60 },
-  { name: 'Inactive', value: 30 },
-  { name: 'Pending', value: 10 },
-];
-
-const COLORS = ['#4F46E5', '#60A5FA', '#FBBF24'];
+} from "recharts";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { apiURL } from "../context/verifyStore";
+import { currency } from "../context/Currency";
 
 const DashboardVendor = () => {
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [yearData, setYearData] = useState({ totalRevenue: 0, totalSales: 0 });
+
+  const formattedData = monthlyData.map(
+    ({ month, totalRevenue, totalSales }) => ({
+      name: month,
+      revenue: totalRevenue,
+      sales: totalSales,
+    })
+  );
+
+  useEffect(() => {
+    fetchMonthlyData();
+    fetchYearData();
+  }, []);
+
+  const fetchMonthlyData = async () => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/salesAndRevenue/monthly-sales-revenue`
+      );
+      setMonthlyData(response.data || []);
+    } catch (error) {
+      console.error(
+        "Error fetching monthly data:",
+        error?.response?.data?.message
+      );
+    }
+  };
+
+  const fetchYearData = async () => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/salesAndRevenue/yearly-sales-revenue`
+      );
+      setYearData(response.data || { totalRevenue: 0, totalSales: 0 });
+    } catch (error) {
+      console.error(
+        "Error fetching yearly data:",
+        error?.response?.data?.message
+      );
+    }
+  };
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen w-full">
-      <h1 className="text-2xl font-bold mb-10 text-gray-800">Vendor Supplier Dashboard</h1>
-      
       {/* Cards Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {[
-          { title: 'Total Vendors', value: '50', color: 'text-blue-600' },
-          { title: 'Pending Registrations', value: '10', color: 'text-yellow-600' },
-          { title: 'Active Contracts', value: '30', color: 'text-green-600' },
-          { title: 'Recent Communications', content: (
-              <ul className="mt-3 space-y-1">
-                <li>
-                  <Link to="/vendor/communication/1" className="text-blue-500 hover:underline">
-                    Vendor A - Follow-up
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/vendor/communication/2" className="text-blue-500 hover:underline">
-                    Vendor B - Quote Request
-                  </Link>
-                </li>
-              </ul>
-            ) 
+          {
+            title: "Total Sales (This Year)",
+            value: `${currency[0]} ${yearData?.totalSales} `,
+            color: "text-blue-600",
           },
-          { title: 'Inventory Status', value: '20 Items Low', color: 'text-red-600' },
-          { title: 'Payments Due', value: '$5000', color: 'text-purple-600' },
+          {
+            title: "Total Revenue (This Year)",
+            value: `${currency[0]} ${yearData?.totalRevenue} `,
+            color: "text-yellow-600",
+          },
+          { title: "Active Contracts", value: "30", color: "text-green-600" },
+
+          {
+            title: "Inventory Status",
+            value: "20 Items Low",
+            color: "text-red-600",
+          },
+          { title: "Payments Due", value: "$5000", color: "text-purple-600" },
         ].map((card, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold text-gray-800">{card.title}</h2>
-            {card.value ? <p className={`text-4xl font-bold ${card.color}`}>{card.value}</p> : card.content}
+          <div
+            key={index}
+            className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl"
+          >
+            <h2 className="text-2xl font-semibold text-gray-800">
+              {card.title}
+            </h2>
+            {card.value ? (
+              <p className={`text-4xl font-bold ${card.color}`}>{card.value}</p>
+            ) : (
+              card.content
+            )}
           </div>
         ))}
       </div>
-      
-      {/* Charts Section */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-5">Vendors Over Time</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={lineData}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Line type="monotone" dataKey="vendors" stroke="#4F46E5" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-5">Vendor Status Distribution</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#8884d8">
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+
+      <h1 className="text-2xl font-bold mb-10 text-gray-800">
+        Vendor Supplier Dashboard
+      </h1>
+
+      {/* Line Chart for Sales and Revenue */}
+      <div className="mt-10 bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-5">
+          Monthly Sales and Revenue
+        </h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={formattedData}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Line
+              type="monotone"
+              dataKey="sales"
+              stroke="#4F46E5"
+              name="Sales"
+            />
+            <Line
+              type="monotone"
+              dataKey="revenue"
+              stroke="#FBBF24"
+              name="Revenue"
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
-      
-      {/* Add New Vendor Button */}
+
+      {/* Example of other sections for reference */}
       <div className="mt-10 text-center">
         <button className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-500 transition duration-200">
           Add New Vendor

@@ -92,9 +92,9 @@ const ReceiveOrdersVendor = () => {
           `,
         },
       ],
-      order: [[2, "desc"]],
+      order: [[1, "desc"]],
 
-      destroy: true, // Allows reinitialization of DataTable
+      destroy: true,
     });
 
     // Expose viewOrder function to be called from the DataTable
@@ -235,32 +235,53 @@ const ReceiveOrdersVendor = () => {
             >
               ✕
             </button>
+
             <h3 className="font-bold text-lg mb-4">Order Details</h3>
-            <div className="space-y-2">
-              <p>
-                <strong>Order ID:</strong> {selectedOrder._id}
+
+            {/* Customer Information Box */}
+            <div className="my-2 p-4 border rounded-lg bg-gray-50">
+              <h1 className="font-semibold text-xl mb-2">
+                Customer Information
+              </h1>
+              <p className="text-gray-700">
+                <span className="font-semibold">Name:</span> Juswa
               </p>
-              <p>
-                <strong>Purchase Order Number:</strong>{" "}
+              <p className="text-gray-700">
+                <span className="font-semibold">Email:</span> Juswa@gmail.com
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Phone:</span> 09511431876
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Address:</span> Quezon City
+              </p>
+            </div>
+
+            {/* Order Details Box */}
+            <div className="my-2 p-4 border rounded-lg bg-gray-50">
+              <p className="text-gray-700">
+                <span className="font-semibold">Order ID:</span>{" "}
+                {selectedOrder._id}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Purchase Order Number:</span>{" "}
                 {selectedOrder.purchaseOrderNumber}
               </p>
-              <p>
-                <strong>Order Date:</strong>{" "}
+              <p className="text-gray-700">
+                <span className="font-semibold">Order Date:</span>{" "}
                 {new Date(selectedOrder.orderDate).toLocaleDateString()}
               </p>
-              <p>
-                <strong>Total Amount:</strong> ₱
-                {selectedOrder.totalAmount.toLocaleString()}
+
+              <p className="text-gray-700">
+                <span className="font-semibold">Order Status:</span>{" "}
+                {selectedOrder.orderStatus}
               </p>
-              <p>
-                <strong>Order Status:</strong> {selectedOrder.orderStatus}
-              </p>
-              <p>
-                <strong>Reason for Rejection:</strong>{" "}
+              <p className="text-gray-700">
+                <span className="font-semibold">Reason for Rejection:</span>{" "}
                 {selectedOrder.rejectionReason || "N/A"}
               </p>
-              <p>
-                <strong>PDF:</strong>{" "}
+              <p className="text-gray-700">
+                <span className="font-semibold">PDF:</span>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -268,30 +289,37 @@ const ReceiveOrdersVendor = () => {
                   href={selectedOrder.pdfURL}
                 >
                   Download
-                </a>{" "}
+                </a>
+              </p>
+
+              <p className="text-gray-700 ">
+                <span className="font-semibold">Total Amount:</span> ₱
+                {selectedOrder.totalAmount.toLocaleString()}
               </p>
             </div>
 
             {/* Items Table */}
-            <h4 className="font-semibold mt-4">Items in Order:</h4>
-            <table className="table w-full mt-2">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th>Item Name</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedOrder.items.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.name}</td>
-                    <td>{item.quantity}</td>
-                    <td>₱{item.price.toLocaleString()}</td>
+            <div className="my-2 p-4 border rounded-lg bg-gray-50">
+              <h4 className="font-semibold text-lg mb-2">Items in Order:</h4>
+              <table className="table w-full">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {selectedOrder.items.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>₱{item.price.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

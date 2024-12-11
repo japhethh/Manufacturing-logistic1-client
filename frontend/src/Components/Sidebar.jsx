@@ -657,7 +657,7 @@ const Sidebar = () => {
                       )}
                     </summary>
                     <ul className="pl-4">
-                      <li className="mt-1">
+                      {/* <li className="mt-1">
                         <NavLink
                           to="/currencies"
                           className={({ isActive }) =>
@@ -669,7 +669,7 @@ const Sidebar = () => {
                           <GrCurrency className="inline" />{" "}
                           <p className="text-base">Currencies</p>
                         </NavLink>
-                      </li>
+                      </li> */}
                       <li className="mt-1">
                         <NavLink
                           to="system_settings"

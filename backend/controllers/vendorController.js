@@ -77,6 +77,27 @@ const getAllCompleteOrders = asyncHandler(async (req, res) => {
   });
 });
 
+const getAllRejectedOrders = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const supplier = await supplierModel.findById(userId).populate({
+    path: "purchaseOrders",
+    match: { orderStatus: "Rejected" },
+  });
+
+  if (!supplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier not found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: supplier,
+    rejectedOrders: supplier.purchaseOrders,
+  });
+});
+
 const approveOrders = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   const { userId } = req.body;
@@ -117,7 +138,7 @@ const approveOrders = asyncHandler(async (req, res) => {
 
 const rejectOrders = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
-  const { userId } = req.body;
+  const { userId, reason } = req.body;
 
   const order = await purchaseOrderModel.findById(orderId);
 
@@ -127,7 +148,6 @@ const rejectOrders = asyncHandler(async (req, res) => {
       .json({ success: false, message: "purchase id is not found" });
   }
 
-  console.log(order);
   const user = await supplierModel.findById(userId);
 
   if (!user) {
@@ -137,6 +157,7 @@ const rejectOrders = asyncHandler(async (req, res) => {
   }
 
   order.orderStatus = "Rejected";
+  order.rejectionReason = reason;
   order.statusHistory.push({
     status: order.orderStatus,
     changedBy: userId,
@@ -154,6 +175,7 @@ export {
   getUserData,
   getAllPendingOrders,
   getAllReceivingOrders,
+  getAllRejectedOrders,
   approveOrders,
   rejectOrders,
   getAllCompleteOrders,
