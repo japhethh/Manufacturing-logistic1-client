@@ -36,6 +36,7 @@ import retrievePaymentRouter from "./routes/retrievePayment.js";
 import messageRouter from "./routes/messageRouter.js";
 import chatRouter from "./routes/chatRouter.js";
 import salesAndRevenueRouter from "./routes/salesAndRevenueRouter.js";
+import { croncron } from "./cronjob.js";
 const port = process.env.PORT || 4000;
 const app = express();
 app.use(cors());
@@ -117,3 +118,5 @@ const io = new Server(server, {
 app.set("socketio", io);
 
 socketService(io);
+
+console.log(croncron);

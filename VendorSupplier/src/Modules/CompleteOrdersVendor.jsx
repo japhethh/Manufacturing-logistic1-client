@@ -73,12 +73,6 @@ const CustomerOrdersVendor = () => {
     }
   };
 
-  // Handle Approve Button Click (opens Approve Modal)
-  const handleApproveClick = (orderId) => {
-    setCurrentOrderId(orderId);
-    setApproveModalOpen(true);
-  };
-
   // Confirm Approval
   const confirmApprove = () => {
     approveOrder(currentOrderId);
@@ -123,12 +117,6 @@ const CustomerOrdersVendor = () => {
   const closeModal = () => {
     setSelectedOrder(null);
     setModalOpen(false);
-  };
-
-  // Open Reject Modal
-  const openRejectModal = (order) => {
-    setSelectedOrder(order);
-    setRejectModalOpen(true);
   };
 
   // Close Reject Modal
@@ -214,8 +202,8 @@ const CustomerOrdersVendor = () => {
                           ? "bg-yellow-500 text-white"
                           : order?.orderStatus === "Delivered"
                           ? "bg-purple-500 text-white"
-                          : order?.orderStatus === "Complete"
-                          ? "bg-blue-900 text-white"
+                          : order?.orderStatus === "Completed"
+                          ? "bg-green-500 text-white"
                           : ""
                       }`}
                     >
@@ -224,7 +212,7 @@ const CustomerOrdersVendor = () => {
                   </td>
                   <td className="hidden md:table-cell">
                     <div className="flex space-x-2">
-                      <button
+                      {/* <button
                         onClick={() => handleApproveClick(order._id)}
                         className="btn btn-primary btn-sm"
                       >
@@ -235,7 +223,7 @@ const CustomerOrdersVendor = () => {
                         className="btn btn-error btn-sm"
                       >
                         Reject
-                      </button>
+                      </button> */}
                       <button
                         onClick={() => openModal(order)}
                         className="btn btn-secondary btn-sm"
@@ -283,7 +271,9 @@ const CustomerOrdersVendor = () => {
         <div className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Reject Order</h3>
-            <p className="py-4">Please provide a reason for rejecting the order.</p>
+            <p className="py-4">
+              Please provide a reason for rejecting the order.
+            </p>
             <textarea
               className="textarea textarea-bordered w-full"
               rows="4"
@@ -303,30 +293,100 @@ const CustomerOrdersVendor = () => {
         </div>
       )}
 
-      {/* View Order Modal */}
+      {/* View Modal */}
       {modalOpen && selectedOrder && (
         <div className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Order Details</h3>
-            <p className="py-4">
-              <strong>Order ID:</strong> {selectedOrder._id}
-            </p>
-            <p className="py-4">
-              <strong>Purchase Order Number:</strong> {selectedOrder.purchaseOrderNumber}
-            </p>
-            <p className="py-4">
-              <strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleDateString()}
-            </p>
-            <p className="py-4">
-              <strong>Total Amount:</strong> ₱{selectedOrder.totalAmount.toLocaleString()}
-            </p>
-            <p className="py-4">
-              <strong>Status:</strong> {selectedOrder.orderStatus}
-            </p>
-            <div className="modal-action">
-              <button onClick={closeModal} className="btn btn-secondary">
-                Close
-              </button>
+          <div className="modal-box relative p-6">
+            <button
+              onClick={closeModal}
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            >
+              ✕
+            </button>
+
+            <h3 className="font-bold text-lg mb-4">Order Details</h3>
+
+            {/* Customer Information Box */}
+            <div className="my-2 p-4 border rounded-lg bg-gray-50">
+              <h1 className="font-semibold text-xl mb-2">
+                Customer Information
+              </h1>
+              <p className="text-gray-700">
+                <span className="font-semibold">Name:</span> Juswa
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Email:</span> Juswa@gmail.com
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Phone:</span> 09511431876
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Address:</span> Quezon City
+              </p>
+            </div>
+
+            {/* Order Details Box */}
+            <div className="my-2 p-4 border rounded-lg bg-gray-50">
+              <p className="text-gray-700">
+                <span className="font-semibold">Order ID:</span>{" "}
+                {selectedOrder._id}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Purchase Order Number:</span>{" "}
+                {selectedOrder.purchaseOrderNumber}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Order Date:</span>{" "}
+                {new Date(selectedOrder.orderDate).toLocaleDateString()}
+              </p>
+
+              <p className="text-gray-700">
+                <span className="font-semibold">Order Status:</span>{" "}
+                {selectedOrder.orderStatus}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">Reason for Rejection:</span>{" "}
+                {selectedOrder.rejectionReason || "N/A"}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">PDF:</span>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                  href={selectedOrder.pdfURL}
+                >
+                  Download
+                </a>
+              </p>
+
+              <p className="text-gray-700 ">
+                <span className="font-semibold">Total Amount:</span> ₱
+                {selectedOrder.totalAmount.toLocaleString()}
+              </p>
+            </div>
+
+            {/* Items Table */}
+            <div className="my-2 p-4 border rounded-lg bg-gray-50">
+              <h4 className="font-semibold text-lg mb-2">Items in Order:</h4>
+              <table className="table w-full">
+                <thead className=" bg-blue-800 text-white">
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedOrder.items.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.name}</td>
+                      <td>{item.quantity}</td>
+                      <td>₱{item.price.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

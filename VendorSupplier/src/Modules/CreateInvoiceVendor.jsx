@@ -38,7 +38,6 @@ const CreateInvoiceVendor = () => {
     } catch (error) {
       toast.error(error?.response.data.message);
     }
-    // const response = await
   };
 
   const fetchOrderId = async () => {
@@ -76,7 +75,7 @@ const CreateInvoiceVendor = () => {
         <div className="flex justify-between">
           <div className="flex gap-3 items-center">
             <p className="text-2xl font-medium">
-              Invoice #{purchaseData?.purchaseOrderNumber}
+              Invoice <span>#{purchaseData?.purchaseOrderNumber}</span>
             </p>
             <IoMdCopy className="size-6 cursor-pointer" />
           </div>
@@ -89,7 +88,7 @@ const CreateInvoiceVendor = () => {
             </div> */}
             <button
               type="submit"
-              className="px-3 py-2 bg-green-600 hover:bg-green-500 duration-150 rounded-lg text-white"
+              className="px-3 py-2 max-md:hidden bg-green-600 hover:bg-green-500 duration-150 rounded-lg text-white"
             >
               Send For Approvals
             </button>

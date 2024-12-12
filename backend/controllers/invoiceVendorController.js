@@ -72,6 +72,22 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
     // Save the invoice document
     await newInvoice.save();
 
+    const updateStatus = await purchaseOrderModel.findByIdAndUpdate(
+      _id,
+      {
+        orderStatus: "Completed",
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!updateStatus) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Purchase Order not found!" });
+    }
+
     // Return success response
     res.status(201).json({
       success: true,

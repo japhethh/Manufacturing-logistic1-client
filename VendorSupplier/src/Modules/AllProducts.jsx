@@ -184,7 +184,9 @@ const AllProducts = () => {
 
       <div className="divider"></div>
 
-      <table id="productsTable" className="display w-full"></table>
+      <table id="productsTable" className="display w-full">
+        <thead className=" bg-blue-800 text-white"> </thead>
+      </table>
 
       {/* Edit Modal */}
       {showModal && modalType === "edit" && selectedData && (

@@ -183,8 +183,8 @@ const ReceiveOrdersVendor = () => {
       {/* Pending Orders Table */}
       <div className="overflow-x-auto mb-6">
         <table id="ordersTable" className="table w-full">
-          <thead className="bg-gray-200">
-            <tr className="text-gray-600">
+          <thead className="bg-blue-800 text-white">
+            <tr>
               <th>Order ID</th>
               <th>Purchase Order Number</th>
               <th>Order Date</th>

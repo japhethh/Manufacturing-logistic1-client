@@ -138,7 +138,9 @@ const Category = () => {
         </button>
       </div>
       <div className="divider"></div>
-      <table id="myTable" className="display w-full"></table>
+      <table id="myTable" className="display w-full">
+        <thead className="bg-blue-800 text-white"></thead>
+      </table>
 
       {/* Add/Edit Modal */}
       {showModal && modalType === "add" && (
