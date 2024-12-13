@@ -51,10 +51,18 @@ const Log = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-6 md:px-56 w-full bg-gradient-to-r from-blue-500 to-teal-500">
-      <img src={logistic} alt="" />
-      
-      <div className="flex flex-col md:flex-row gap-6 items-center w-full">
+    <div className="min-h-screen relative flex flex-col justify-center md:flex-row items-center px-4 sm:px-6 md:px-56 w-full">
+      {/* Background Image with Dark Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={logistic}
+          alt="Background"
+          className="w-full h-full object-cover absolute"
+        />
+        <div className="absolute inset-0 bg-black opacity-40"></div>
+      </div>
+
+      <div className="relative z-10 flex flex-col md:flex-row gap-6 items-center w-full">
         {/* LOG IN */}
         <div className="bg-white shadow-2xl rounded-lg px-8 py-8 max-w-sm w-full mt-8 md:mt-0">
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">
