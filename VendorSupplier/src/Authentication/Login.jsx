@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { VendorUserContext } from "../context/VendorUserContext";
 import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import vendor from "../assets/vendorLogin.jpg";
 
 const schema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
@@ -17,19 +18,19 @@ const schema = z.object({
 const Login = () => {
   const { setToken } = useContext(VendorUserContext);
   const navigate = useNavigate();
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors }, 
-    reset 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { 
-      email: "", 
-      password: "" 
+    defaultValues: {
+      email: "",
+      password: "",
     },
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -53,7 +54,13 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-56 w-full bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600">
+    <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-56 w-full">
+      <img
+        src={vendor}
+        alt="Background"
+        className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
+        style={{ zIndex: -1 }}
+      />
       <div className="flex flex-col sm:flex-row gap-5 items-center w-full">
         {/* Login */}
         <div className="max-w-md w-full px-10 py-8 bg-white rounded-xl shadow-2xl">
@@ -100,7 +107,9 @@ const Login = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
               {errors.password && (
-                <p className="text-xs text-red-500">{errors.password.message}</p>
+                <p className="text-xs text-red-500">
+                  {errors.password.message}
+                </p>
               )}
               <a
                 href="#"
