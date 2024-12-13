@@ -1,19 +1,32 @@
 import express from "express";
 import axios from "axios";
+import Invoice from "../models/invoiceVendorModel.js";
 
 const router = express.Router();
 
 router.post("/payment-link", async (req, res) => {
-  const { amount, description, remarks } = req.body;
+  const { amount, description, remarks, status, userId, invoiceId } = req.body;
 
-  // Basic validation
+  const updateStatusPaid = await Invoice.findByIdAndUpdate(
+    invoiceId,
+    {
+      status: status,
+    },
+    { new: true }
+  );
+
+  if (!updateStatusPaid) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Invoice not found!" });
+  }
   if (!amount || !description) {
+    // Basic validation
     return res
       .status(400)
       .json({ message: "Amount and description are required." });
   }
 
-  // Encode the PayMongo secret key for Basic Auth
   const encodedKey = Buffer.from(
     `${process.env.PAYMONGO_SECRET_KEY}:`
   ).toString("base64");

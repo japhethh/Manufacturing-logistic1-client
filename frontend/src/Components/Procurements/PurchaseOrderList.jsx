@@ -59,8 +59,8 @@ const PurchaseOrderList = () => {
               case "In Process":
                 statusClass = "bg-yellow-100 text-yellow-800"; // Light yellow for In Process
                 break;
-              case "Shipped":
-                statusClass = "bg-orange-100 text-orange-800"; // Light orange for Shipped
+              case "Completed":
+                statusClass = "bg-[#6241FF] text-white"; // Light orange for Shipped
                 break;
               case "Delivered":
                 statusClass = "bg-gray-100 text-gray-800"; // Light gray for Delivered

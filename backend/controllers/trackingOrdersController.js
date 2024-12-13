@@ -6,7 +6,6 @@ import MaterialModel from "../models/materialModel.js";
 
 const getAllTrackingOrders = asyncHandler(async (req, res) => {
   // const { id } = req.params;
-
   const trackingOrders = await TrackingOrderModel.find()
     .populate("supplier")
     .populate("purchaseOrderId")
@@ -78,7 +77,8 @@ const updateStatus = asyncHandler(async (req, res) => {
     id,
     {
       deliveryStatus,
-      alreadyDispatch: deliveryStatus === "Dispatch" ? true : checkExist.alreadyDispatch,
+      alreadyDispatch:
+        deliveryStatus === "Dispatch" ? true : checkExist.alreadyDispatch,
     },
     { new: true }
   )
@@ -100,10 +100,9 @@ const updateStatus = asyncHandler(async (req, res) => {
   io.emit("updateStatus", updatedStatus);
 });
 
-
 const getSpecificId = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.body;
+  // const { userId } = req.body;
 
   const trackingOrder = await TrackingOrderModel.findById(id);
   if (!trackingOrder) {
@@ -115,4 +114,38 @@ const getSpecificId = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: trackingOrder });
 });
 
-export { getAllTrackingOrders, updateStatus, getSpecificId };
+const getAllTrackingOrderSupplier = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const supplierAccount = await supplierModel.findById(userId);
+
+  if (!supplierAccount) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Supplier Id not found!" });
+  }
+
+  const trackingOrders = await TrackingOrderModel.find({ supplier: userId })
+    .populate("invoiceId")
+    .populate("supplier")
+    .populate("purchaseOrderId")
+    .populate("generalSettings");
+
+  if (!trackingOrders) {
+    return res.status(404).json({
+      success: false,
+      message: "No Tracking orders found for this supplier",
+    });
+  }
+
+  res.status(200).json(trackingOrders);
+
+  // const
+});
+
+export {
+  getAllTrackingOrders,
+  updateStatus,
+  getSpecificId,
+  getAllTrackingOrderSupplier,
+};

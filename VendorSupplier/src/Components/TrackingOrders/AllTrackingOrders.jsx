@@ -19,7 +19,10 @@ const AllTrackingOrders = () => {
 
   const fetchTrackingOrdersData = async () => {
     try {
-      const response = await axios.get(`${apiURL}/api/trackingOrders/`);
+      const response = await axios.get(
+        `${apiURL}/api/trackingOrders/getAllTrackingOrderSupplier`,
+        { headers: { token: token } }
+      );
       setTrackingOrdersData(response.data);
       console.log(response.data);
     } catch (error) {
@@ -153,7 +156,7 @@ const AllTrackingOrders = () => {
   };
 
   return (
-    <div className="p-5 w-[1280px] bg-gray-200">
+    <div className="p-5 lg:w-[1280px] xl:w-[1600px] bg-gray-200">
       <TrackingOrderItems />
       <div className="overflow-x-scroll w-full bg-white p-5 rounded-xl">
         <table id="myTable" className="display min-w-full table-xs"></table>

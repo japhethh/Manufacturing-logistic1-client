@@ -8,7 +8,7 @@ const TrackingOrderItems = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="w-auto">
+    <div className="w-full">
       {/* Loading Spinner */}
       {loading && (
         <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">

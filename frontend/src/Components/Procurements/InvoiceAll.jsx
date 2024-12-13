@@ -92,11 +92,11 @@ const InvoiceAll = () => {
   };
 
   const handlePaymentSubmit = async (data) => {
-    const { description } = data;
+    const { description, status } = data;
     const invoiceToPay = selectedData;
-
     const { totalAmount } = invoiceToPay;
 
+    console.log(data.status);
     try {
       const response = await axios.post(
         `${apiURL}/api/payment/payment-link`,
@@ -104,6 +104,7 @@ const InvoiceAll = () => {
           invoiceId: invoiceToPay._id,
           amount: totalAmount,
           description,
+          status,
         },
         {
           headers: { token: token },

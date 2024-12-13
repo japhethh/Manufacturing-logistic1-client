@@ -22,6 +22,7 @@ const userSchema = mongoose.Schema(
         "pending",
         "vendorAdmin",
         "qualityControl",
+        "superAdmin"
       ],
       default: "pending",
     },
