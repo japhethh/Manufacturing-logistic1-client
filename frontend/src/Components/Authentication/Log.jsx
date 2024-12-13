@@ -1,22 +1,27 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { UserContext } from '../../context/userContext';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { UserContext } from "../../context/userContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import logistic from "../../assets/logistic.jpg";
 
 const Log = () => {
   const context = useContext(UserContext);
   if (!context) {
     return null;
   }
-  
+
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const { apiURL, setToken } = context;
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,28 +30,30 @@ const Log = () => {
   const onSubmit = async (data) => {
     console.log(data);
     if (!data.userName || !data.password) {
-      toast.warning('Please fill all fields');
+      toast.warning("Please fill all fields");
       return;
     }
     try {
       const response = await axios.post(`${apiURL}/api/user/login`, data);
       // Set token in context and localStorage
       setToken(response.data.token);
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
       // toast.success('Login successful');
       // navigate('/');
-      window.location.href = '/';
+      window.location.href = "/";
       // window.location.reload();
     } catch (error) {
       toast.error(
-        error.response?.data?.message || 'Login failed. Please try again.'
+        error.response?.data?.message || "Login failed. Please try again."
       );
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col justify-center md:flex-row items-center px-4 sm:px-6 md:px-56 w-full bg-gradient-to-r from-blue-500 to-teal-500">
+      <img src={logistic} alt="" />
+      
       <div className="flex flex-col md:flex-row gap-6 items-center w-full">
         {/* LOG IN */}
         <div className="bg-white shadow-2xl rounded-lg px-8 py-8 max-w-sm w-full mt-8 md:mt-0">
@@ -55,7 +62,10 @@ const Log = () => {
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Username
               </label>
               <input
@@ -63,22 +73,25 @@ const Log = () => {
                 id="userName"
                 className="shadow-sm rounded-md w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your username..."
-                {...register('userName', { required: 'Username is required' })}
+                {...register("userName", { required: "Username is required" })}
               />
               {errors.userName && (
                 <span className="text-red-500">{errors.userName.message}</span>
               )}
             </div>
             <div className="mb-6 relative">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 id="password"
                 className="shadow-sm rounded-md w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your password"
-                {...register('password', { required: 'Password is required' })}
+                {...register("password", { required: "Password is required" })}
               />
               <span
                 onClick={togglePasswordVisibility}
@@ -89,7 +102,10 @@ const Log = () => {
               {errors.password && (
                 <span className="text-red-500">{errors.password.message}</span>
               )}
-              <a href="#" className="text-xs text-gray-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <a
+                href="#"
+                className="text-xs text-gray-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
                 Forgot Password?
               </a>
             </div>
@@ -101,7 +117,10 @@ const Log = () => {
                   className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:outline-none"
                   defaultChecked
                 />
-                <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
+                <label
+                  htmlFor="remember"
+                  className="ml-2 block text-sm text-gray-700"
+                >
                   Remember me
                 </label>
               </div>
