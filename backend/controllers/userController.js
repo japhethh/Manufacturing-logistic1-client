@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
   }
 
   const generalAccount = await generalSettingsModel.find({});
-  const index1 = generalAccount[0]
+  const index1 = generalAccount[0];
   const newUser = new User({
     name: name,
     email: email,
@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
     phone: phone,
     address: address,
     city: city,
-    generalSetting:index1._id,
+    generalSetting: index1._id,
   });
 
   const getUser = await newUser.save();
@@ -106,7 +106,7 @@ const getEdit = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
-  console.log(req.body)
+  console.log(req.body);
   const user = await User.findById(id);
 
   if (!user) {
@@ -116,7 +116,6 @@ const updateUser = asyncHandler(async (req, res) => {
   let image = user.image;
 
   if (req.file) {
-    
     try {
       // Delete the old image from Cloudinary if it exists
       if (user.image) {
@@ -240,15 +239,16 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 // Login
 const loginUser = asyncHandler(async (req, res) => {
-  const { userName, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = await userModel.findOne({ userName });
+  const user = await userModel.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
     res.json({ success: true, token: createToken(user._id) });
   } else {
-    res.status(400);
-    throw new Error("Invalid Email or Password");
+    res
+      .status(404)
+      .json({ success: false, message: "Invalid Email or Password" });
   }
 });
 

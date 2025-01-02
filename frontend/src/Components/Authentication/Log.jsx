@@ -29,7 +29,7 @@ const Log = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    if (!data.userName || !data.password) {
+    if (!data.email || !data.password) {
       toast.warning("Please fill all fields");
       return;
     }
@@ -39,14 +39,9 @@ const Log = () => {
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
-      // toast.success('Login successful');
-      // navigate('/');
       window.location.href = "/";
-      // window.location.reload();
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Login failed. Please try again."
-      );
+      toast.error(error.response?.data?.message);
     }
   };
 
@@ -74,17 +69,17 @@ const Log = () => {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Username
+                Email
               </label>
               <input
                 type="text"
-                id="userName"
+                id="email"
                 className="shadow-sm rounded-md w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your username..."
-                {...register("userName", { required: "Username is required" })}
+                {...register("email", { required: "Email is required" })}
               />
-              {errors.userName && (
-                <span className="text-red-500">{errors.userName.message}</span>
+              {errors.email && (
+                <span className="text-red-500">{errors.email.message}</span>
               )}
             </div>
             <div className="mb-6 relative">
@@ -110,12 +105,12 @@ const Log = () => {
               {errors.password && (
                 <span className="text-red-500">{errors.password.message}</span>
               )}
-              <a
+              {/* <a
                 href="#"
                 className="text-xs text-gray-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Forgot Password?
-              </a>
+              </a> */}
             </div>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
@@ -142,7 +137,7 @@ const Log = () => {
           </form>
         </div>
         {/* "Logistic 1" Text */}
-        <div className="text-center md:text-left mt-8 md:mt-0">
+        <div className="text-center max-lg:hidden md:text-left mt-8 md:mt-0">
           <p className="text-6xl sm:text-7xl md:text-8xl font-bold text-white">
             Logistic 1
           </p>
