@@ -30,6 +30,7 @@ const AllProducts = () => {
         { headers: { token: token } }
       );
       setRequestData(response.data);
+      console.log(response.data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to fetch data.");
       console.log(error?.response?.data?.message);
@@ -69,6 +70,14 @@ const AllProducts = () => {
             title: "Price",
             data: "pricePerUnit",
             render: (data) => (data ? data : "N/A"),
+          },
+          {
+            title: "Category",
+            data: null,
+            render: (data) =>
+              data?.category?.category_name
+                ? data?.category?.category_name
+                : "N/A",
           },
           {
             title: "Quantity",

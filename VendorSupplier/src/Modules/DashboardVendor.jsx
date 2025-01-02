@@ -12,11 +12,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { apiURL } from "../context/verifyStore";
 import { currency } from "../context/Currency";
+import verifyStore from "../context/verifyStore";
 
 const DashboardVendor = () => {
   const [monthlyData, setMonthlyData] = useState([]);
   const [yearData, setYearData] = useState({ totalRevenue: 0, totalSales: 0 });
-
+  const { token } = verifyStore();
   const formattedData = monthlyData.map(
     ({ month, totalRevenue, totalSales }) => ({
       name: month,
@@ -33,7 +34,8 @@ const DashboardVendor = () => {
   const fetchMonthlyData = async () => {
     try {
       const response = await axios.get(
-        `${apiURL}/api/salesAndRevenue/monthly-sales-revenue`
+        `${apiURL}/api/salesAndRevenue/monthly-sales-revenue`,
+        { headers: { token: token } }
       );
       setMonthlyData(response.data || []);
     } catch (error) {
@@ -47,7 +49,8 @@ const DashboardVendor = () => {
   const fetchYearData = async () => {
     try {
       const response = await axios.get(
-        `${apiURL}/api/salesAndRevenue/yearly-sales-revenue`
+        `${apiURL}/api/salesAndRevenue/yearly-sales-revenue`,
+        { headers: { token: token } }
       );
       setYearData(response.data || { totalRevenue: 0, totalSales: 0 });
     } catch (error) {

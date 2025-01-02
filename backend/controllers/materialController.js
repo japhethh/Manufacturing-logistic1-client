@@ -3,6 +3,7 @@ import MaterialModel from "../models/materialModel.js";
 import supplierModel from "../models/supplierModel.js";
 import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
+import Counter from "../models/Counter.js";
 
 // Create
 const createMaterial = asyncHandler(async (req, res) => {
@@ -59,6 +60,7 @@ const getAllMaterial = asyncHandler(async (req, res) => {
   }
 
   const materials = await MaterialModel.find({ supplier: userId })
+    .populate("category")
     .populate("supplier")
     .populate("material_id")
     .sort({ orderDate: -1 });
@@ -123,9 +125,21 @@ const appendMaterial = asyncHandler(async (req, res) => {
     alertQuantity,
     userId,
     cost,
+    category,
   } = req.body;
 
   let image = "";
+
+  const counter = await Counter.findByIdAndUpdate(
+    { _id: "materialCode" },
+    { $inc: { sequence_value: 1 } },
+    { new: true, upsert: true }
+  );
+
+  const materialCode = counter.sequence_value.toString().padStart(3, "0");
+
+  const reference = `MC-${materialCode}`;
+
   // Check if a file is uploaded
   if (req.file) {
     try {
@@ -164,16 +178,17 @@ const appendMaterial = asyncHandler(async (req, res) => {
 
   const newMaterial = new MaterialModel({
     materialName: materialName,
-    // materialCode: materialCode,
+    materialCode: reference,
     description: description,
     unit: unit,
     pricePerUnit: pricePerUnit,
     supplier: userId,
     available: available,
-    tax:tax,
+    tax: tax,
     alertQuantity,
     image,
     cost,
+    category,
   });
 
   const savedMaterial = await newMaterial.save();
@@ -226,6 +241,8 @@ const updateMaterial = asyncHandler(async (req, res) => {
       .status(400)
       .json({ success: false, message: "Material not found" });
   }
+
+  console.log(req.body);
 
   const updatedMaterial = await MaterialModel.findByIdAndUpdate(id, req.body, {
     new: true,

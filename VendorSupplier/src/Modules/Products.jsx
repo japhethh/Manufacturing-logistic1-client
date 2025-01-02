@@ -41,11 +41,12 @@ const Products = () => {
     }
   };
 
-  console.log(category);
+  // console.log(category);
   // console.log(productImage);
 
   const onSubmit = async (data) => {
     console.log({ ...data, productImage });
+    console.log(data);
     const formData = new FormData();
     // Append the form data values
     formData.append("materialName", data.materialName);
@@ -135,7 +136,7 @@ const Products = () => {
                 {...register("category", { required: "Category is required" })}
               >
                 {category.map((item, index) => (
-                  <option key={index} value={item?.category_name}>
+                  <option key={index} value={item?._id}>
                     {item?.category_name}
                   </option>
                 ))}

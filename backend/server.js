@@ -37,6 +37,8 @@ import messageRouter from "./routes/messageRouter.js";
 import chatRouter from "./routes/chatRouter.js";
 import salesAndRevenueRouter from "./routes/salesAndRevenueRouter.js";
 import { croncron } from "./cronjob.js";
+import { FilterAccounts } from "./testing/aggregateUser.js";
+import testingAggregateUserRouter from "./routes/testingAggregateUserRouter.js";
 const port = process.env.PORT || 4000;
 const app = express();
 app.use(cors());
@@ -92,7 +94,7 @@ app.use("/api/retrievePayment", retrievePaymentRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/salesAndRevenue", salesAndRevenueRouter);
-
+app.use("/api/testing", testingAggregateUserRouter);
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });

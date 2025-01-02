@@ -6,13 +6,14 @@ import verifyStore from "../context/verifyStore";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const EditProducts = () => {
   const [productImage, setProductImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [category, setCategory] = useState([]);
   const [material, setMaterial] = useState();
   const { token } = verifyStore();
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const {
     register,
@@ -53,6 +54,9 @@ const EditProducts = () => {
       setValue("cost", materialOnly.cost);
       setValue("image", materialOnly.image);
       setValue("materialCode", materialOnly.materialCode);
+      setValue("tax", materialOnly.tax);
+      setValue("category", materialOnly.category);
+      setValue("note", materialOnly.note);
       setValue("materialName", materialOnly.materialName);
       setValue("material_id", materialOnly.material_id);
       setValue("pricePerUnit", materialOnly.pricePerUnit);
@@ -97,7 +101,7 @@ const EditProducts = () => {
 
     try {
       const response = await axios.put(
-        `${apiURL}/api/material/appendMaterial`,
+        `${apiURL}/api/material/updateMaterial/${id}`,
         formData,
         {
           headers: {
@@ -108,6 +112,7 @@ const EditProducts = () => {
       );
       // Handle successful submission
       toast.success(response.data.message);
+      // navigate("createproduct/allproducts");
       reset();
     } catch (error) {
       // Handle errors
@@ -179,7 +184,7 @@ const EditProducts = () => {
                 {...register("category", { required: "Category is required" })}
               >
                 {category.map((item, index) => (
-                  <option key={index} value={item?.category_name}>
+                  <option key={index} value={item?._id}>
                     {item?.category_name}
                   </option>
                 ))}
@@ -312,7 +317,7 @@ const EditProducts = () => {
               Note
             </label>
             <textarea
-              {...register("description")}
+              {...register("note")}
               className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter additional notes"
             ></textarea>

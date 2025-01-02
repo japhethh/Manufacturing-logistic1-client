@@ -1,6 +1,6 @@
 import invoiceModel from "../models/invoiceVendorModel.js";
-
-const getMonthlySalesAndRevenue = async () => {
+import mongoose from "mongoose";
+const getMonthlySalesAndRevenue = async (vendorId) => {
   try {
     const months = [
       { month: 1, name: "January" },
@@ -18,7 +18,12 @@ const getMonthlySalesAndRevenue = async () => {
     ];
 
     const monthlyData = await invoiceModel.aggregate([
-      { $match: { status: "Paid" } }, // Filter invoices with "Paid" status
+      {
+        $match: {
+          status: "Paid",
+          vendor: new mongoose.Types.ObjectId(vendorId),
+        },
+      }, // Filter invoices with "Paid" status
       { $unwind: "$items" }, // Flatten the items array
       {
         $group: {
@@ -28,8 +33,7 @@ const getMonthlySalesAndRevenue = async () => {
           },
           totalRevenue: { $sum: "$totalAmount" },
           totalSales: {
-            $sum: {
-              $cond: [
+            $sum: {$cond: [
                 {
                   $and: [
                     { $gt: ["$items.quantity", 0] },
@@ -71,7 +75,7 @@ const getMonthlySalesAndRevenue = async () => {
   }
 };
 
-const getYearlySalesAndRevenue = async () => {
+const getYearlySalesAndRevenue = async (vendorId) => {
   try {
     const currentYear = new Date().getFullYear();
 
@@ -79,6 +83,7 @@ const getYearlySalesAndRevenue = async () => {
       {
         $match: {
           status: "Paid",
+          vendor: new mongoose.Types.ObjectId(vendorId),
           createdAt: {
             $gte: new Date(`${currentYear}-01-01T00:00:00Z`),
             $lte: new Date(`${currentYear}-12-31T23:59:59Z`),

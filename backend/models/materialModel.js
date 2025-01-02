@@ -16,7 +16,7 @@ const materialSchema = mongoose.Schema({
   },
   unit: {
     type: String,
-    enum:["pcs"],
+    enum: ["pcs"],
     required: true,
   },
   pricePerUnit: {
@@ -40,31 +40,27 @@ const materialSchema = mongoose.Schema({
   image: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
   material_id: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
-  // image: {
-  //   type: String,
-  //   required: false,
-  // },
 });
 
-materialSchema.pre("save", async function (next) {
-  if (!this.materialCode) {
-    try {
-      const counter = await Counter.findByIdAndUpdate(
-        { _id: "materialCode" },
-        { $inc: { sequence_value: 1 } },
-        { new: true, upsert: true }
-      );
+// materialSchema.pre("save", async function (next) {
+//   if (!this.materialCode) {
+//     try {
+//       const counter = await Counter.findByIdAndUpdate(
+//         { _id: "materialCode" },
+//         { $inc: { sequence_value: 1 } },
+//         { new: true, upsert: true }
+//       );
 
-      const sequenceNumber = counter.sequence_value.toString().padStart(3, "0");
+//       const sequenceNumber = counter.sequence_value.toString().padStart(3, "0");
 
-      this.materialCode = `MC-${sequenceNumber}`;
-    } catch (error) {
-      return next(error);
-    }
-  }
+//       this.materialCode = `MC-${sequenceNumber}`;
+//     } catch (error) {
+//       return next(error);
+//     }
+//   }
 
-  next();
-});
+//   next();
+// });
 
 const MaterialModel = mongoose.model("Material", materialSchema);
 

@@ -226,7 +226,7 @@ const RejectedOrdersVendor = () => {
       <h1 className="text-4xl font-bold mb-6 text-black/70">Rejected Orders</h1>
 
       {/* Supplier Details */}
-      <div className="mb-6 p-4 bg-white rounded-lg shadow">
+      {/* <div className="mb-6 p-4 bg-white rounded-lg shadow">
         <h2 className="text-2xl font-semibold mb-2">Supplier Details</h2>
         <p>
           <strong>Name:</strong> {userData?.supplierName}
@@ -250,7 +250,7 @@ const RejectedOrdersVendor = () => {
         <p>
           <strong>Status:</strong> {userData?.status}
         </p>
-      </div>
+      </div> */}
 
       {/* Pending Orders Table */}
       <div className="overflow-x-auto mb-6">
