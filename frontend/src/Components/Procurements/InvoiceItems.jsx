@@ -2,9 +2,59 @@ import { NavLink, Outlet } from "react-router-dom";
 import { AiOutlineForm } from "react-icons/ai"; // New icon for Vendor Management Create
 import { FiPackage } from "react-icons/fi"; // New icon for Vendor Product
 import { useState } from "react";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
+import {
+  pendingInvoice,
+  approvedInvoice,
+  allInvoice,
+} from "../../queries/InvoiceQueries";
 const InvoiceItems = () => {
   const [loading, setLoading] = useState(false);
+
+  const {
+    data: pendingData,
+    error: pendingError,
+    isError,
+    isLoading: pendingLoading,
+  } = useQuery({ queryKey: ["pendingInvoice"], queryFn: pendingInvoice });
+
+  const {
+    data: approveData,
+    error: approveError,
+    isLoading: approveLoading,
+  } = useQuery({ queryKey: ["approvedInvoice"], queryFn: approvedInvoice });
+
+  const {
+    data: allData,
+    error: allError,
+    isLoading: allLoading,
+  } = useQuery({ queryKey: ["allInvoice"], queryFn: allInvoice });
+
+  const pendingResult =
+    pendingData && pendingData[0]?.count ? pendingData[0]?.count : 0;
+
+  const approveResult =
+    approveData && approveData[0]?.count ? approveData[0]?.count : 0;
+
+  const allResult = allData && allData[0]?.count ? allData[0]?.count : 0;
+
+  console.log(pendingResult);
+  console.log(approveResult);
+  console.log(allResult);
+
+  if (pendingLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return (
+      <div>
+        <h1 className="text-center font-semibold text-xl">
+          There's an Error please try again
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="px-6 pt-6  bg-gradient-to-b from-gray-100 to-gray-50 relative w-full">
@@ -35,7 +85,7 @@ const InvoiceItems = () => {
               {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
-              5
+              {allResult}
             </span>
           </div>
         </NavLink>
@@ -54,7 +104,7 @@ const InvoiceItems = () => {
               {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
-              5
+              {pendingResult}
             </span>
           </div>
         </NavLink>
@@ -67,12 +117,12 @@ const InvoiceItems = () => {
           <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
-                Complete Invoice
+                Approve Invoice
               </h2>
               <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
             </div>
             <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
-              3
+              {approveResult}
             </span>
           </div>
         </NavLink>
