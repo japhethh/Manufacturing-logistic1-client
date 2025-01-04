@@ -10,7 +10,7 @@ import SupplierList from "./Components/Procurements/SupplierList.jsx";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios"; 
+import axios from "axios";
 import MobileSidebar from "./Components/MobileSidebar";
 import Store from "./context/Store";
 import User from "./Components/User";
@@ -56,6 +56,7 @@ import PaymentLinks from "./Components/Testing/PaymentLinks.jsx";
 import PaymentAllList from "./Components/Payment/PaymentAllList.jsx";
 import ViewDetails from "./Components/Payment/ViewDetails.jsx";
 import Messages from "./Components/Message/Messages.jsx";
+import TestingCrypto from "./testing/TestingCrypto.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -233,6 +234,7 @@ const App = () => {
             path="/quality-control/:invoiceId"
             element={<QCInspection />}
           />
+          <Route path="/testingDecryptData" element={<TestingCrypto />} />
 
           {/* Return management */}
           <Route path="/discrepancy_report" element={<DiscrepancyReport />} />

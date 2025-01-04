@@ -39,8 +39,10 @@ import salesAndRevenueRouter from "./routes/salesAndRevenueRouter.js";
 import { croncron } from "./cronjob.js";
 import { FilterAccounts } from "./testing/aggregateUser.js";
 import testingAggregateUserRouter from "./routes/testingAggregateUserRouter.js";
+import ExpressMongoSanitize from "express-mongo-sanitize";
 const port = process.env.PORT || 4000;
 const app = express();
+app.use(ExpressMongoSanitize());
 app.use(cors());
 app.use(express.json());
 
@@ -94,7 +96,7 @@ app.use("/api/retrievePayment", retrievePaymentRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/salesAndRevenue", salesAndRevenueRouter);
-app.use("/api/testing", testingAggregateUserRouter);
+app.use("/api/testing", userRouter);
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });

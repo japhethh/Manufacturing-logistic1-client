@@ -10,6 +10,7 @@ import {
   getAllRejectedOrders,
 } from "../controllers/vendorController.js";
 import { authMiddleware } from "../middleware/Auth.js";
+import { vendorCount } from "../aggregation/productsAggregation.js";
 
 const vendorRouter = express.Router();
 
@@ -35,6 +36,7 @@ vendorRouter.put(
   authMiddleware,
   rejectOrders
 );
-// vendorRouter.post("/purchaseOrders/reject", rejectOrders);
+
+vendorRouter.get("/vendorCount", vendorCount);
 
 export default vendorRouter;

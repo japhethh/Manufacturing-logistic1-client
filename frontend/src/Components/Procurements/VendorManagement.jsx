@@ -5,15 +5,15 @@ import { BsFolderX } from "react-icons/bs"; // New icon for Empty
 import { useState } from "react";
 import VendorManagementItem from "./VendorManagementItem";
 
+
 const VendorManagement = () => {
   const [loading, setLoading] = useState(false);
+
 
   return (
     <div className="">
       <VendorManagementItem />
-      <div>
-        
-      </div>
+      <div></div>
     </div>
   );
 };

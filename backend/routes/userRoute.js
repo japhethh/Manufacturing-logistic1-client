@@ -10,6 +10,7 @@ import {
   adminRequest,
   getSearch,
   updateUserPassword,
+  testingGetAllUsersEncrypt,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -27,12 +28,19 @@ const upload = multer({ storage: storage });
 userRouter.get("/", authMiddleware, getSpecificUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/register", registerUser);
-userRouter.put("/update/:id", upload.single("image"),authMiddleware, updateUser);
+userRouter.put(
+  "/update/:id",
+  upload.single("image"),
+  authMiddleware,
+  updateUser
+);
 userRouter.post("/delete/:id", deleteUser);
 userRouter.post("/adminrequest", adminRequest);
 userRouter.get("/getAllUsers", getUser);
 userRouter.get("/getEdit/:id", getEdit);
 userRouter.get("/userSearch", getSearch);
 userRouter.put("/updatePassword/:id", updateUserPassword);
+userRouter.get("/testingGetAllUsersEncrypt", testingGetAllUsersEncrypt);
+
 
 export default userRouter;

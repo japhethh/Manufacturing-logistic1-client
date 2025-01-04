@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
 import generalSettingsModel from "../models/generalSettingsModel.js";
+import { encryptArray } from "../testing/cryptoTesting.js";
 
 // Register
 const registerUser = async (req, res) => {
@@ -256,6 +257,20 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
+
+// Testing
+const testingGetAllUsersEncrypt = asyncHandler(async (req, res) => {
+  const users = await userModel.find({});
+
+  if (!users) {
+    return res.status(400).json({ success: false, message: "No users found!" });
+  }
+
+  const encrypted = users.map((user) => encryptArray(user));
+
+  res.status(200).json(encrypted || []);
+});
+
 export {
   getUser,
   registerUser,
@@ -267,4 +282,5 @@ export {
   adminRequest,
   getSearch,
   updateUserPassword,
+  testingGetAllUsersEncrypt,
 };

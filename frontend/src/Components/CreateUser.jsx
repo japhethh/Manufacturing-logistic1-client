@@ -220,6 +220,8 @@ const CreateUser = () => {
                       </option>
                       <option value="user">User</option>
                       <option value="admin">Admin</option>
+                      <option value="superAdmin">Super Admin</option>
+                      <option value="logistic">Logistic</option>
                     </select>
                   </div>
                   {errors.role && (

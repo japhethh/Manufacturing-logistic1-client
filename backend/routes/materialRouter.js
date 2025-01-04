@@ -10,6 +10,7 @@ import {
   getSpecificMaterial,
 } from "../controllers/materialController.js";
 import { authMiddleware } from "../middleware/Auth.js";
+import { productCount } from "../aggregation/productsAggregation.js";
 
 const materialRouter = express.Router();
 
@@ -41,6 +42,7 @@ materialRouter.put(
   authMiddleware,
   updateMaterial
 );
-materialRouter.delete("/deleteMaterial/:id", deleteMaterial);
 
+materialRouter.delete("/deleteMaterial/:id", deleteMaterial);
+materialRouter.get("/productCount", productCount);
 export default materialRouter;

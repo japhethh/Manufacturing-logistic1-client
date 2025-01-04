@@ -3,9 +3,55 @@ import { AiOutlineForm } from "react-icons/ai"; // New icon for Vendor Managemen
 import { FiPackage } from "react-icons/fi"; // New icon for Vendor Product
 import { BsFolderX } from "react-icons/bs"; // New icon for Empty
 import { useState } from "react";
+import { getCountProducts, getCountVendor } from "../../queries/ProductQueries";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const VendorManagementItem = () => {
   const [loading, setLoading] = useState(false);
+
+  const {
+    data: productItems,
+    isLoading: productLoading,
+    error: productError,
+    isError: productIsError,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getCountProducts,
+  });
+  const {
+    data: vendorItems,
+    isError: vendorIsError,
+    error: vendorError,
+    isLoading: vendorIsLoading,
+  } = useQuery({
+    queryKey: ["vendors"],
+    queryFn: getCountVendor,
+  });
+
+  console.log(vendorItems);
+
+  const totalProducts =
+    productItems && productItems[0] ? productItems[0]?.totalProducts : 0;
+
+  const totalVendors =
+    vendorItems && vendorItems[0] ? vendorItems[0]?.totalVendors : 0;
+
+  if (productLoading || vendorIsLoading) {
+    return (
+      <div>
+        <h1 className="text-center">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (productIsError || vendorIsError) {
+    console.error("Error fetching data", productError || vendorError);
+    return (
+      <div>
+        <h1>There error please try again</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="px-6 pt-6 relative">
@@ -51,7 +97,7 @@ const VendorManagementItem = () => {
               <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
             </div>
             <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
-              3
+              {totalProducts}
             </span>
           </div>
         </NavLink>
@@ -67,7 +113,7 @@ const VendorManagementItem = () => {
               {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
-              5
+              {totalVendors}
             </span>
           </div>
         </NavLink>
