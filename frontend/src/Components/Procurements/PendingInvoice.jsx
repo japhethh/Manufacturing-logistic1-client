@@ -26,7 +26,7 @@ const PendingInvoice = () => {
       const pendingInvoices = response.data.invoices.filter(
         (invoice) => invoice.approvalStatus === "Pending"
       );
-      console.log(pendingInvoices)
+      console.log(pendingInvoices);
       setInvoiceData(pendingInvoices);
     } catch (error) {
       console.log(error?.response.data.message);
@@ -81,7 +81,16 @@ const PendingInvoice = () => {
           render: (data) => new Date(data).toLocaleDateString(),
         },
         { title: "Invoice #", data: "invoiceNumber" },
-        { title: "Purchase Order #", data: "purchaseOrder.purchaseOrderNumber" },
+        {
+          title: "Purchase Order #",
+          data: null,
+          render: (data) =>
+            `${
+              data?.purchaseOrder?.purchaseOrderNumber
+                ? data?.purchaseOrder?.purchaseOrderNumber
+                : "N/A"
+            }`,
+        },
         { title: "Vendor", data: "vendor.supplierName" },
         {
           title: "Approval Status",

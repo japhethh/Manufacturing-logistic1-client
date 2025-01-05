@@ -12,9 +12,10 @@ import {
   updateUserPassword,
   testingGetAllUsersEncrypt,
 } from "../controllers/userController.js";
-import { authMiddleware } from "../middleware/Auth.js";
+import { authMiddleware, authorize, protectMid } from "../middleware/Auth.js";
 
 import multer from "multer";
+import { getAllUsers } from "../controllers/testing/userTesting.js";
 const userRouter = express.Router();
 
 const storage = multer.diskStorage({
@@ -42,5 +43,6 @@ userRouter.get("/userSearch", getSearch);
 userRouter.put("/updatePassword/:id", updateUserPassword);
 userRouter.get("/testingGetAllUsersEncrypt", testingGetAllUsersEncrypt);
 
+userRouter.get("/testingMiddleware", protectMid, authorize("admin"), getAllUsers);
 
 export default userRouter;

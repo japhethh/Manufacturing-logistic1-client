@@ -254,9 +254,8 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
-
 
 // Testing
 const testingGetAllUsersEncrypt = asyncHandler(async (req, res) => {

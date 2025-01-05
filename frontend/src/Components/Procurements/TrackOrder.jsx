@@ -109,10 +109,25 @@ const TrackOrder = () => {
         { title: "Invoice #", data: "invoiceId.invoiceNumber" },
         {
           title: "PurchaseOrder #",
-          data: "purchaseOrderId.purchaseOrderNumber",
+          data: null,
+          render: (data) =>
+            `${
+              data?.purchaseOrderId?.purchaseOrderNumber
+                ? data?.purchaseOrderId?.purchaseOrderNumber
+                : `<h1 class="text-red-500 font-semibold">N/A</h1>`
+            }`,
         },
         { title: "Supplier Name", data: "supplier.supplierName" },
-        { title: "Purchase Order", data: "purchaseOrderId.totalAmount" },
+        {
+          title: "Purchase Order",
+          data: null,
+          render: (data) =>
+            `${
+              data?.purchaseOrderId?.totalAmount
+                ? data?.purchaseOrderId?.totalAmount
+                : `<h1 class="text-red-500 font-semibold">N/A</h1>`
+            }`,
+        },
         { title: "Invoice Amount", data: "invoiceAmount" },
         { title: "Vendor", data: "supplier.supplierName" },
         {
@@ -142,10 +157,28 @@ const TrackOrder = () => {
           data: "totalAmount",
           render: (data) => `$${data.toFixed(2)}`,
         },
-        { title: "Payment", data: "invoiceId.paymentDetails.paymentMethod" },
+        {
+          title: "Payment",
+          data: null,
+          render: (data) =>
+            `${
+              data?.invoiceId.paymentDetails.paymentMethod
+                ? data?.invoiceId.paymentDetails?.paymentMethod
+                : `<h1 class="text-red-500 font-semibold">N/A</h1>`
+            }`,
+        },
         { title: "Contact Email", data: "supplier.email" },
         { title: "Contact Phone", data: "supplier.contactPhone" },
-        { title: "Payment Term", data: "purchaseOrderId.paymentTerm" },
+        {
+          title: "Payment Term",
+          data: null,
+          render: (data) =>
+            `${
+              data?.purchaseOrderId?.paymentTerm
+                ? data?.purchaseOrderId?.paymentTerm
+                : `<h1 class="text-red-500 font-semibold">N/A</h1>`
+            }`,
+        },
         { title: "Ratings", data: "supplier.rating" },
         {
           title: "Actions",
@@ -167,6 +200,7 @@ const TrackOrder = () => {
           },
         },
       ],
+
       order: [[0, "desc"]],
       rowCallback: (row, data) => {
         const approveBtn = row.querySelector(`#approveBtn_${data?._id}`);

@@ -74,9 +74,13 @@ const App = () => {
         navigate("/login");
       } else {
         try {
-          const response = await axios.post(`${apiURL}/api/verifyToken`, {
-            token: storedtoken,
-          });
+          const response = await axios.post(
+            `${apiURL}/api/verifyToken`,
+            {},
+            {
+              headers: { Authorization: `Bearer ${storedtoken}` },
+            }
+          );
 
           if (response.data.valid) {
             setIsTokenVerified(true);
