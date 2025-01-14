@@ -75,7 +75,7 @@ const MobileSidebar = () => {
           </li>
         </NavLink>
 
-        {/* PURCHASE REQUISITION */}
+        {/* VENDOR MANAGEMENT */}
         <NavLink to="vendormanagement">
           <li className="menu-item">
             <div className="flex items-center cursor-pointer">
@@ -514,11 +514,85 @@ const MobileSidebar = () => {
         </li>
       </ul> */}
 
-      {/* RETURN MANAGEMENT */}
+      {/* ACCOUNT MANAGEMENT */}
       <p className="text-gray-500 font-semibold text-base mr-auto">
         Account Management
       </p>
       <ul className="w-full menu rounded-box">
+        {/* USER MANAGEMENT */}
+        <li>
+          <details className="menu-item transition-all duration-300">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <IoPeopleSharp className="transition-all duration-300 w-5 h-5" />
+
+              <span className="text-base font-semibold mr-auto">
+                User Management
+              </span>
+            </summary>
+            <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
+              <li className="mt-1">
+                <NavLink
+                  to="user"
+                  className={({ isActive }) =>
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
+                  }
+                >
+                  <span className="text-base">View All Accounts</span>
+                </NavLink>
+              </li>
+              <li className="mt-1">
+                <NavLink
+                  to="requestlist"
+                  className={({ isActive }) =>
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
+                  }
+                >
+                  <span className="text-base">Account Request</span>
+                </NavLink>
+              </li>
+            </ul>
+          </details>
+        </li>
+        {/* SETTINGS */}
+        <li>
+          <details className="menu-item transition-all duration-300">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <IoSettingsOutline className="transition-all duration-300 w-5 h-5" />
+
+              <span className="text-base font-semibold mr-auto">Settings</span>
+            </summary>
+            <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
+              <li className="mt-1">
+                <NavLink
+                  to="system_settings"
+                  className={({ isActive }) =>
+                    `flex items-center justify-between p-2 rounded-md transition-colors duration-200 ease-in-out 
+              ${
+                isActive
+                  ? "text-base-200 bg-blue-500 font-bold"
+                  : "text-black hover:bg-gray-100"
+              }`
+                  }
+                >
+                  <span className="text-base flex gap-2 items-center">
+                    <LuSettings2 /> System Settings
+                  </span>
+                </NavLink>
+              </li>
+            </ul>
+          </details>
+        </li>
+
         {/* Return Authorization (RMA) CLOSED*/}
         {/* <li>
           <details className="menu-item">
@@ -681,6 +755,57 @@ const MobileSidebar = () => {
           </details>
         </li> */}
       </ul>
+
+      {/* RETURN MANAGEMENT */}
+      <p className="text-gray-500 font-semibold text-base mr-auto">
+        Return Management
+      </p>
+      <NavLink to="/discrepancy_report">
+        <li className="menu-item">
+          <div className="flex items-center cursor-pointer">
+            <MdOutlineReportProblem />
+            <span className="text-base font-semibold">Discrepancy Reports</span>
+          </div>
+        </li>
+      </NavLink>
+
+      {/* AUDIT MANAGEMENT */}
+      <p className="text-gray-500 font-semibold text-base mr-auto mt-1">
+        Audit Management
+      </p>
+      {/* DISCREPANCY REPORTS */}
+      <NavLink to="/discrepancy_report">
+        <li className="menu-item">
+          <div className="flex items-center cursor-pointer">
+            <MdOutlineReportProblem />
+            <span className="text-base font-semibold">Discrepancy Reports</span>
+          </div>
+        </li>
+      </NavLink>
+      {/* RETURN AUTHORIZATION */}
+      <NavLink to="/vendormanagement">
+        <li className="menu-item">
+          <div className="flex items-center cursor-pointer">
+            <IoMdReturnLeft />
+            <span className="text-base font-semibold">
+              Return Authorization
+            </span>
+          </div>
+        </li>
+      </NavLink>
+
+      {/* WAREHOUSE */}
+      <p className="text-gray-500 font-semibold text-base mr-auto mt-1">
+        Warehouse
+      </p>
+      <NavLink to="/warehouse">
+        <li className="menu-item">
+          <div className="flex items-center cursor-pointer">
+            <TbBuildingWarehouse />
+            <span className="text-base font-semibold">Warehouse</span>
+          </div>
+        </li>
+      </NavLink>
     </div>
   );
 };
