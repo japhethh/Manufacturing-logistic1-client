@@ -1,30 +1,21 @@
 import vendor from "./Assets/vendor.png";
-import {
-  MdOutlineScreenshotMonitor,
-  MdOutlineSupportAgent,
-  MdOutlineCalculate,
-  MdOutlineInventory2,
-  MdOutlineHandshake,
-} from "react-icons/md";
-import { BsBoxSeam } from "react-icons/bs";
-import { RiContactsFill } from "react-icons/ri";
-import { GiTakeMyMoney } from "react-icons/gi";
-import { IoDocumentAttachOutline, IoReturnUpForward } from "react-icons/io5";
-import { FaChalkboardTeacher, FaLuggageCart } from "react-icons/fa";
-import { VscServerEnvironment } from "react-icons/vsc";
-import { BiDollarCircle, BiPurchaseTagAlt } from "react-icons/bi";
+import { MdOutlineScreenshotMonitor } from "react-icons/md";
+
+import { FaLuggageCart } from "react-icons/fa";
+
+import { BiPurchaseTagAlt } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 import { IoPeopleSharp } from "react-icons/io5";
-import Store from "../context/Store";
+
 import { IoSettingsOutline } from "react-icons/io5";
-import { GrCurrency } from "react-icons/gr";
+
 import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineStore } from "react-icons/md";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { FaFileInvoice } from "react-icons/fa";
 import { MdOutlineReportProblem } from "react-icons/md";
 import { IoMdReturnLeft } from "react-icons/io";
-import { MdInventory } from "react-icons/md";
+
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { BsChatRightText } from "react-icons/bs";
 
@@ -84,8 +75,6 @@ const MobileSidebar = () => {
             </div>
           </li>
         </NavLink>
-
-       
 
         {/* Purchase Orders */}
         <li>
@@ -182,18 +171,7 @@ const MobileSidebar = () => {
             </div>
           </li>
         </NavLink>
-
-      
       </ul>
-
-  
-
-     
-
-      
-
-      
-       
 
       {/* ACCOUNT MANAGEMENT */}
       <p className="text-gray-500 font-semibold text-base mr-auto">
