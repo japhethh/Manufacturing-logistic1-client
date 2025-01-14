@@ -1,21 +1,16 @@
 import vendor from "./Assets/vendor.png";
 import { MdOutlineScreenshotMonitor } from "react-icons/md";
-
 import { FaLuggageCart } from "react-icons/fa";
-
 import { BiPurchaseTagAlt } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 import { IoPeopleSharp } from "react-icons/io5";
-
 import { IoSettingsOutline } from "react-icons/io5";
-
 import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineStore } from "react-icons/md";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { FaFileInvoice } from "react-icons/fa";
 import { MdOutlineReportProblem } from "react-icons/md";
 import { IoMdReturnLeft } from "react-icons/io";
-
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { BsChatRightText } from "react-icons/bs";
 
