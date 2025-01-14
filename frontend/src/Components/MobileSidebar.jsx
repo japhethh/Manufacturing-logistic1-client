@@ -76,17 +76,14 @@ const MobileSidebar = () => {
         </NavLink>
 
         {/* PURCHASE REQUISITION */}
-        <NavLink to="rawmaterialrequest">
+        <NavLink to="vendormanagement">
           <li className="menu-item">
             <div className="flex items-center cursor-pointer">
               <MdOutlineStore />
-              <span className="text-base font-semibold">
-                Vendor Management
-              </span>
+              <span className="text-base font-semibold">Vendor Management</span>
             </div>
           </li>
         </NavLink>
-
 
         {/* SUPPLIERS CLOSED */}
         {/* <li className="menu-item transition-all duration-300">
@@ -158,7 +155,9 @@ const MobileSidebar = () => {
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaLuggageCart className="transition-all duration-300 w-5 h-5" />
 
-              <span className="text-base font-semibold mr-auto">Purchase Orders</span>
+              <span className="text-base font-semibold mr-auto">
+                Purchase Orders
+              </span>
             </summary>
             <ul className={`pl-4 mt-2  ? "hidden" : ""}`}>
               <li className="mt-1">
@@ -226,6 +225,50 @@ const MobileSidebar = () => {
           </details>
         </li>
 
+        {/* INVOICE */}
+        <NavLink to="/invoice/all">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <FaFileInvoice />
+              <span className="text-base font-semibold">Invoice</span>
+            </div>
+          </li>
+        </NavLink>
+
+        {/* PAYMENT */}
+        <NavLink to="/paymentList">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <FaMoneyCheckDollar />
+              <span className="text-base font-semibold">Payment</span>
+            </div>
+          </li>
+        </NavLink>
+
+        {/* Invoice & Payments */}
+        {/* <li>
+          <details className="menu-item" aria-expanded="false">
+            <summary className="flex items-center gap-2 cursor-pointer">
+              <TbFileInvoice />
+              <span className="ml-2 text-base font-semibold mr-auto">
+                Submit Invoices
+              </span>
+            </summary>
+            <ul className="pl-4">
+              <li className="mt-1">
+                <NavLink
+                  to="invoicesubmission/paymenttracking"
+                  className={({ isActive }) =>
+                    isActive ? "text-white bg-blue-500 font-bold" : "text-black"
+                  }
+                >
+                  <p className="text-base">Payment Tracking</p>
+                </NavLink>
+              </li>
+            </ul>
+          </details>
+        </li> */}
+
         {/* CONTACT CLOSED */}
         {/* <li>
           <details className="menu-item transition-all duration-300">
@@ -269,21 +312,21 @@ const MobileSidebar = () => {
           </details>
         </li> */}
 
-        {/* Budget Approval */}
+        {/* Budget Approval
         <li className="menu-item transition-all duration-300">
           <div className="flex items-center gap-2 cursor-pointer">
             <GiTakeMyMoney className="transition-all duration-300 w-5 h-5" />
 
             <span className="text-base font-semibold">Budget Approval</span>
           </div>
-        </li>
+        </li> */}
       </ul>
 
       {/* Vendor Section */}
       {/* <p className="text-gray-500 font-semibold text-base">Vendor</p> */}
       {/* <ul className="w-full menu rounded-box"> */}
-        {/* Supplier Onboarding */}
-        {/* <li>
+      {/* Supplier Onboarding */}
+      {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <BsBoxSeam />
@@ -316,8 +359,8 @@ const MobileSidebar = () => {
           </details>
         </li> */}
 
-        {/* Supplier Dashboard */}
-        {/* <li>
+      {/* Supplier Dashboard */}
+      {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaChalkboardTeacher />
@@ -348,8 +391,8 @@ const MobileSidebar = () => {
           </details>
         </li> */}
 
-        {/* Order Management */}
-        {/* <li>
+      {/* Order Management */}
+      {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <VscServerEnvironment />
@@ -380,8 +423,8 @@ const MobileSidebar = () => {
           </details>
         </li> */}
 
-        {/* Document Exchange */}
-        {/* <li>
+      {/* Document Exchange */}
+      {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <IoDocumentAttachOutline />
@@ -409,8 +452,8 @@ const MobileSidebar = () => {
           </details>
         </li> */}
 
-        {/* Bids & Tenders */}
-        {/* <li>
+      {/* Bids & Tenders */}
+      {/* <li>
           <details className="menu-item" aria-expanded="false">
             <summary className="flex items-center gap-2 cursor-pointer">
               <BiDollarCircle />
@@ -438,32 +481,8 @@ const MobileSidebar = () => {
           </details>
         </li> */}
 
-        {/* Invoice & Payments */}
-        {/* <li>
-          <details className="menu-item" aria-expanded="false">
-            <summary className="flex items-center gap-2 cursor-pointer">
-              <TbFileInvoice />
-              <span className="ml-2 text-base font-semibold mr-auto">
-                Submit Invoices
-              </span>
-            </summary>
-            <ul className="pl-4">
-              <li className="mt-1">
-                <NavLink
-                  to="invoicesubmission/paymenttracking"
-                  className={({ isActive }) =>
-                    isActive ? "text-white bg-blue-500 font-bold" : "text-black"
-                  }
-                >
-                  <p className="text-base">Payment Tracking</p>
-                </NavLink>
-              </li>
-            </ul>
-          </details>
-        </li> */}
-
-        {/* Support & Disputes */}
-        {/* <li>
+      {/* Support & Disputes */}
+      {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineSupportAgent className="" />
@@ -496,10 +515,12 @@ const MobileSidebar = () => {
       </ul> */}
 
       {/* RETURN MANAGEMENT */}
-      <p className="text-gray-500 font-semibold text-base mr-auto">Return Management</p>
+      <p className="text-gray-500 font-semibold text-base mr-auto">
+        Account Management
+      </p>
       <ul className="w-full menu rounded-box">
-        {/* Return Authorization (RMA) */}
-        <li>
+        {/* Return Authorization (RMA) CLOSED*/}
+        {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <IoReturnUpForward className="" />
@@ -535,9 +556,9 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
-        {/* Reverse Logistics */}
-        <li>
+        </li> */}
+        {/* Reverse Logistics CLOSED*/}
+        {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <FaChalkboardTeacher className="" />
@@ -565,9 +586,9 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
-        {/* Return Documentation */}
-        <li>
+        </li> */}
+        {/* Return Documentation CLOSED*/}
+        {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <VscServerEnvironment className="" />
@@ -596,9 +617,9 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
-        {/* Inventory Updates */}
-        <li>
+        </li> */}
+        {/* Inventory Updates CLOSED*/}
+        {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineInventory2 className="" />
@@ -627,9 +648,9 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
-        {/* Warranty & claims */}
-        <li>
+        </li> */}
+        {/* Warranty & claims CLOSED*/}
+        {/* <li>
           <details className="menu-item">
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineHandshake className="" />
@@ -658,7 +679,7 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

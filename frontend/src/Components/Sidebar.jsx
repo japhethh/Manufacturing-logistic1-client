@@ -554,7 +554,7 @@ const Sidebar = () => {
                 </div>
               </li>
             </NavLink>
-            {/* Invoice */}
+            {/* PAYMENT */}
             <NavLink to="/paymentList">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
