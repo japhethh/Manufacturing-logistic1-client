@@ -35,6 +35,7 @@ const MobileSidebar = () => {
         className="flex items-center justify-center gap-2 mb-8 cursor-pointer"
         aria-label="Dashboard Logo"
       >
+        {/* DASHBOARD LOGO */}
         <img src={vendor} alt="Dashboard logo" className="size-16" />
         <p className="text-xl font-bold">Dashboard</p>
       </div>
@@ -49,6 +50,7 @@ const MobileSidebar = () => {
           <p className="text-base font-semibold">Dashboard</p>
         </div>
       </Link>
+      {/* MESSAGES */}
       <Link to="/messages">
         <div
           className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-gray-300"
@@ -61,7 +63,7 @@ const MobileSidebar = () => {
 
       <p className="text-gray-500 font-semibold text-base">Procurement</p>
       <ul className="w-full menu rounded-box">
-        {/* Purchase Requisitions */}
+        {/* PURCHASE REQUISITION */}
         <NavLink to="rawmaterialrequest">
           <li className="menu-item">
             <div className="flex items-center cursor-pointer">
@@ -73,8 +75,21 @@ const MobileSidebar = () => {
           </li>
         </NavLink>
 
-        {/* Suppliers */}
-        <li className="menu-item transition-all duration-300">
+        {/* PURCHASE REQUISITION */}
+        <NavLink to="rawmaterialrequest">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <MdOutlineStore />
+              <span className="text-base font-semibold">
+                Vendor Management
+              </span>
+            </div>
+          </li>
+        </NavLink>
+
+
+        {/* SUPPLIERS CLOSED */}
+        {/* <li className="menu-item transition-all duration-300">
           <NavLink
             to="supplierlist"
             className={({ isActive }) =>
@@ -90,10 +105,10 @@ const MobileSidebar = () => {
 
             <span className="text-base font-semibold">Suppliers</span>
           </NavLink>
-        </li>
+        </li> */}
 
-        {/* Quotation */}
-        <li>
+        {/* QOUTATION CLOSED */}
+        {/* <li>
           <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
               <MdOutlineCalculate className="transition-all duration-300 w-5 h-5" />
@@ -135,7 +150,7 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Purchase Orders */}
         <li>
@@ -191,7 +206,8 @@ const MobileSidebar = () => {
                   <span className="text-base">Track Orders</span>
                 </NavLink>
               </li>
-              <li className="mt-1">
+              {/* CLOSED ORDER FULFILLMENT STATUS */}
+              {/* <li className="mt-1">
                 <NavLink
                   to="orderfulfillmentstatus"
                   className={({ isActive }) =>
@@ -205,13 +221,13 @@ const MobileSidebar = () => {
                 >
                   <span className="text-base">Order Fulfillment Status</span>
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </details>
         </li>
 
-        {/* Contact */}
-        <li>
+        {/* CONTACT CLOSED */}
+        {/* <li>
           <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
               <RiContactsFill className="transition-all duration-300 w-5 h-5" />
@@ -251,7 +267,7 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Budget Approval */}
         <li className="menu-item transition-all duration-300">
