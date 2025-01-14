@@ -436,6 +436,7 @@ const MobileSidebar = () => {
           </div>
         </li>
       </NavLink>
+      
       {/* RETURN AUTHORIZATION */}
       <NavLink to="/vendormanagement">
         <li className="menu-item">
