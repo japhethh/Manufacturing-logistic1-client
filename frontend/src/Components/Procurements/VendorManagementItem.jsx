@@ -73,11 +73,10 @@ const VendorManagementItem = () => {
           className="w-full"
           aria-label="Create Vendor"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+          <div className="card bg-gradient-to-br from-blue-50 to-blue-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">All</h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+              <h2 className="text-blue-800 font-semibold text-lg">All</h2>
+              <AiOutlineForm className="text-4xl text-blue-500" />
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               5
@@ -89,12 +88,12 @@ const VendorManagementItem = () => {
           className="w-full"
           aria-label="Vendor Product"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+          <div className="card bg-gradient-to-br from-green-50 to-green-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
+              <h2 className="text-green-800 font-semibold text-lg">
                 Vendor Products
               </h2>
-              <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
+              <FiPackage className="text-4xl text-green-500" />
             </div>
             <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
               {totalProducts}
@@ -106,29 +105,28 @@ const VendorManagementItem = () => {
           className="w-full"
           aria-label="Create Vendor"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+          <div className="card bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">Vendors</h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+              <AiOutlineForm className="text-4xl text-blue-500" />
             </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-gray-200 text-gray-800 rounded-full px-2 py-1 text-xs">
               {totalVendors}
             </span>
           </div>
         </NavLink>
 
-        {/* <NavLink 
-          to="/empty" 
-          className="w-full" 
-          aria-label="Empty"
-        >
+        {/* EMPTY CARDS CLOSE */}
+
+        {/* <NavLink to="/empty" className="w-full" aria-label="Empty">
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">Empty</h2>
-              <BsFolderX className="text-4xl text-yellow-500" /> 
+              <BsFolderX className="text-4xl text-yellow-500" />
             </div>
-            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">8</span>
+            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">
+              8
+            </span>
           </div>
         </NavLink> */}
       </div>
