@@ -16,7 +16,7 @@ import financeApprovalRouter from "./routes/financeApprovalRouter.js";
 import nodemailer from "nodemailer";
 import supplierModel from "./models/supplierModel.js";
 import expressAsyncHandler from "express-async-handler";
-import crypto from "crypto"; // Import Node.js built-in crypto module
+import crypto from "crypto";
 import emailSupplierRouter from "./routes/emailSupplierRouter.js";
 import vendorRouter from "./routes/vendorRouter.js";
 import invoiceVendorRouter from "./routes/invoiceVendorRouter.js";
@@ -41,19 +41,52 @@ import { FilterAccounts } from "./testing/aggregateUser.js";
 import testingAggregateUserRouter from "./routes/testingAggregateUserRouter.js";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import { verifyToken } from "./middleware/Auth.js";
+import tf from "@tensorflow/tfjs";
+
+// Import the test file in the using tensorflow
+import { trainModel } from "./Ai/TensorFlow.js";
+import {
+  forecastData,
+  forecastDataMonth,
+} from "./aggregation/rawMaterialAggregation.js";
+import tensorflowDf from "./Ai/tensorFlowDemandForecasting.js";
 const port = process.env.PORT || 4000;
+
 const app = express();
 app.use(ExpressMongoSanitize());
 app.use(cors());
 app.use(express.json());
 
-ConnectDB();
+// API endpoint for forecasting demand
+app.post("/api/forecast", async (req, res) => {
+  const { week } = req.body;
 
+  if (!week) {
+    return res.status(400).json({ error: "Week is required" });
+  }
+
+  try {
+    const model = await trainModel();
+
+    // Create a tensor for the input week
+    const inputTensor = tf.tensor2d([week], [1, 1]);
+
+    const prediction = model.predict(inputTensor); // A tensor, e.g., Tensor([[70.5]])
+    const predictedDemand = prediction.dataSync()[0]; // A plain array, e.g., [70.5]
+
+    res.json({ week, predictedDemand });
+  } catch (error) {
+    res.status(500).json({
+      error: "An error occurred during prediction",
+      details: error.message,
+    });
+  }
+});
+
+ConnectDB();
 app.get("/", (req, res) => {
   res.send("Hello world ");
 });
-
-
 
 app.use("/api/verifyToken", verifyToken);
 
@@ -84,6 +117,10 @@ app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/salesAndRevenue", salesAndRevenueRouter);
 app.use("/api/testing", userRouter);
+app.use("/api/rawMaterialAggregation", forecastData);
+app.use("/api/demandForecast", tensorflowDf);
+app.use("/api/demandForecastMonth", forecastDataMonth);
+
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });

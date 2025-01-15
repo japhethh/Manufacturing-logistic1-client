@@ -57,6 +57,7 @@ import PaymentAllList from "./Components/Payment/PaymentAllList.jsx";
 import ViewDetails from "./Components/Payment/ViewDetails.jsx";
 import Messages from "./Components/Message/Messages.jsx";
 import TestingCrypto from "./testing/TestingCrypto.jsx";
+import TensorFlowExample from "./testing/TensorFlow.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -242,6 +243,7 @@ const App = () => {
 
           {/* Return management */}
           <Route path="/discrepancy_report" element={<DiscrepancyReport />} />
+          <Route path="/tensorFlow" element={<TensorFlowExample />} />
         </Routes>
       </div>
     </div>

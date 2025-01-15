@@ -4,8 +4,10 @@ import DataTable from "datatables.net-dt";
 import axios from "axios";
 import { apiURL } from "../../context/Store";
 import { toast } from "react-toastify";
+import Store from "../../context/Store";
 
 const VendorManagementAll = () => {
+  const { userData } = Store();
   const [supplierData, setSuppliersData] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -168,7 +170,7 @@ const VendorManagementAll = () => {
       ordering: true,
       order: [[2, "desc"]],
       rowCallback: (row, data) => {
-        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);  
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
 

@@ -33,7 +33,8 @@ const getMonthlySalesAndRevenue = async (vendorId) => {
           },
           totalRevenue: { $sum: "$totalAmount" },
           totalSales: {
-            $sum: {$cond: [
+            $sum: {
+              $cond: [
                 {
                   $and: [
                     { $gt: ["$items.quantity", 0] },

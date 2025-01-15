@@ -72,7 +72,9 @@ const User = () => {
                 ? "bg-blue-500 text-white"
                 : data?.role === "pending"
                 ? "bg-red-500 text-white"
-                : "";
+                : data?.role === "superAdmin"
+                ? "bg-violet-500 text-white"
+                : "bg-gray-500 text-white";
 
             return `<button class="btn btn-ghost btn-xs ${roleClass}">
                       ${data?.role || "N/A"}
@@ -212,7 +214,7 @@ const User = () => {
         <div className="border-b-2 my-2">
           <div>
             <button
-              onClick={handleCreate}                                       
+              onClick={handleCreate}
               className="px-4 py-3 font-semibold text-sm rounded-md bg-blue-700 text-white mb-2"
             >
               Add Account +
