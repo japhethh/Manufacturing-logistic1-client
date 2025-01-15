@@ -78,20 +78,36 @@ const VendorManagementCreate = () => {
           render: (data) => (data ? data : "N/A"),
         },
         {
-          title: "Update At",
+          title: "Updated At",
           data: "updatedAt",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) => (data ? new Date(data).toLocaleString() : "N/A"),
         },
-
         {
           title: "Actions",
           data: null,
           render: (data, type, row) => `
-          
-            <div className="flex flex-col gap-2"> 
-              <label htmlFor="my_modal_5" class="bg-blue-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="viewBtn_${row._id}">View</label>
-              <label htmlFor="my_modal_6" class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">Edit</label>
-              <label htmlFor="my_modal_7" class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">Delete</label>
+            <div class="flex flex-col gap-1">
+              <button
+                id="viewBtn_${row._id}"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                aria-label="View Supplier"
+              >
+                View
+              </button>
+              <button
+                id="updateBtn_${row._id}"
+                class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                aria-label="Edit Supplier"
+              >
+                Edit
+              </button>
+              <button
+                id="deleteBtn_${row._id}"
+                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                aria-label="Delete Supplier"
+              >
+                Delete
+              </button>
             </div>
           `,
         },
@@ -102,39 +118,41 @@ const VendorManagementCreate = () => {
       ordering: true,
       order: [[1, "desc"]],
       rowCallback: (row, data) => {
-        // Attach event listeners
+        const viewBtn = row.querySelector(`#viewBtn_${data._id}`);
         const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
-        const viewBtn = row.querySelector(`#viewBtn_${data._id}`);
-
-        if (deleteBtn) {
-          deleteBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("delete");
-            setShowModal(true); // Show the modal
-          });
-        }
-
-        if (updateBtn) {
-          updateBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("edit");
-            setShowModal(true); // Show the modal
-          });
-        }
+  
         if (viewBtn) {
           viewBtn.addEventListener("click", () => {
             setSelectedData(data);
             setModalType("view");
-            setShowModal(true); // Show the modal
+            setShowModal(true);
+          });
+        }
+  
+        if (updateBtn) {
+          updateBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("edit");
+            setShowModal(true);
+          });
+        }
+  
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("delete");
+            setShowModal(true);
           });
         }
       },
     });
+  
     return () => {
-      table.destroy(); // Clean up DataTable instance
+      table.destroy();
     };
   }, [suppliersData]);
+  
 
   const onSubmit = async (e) => {
     e.preventDefault();
