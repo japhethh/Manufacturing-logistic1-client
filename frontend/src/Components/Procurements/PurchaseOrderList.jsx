@@ -108,7 +108,7 @@ const PurchaseOrderList = () => {
           title: "Pdf",
           data: null,
           render: (data) =>
-            `<a class="text-blue-500 underline" href="${
+            `<a class="text-blue-500 hover:text-blue-700 duration-100 underline" href="${
               data?.pdfURL ? data?.pdfURL : "N/A"
             }" target="_blank">Download PDF</a>`,
         },
@@ -120,13 +120,13 @@ const PurchaseOrderList = () => {
               <div class="py-2 px-4 flex space-x-2">
                 <button
                   id="detailsBtn_${data?._id}"
-                  class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-500 transition text-sm"
+                  class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 duration-150 transition text-sm"
                   onclick="window.location.href='/purchase_orders/view_po/${data._id}'"
                 >
                   <span class="inline text-lg"><i class="fa fa-eye text-sm"></i></span>
                 </button>
                 <button
-                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-500 transition text-sm"
+                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 duration-150 transition text-sm"
                   id="deleteBtn_${data?._id}"
                 >
                   <span class="inline text-lg"><i class="fa fa-trash text-sm"></i></span>
@@ -195,7 +195,7 @@ const PurchaseOrderList = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Purchase Orders</h1>
         <button
-          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[135px] md:w-[220px] lg:w-[220px]"
+          className="bg-blue-600 hover:bg-blue-700 duration-150 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[135px] md:w-[220px] lg:w-[220px]"
           onClick={() => navigate("/createpurchaseorder")}
         >
           + Create Purchase Order
@@ -203,6 +203,7 @@ const PurchaseOrderList = () => {
       </div>
 
       <div className="overflow-x-auto border border-gray-200 shadow-sm p-3">
+        {/* TABLE CLOSED */}
         {/* <table className="min-w-full bg-white">
           <thead>
             <tr className="bg-gray-100 text-left">
@@ -343,13 +344,13 @@ const PurchaseOrderList = () => {
             <p>Are you sure you want to delete this purchase order?</p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                className="bg-gray-300 px-4 py-2 rounded"
+                className="bg-gray-300 hover:bg-gray-200 duration-150 px-4 py-2 rounded"
                 onClick={() => setShowModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-red-600 text-white px-4 py-2 rounded"
+                className="bg-red-600 hover:bg-red-700 duration-150 text-white px-4 py-2 rounded"
                 onClick={deletePurchaseOrder}
               >
                 Delete
