@@ -98,7 +98,7 @@ const Sidebar = () => {
           </div>
         </Link>
 
-        {/* Messages Link */}
+        {/* MESSAGE */}
         <Link to="/messages">
           <div
             className="flex items-center gap-2 p-2 mb-4 transition-all duration-300 bg-gray-200 rounded-md cursor-pointer hover:bg-blue-300"
@@ -408,36 +408,6 @@ const Sidebar = () => {
                 </div>
               </li>
             </NavLink>
-
-            {/* Suppliers */}
-            {/* <li
-              className={`menu-item transition-all duration-300 ${
-                isCollapsed ? "hidden" : ""
-              }`}
-            >
-              <NavLink
-                to="supplierlist"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
-        ${
-          isActive
-            ? "text-base-200 bg-blue-500 font-bold"
-            : "text-black hover:bg-gray-100"
-        }`
-                }
-              >
-                <BsBoxSeam
-                  className={`transition-all duration-300 ${
-                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                  }`}
-                />
-                {!isCollapsed && (
-                  <span className="text-base font-semibold">Suppliers</span>
-                )}
-              </NavLink>
-            </li> */}
-
-            {/* Vendor Management */}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -554,7 +524,7 @@ const Sidebar = () => {
                 </div>
               </li>
             </NavLink>
-            {/* Invoice */}
+            {/* PAYMENT */}
             <NavLink to="/paymentList">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
@@ -607,18 +577,6 @@ const Sidebar = () => {
                           <p className="text-base">View All Accounts</p>
                         </NavLink>
                       </li>
-                      {/* <li className="mt-1">
-                        <NavLink
-                          to="suppliers"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "text-base-200 bg-blue-500 font-bold"
-                              : "text-black"
-                          }
-                        >
-                          <p className="text-base">Suppliers</p>
-                        </NavLink>
-                      </li> */}
 
                       <li className="mt-1">
                         <NavLink
@@ -657,19 +615,6 @@ const Sidebar = () => {
                       )}
                     </summary>
                     <ul className="pl-4">
-                      {/* <li className="mt-1">
-                        <NavLink
-                          to="/currencies"
-                          className={({ isActive }) =>
-                            isActive
-                              ? "text-base-200 bg-blue-500 font-bold"
-                              : "text-black"
-                          }
-                        >
-                          <GrCurrency className="inline" />{" "}
-                          <p className="text-base">Currencies</p>
-                        </NavLink>
-                      </li> */}
                       <li className="mt-1">
                         <NavLink
                           to="system_settings"
@@ -683,18 +628,6 @@ const Sidebar = () => {
                           <p className="text-base">System Settings</p>
                         </NavLink>
                       </li>
-                      {/* <li className="mt-1">
-              <NavLink
-                to="suppliers"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-base-200 bg-blue-500 font-bold"
-                    : "text-black"
-                }
-              >
-                <p className="text-base">Suppliers</p>
-              </NavLink>
-            </li> */}
                     </ul>
                   </details>
                 </li>
@@ -740,93 +673,6 @@ const Sidebar = () => {
                 )}
               </NavLink>
             </li>
-
-            {/* <li
-              className={`menu-item transition-all duration-300 ${
-                isCollapsed ? "hidden" : ""
-              }`}
-            >
-              <NavLink
-                to="vendormanagement"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
-        ${
-          isActive
-            ? "text-base-200 bg-blue-500 font-bold"
-            : "text-black hover:bg-gray-100"
-        }`
-                }
-              >
-                <IoMdReturnLeft
-                  className={`transition-all duration-300 ${
-                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                  }`}
-                />
-                {!isCollapsed && (
-                  <span className="text-base font-semibold">
-                    Return Authorization
-                  </span>
-                )}
-              </NavLink>
-            </li>
-
-            <li
-              className={`menu-item transition-all duration-300 ${
-                isCollapsed ? "hidden" : ""
-              }`}
-            >
-              <NavLink
-                to="vendormanagement"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
-        ${
-          isActive
-            ? "text-base-200 bg-blue-500 font-bold"
-            : "text-black hover:bg-gray-100"
-        }`
-                }
-              >
-                <MdInventory
-                  className={`transition-all duration-300 ${
-                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                  }`}
-                />
-                {!isCollapsed && (
-                  <span className="text-base font-semibold">
-                    Inventory Updates
-                  </span>
-                )}
-              </NavLink>
-            </li>
-
-            <li
-              className={`menu-item transition-all duration-300 ${
-                isCollapsed ? "hidden" : ""
-              }`}
-            >
-              <NavLink
-                to="vendormanagement"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
-        ${
-          isActive
-            ? "text-base-200 bg-blue-500 font-bold"
-            : "text-black hover:bg-gray-100"
-        }`
-                }
-              >
-                <MdOutlineStore
-                  className={`transition-all duration-300 ${
-                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                  }`}
-                />
-                {!isCollapsed && (
-                  <span className="text-base font-semibold">
-                    Vendor Discrepancies
-                  </span>
-                )}
-              </NavLink>
-            </li> */}
           </ul>
 
           {/* Audit Management */}

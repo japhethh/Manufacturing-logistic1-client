@@ -42,9 +42,6 @@ const DiscrepancyReport = () => {
     fetchDiscrepancyReport();
   }, []);
 
-  //   <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
-  //   <i class="fas fa-edit"></i>
-  // </button>
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: discrepancyData,
@@ -56,11 +53,11 @@ const DiscrepancyReport = () => {
           title: "Actions",
           data: null,
           render: (data, type, row) => `
-          <div class="flex justify-center"> 
-            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}">
+          <div class="flex justify-center gap-2"> 
+            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="detailBtn_${row._id}">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
+            <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
@@ -71,7 +68,6 @@ const DiscrepancyReport = () => {
       rowCallback: (row, data) => {
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
-        // const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
 
         deleteBtn.addEventListener("click", () => {
           setSelectedData(data);
@@ -84,17 +80,9 @@ const DiscrepancyReport = () => {
             setSelectedData(data);
             setModalType("detail");
             setShowModal(true);
-            // fetchAdjusted_products(data._id);
             setFetchAdjustment(data);
           });
         }
-
-        // updateBtn.addEventListener("click", () => {
-        //   navigate(`/adjustments/${data._id}/edit`);
-        //   setSelectedData(data);
-        //   setModalType("edit");
-        //   setShowModal(true);
-        // });
       },
     });
 
@@ -102,18 +90,6 @@ const DiscrepancyReport = () => {
       table.destroy();
     };
   }, [discrepancyData]);
-
-  // const fetchAdjusted_products = async (id) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${apiURL}/api/adjusted_products/getSpecificId/${id}`,
-  //       { headers: { token: token } }
-  //     );
-  //     setSelectedData(response.data.data);
-  //   } catch (error) {
-  //     toast.error(error?.response.data.message);
-  //   }
-  // };
 
   const handleDelete = async (id) => {
     try {
@@ -127,7 +103,7 @@ const DiscrepancyReport = () => {
       fetchDiscrepancyReport();
       setShowModal(false);
     } catch (error) {
-      toast.error(error?.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -158,12 +134,14 @@ const DiscrepancyReport = () => {
           </button>
         </div>
         <div className="divider"></div>
-        <table id="myTable" className="display w-full"></table>
+        <div className="overflow-x-auto">
+          <table id="myTable" className="display w-full"></table>
+        </div>
 
         {/* Delete Modal */}
         {showModal && modalType === "delete" && selectedData && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-5 w-1/3">
+            <div className="bg-white rounded-lg p-5 w-11/12 sm:w-1/3">
               <h3 className="text-lg font-bold">Adjustment</h3>
               <p className="py-4">
                 Are you sure you want to{" "}
@@ -192,68 +170,46 @@ const DiscrepancyReport = () => {
           </div>
         )}
 
-        {/* Detail */}
+        {/* Detail Modal */}
         {showModal &&
           modalType === "detail" &&
           selectedData &&
           fetchAdjustment && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white rounded-lg p-5 w-3/6">
-                {/* Head */}
-                <div>
-                  <div className="grid grid-cols-4 ">
-                    {selectedData?.images.map((item, index) => (
-                      <div key={index}>
-                        <img
-                          className="w-32 cursor-pointer"
-                          onClick={() => handleImage(item)}
-                          src={item}
-                          alt="Images"
-                        />
-                      </div>
-                    ))}
+              <div className="bg-white rounded-lg p-5 w-11/12 sm:w-1/2 lg:w-1/3">
+                <div className="grid grid-cols-2 gap-4">
+                  {selectedData?.images.map((item, index) => (
+                    <div key={index}>
+                      <img
+                        className="w-32 cursor-pointer"
+                        onClick={() => handleImage(item)}
+                        src={item}
+                        alt="Images"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <h1 className="text-2xl font-semibold py-1">Details</h1>
+                <div className="flex flex-col space-y-2">
+                  <div className="flex">
+                    <div className="w-1/2 border-2 p-2">Reference</div>
+                    <div className="w-1/2 border-2 p-2">{selectedData?.defectCode}</div>
+                  </div>
+                  <div className="flex">
+                    <div className="w-1/2 border-2 p-2">Defect Description</div>
+                    <div className="w-1/2 border-2 p-2">{selectedData?.defectDescription}</div>
+                  </div>
+                  <div className="flex">
+                    <div className="w-1/2 border-2 p-2">Severity</div>
+                    <div className="w-1/2 border-2 p-2">{selectedData?.severity}</div>
                   </div>
                 </div>
-                {/* Body */}
-
-                <div>
-                  <h1 className="text-2xl font-semibold py-1">Details</h1>
-                </div>
-                <div className="flex ">
-                  {/* Reference */}
-                  <div className="flex-1 ">
-                    <div className="flex w-full">
-                      <div className="border-2 p-2 flex-1">Reference</div>
-                      <div className="border-2 p-2 flex-1">
-                        {selectedData?.defectCode}
-                      </div>
-                    </div>
-
-                    {/* Defect Description */}
-                    <div className="flex w-full">
-                      <div className="border-2 p-2 flex-1">
-                        Defect Description
-                      </div>
-                      <div className="border-2 p-2 flex-1">
-                        {selectedData?.defectDescription}
-                      </div>
-                    </div>
-
-                    {/* Severity */}
-                    <div className="flex w-full">
-                      <div className="border-2 p-2 flex-1">Severity</div>
-                      <div className="border-2 p-2 flex-1">
-                        {selectedData?.severity}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <div className="flex justify-end py-3">
                   <button
                     className="btn btn-info btn-md text-white "
                     onClick={() => {
-                      setSelectedData(null), setShowModal(false);
+                      setSelectedData(null);
+                      setShowModal(false);
                       setFetchAdjustment(null);
                       setSelectImage(null);
                     }}

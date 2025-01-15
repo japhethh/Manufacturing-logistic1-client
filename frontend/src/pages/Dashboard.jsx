@@ -491,7 +491,7 @@ const Dashboard = () => {
                 <div className="block">
                   <div className="w-full h-[200px]">
                     <AreaChart
-                      width={window.innerWidth < 768 ? 350 : 500}
+                      width={window.innerWidth < 768 ? 350 : 370}
                       height={200}
                       data={data}
                       margin={{

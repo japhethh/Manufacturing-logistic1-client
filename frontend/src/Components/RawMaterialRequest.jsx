@@ -216,7 +216,7 @@ const RawMaterialRequest = () => {
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
 
   return (
-    <div className="p-6">
+    <div className="p-6 ">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Raw Material Requests</h1>
         <button

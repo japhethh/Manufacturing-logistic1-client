@@ -19,8 +19,8 @@ const SmallBusinessWarehouse = () => {
       </h1>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-around mb-12 space-x-4">
-        <NavLink to="/fulfillorders">
+      <div className="flex flex-wrap justify-center sm:justify-between mb-12 gap-6">
+        <NavLink to="/fulfillorders" className="w-full sm:w-auto">
           <div className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
             <span className="text-xl font-bold">Order Fulfillment</span>
             <p className="text-sm mt-2 text-center">
@@ -28,7 +28,7 @@ const SmallBusinessWarehouse = () => {
             </p>
           </div>
         </NavLink>
-        <NavLink to="/dispatches">
+        <NavLink to="/dispatches" className="w-full sm:w-auto">
           <div className="bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
             <span className="text-xl font-bold">Shipping & Dispatch</span>
             <p className="text-sm mt-2 text-center">
@@ -36,7 +36,7 @@ const SmallBusinessWarehouse = () => {
             </p>
           </div>
         </NavLink>
-        <NavLink to="/report">
+        <NavLink to="/report" className="w-full sm:w-auto">
           <div className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
             <span className="text-xl font-bold">Reporting & Analytics</span>
             <p className="text-sm mt-2 text-center">
@@ -44,7 +44,7 @@ const SmallBusinessWarehouse = () => {
             </p>
           </div>
         </NavLink>
-        <NavLink to="/receiving">
+        <NavLink to="/receiving" className="w-full sm:w-auto">
           <div className="bg-amber-500 hover:bg-amber-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
             <span className="text-xl font-bold">Receiving</span>
             <p className="text-sm mt-2 text-center">

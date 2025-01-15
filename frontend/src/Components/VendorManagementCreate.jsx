@@ -78,20 +78,36 @@ const VendorManagementCreate = () => {
           render: (data) => (data ? data : "N/A"),
         },
         {
-          title: "Update At",
+          title: "Updated At",
           data: "updatedAt",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) => (data ? new Date(data).toLocaleString() : "N/A"),
         },
-
         {
           title: "Actions",
           data: null,
           render: (data, type, row) => `
-          
-            <div className="flex flex-col gap-2"> 
-              <label htmlFor="my_modal_5" class="bg-blue-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="viewBtn_${row._id}">View</label>
-              <label htmlFor="my_modal_6" class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">Edit</label>
-              <label htmlFor="my_modal_7" class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">Delete</label>
+            <div class="flex flex-col gap-1">
+              <button
+                id="viewBtn_${row._id}"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                aria-label="View Supplier"
+              >
+                View
+              </button>
+              <button
+                id="updateBtn_${row._id}"
+                class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                aria-label="Edit Supplier"
+              >
+                Edit
+              </button>
+              <button
+                id="deleteBtn_${row._id}"
+                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                aria-label="Delete Supplier"
+              >
+                Delete
+              </button>
             </div>
           `,
         },
@@ -102,16 +118,15 @@ const VendorManagementCreate = () => {
       ordering: true,
       order: [[1, "desc"]],
       rowCallback: (row, data) => {
-        // Attach event listeners
+        const viewBtn = row.querySelector(`#viewBtn_${data._id}`);
         const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
-        const viewBtn = row.querySelector(`#viewBtn_${data._id}`);
 
-        if (deleteBtn) {
-          deleteBtn.addEventListener("click", () => {
+        if (viewBtn) {
+          viewBtn.addEventListener("click", () => {
             setSelectedData(data);
-            setModalType("delete");
-            setShowModal(true); // Show the modal
+            setModalType("view");
+            setShowModal(true);
           });
         }
 
@@ -119,20 +134,22 @@ const VendorManagementCreate = () => {
           updateBtn.addEventListener("click", () => {
             setSelectedData(data);
             setModalType("edit");
-            setShowModal(true); // Show the modal
+            setShowModal(true);
           });
         }
-        if (viewBtn) {
-          viewBtn.addEventListener("click", () => {
+
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", () => {
             setSelectedData(data);
-            setModalType("view");
-            setShowModal(true); // Show the modal
+            setModalType("delete");
+            setShowModal(true);
           });
         }
       },
     });
+
     return () => {
-      table.destroy(); // Clean up DataTable instance
+      table.destroy();
     };
   }, [suppliersData]);
 
@@ -527,191 +544,162 @@ const VendorManagementCreate = () => {
             aria-labelledby="supplier-modal-title"
           >
             <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl h-3/4 overflow-y-auto">
-              {/* Supplier Info Card */}
+              {/* Supplier Info Header */}
               <div>
                 <h2
                   id="supplier-modal-title"
-                  className="text-2xl font-bold mb-4 text-gray-900"
+                  className="text-2xl font-bold mb-6 text-gray-900"
                 >
                   Supplier Information
                 </h2>
-
                 {/* Supplier Name and Code */}
-                <div className="mb-6">
-                  <p className="font-semibold">
+                <div className="mb-6 border-b border-gray-200 pb-4">
+                  <p className="text-lg font-medium text-gray-800">
                     Supplier Name:{" "}
-                    <span className="text-gray-700">
-                      {selectedData?.supplierName}
+                    <span className="text-gray-600 font-normal">
+                      {selectedData?.supplierName || "Not Provided"}
                     </span>
                   </p>
-                  <p className="font-semibold">
+                  <p className="text-lg font-medium text-gray-800">
                     Supplier Code:{" "}
-                    <span className="text-gray-700">
-                      {selectedData?.supplierCode}
+                    <span className="text-gray-600 font-normal">
+                      {selectedData?.supplierCode || "N/A"}
                     </span>
                   </p>
                 </div>
               </div>
-              <div className="w-full grid grid-cols-1 md:grid-cols-3 ">
+
+              {/* Grid Container */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Contact Information */}
                 <div>
-                  {/* Contact Information */}
-                  <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
                     Contact Information
                   </h3>
-                  <div className="mb-6">
-                    <p className="font-semibold">
-                      Contact Person:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.contactPerson}
-                      </span>
+                  <div className="space-y-2">
+                    <p className="text-gray-800">
+                      <span className="font-medium">Contact Person:</span>{" "}
+                      {selectedData?.contactPerson || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Contact Email:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.email}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Contact Email:</span>{" "}
+                      {selectedData?.email || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Contact Phone:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.contactPhone}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Contact Phone:</span>{" "}
+                      {selectedData?.contactPhone || "N/A"}
                     </p>
                   </div>
                 </div>
 
+                {/* Address */}
                 <div>
-                  {/* Address */}
-                  <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
                     Address
                   </h3>
-                  <div className="mb-6">
-                    <p className="font-semibold">
-                      Street:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.address?.street}
-                      </span>
+                  <div className="space-y-2">
+                    <p className="text-gray-800">
+                      <span className="font-medium">Street:</span>{" "}
+                      {selectedData?.address?.street || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      City:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.address?.city}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">City:</span>{" "}
+                      {selectedData?.address?.city || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      State:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.address?.state}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">State:</span>{" "}
+                      {selectedData?.address?.state || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Country:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.address?.country}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Country:</span>{" "}
+                      {selectedData?.address?.country || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Zip Code:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.address?.zipCode}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Zip Code:</span>{" "}
+                      {selectedData?.address?.zipCode || "N/A"}
                     </p>
                   </div>
                 </div>
 
+                {/* Additional Information */}
                 <div>
-                  {/* Additional Information */}
-                  <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
                     Additional Information
                   </h3>
-                  <div className="mb-6">
-                    <p className="font-semibold">
-                      Company Website:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.companyWebsite || "Not Provided"}
-                      </span>
+                  <div className="space-y-2">
+                    <p className="text-gray-800">
+                      <span className="font-medium">Company Website:</span>{" "}
+                      {selectedData?.companyWebsite || "Not Provided"}
                     </p>
-                    <p className="font-semibold">
-                      Payment Terms:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.paymentTerms}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Payment Terms:</span>{" "}
+                      {selectedData?.paymentTerms || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Rating:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.rating || "N/A"}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Rating:</span>{" "}
+                      {selectedData?.rating || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Status:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.status}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Status:</span>{" "}
+                      {selectedData?.status || "N/A"}
                     </p>
                   </div>
                 </div>
 
+                {/* Account Information */}
                 <div>
-                  {/* Account Information */}
-                  <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
                     Account Information
                   </h3>
-                  <div className="mb-6">
-                    <p className="font-semibold">
-                      Email:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.contactEmail}
-                      </span>
+                  <div className="space-y-2">
+                    <p className="text-gray-800">
+                      <span className="font-medium">Email:</span>{" "}
+                      {selectedData?.contactEmail || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      First Name:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.firstName}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">First Name:</span>{" "}
+                      {selectedData?.firstName || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Last Name:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.lastName}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Last Name:</span>{" "}
+                      {selectedData?.lastName || "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Gender:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.gender}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Gender:</span>{" "}
+                      {selectedData?.gender || "N/A"}
                     </p>
                   </div>
                 </div>
 
+                {/* Timestamps */}
                 <div>
-                  {/* Timestamps */}
-                  <h3 className="text-xl font-semibold mt-6 mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
                     Timestamps
                   </h3>
-                  <div className="mb-6 pb-5">
-                    <p className="font-semibold">
-                      Created At:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.createdAt}
-                      </span>
+                  <div className="space-y-2">
+                    <p className="text-gray-800">
+                      <span className="font-medium">Created At:</span>{" "}
+                      {selectedData?.createdAt
+                        ? new Date(selectedData.createdAt).toLocaleString()
+                        : "N/A"}
                     </p>
-                    <p className="font-semibold">
-                      Updated At:{" "}
-                      <span className="text-gray-700">
-                        {selectedData?.updatedAt}
-                      </span>
+                    <p className="text-gray-800">
+                      <span className="font-medium">Updated At:</span>{" "}
+                      {selectedData?.updatedAt
+                        ? new Date(selectedData.updatedAt).toLocaleString()
+                        : "N/A"}
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-4">
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-4 mt-6">
                 <button
-                  className="btn btn-outline btn-error btn-md text-white"
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg shadow-md transition-all"
                   onClick={() => {
-                    setSelectedData(null); // Reset selectedData on cancel
-                    setShowModal(false); // Close modal
+                    setSelectedData(null);
+                    setShowModal(false);
                   }}
                 >
                   Cancel
