@@ -13,7 +13,10 @@ const RawMaterialRequest = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteRequestId, setDeleteRequestId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [approveModalOpen, setApproveModalOpen] = useState(false);
+  const [rejectModalOpen, setRejectModalOpen] = useState(false);
 
+  const [dataId, setDataId] = useState("");
   // Pagination and sorting states
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -23,7 +26,7 @@ const RawMaterialRequest = () => {
   });
 
   const navigate = useNavigate();
-  const { apiURL } = useContext(UserContext);
+  const { apiURL, token } = useContext(UserContext);
 
   useEffect(() => {
     fetchRequests();
@@ -81,6 +84,18 @@ const RawMaterialRequest = () => {
           render: (data) => {
             return `
               <div class="py-2 px-4 flex gap-2">
+               <button
+                  class="bg-blue-500 font-semibold text-white px-4 py-2 rounded"
+                  id="approveBtn_${data._id}"
+                >
+                  Approve
+                </button>
+                 <button
+                  class="bg-red-500 font-semibold text-white px-4 py-2 rounded"
+                  id="rejectBtn_${data._id}"
+                >
+                  Reject
+                </button>
                 <button
                   class="bg-green-500 font-semibold text-white px-4 py-2 rounded"
                   id="createPOBtn_${data._id}"
@@ -88,7 +103,7 @@ const RawMaterialRequest = () => {
                   Create PO
                 </button>
                 <button
-                  class="bg-red-500 font-semibold text-white px-4 py-2 rounded"
+                  class="bg-white-500 border border-red-500 font-semibold text-red-500 px-4 py-2 rounded"
                   id="deleteBtn_${data._id}"
                 >
                   Delete
@@ -101,10 +116,14 @@ const RawMaterialRequest = () => {
       rowCallback: (row, data) => {
         const createPOBtn = row.querySelector(`#createPOBtn_${data._id}`);
         const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+        const approveBtn = row.querySelector(`#approveBtn_${data._id}`);
+        const rejectBtn = row.querySelector(`#rejectBtn_${data._id}`);
 
         // Attach event listeners for buttons
         createPOBtn.addEventListener("click", () => handleEdit(data));
         deleteBtn.addEventListener("click", () => openDeleteModal(data._id));
+        approveBtn.addEventListener("click", () => openApproveModel(data._id));
+        rejectBtn.addEventListener("click", () => openRejectModel(data._id));
       },
     });
 
@@ -135,6 +154,54 @@ const RawMaterialRequest = () => {
       await axios.post(`${apiURL}/api/rawmaterial/delete/${deleteRequestId}`);
       fetchRequests();
       toast.success("Raw Material Request deleted.");
+    } catch (error) {
+      toast.error("Failed to delete request.");
+    } finally {
+      setModalOpen(false);
+    }
+  };
+
+  const openApproveModel = (id) => {
+    setDataId(id);
+    setApproveModalOpen(true);
+  };
+
+  const confirmApprove = async () => {
+    try {
+      await axios.put(
+        `${apiURL}/api/rawmaterial/approveStatus/${dataId}`,
+        { status: "Approved" },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      fetchRequests();
+      setApproveModalOpen(false);
+      toast.success("Raw Material Request Approved.");
+    } catch (error) {
+      toast.error("Failed to delete request.");
+    } finally {
+      setModalOpen(false);
+    }
+  };
+
+  const openRejectModel = (id) => {
+    setDataId(id);
+    setRejectModalOpen(true);
+  };
+
+  const confirmReject = async () => {
+    try {
+      await axios.put(
+        `${apiURL}/api/rawmaterial/rejectStatus/${dataId}`,
+        { status: "Rejected" },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      fetchRequests();
+      setRejectModalOpen(false);
+      toast.success("Raw Material Request Rejected.");
     } catch (error) {
       toast.error("Failed to delete request.");
     } finally {
@@ -254,6 +321,29 @@ const RawMaterialRequest = () => {
               <button
                 className="bg-red-600 text-white px-4 py-2 rounded"
                 onClick={confirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {approveModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-lg font-semibold">Confirm Approve?</h3>
+            <p>Are you sure you want to approve this request?</p>
+            <div className="mt-4 flex justify-end space-x-2">
+              <button
+                className="bg-gray-300 px-4 py-2 rounded"
+                onClick={() => setApproveModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={confirmApprove}
               >
                 Delete
               </button>

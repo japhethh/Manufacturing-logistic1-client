@@ -3,6 +3,8 @@ import MaterialModel from "../models/materialModel.js";
 import NotificationLogisticModel from "../models/notificationLogisticModel.js";
 import rawmaterialModel from "../models/rawmaterialModel.js";
 import asyncHandler from "express-async-handler";
+import userModel from "../models/userModel.js";
+import { ensureShape } from "@tensorflow/tfjs";
 
 const requested = asyncHandler(async (req, res) => {
   try {
@@ -142,6 +144,80 @@ const updateStatus = asyncHandler(async (req, res) => {
   }
 });
 
+const approvePurchaseRequisition = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const { userId, status } = req.body;
+
+  console.log(userId);
+  console.log(status);
+  if (!userId || !status) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Required to fill all!" });
+  }
+
+  const exist = await userModel.find();
+
+  if (!exist) {
+    return res.status(404).json({ success: false, message: "User not found!" });
+  }
+
+  const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
+    approvedBy: userId,
+    requestStatus: status,
+  });
+
+  if (!updatedStatus) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Raw material not found!" });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Successfully Approve!",
+    data: updatedStatus,
+  });
+});
+
+const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const { userId, status } = req.body;
+
+  console.log(userId);
+  console.log(status);
+  if (!userId || !status) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Required to fill all!" });
+  }
+
+  const exist = await userModel.find();
+
+  if (!exist) {
+    return res.status(404).json({ success: false, message: "User not found!" });
+  }
+
+  const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
+    approvedBy: userId,
+    requestStatus: status,
+  });
+
+  if (!updatedStatus) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Raw material not found!" });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Rejected!",
+    data: updatedStatus,
+  });
+});
+
 export {
   requested,
   newRequested,
@@ -149,4 +225,6 @@ export {
   getSpecificId,
   deleteRequest,
   updateStatus,
+  approvePurchaseRequisition,
+  rejectPurchaseRequisition,
 };

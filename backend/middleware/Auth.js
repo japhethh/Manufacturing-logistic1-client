@@ -34,7 +34,6 @@ const protectMid = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
-    console.log(token);
 
     if (!token) {
       return res.status(401).json({ message: "Not Authorized" });
@@ -42,9 +41,10 @@ const protectMid = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await userModel.findById(decoded.id);
+    const userData = await userModel.findById(decoded.id);
+    req.body.userId = userData._id;
 
-    if (!req.user) {
+    if (!userData) {
       return res.status(404).json({ message: "User not found" });
     }
 
