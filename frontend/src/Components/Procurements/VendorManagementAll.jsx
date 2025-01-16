@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import Store from "../../context/Store";
 
 const VendorManagementAll = () => {
-  const { userData } = Store();
+  const { userData, fetchUserData } = Store();
   const [supplierData, setSuppliersData] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +18,7 @@ const VendorManagementAll = () => {
   useEffect(() => {
     fetchVendor();
     fetchMaterial();
+    fetchUserData();
   }, []);
 
   const fetchVendor = async () => {
@@ -50,32 +51,77 @@ const VendorManagementAll = () => {
     const table = new DataTable("#myTable", {
       data: supplierData,
       columns: [
-        { title: "Category ID", data: "_id" },
-        { title: "Company Name", data: "supplierName" },
-        { title: "Code", data: "supplierCode" },
-        { title: "Person", data: "contactPerson" },
-        { title: "Email", data: "contactEmail" },
-        { title: "Phone", data: "contactPhone" },
+        {
+          title: "Category ID",
+          data: "_id",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
+        {
+          title: "Company Name",
+          data: "supplierName",
+          render: (data) => `${data ? data : "N/A"}`,
+        },
+        {
+          title: "Code",
+          data: "supplierCode",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
+        {
+          title: "Person",
+          data: "contactPerson",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
+        {
+          title: "Email",
+          data: "contactEmail",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
+        {
+          title: "Phone",
+          data: "contactPhone",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
         {
           title: "Address",
           data: "address.street",
-          // render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
         },
-        { title: "Payment Term", data: "paymentTerms" },
-        { title: "Ratings", data: "rating" },
+        {
+          title: "Payment Term",
+          data: "paymentTerms",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
+        {
+          title: "Ratings",
+          data: "rating",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
 
         // { title: "Category Name", data: "category_name" },
         {
-          title: "Actions",
+          title: userData?.role === "superAdmin" ? "Action" : "",
           data: null,
           render: (data) => {
             return `
-              <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id=updateBtn_${data?._id}>
+
+            ${
+              userData?.role === "superAdmin"
+                ? ` <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id=updateBtn_${data?._id}>
               <i class="fas fa-edit"></i>
               </button>
               <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
               <i class="fas fa-trash-alt"></i>
-              </button>
+              </button>`
+                : ""
+            }
             `;
           },
         },
@@ -83,21 +129,23 @@ const VendorManagementAll = () => {
       order: [[2, "desc"]],
       rowCallback: (row, data) => {
         // Attach an event listener to the delete button for each row
-        const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
-        const updateBtn = row.querySelector(`#updateBtn_${data?._id}`);
+        if (userData?.role === "superAdmin") {
+          const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
+          const updateBtn = row.querySelector(`#updateBtn_${data?._id}`);
 
-        deleteBtn.addEventListener("click", () => {
-          setSelectedData(data);
-          setModalType("delete"); // Set modal for delete
-          setShowModal(true); // Show the modal
-        });
+          deleteBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("delete"); // Set modal for delete
+            setShowModal(true); // Show the modal
+          });
 
-        updateBtn.addEventListener("click", () => {
-          setSelectedData(data);
+          updateBtn.addEventListener("click", () => {
+            setSelectedData(data);
 
-          setModalType("edit"); // Set modal for delete
-          setShowModal(true); // Show the modal
-        });
+            setModalType("edit"); // Set modal for delete
+            setShowModal(true); // Show the modal
+          });
+        }
       },
     });
 
@@ -119,48 +167,66 @@ const VendorManagementAll = () => {
         {
           title: "Category",
           data: "category",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Code",
           data: "materialCode",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Unit",
           data: "unit",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Price Per Unit",
           data: "pricePerUnit",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
 
         {
           title: "Material Item",
           data: "materialName",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Quantity",
           data: "available",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
-        { title: "Vendor", data: "supplier.supplierName" },
         {
-          title: "Actions",
+          title: "Vendor",
+          data: "supplier.supplierName",
+          render: (data) =>
+            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+        },
+        {
+          title: userData?.role === "superAdmin" ? "Actions" : "",
           data: null,
           render: (data, type, row) => `
-          <div class="flex justify-center"> 
-            <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+          <div class="flex justify-center">
+          <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
+            row._id
+          }"> <i class="fas fa-eye"></i>
+            </button>
+          ${
+            userData?.role === "superAdmin"
+              ? ` <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
-            </button>
+            
             <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
-            </button>
+            </button>`
+              : ""
+          }
           </div>
           `,
         },
@@ -170,17 +236,8 @@ const VendorManagementAll = () => {
       ordering: true,
       order: [[2, "desc"]],
       rowCallback: (row, data) => {
-        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);  
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
-        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
 
-        if (deleteBtn) {
-          deleteBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("delete");
-            setShowModal(true); // Show the modal
-          });
-        }
         if (detailBtn) {
           detailBtn.addEventListener("click", () => {
             setSelectedData(data);
@@ -188,13 +245,25 @@ const VendorManagementAll = () => {
             setShowModal(true); // Show the modal
           });
         }
+        if (userData?.role === "superAdmin") {
+          const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+          const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
 
-        if (updateBtn) {
-          updateBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("edit");
-            setShowModal(true); // Show the modal
-          });
+          if (deleteBtn) {
+            deleteBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("delete");
+              setShowModal(true); // Show the modal
+            });
+          }
+
+          if (updateBtn) {
+            updateBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("edit");
+              setShowModal(true); // Show the modal
+            });
+          }
         }
       },
     });

@@ -5,8 +5,17 @@ import { useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import DataTable from "datatables.net-dt";
+import Store from "../context/Store";
 
 const RawMaterialRequest = () => {
+  const { fetchUserData, userData } = Store();
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  console.log(userData);
+
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,6 +37,7 @@ const RawMaterialRequest = () => {
   const navigate = useNavigate();
   const { apiURL, token } = useContext(UserContext);
 
+  console.log(dataId);
   useEffect(() => {
     fetchRequests();
   }, []);
@@ -79,49 +89,88 @@ const RawMaterialRequest = () => {
           },
         },
         {
+          title: "Request Status",
+          data: null,
+          render: (data) => {
+            const status = data?.requestStatus;
+            const statusClasses = {
+              Approved: "bg-blue-400 text-white",
+              Rejected: "bg-red-400 text-white",
+              Pending: "bg-gray-400 text-white",
+            };
+
+            return `
+              <div class="flex justify-center">
+                <button class="py-1 px-2 rounded-full ${
+                  statusClasses[status] || "bg-gray-200 text-black"
+                }">
+                  ${status || "N/A"}
+                </button>
+              </div>
+            `;
+          },
+        },
+        {
           title: "Action",
           data: null,
           render: (data) => {
             return `
               <div class="py-2 px-4 flex gap-2">
-               <button
-                  class="bg-blue-500 font-semibold text-white px-4 py-2 rounded"
-                  id="approveBtn_${data._id}"
-                >
-                  Approve
-                </button>
-                 <button
-                  class="bg-red-500 font-semibold text-white px-4 py-2 rounded"
-                  id="rejectBtn_${data._id}"
-                >
-                  Reject
-                </button>
-                <button
-                  class="bg-green-500 font-semibold text-white px-4 py-2 rounded"
-                  id="createPOBtn_${data._id}"
-                >
-                  Create PO
-                </button>
-                <button
-                  class="bg-white-500 border border-red-500 font-semibold text-red-500 px-4 py-2 rounded"
-                  id="deleteBtn_${data._id}"
-                >
-                  Delete
-                </button>
+                ${
+                  userData?.role === "admin" || userData?.role === "superAdmin"
+                    ? `
+                      <button
+                        class="bg-blue-500 font-semibold text-white px-4 py-2 rounded"
+                        id="approveBtn_${data._id}"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        class="bg-red-500 font-semibold text-white px-4 py-2 rounded"
+                        id="rejectBtn_${data._id}"
+                      >
+                        Reject
+                      </button>
+                    `
+                    : ""
+                }
+                ${
+                  userData?.role === "superAdmin"
+                    ? `
+                      <button
+                        class="bg-green-500 font-semibold text-white px-4 py-2 rounded"
+                        id="createPOBtn_${data._id}"
+                      >
+                        Create PO
+                      </button>
+                      <button
+                        class="bg-white-500 border border-red-500 font-semibold text-red-500 px-4 py-2 rounded"
+                        id="deleteBtn_${data._id}"
+                      >
+                        Delete
+                      </button>
+                    `
+                    : ""
+                }
               </div>`;
           },
         },
       ],
       order: [[0, "desc"]],
       rowCallback: (row, data) => {
-        const createPOBtn = row.querySelector(`#createPOBtn_${data._id}`);
-        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+        if (userData?.role === "superAdmin") {
+          const createPOBtn = row.querySelector(`#createPOBtn_${data._id}`);
+          const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+
+          createPOBtn.addEventListener("click", () => handleEdit(data));
+          deleteBtn.addEventListener("click", () => openDeleteModal(data._id));
+        }
+
         const approveBtn = row.querySelector(`#approveBtn_${data._id}`);
         const rejectBtn = row.querySelector(`#rejectBtn_${data._id}`);
 
         // Attach event listeners for buttons
-        createPOBtn.addEventListener("click", () => handleEdit(data));
-        deleteBtn.addEventListener("click", () => openDeleteModal(data._id));
+
         approveBtn.addEventListener("click", () => openApproveModel(data._id));
         rejectBtn.addEventListener("click", () => openRejectModel(data._id));
       },
@@ -154,6 +203,7 @@ const RawMaterialRequest = () => {
       await axios.post(`${apiURL}/api/rawmaterial/delete/${deleteRequestId}`);
       fetchRequests();
       toast.success("Raw Material Request deleted.");
+      setDataId("");
     } catch (error) {
       toast.error("Failed to delete request.");
     } finally {
@@ -314,7 +364,10 @@ const RawMaterialRequest = () => {
             <div className="mt-4 flex justify-end space-x-2">
               <button
                 className="bg-gray-300 px-4 py-2 rounded"
-                onClick={() => setModalOpen(false)}
+                onClick={() => {
+                  setModalOpen(false);
+                  setDataId("");
+                }}
               >
                 Cancel
               </button>
@@ -345,7 +398,30 @@ const RawMaterialRequest = () => {
                 className="bg-blue-600 text-white px-4 py-2 rounded"
                 onClick={confirmApprove}
               >
-                Delete
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {rejectModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-lg font-semibold">Confirm Reject?</h3>
+            <p>Are you sure you want to reject this request?</p>
+            <div className="mt-4 flex justify-end space-x-2">
+              <button
+                className="bg-gray-300 px-4 py-2 rounded"
+                onClick={() => setRejectModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded"
+                onClick={confirmReject}
+              >
+                Confirm
               </button>
             </div>
           </div>

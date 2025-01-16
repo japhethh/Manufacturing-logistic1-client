@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DataTable from "datatables.net-dt";
 import { apiURL } from "../context/Store";
-import store from "../context/Store";
+import Store from "../context/Store";
 import axios from "axios";
 import { toast } from "react-toastify";
 import VendorManagement from "./Procurements/VendorManagement";
@@ -10,13 +10,14 @@ const VendorManagementCreate = () => {
   const [suppliersData, setSuppliersData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const { token } = store();
+  const { token, userData, fetchUserData } = Store();
   const [selectedData, setSelectedData] = useState();
   const [modalType, setModalType] = useState("");
   const [showModal, setShowModal] = useState(false); // Declare showModal state
-
+  const isSuperAdmin = userData?.role === "superAdmin";
   useEffect(() => {
     fetchData();
+    fetchUserData();
   }, []);
 
   const fetchData = async () => {
@@ -40,74 +41,93 @@ const VendorManagementCreate = () => {
         {
           title: "Supplier Code",
           data: "supplierCode",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "First Name",
           data: "firstName",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Last Name",
           data: "lastName",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Supplier Name",
           data: "supplierName",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Email",
           data: "email",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Contact Phone",
           data: "contactPhone",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Rating",
           data: "rating",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Status",
           data: "status",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Updated At",
           data: "updatedAt",
-          render: (data) => (data ? new Date(data).toLocaleString() : "N/A"),
+          render: (data) =>
+            data
+              ? new Date(data).toLocaleString()
+              : `<div class="text-red-500">N/A</div>`,
         },
         {
-          title: "Actions",
+          title: isSuperAdmin ? "Actions" : "",
           data: null,
           render: (data, type, row) => `
-            <div class="flex flex-col gap-1">
-              <button
-                id="viewBtn_${row._id}"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+            <div class="flex flex-row gap-1">
+            <button
+                id="viewBtn_${
+                  row._id
+                }" class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
                 aria-label="View Supplier"
               >
-                View
+                <i class="fas fa-eye"></i>
               </button>
+            ${
+              isSuperAdmin
+                ? `
               <button
                 id="updateBtn_${row._id}"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
                 aria-label="Edit Supplier"
               >
-                Edit
+                              <i class="fas fa-edit"></i>
+
               </button>
               <button
                 id="deleteBtn_${row._id}"
-                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-md transition-all"
+                class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
                 aria-label="Delete Supplier"
               >
-                Delete
-              </button>
+                <i class="fas fa-trash-alt"></i>
+              </button>`
+                : ""
+            }
+              
             </div>
           `,
         },
@@ -119,8 +139,6 @@ const VendorManagementCreate = () => {
       order: [[1, "desc"]],
       rowCallback: (row, data) => {
         const viewBtn = row.querySelector(`#viewBtn_${data._id}`);
-        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
-        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
 
         if (viewBtn) {
           viewBtn.addEventListener("click", () => {
@@ -130,20 +148,25 @@ const VendorManagementCreate = () => {
           });
         }
 
-        if (updateBtn) {
-          updateBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("edit");
-            setShowModal(true);
-          });
-        }
+        if (isSuperAdmin) {
+          const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
+          const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
 
-        if (deleteBtn) {
-          deleteBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("delete");
-            setShowModal(true);
-          });
+          if (updateBtn) {
+            updateBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("edit");
+              setShowModal(true);
+            });
+          }
+
+          if (deleteBtn) {
+            deleteBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("delete");
+              setShowModal(true);
+            });
+          }
         }
       },
     });

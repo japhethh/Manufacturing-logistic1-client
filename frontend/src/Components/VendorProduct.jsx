@@ -12,13 +12,14 @@ import VendorManagement from "./Procurements/VendorManagement";
 const VendorProduct = () => {
   const [loading, setLoading] = useState(false);
   const [materialsData, setMaterialsData] = useState([]);
-  const { token } = Store();
+  const { token, userData, fetchUserData } = Store();
   const [selectedData, setSelectedData] = useState();
   const [modalType, setModalType] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchData();
+    fetchUserData();
   }, []);
 
   const fetchData = async () => {
@@ -49,47 +50,61 @@ const VendorProduct = () => {
         {
           title: "Category",
           data: "category",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Code",
           data: "materialCode",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Unit",
           data: "unit",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Price Per Unit",
           data: "pricePerUnit",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
 
         {
           title: "Material Item",
           data: "materialName",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
           title: "Quantity",
           data: "available",
-          render: (data) => (data ? data : "N/A"),
+          render: (data) =>
+            data ? data : `<div class="text-red-500">N/A</div>`,
         },
         {
-          title: "Actions",
+          title: userData?.role === "superAdmin" ? "Action" : "",
           data: null,
           render: (data, type, row) => `
           <div class="flex justify-center"> 
-            <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+           <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
+             row._id
+           }"> <i class="fas fa-eye"></i>
+            </button>
+          ${
+            userData?.role === "superAdmin"
+              ? `<button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
-            </button>
+           
             <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
-            </button>
+            </button>`
+              : ""
+          }
+            
           </div>
           `,
         },
@@ -99,17 +114,8 @@ const VendorProduct = () => {
       ordering: true,
       order: [[1, "desc"]],
       rowCallback: (row, data) => {
-        const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
-        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
 
-        if (deleteBtn) {
-          deleteBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("delete");
-            setShowModal(true); // Show the modal
-          });
-        }
         if (detailBtn) {
           detailBtn.addEventListener("click", () => {
             setSelectedData(data);
@@ -117,13 +123,25 @@ const VendorProduct = () => {
             setShowModal(true); // Show the modal
           });
         }
+        if (userData?.role === "superAdmin") {
+          const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+          const updateBtn = row.querySelector(`#updateBtn_${data._id}`);
 
-        if (updateBtn) {
-          updateBtn.addEventListener("click", () => {
-            setSelectedData(data);
-            setModalType("edit");
-            setShowModal(true); // Show the modal
-          });
+          if (deleteBtn) {
+            deleteBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("delete");
+              setShowModal(true); // Show the modal
+            });
+          }
+
+          if (updateBtn) {
+            updateBtn.addEventListener("click", () => {
+              setSelectedData(data);
+              setModalType("edit");
+              setShowModal(true); // Show the modal
+            });
+          }
         }
       },
     });

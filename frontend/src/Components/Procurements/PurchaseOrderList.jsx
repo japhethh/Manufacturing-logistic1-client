@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 import { FiTrash, FiEye } from "react-icons/fi";
 import DataTable from "datatables.net-dt";
 import { MdRemoveRedEye } from "react-icons/md";
-
+import Store from "../../context/Store";
 const PurchaseOrderList = () => {
+  const { userData, fetchUserData } = Store();
+
   const { apiURL } = useContext(UserContext);
   const navigate = useNavigate();
   const [purchaseOrderData, setPurchaseOrderData] = useState([]);
@@ -16,6 +18,7 @@ const PurchaseOrderList = () => {
 
   useEffect(() => {
     fetchPurchaseOrder();
+    fetchUserData();
   }, []);
 
   useEffect(() => {
@@ -118,19 +121,29 @@ const PurchaseOrderList = () => {
           render: (data) => {
             return `
               <div class="py-2 px-4 flex space-x-2">
-                <button
-                  id="detailsBtn_${data?._id}"
-                  class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 duration-150 transition text-sm"
-                  onclick="window.location.href='/purchase_orders/view_po/${data._id}'"
-                >
-                  <span class="inline text-lg"><i class="fa fa-eye text-sm"></i></span>
-                </button>
-                <button
+
+              ${
+                userData?.role === "admin" | userData?.role === "superAdmin"
+                  ? ` <button
+              id="detailsBtn_${data?._id}"
+              class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 duration-150 transition text-sm"
+              onclick="window.location.href='/purchase_orders/view_po/${data._id}'"
+            >
+              <span class="inline text-lg"><i class="fa fa-eye text-sm"></i></span>
+            </button>`
+                  : ""
+              }
+             ${
+               userData?.role === "superAdmin"
+                 ? `<button
                   class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 duration-150 transition text-sm"
                   id="deleteBtn_${data?._id}"
                 >
                   <span class="inline text-lg"><i class="fa fa-trash text-sm"></i></span>
-                </button>
+                </button>`
+                 : ""
+             }
+                
               </div>
             `;
           },
