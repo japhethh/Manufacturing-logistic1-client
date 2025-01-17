@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const DiscrepancyReport = () => {
   const [discrepancyData, setDiscrepancyData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const { token } = Store();
+  const { token, userData, fetchUserData } = Store();
   const [selectedData, setSelectedData] = useState(null);
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [modalType, setModalType] = useState("");
@@ -20,6 +20,8 @@ const DiscrepancyReport = () => {
   const [selectImage, setSelectImage] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false); // New state for image modal
   const navigate = useNavigate();
+  const isAdmin = userData?.role === "admin";
+  const isSuperAdmin = userData?.role === "superAdmin";
 
   const fetchDiscrepancyReport = async () => {
     try {
@@ -40,6 +42,7 @@ const DiscrepancyReport = () => {
 
   useEffect(() => {
     fetchDiscrepancyReport();
+    fetchUserData();
   }, []);
 
   useEffect(() => {
@@ -54,33 +57,41 @@ const DiscrepancyReport = () => {
           data: null,
           render: (data, type, row) => `
           <div class="flex justify-center gap-2"> 
-            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="detailBtn_${row._id}">
+            <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="detailBtn_${
+              row._id
+            }">
               <i class="fas fa-eye"></i>
             </button>
-            <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="deleteBtn_${row._id}">
-              <i class="fas fa-trash-alt"></i>
-            </button>
+            ${
+              isSuperAdmin
+                ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="deleteBtn_${row._id}">
+            <i class="fas fa-trash-alt"></i>
+          </button>`
+                : ""
+            }
+            
           </div>
           `,
         },
       ],
       order: [[0, "desc"]],
       rowCallback: (row, data) => {
-        const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
         const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
-
-        deleteBtn.addEventListener("click", () => {
-          setSelectedData(data);
-          setModalType("delete");
-          setShowModal(true);
-        });
-
         if (detailBtn) {
           detailBtn.addEventListener("click", () => {
             setSelectedData(data);
             setModalType("detail");
             setShowModal(true);
             setFetchAdjustment(data);
+          });
+        }
+        if (isSuperAdmin) {
+          const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
+
+          deleteBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("delete");
+            setShowModal(true);
           });
         }
       },
@@ -193,15 +204,21 @@ const DiscrepancyReport = () => {
                 <div className="flex flex-col space-y-2">
                   <div className="flex">
                     <div className="w-1/2 border-2 p-2">Reference</div>
-                    <div className="w-1/2 border-2 p-2">{selectedData?.defectCode}</div>
+                    <div className="w-1/2 border-2 p-2">
+                      {selectedData?.defectCode}
+                    </div>
                   </div>
                   <div className="flex">
                     <div className="w-1/2 border-2 p-2">Defect Description</div>
-                    <div className="w-1/2 border-2 p-2">{selectedData?.defectDescription}</div>
+                    <div className="w-1/2 border-2 p-2">
+                      {selectedData?.defectDescription}
+                    </div>
                   </div>
                   <div className="flex">
                     <div className="w-1/2 border-2 p-2">Severity</div>
-                    <div className="w-1/2 border-2 p-2">{selectedData?.severity}</div>
+                    <div className="w-1/2 border-2 p-2">
+                      {selectedData?.severity}
+                    </div>
                   </div>
                 </div>
                 <div className="flex justify-end py-3">

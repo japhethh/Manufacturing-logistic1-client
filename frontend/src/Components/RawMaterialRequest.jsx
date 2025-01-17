@@ -86,7 +86,7 @@ const RawMaterialRequest = () => {
             } else {
               return "N/A";
             }
-          },
+          }
         },
         {
           title: "Request Status",

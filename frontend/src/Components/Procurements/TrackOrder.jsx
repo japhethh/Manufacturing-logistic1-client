@@ -12,7 +12,9 @@ const TrackOrder = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState("");
-  const { token } = Store();
+  const { token, userData, fetchUserData } = Store();
+  const isAdmin = userData?.role === "admin";
+  const isSuperAdmin = userData?.role === "superAdmin";
 
   const ENDPOINT =
     window.location.hostname === "localhost"
@@ -21,6 +23,7 @@ const TrackOrder = () => {
 
   useEffect(() => {
     fetchAllTrackingOrders();
+    fetchUserData();
   }, []);
 
   const fetchAllTrackingOrders = async () => {
@@ -186,15 +189,23 @@ const TrackOrder = () => {
           render: (data) => {
             return `
               <div class="flex justify-center">
-                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${data._id}">
+                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
+                  data._id
+                }">
                   <i class="fas fa-eye"></i>
                 </button>
-                <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="approveBtn_${data._id}">
+
+                ${
+                  isSuperAdmin
+                    ? `  <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="approveBtn_${data._id}">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
                   <i class="fas fa-trash-alt"></i>
-                </button>
+                </button>`
+                    : ""
+                } 
+              
               </div>
             `;
           },
@@ -203,16 +214,18 @@ const TrackOrder = () => {
 
       order: [[0, "desc"]],
       rowCallback: (row, data) => {
-        const approveBtn = row.querySelector(`#approveBtn_${data?._id}`);
-        const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
+        if (isSuperAdmin) {
+          const approveBtn = row.querySelector(`#approveBtn_${data?._id}`);
+          const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
 
-        approveBtn.addEventListener("click", () => {
-          handleApproval(data._id);
-        });
+          approveBtn.addEventListener("click", () => {
+            handleApproval(data._id);
+          });
 
-        rejectBtn.addEventListener("click", () => {
-          handleRejection(data._id);
-        });
+          rejectBtn.addEventListener("click", () => {
+            handleRejection(data._id);
+          });
+        }
       },
     });
 

@@ -162,27 +162,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Spending Card */}
-              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-700 font-semibold text-lg">
-                    Spending
-                  </p>
-                  <RiPassPendingLine className="text-gray-700 text-2xl" />
-                </div>
-                <div className="flex gap-3 my-3 items-center">
-                  <p className="text-4xl font-bold">$219.65</p>
-                  <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
-                    <IoIosArrowUp className="text-green-700" /> 9.1%
-                  </p>
-                </div>
-                <div className="my-3">
-                  <p className="text-green-700 font-semibold">
-                    +$88.67{" "}
-                    <span className="text-gray-600">than past week</span>
-                  </p>
-                </div>
-              </div>
+           
             </div>
 
             {/* charts */}
@@ -419,70 +399,6 @@ const Dashboard = () => {
                     </tr>
                   </tbody>
                 </table>
-              </div>
-
-              {/* Chat */}
-              <div className="border max-md:w-full w-[300px] h-[300px] p-5 rounded-lg bg-white shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl">
-                <div className="flex gap-2 items-center mb-4">
-                  <MdOutlineChat className="text-lg text-blue-500" />
-                  <p className="font-semibold text-blue-500">Quick Chat</p>
-                </div>
-                <div className="flex gap-3 items-center mb-3">
-                  <img
-                    src="https://i.pinimg.com/564x/30/e1/68/30e168340e36e773713698f3051cf875.jpg"
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <p className="font-semibold text-lg">Quack</p>
-                      <p className="text-sm text-gray-600">15:23</p>
-                    </div>
-                    <p className="text-sm text-gray-600">Hello</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-center mb-3">
-                  <img
-                    src="https://i.pinimg.com/736x/e0/68/21/e06821a26c25c59066d6a4309361bda2.jpg"
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <p className="font-semibold text-lg">Meo</p>
-                      <p className="text-sm text-gray-600">14:52</p>
-                    </div>
-                    <p className="text-sm text-gray-600">Hello</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-center mb-3">
-                  <img
-                    src="https://i.pinimg.com/564x/4b/fa/f2/4bfaf26416c0aef7c498e38ed1b567fb.jpg"
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <p className="font-semibold text-lg">Lil Kitty</p>
-                      <p className="text-sm text-gray-600">14:42</p>
-                    </div>
-                    <p className="text-sm text-gray-600">Hello</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-center mb-3">
-                  <img
-                    src="https://i.pinimg.com/564x/78/2a/9b/782a9ba357d834585425bedc618445ce.jpg"
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center">
-                      <p className="font-semibold text-lg">Mi</p>
-                      <p className="text-sm text-gray-600">04:30</p>
-                    </div>
-                    <p className="text-sm text-gray-600">Hello</p>
-                  </div>
-                </div>
               </div>
 
               {/* Top Countries */}
