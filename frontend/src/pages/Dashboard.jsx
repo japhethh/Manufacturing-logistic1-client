@@ -27,6 +27,7 @@ import {
   BarChart,
   Bar,
   Rectangle,
+  ResponsiveContainer,
 } from "recharts";
 // import { BsEye } from "react-icons/bs";
 
@@ -55,6 +56,8 @@ const Dashboard = () => {
   const [supplier, setSupplier] = useState(null);
 
   const { apiURL } = useContext(UserContext);
+  const [historicalData, setHistoricalData] = useState([]);
+  const [predictedData, setPredictedData] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -64,6 +67,48 @@ const Dashboard = () => {
     loadData();
     console.log(supplier);
   }, []);
+
+  useEffect(() => {
+    // Fetch historical data from the '/api/demandForecastMonth' endpoint
+    axios
+      .get(`${apiURL}/api/demandForecastMonth`)
+      .then((response) => {
+        if (response.data.success) {
+          setHistoricalData(response.data.month);
+        }
+      })
+      .catch((error) =>
+        console.error("Error fetching historical data:", error)
+      );
+
+    // Fetch predicted data from the '/api/demandForecast/getRawMaterial' endpoint
+    axios
+      .post(`${apiURL}/api/demandForecast/getRawMaterial`)
+      .then((response) => {
+        if (response.data.success) {
+          setPredictedData(response.data.predictedDemand);
+        }
+      })
+      .catch((error) => console.error("Error fetching predicted data:", error));
+  }, []);
+
+  // Combine the data for charting
+  const combinedData = [
+    ...historicalData.map((d) => ({
+      ...d,
+      type: "Historical",
+      month: `${d._id.month}/${d._id.year}`, // Format the month/year as a string
+    })),
+    ...(predictedData
+      ? [
+          {
+            month: `${new Date().getMonth() + 1}/2025`, // Predicting next month, for example
+            totalQuantity: predictedData,
+            type: "Predicted",
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -161,10 +206,37 @@ const Dashboard = () => {
                   </p>
                 </div>
               </div>
-
-           
             </div>
 
+            {/* Demand forecasting Predict */}
+            <div className="dashboard-container">
+              <h2 className="text-xl font-bold">Demand Forecast Dashboard</h2>
+
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={combinedData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="totalQuantity"
+                    stroke="#8884d8"
+                    name="Historical Data"
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="totalQuantity"
+                    stroke="#ff7300"
+                    name="Predicted Data"
+                    dot={false}
+                    strokeDasharray="5 5" // Dashed line for predicted data
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
             {/* charts */}
             <div className="flex  gap-4 p-4 overflow-x-auto justify-between">
               <div className="border bg-white/70 p-2 rounded-lg flex-shrink-0 md:flex-1 shadow-lg">
@@ -228,182 +300,8 @@ const Dashboard = () => {
             </div>
 
             {/* 3 cards */}
-            <div className="flex gap-5 flex-wrap">
-              {/* Recent Orders */}
-              <div className="overflow-x-auto bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-                <table className="table w-full text-sm">
-                  {/* Table Head */}
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="p-2">
-                        <label>
-                          <input
-                            type="checkbox"
-                            className="checkbox"
-                            onChange={(e) => {
-                              const isChecked = e.target.checked;
-                              document
-                                .querySelectorAll(
-                                  'tbody input[type="checkbox"]'
-                                )
-                                .forEach((checkbox) => {
-                                  checkbox.checked = isChecked;
-                                });
-                            }}
-                          />
-                        </label>
-                      </th>
-                      <th className="text-left p-2">Product</th>
-                      <th className="text-left p-2">Price</th>
-                      <th className="text-left p-2">Date</th>
-                      <th className="text-left p-2">Status</th>
-                      <th className="text-left p-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Row 1 */}
-                    <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-2">
-                        <label>
-                          <input type="checkbox" className="checkbox" />
-                        </label>
-                      </td>
-                      <td className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-8 w-8">
-                            <img
-                              src="https://www.byrdie.com/thmb/2_StIwiboKhwe6WiQW3A5_PCjpc=/3000x3000/filters:no_upscale():max_bytes(150000):strip_icc()/1cfaad9e-be47-4755-8d89-9dd27eaf0095_1.3ecc0d85625d5020c4f9807b4d5e7c96-520e913cbf7448878006fb529447fed2.jpg"
-                              alt="Shampoo"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-700">Shampoo</p>
-                        </div>
-                      </td>
-                      <td className="font-medium text-gray-600">$1.99</td>
-                      <td className="text-gray-500">18 Sept 2024</td>
-                      <td>
-                        <span className="badge bg-green-100 text-green-600 border border-green-600 rounded-full py-1 px-2 text-xs">
-                          Delivered
-                        </span>
-                      </td>
-                      <td>
-                        <button className="btn btn-ghost btn-xs">View</button>
-                        <button className="btn btn-ghost btn-xs text-red-500">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                    {/* Row 2 */}
-                    <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-2">
-                        <label>
-                          <input type="checkbox" className="checkbox" />
-                        </label>
-                      </td>
-                      <td className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-8 w-8">
-                            <img
-                              src="https://plazavea.vteximg.com.br/arquivos/ids/23016863-1000-1000/imageUrl_1.jpg?v=638060295883870000"
-                              alt="Perfume"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-700">Perfume</p>
-                        </div>
-                      </td>
-                      <td className="font-medium text-gray-600">$1.99</td>
-                      <td className="text-gray-500">18 Sept 2024</td>
-                      <td>
-                        <span className="badge bg-blue-100 text-blue-600 border border-blue-600 rounded-full py-1 px-2 text-xs">
-                          On Going
-                        </span>
-                      </td>
-                      <td>
-                        <button className="btn btn-ghost btn-xs">View</button>
-                        <button className="btn btn-ghost btn-xs text-red-500">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                    {/* Row 3 */}
-                    <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-2">
-                        <label>
-                          <input type="checkbox" className="checkbox" />
-                        </label>
-                      </td>
-                      <td className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-8 w-8">
-                            <img
-                              src="https://cdn.shopify.com/s/files/1/0314/8555/8922/products/DinnerLady-NicShot-NicShot-100VG-18mg-3pk-UK_1024x1024@2x.jpg?v=1585150206"
-                              alt="E-juice"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-700">E-juice</p>
-                        </div>
-                      </td>
-                      <td className="font-medium text-gray-600">$1.59</td>
-                      <td className="text-gray-500">18 Sept 2024</td>
-                      <td>
-                        <span className="badge bg-green-100 text-green-600 border border-green-600 rounded-full py-1 px-2 text-xs">
-                          Delivered
-                        </span>
-                      </td>
-                      <td>
-                        <button className="btn btn-ghost btn-xs">View</button>
-                        <button className="btn btn-ghost btn-xs text-red-500">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                    {/* Row 4 */}
-                    <tr className="hover:bg-gray-50 border-b border-gray-200">
-                      <td className="p-2">
-                        <label>
-                          <input type="checkbox" className="checkbox" />
-                        </label>
-                      </td>
-                      <td className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-8 w-8">
-                            <img
-                              src="https://i0.wp.com/www.babypromv.com/wp-content/uploads/2019/07/4e2bc5c3-077e-476a-9408-5f06ab2c73bf_1.7f26f2b8c0ccad58fc2a50bd471589f3-1.jpeg?fit=2642,2642&ssl=1"
-                              alt="Lotion"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-700">Lotion</p>
-                        </div>
-                      </td>
-                      <td className="font-medium text-gray-600">$2.55</td>
-                      <td className="text-gray-500">18 Sept 2024</td>
-                      <td>
-                        <span className="badge bg-red-100 text-red-600 border border-red-600 rounded-full py-1 px-2 text-xs">
-                          Canceled
-                        </span>
-                      </td>
-                      <td>
-                        <button className="btn btn-ghost btn-xs">View</button>
-                        <button className="btn btn-ghost btn-xs text-red-500">
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Top Countries */}
+            {/* <div className="flex gap-5 flex-wrap">
               <div className="mt-5 md:mt-3 lg:mt-2 bg-white rounded-xl shadow-lg">
-                {/* Chart is visible on small screens */}
                 <div className="block">
                   <div className="w-full h-[200px]">
                     <AreaChart
@@ -446,7 +344,7 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

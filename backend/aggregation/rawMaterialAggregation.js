@@ -9,7 +9,7 @@ const forecastData = expressAsyncHandler(async (req, res) => {
     {
       $group: {
         _id: {
-          week: { $week: "$requestDate" },
+          month: { $month: "$requestDate" },
           year: { $year: "$requestDate" },
         },
         totalQuantity: {
@@ -18,26 +18,27 @@ const forecastData = expressAsyncHandler(async (req, res) => {
       },
     },
     {
-      $sort: { "_id.year": 1, "_id.week": 1 },
+      $sort: { "_id.year": 1, "_id.month": 1 },
     },
   ]);
-
-  // res.status(200).json(forecast)
+  // res.status(200).json(forecast);
   return forecast;
 });
 
-const forecastDataMonth = async (req, res) => {
-  const forecast = await rawmaterialModel.aggregate([
+const getMonthRawMaterial = expressAsyncHandler(async (req, res) => {
+  const month = await rawmaterialModel.aggregate([
     {
       $unwind: "$material",
     },
     {
       $group: {
         _id: {
-          month: { $month: "$requestDate" },
+          month: { $month: "$requestDate" },    
           year: { $year: "$requestDate" },
         },
-        totalQuantity: { $sum: "$material.quantity" },
+        totalQuantity: {
+          $sum: "$material.quantity",
+        },
       },
     },
     {
@@ -45,8 +46,7 @@ const forecastDataMonth = async (req, res) => {
     },
   ]);
 
-  // res.status(200).json(forecast);
-  return forecast;
-};
+  return res.status(200).json({ success: true, month });
+});
 
-export { forecastData, forecastDataMonth };
+export { forecastData, getMonthRawMaterial };

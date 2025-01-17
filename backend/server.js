@@ -47,7 +47,7 @@ import tf from "@tensorflow/tfjs";
 import { trainModel } from "./Ai/TensorFlow.js";
 import {
   forecastData,
-  forecastDataMonth,
+  getMonthRawMaterial,
 } from "./aggregation/rawMaterialAggregation.js";
 import tensorflowDf from "./Ai/tensorFlowDemandForecasting.js";
 const port = process.env.PORT || 4000;
@@ -119,7 +119,7 @@ app.use("/api/salesAndRevenue", salesAndRevenueRouter);
 app.use("/api/testing", userRouter);
 app.use("/api/rawMaterialAggregation", forecastData);
 app.use("/api/demandForecast", tensorflowDf);
-app.use("/api/demandForecastMonth", forecastDataMonth);
+app.use("/api/demandForecastMonth", getMonthRawMaterial);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
