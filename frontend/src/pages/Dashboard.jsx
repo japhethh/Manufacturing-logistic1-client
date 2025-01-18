@@ -126,7 +126,7 @@ const Dashboard = () => {
             {/* cards */}
             <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {/* Suppliers Card */}
-              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl duration-200 hover:bg-teal-50">
                 <div className="flex items-center justify-between">
                   <p className="text-gray-700 font-semibold text-lg">
                     Totals Suppliers
@@ -148,7 +148,7 @@ const Dashboard = () => {
               </div>
 
               {/* Revenue Card */}
-              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-teal-50">
                 <div className="flex items-center justify-between">
                   <p className="text-gray-700 font-semibold text-lg">Revenue</p>
                   <HiOutlineCurrencyDollar className="text-gray-700 text-2xl" />
@@ -168,7 +168,7 @@ const Dashboard = () => {
               </div>
 
               {/* Sales Card */}
-              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-teal-50">
                 <div className="flex items-center justify-between">
                   <p className="text-gray-700 font-semibold text-lg">Sales</p>
                   <GrMoney className="text-gray-700 text-2xl" />
@@ -187,7 +187,7 @@ const Dashboard = () => {
               </div>
 
               {/* Customer Card */}
-              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-blue-50">
+              <div className="bg-white shadow-2xl flex-1 p-6 rounded-lg transition-transform transform hover:scale-105 hover:shadow-3xl hover:bg-teal-50">
                 <div className="flex items-center justify-between">
                   <p className="text-gray-700 font-semibold text-lg">
                     Customer
