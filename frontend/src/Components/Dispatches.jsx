@@ -56,7 +56,7 @@ const Dispatches = () => {
       <div className="breadcrumbs text-sm mb-6">
         <ul className="flex space-x-2">
           <li>
-            <NavLink to="/warehouse" className="text-blue-600 hover:underline">
+            <NavLink to="/warehouse" className="text-blue-600">
               Warehouse
             </NavLink>
           </li>

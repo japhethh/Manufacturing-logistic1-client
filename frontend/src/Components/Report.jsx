@@ -58,7 +58,7 @@ const Report = () => {
       <div className="breadcrumbs text-sm mb-6">
         <ul className="flex space-x-2">
           <li>
-            <NavLink to="/warehouse" className="text-blue-600 hover:underline">
+            <NavLink to="/warehouse" className="text-blue-600">
               Warehouse
             </NavLink>
           </li>
@@ -76,22 +76,36 @@ const Report = () => {
       <div className="grid gap-6 mb-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-700">Total Orders</h2>
-          <p className="text-3xl font-bold text-gray-900">{summary.totalOrders}</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.totalOrders}
+          </p>
         </div>
 
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">Dispatched Orders</h2>
-          <p className="text-3xl font-bold text-gray-900">{summary.dispatchedOrders}</p>
+          <h2 className="text-xl font-semibold text-gray-700">
+            Dispatched Orders
+          </h2>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.dispatchedOrders}
+          </p>
         </div>
 
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">Pending Orders</h2>
-          <p className="text-3xl font-bold text-gray-900">{summary.pendingOrders}</p>
+          <h2 className="text-xl font-semibold text-gray-700">
+            Pending Orders
+          </h2>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.pendingOrders}
+          </p>
         </div>
 
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">Delivery Success Rate</h2>
-          <p className="text-3xl font-bold text-gray-900">{summary.deliverySuccessRate}</p>
+          <h2 className="text-xl font-semibold text-gray-700">
+            Delivery Success Rate
+          </h2>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.deliverySuccessRate}
+          </p>
         </div>
       </div>
 

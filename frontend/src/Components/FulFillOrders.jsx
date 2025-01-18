@@ -15,7 +15,7 @@ const FulFillOrders = () => {
         lengthChange: false,
       });
     }
-  }, []);  
+  }, []);
 
   const orders = [
     {
@@ -47,7 +47,7 @@ const FulFillOrders = () => {
       <nav className="breadcrumbs text-sm mb-4">
         <ul className="flex space-x-2">
           <li>
-            <NavLink to="/warehouse" className="text-blue-600 hover:underline">
+            <NavLink to="/warehouse" className="text-blue-600">
               Warehouse Management
             </NavLink>
           </li>

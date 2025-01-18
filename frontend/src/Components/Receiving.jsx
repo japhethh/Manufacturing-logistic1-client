@@ -4,7 +4,7 @@ import axios from "axios";
 import { apiURL } from "../context/Store";
 import { toast } from "react-toastify";
 import Store from "../context/Store";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, NavLink, useNavigate } from "react-router-dom"; // Import useNavigate
 import io from "socket.io-client";
 
 const Receiving = () => {
@@ -233,12 +233,11 @@ const Receiving = () => {
       <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
         <ul>
           <li>
-            <a>Home</a>
+            <NavLink to="/warehouse" className="text-blue-600">Warehouse</NavLink>
           </li>
           <li>
-            <Link to="/warehouse">Warehouse</Link>
+            <a>Receiving</a>
           </li>
-          <li>Add Document</li>
         </ul>
       </div>
       <h1 className="text-3xl font-extrabold my-8 text-center drop-shadow-lg">
