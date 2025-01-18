@@ -235,7 +235,7 @@ const TrackOrder = () => {
   }, [trackOrdersData]);
 
   return (
-    <div className="p-5 w-full lg:w-[1250px] mx-auto">
+    <div className="p-5 w-full lg:w-[1200px] mx-auto">
       <TrackOrderItems />
       <div className="overflow-x-auto">
         <table
