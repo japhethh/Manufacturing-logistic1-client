@@ -5,11 +5,17 @@ import { NavLink } from "react-router-dom";
 
 const FulFillOrders = () => {
   useEffect(() => {
-    // Initialize DataTable after component mounts
-    $(document).ready(function () {
-      $("#orderTable").DataTable();
-    });
-  }, []);
+    // Ensure DataTable is only initialized once
+    if (!$.fn.DataTable.isDataTable("#orderTable")) {
+      $("#orderTable").DataTable({
+        responsive: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthChange: false,
+      });
+    }
+  }, []);  
 
   const orders = [
     {
@@ -36,93 +42,94 @@ const FulFillOrders = () => {
   ];
 
   return (
-    <div className="p-6 bg-base-200 min-h-screen">
-      {/* BREADCRUMBS */}
-      <div className="breadcrumbs text-sm">
-        <ul>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      {/* Breadcrumbs */}
+      <nav className="breadcrumbs text-sm mb-4">
+        <ul className="flex space-x-2">
           <li>
-            <NavLink to="/warehouse">
-              <a>Warehouse Management</a>
+            <NavLink to="/warehouse" className="text-blue-600 hover:underline">
+              Warehouse Management
             </NavLink>
           </li>
-          <li>
-            <a>Order Fulfillment</a>
-          </li>
+          <li className="text-gray-500">/</li>
+          <li className="text-gray-700">Order Fulfillment</li>
         </ul>
+      </nav>
+
+      {/* Title */}
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        Order Fulfillment
+      </h1>
+
+      {/* Process Overview */}
+      <div className="grid gap-6 md:grid-cols-3 mb-8">
+        {[
+          {
+            title: "Order Placement",
+            description:
+              "Order details are submitted by customers and logged into the system.",
+          },
+          {
+            title: "Order Processing",
+            description:
+              "Inventory levels are checked, and orders are prepared for fulfillment.",
+          },
+          {
+            title: "Manufacturing & Assembly",
+            description:
+              "Items are produced and assembled as necessary to meet customer requirements.",
+          },
+          {
+            title: "Quality Control",
+            description:
+              "Products undergo rigorous quality checks before packaging.",
+          },
+          {
+            title: "Warehouse & Packing",
+            description:
+              "Orders are packed and labeled in the warehouse, ready for shipment.",
+          },
+          {
+            title: "Shipping & Delivery",
+            description:
+              "Orders are dispatched and delivered to customers with tracking updates.",
+          },
+        ].map((step, index) => (
+          <div
+            key={index}
+            className="bg-white p-6 shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300"
+          >
+            <h2 className="font-semibold text-lg mb-2 text-gray-800">
+              {step.title}
+            </h2>
+            <p className="text-sm text-gray-600">{step.description}</p>
+          </div>
+        ))}
       </div>
-      <h1 className="text-2xl font-bold mb-6 text-center">Order Fulfillment</h1>
 
-      <div className="grid gap-6 md:grid-cols-3 mb-6">
-        <div className="bg-base-100 p-4 shadow-md rounded-lg">
-          <h2 className="font-semibold text-lg mb-2">Order Placement</h2>
-          <p className="text-sm">
-            Order details are submitted by customers and logged into the system.
-          </p>
-        </div>
-
-        <div className="bg-base-100 p-4 shadow-md rounded-lg">
-          <h2 className="font-semibold text-lg mb-2">Order Processing</h2>
-          <p className="text-sm">
-            Inventory levels are checked, and orders are prepared for
-            fulfillment.
-          </p>
-        </div>
-
-        <div className="bg-base-100 p-4 shadow-md rounded-lg">
-          <h2 className="font-semibold text-lg mb-2">
-            Manufacturing & Assembly
-          </h2>
-          <p className="text-sm">
-            Items are produced and assembled as necessary to meet customer
-            requirements.
-          </p>
-        </div>
-
-        <div className="bg-base-100 p-4 shadow-md rounded-lg">
-          <h2 className="font-semibold text-lg mb-2">Quality Control</h2>
-          <p className="text-sm">
-            Products undergo rigorous quality checks before packaging.
-          </p>
-        </div>
-
-        <div className="bg-base-100 p-4 shadow-md rounded-lg">
-          <h2 className="font-semibold text-lg mb-2">Warehouse & Packing</h2>
-          <p className="text-sm">
-            Orders are packed and labeled in the warehouse, ready for shipment.
-          </p>
-        </div>
-
-        <div className="bg-base-100 p-4 shadow-md rounded-lg">
-          <h2 className="font-semibold text-lg mb-2">Shipping & Delivery</h2>
-          <p className="text-sm">
-            Orders are dispatched and delivered to customers with tracking
-            updates.
-          </p>
-        </div>
-      </div>
-
-      <h2 className="text-xl font-semibold mb-4 text-center">
+      {/* Order Status Table */}
+      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
         Order Status Overview
       </h2>
-      <div className="overflow-x-auto">
-        <table id="orderTable" className="table table-zebra w-full">
-          <thead>
+      <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
+        <table id="orderTable" className="table-auto w-full text-sm text-left">
+          <thead className="bg-gray-200">
             <tr>
-              <th>ID</th>
-              <th>Customer</th>
-              <th>Product</th>
-              <th>Status</th>
-              <th>Delivery Date</th>
+              <th className="px-4 py-2">ID</th>
+              <th className="px-4 py-2">Customer</th>
+              <th className="px-4 py-2">Product</th>
+              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">Delivery Date</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.customer}</td>
-                <td>{order.product}</td>
-                <td>{order.status}</td>
-                <td>{order.deliveryDate}</td>
+              <tr key={order.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{order.id}</td>
+                <td className="border px-4 py-2">{order.customer}</td>
+                <td className="border px-4 py-2">{order.product}</td>
+                <td className="border px-4 py-2">{order.status}</td>
+                <td className="border px-4 py-2">{order.deliveryDate}</td>
               </tr>
             ))}
           </tbody>
