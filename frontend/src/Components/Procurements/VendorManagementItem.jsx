@@ -75,7 +75,7 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-blue-50 to-blue-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-blue-800 font-semibold text-lg">All</h2>
+              <h2 className="text-blue-800 font-bold text-lg">All</h2>
               <AiOutlineForm className="text-4xl text-blue-500" />
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
@@ -90,7 +90,7 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-green-50 to-green-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-green-800 font-semibold text-lg">
+              <h2 className="text-green-800 font-bold text-lg">
                 Vendor Products
               </h2>
               <FiPackage className="text-4xl text-green-500" />
@@ -107,7 +107,7 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-purple-50 to bg-purple-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">Vendors</h2>
+              <h2 className="text-gray-800 font-bold text-lg">Vendors</h2>
               <AiOutlineForm className="text-4xl text-blue-500" />
             </div>
             <span className="badge bg-gray-200 text-gray-800 rounded-full px-2 py-1 text-xs">
