@@ -107,10 +107,10 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-purple-50 to bg-purple-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-bold text-lg">Vendors</h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />
+              <h2 className="text-purple-800 font-bold text-lg">Vendors</h2>
+              <AiOutlineForm className="text-4xl text-purple-500" />
             </div>
-            <span className="badge bg-gray-200 text-gray-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-purple-200 text-purple-800 rounded-full px-2 py-1 text-xs">
               {totalVendors}
             </span>
           </div>
