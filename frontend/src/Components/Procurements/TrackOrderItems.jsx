@@ -27,7 +27,7 @@ const TrackOrderItems = () => {
           className="w-full"
           aria-label="All Tracking Orders"
         >
-          <div className="card bg-white shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
+          <div className="card bg-gradient-to-tl from-sky-100 to-sky-50 shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-900 font-bold text-lg">
                 All Tracking Orders
@@ -46,7 +46,7 @@ const TrackOrderItems = () => {
           className="w-full"
           aria-label="Pending Tracking Orders"
         >
-          <div className="card bg-white shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
+          <div className="card bg-gradient-to-tl from-cyan-100 to-cyan-50 shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-900 font-bold text-lg">
                 Pending Orders
@@ -65,7 +65,7 @@ const TrackOrderItems = () => {
           className="w-full"
           aria-label="Completed Tracking Orders"
         >
-          <div className="card bg-white shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
+          <div className="card bg-gradient-to-tl from-teal-100 to-teal-50 shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-900 font-bold text-lg">
                 Completed Orders
