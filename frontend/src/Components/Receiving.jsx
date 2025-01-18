@@ -233,7 +233,9 @@ const Receiving = () => {
       <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
         <ul>
           <li>
-            <NavLink to="/warehouse" className="text-blue-600">Warehouse</NavLink>
+            <NavLink to="/warehouse" className="text-blue-600">
+              Warehouse
+            </NavLink>
           </li>
           <li>
             <a>Receiving</a>
