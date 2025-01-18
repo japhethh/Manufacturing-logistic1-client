@@ -213,25 +213,44 @@ const InvoiceAll = () => {
 
             const isProcessedPay = data.approvalStatus === "Pending";
             return `
-              <div>
-                <button class="bg-green-500 text-xs text-white px-2 py-1 mb-1 rounded-lg mx-1 cursor-pointer approveBtn hover:bg-green-600 transition ease-in-out duration-200" ${
-                  isProcessed ? "style='display:none;'" : ""
-                } id="approveBtn_${data?._id}">
-                  <i class="fas fa-check"></i>
-                </button>
-                <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn hover:bg-red-600 transition ease-in-out duration-200" ${
-                  isProcessed ? "style='display:none;'" : ""
-                } id="rejectBtn_${data?._id}">
+            <div class="space-y-2">
+              <!-- Button Group: Reject and Approve -->
+              <div class="flex items-center space-x-2">
+                <!-- Reject Button -->
+                <button
+                  class="bg-red-500 text-xs text-white px-3 py-2 rounded-lg cursor-pointer rejectBtn hover:bg-red-600 transition ease-in-out duration-200"
+                  ${isProcessed ? "style='display:none;'" : ""}
+                  id="rejectBtn_${data?._id}"
+                  aria-label="Reject"
+                >
                   <i class="fas fa-times"></i>
                 </button>
-                <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer payBtn hover:bg-blue-600 transition ease-in-out duration-200"
-                ${isProcessedPay ? "style='display:none;'" : ""} id="payBtn_${
-              data?._id
-            }">
+          
+                <!-- Approve Button -->
+                <button
+                  class="bg-green-500 text-xs text-white px-3 py-2 rounded-lg cursor-pointer approveBtn hover:bg-green-600 transition ease-in-out duration-200"
+                  ${isProcessed ? "style='display:none;'" : ""}
+                  id="approveBtn_${data?._id}"
+                  aria-label="Approve"
+                >
+                  <i class="fas fa-check"></i>
+                </button>
+              </div>
+          
+              <!-- Pay Button -->
+              <div>
+                <button
+                  class="bg-blue-500 text-xs text-white px-3 py-2 rounded-lg cursor-pointer payBtn hover:bg-blue-600 transition ease-in-out duration-200"
+                  ${isProcessedPay ? "style='display:none;'" : ""}
+                  id="payBtn_${data?._id}"
+                  aria-label="Pay"
+                >
                   <i class="fas fa-money-bill"></i> Pay
                 </button>
               </div>
-            `;
+            </div>
+          `;
+          
           },
         },
       ],
