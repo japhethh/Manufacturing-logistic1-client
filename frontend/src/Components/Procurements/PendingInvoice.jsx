@@ -126,10 +126,10 @@ const PendingInvoice = () => {
           data: null,
           render: (data) => {
             return `
-              <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn" id="approveBtn_${data?._id}">
+              <button class="bg-green-500 hover:bg-green-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn" id="approveBtn_${data?._id}">
                 Approve
               </button>
-              <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
+              <button class="bg-red-500 hover:bg-red-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
                 Reject
               </button>
             `;
