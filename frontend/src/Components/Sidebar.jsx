@@ -380,7 +380,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* Apps Section */}
+        {/* APPS SECTION */}
         <div className="mb-2 ">
           <p
             className={`text-gray-500 mt-3 font-semibold text-base ${
@@ -391,7 +391,7 @@ const Sidebar = () => {
           </p>
           {/* Procurement Dropdown */}
           <ul className="w-full menu rounded-box">
-            {/* Purchase Requisitions */}
+            {/* PURCHASE REQUISITIONS SECTION */}
             <NavLink to="rawmaterialrequest">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
@@ -408,6 +408,8 @@ const Sidebar = () => {
                 </div>
               </li>
             </NavLink>
+
+            {/* VENDOR MANAGEMENT SECTION */}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -437,7 +439,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/* Purchase Orders */}
+            {/* PURCHASE ORDER SECTION */}
             <li>
               <details
                 className={`menu-item transition-all duration-300 ${
@@ -457,7 +459,7 @@ const Sidebar = () => {
                   )}
                 </summary>
                 <ul className={`pl-4 mt-2 ${isCollapsed ? "hidden" : ""}`}>
-                  {/* Purchase Order List */}
+                  {/* PURCHASE ORDER */}
                   <li className="mt-1">
                     <NavLink
                       to="/purchaseOrderList"
@@ -473,7 +475,7 @@ const Sidebar = () => {
                       <span className="text-base">Purchase Order List</span>
                     </NavLink>
                   </li>
-                  {/* Create Purchase Order */}
+                  {/* CREATE PURCHASE ORDERS */}
                   <li className="mt-1">
                     <NavLink
                       to="/CreatePurchaseOrder"
@@ -489,7 +491,7 @@ const Sidebar = () => {
                       <span className="text-base">Create Purchase Order</span>
                     </NavLink>
                   </li>
-                  {/* Track Orders */}
+                  {/* TRACK ORDERS */}
                   <li className="mt-1">
                     <NavLink
                       to="/trackorders"
@@ -509,7 +511,7 @@ const Sidebar = () => {
               </details>
             </li>
 
-            {/* Invoice */}
+            {/* INVOICE SECTION */}
             <NavLink to="/invoice/all">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
@@ -524,7 +526,7 @@ const Sidebar = () => {
                 </div>
               </li>
             </NavLink>
-            {/* PAYMENT */}
+            {/* PAYMENT SECTION */}
             <NavLink to="/paymentList">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
@@ -542,6 +544,7 @@ const Sidebar = () => {
           </ul>
           {userData && userData.role === "admin" && (
             <div>
+              {/* ACCOUNT MANAGEMENT */}
               <p
                 className={`text-gray-500 font-semibold text-base ${
                   isCollapsed ? "hidden" : ""
@@ -549,6 +552,7 @@ const Sidebar = () => {
               >
                 Account Management
               </p>
+              {/* USER MANAGEMENT SECTION */}
               <ul className="w-full menu rounded-box">
                 <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                   <details>
@@ -599,6 +603,7 @@ const Sidebar = () => {
 
           {userData && userData.role === "admin" && (
             <div>
+              {/* SYSTEM SETTINGS SECTION */}
               <ul className="w-full menu rounded-box">
                 <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                   <details>
@@ -644,7 +649,7 @@ const Sidebar = () => {
             Return Management
           </p>
           <ul className="w-full menu rounded-box">
-            {/* Discrepancy Reports */}
+            {/* DISCREPANCY REPORT SECTION */}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -675,7 +680,7 @@ const Sidebar = () => {
             </li>
           </ul>
 
-          {/* Audit Management */}
+          {/* AUDIT MANAGEMENT */}
           <p
             className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
               isCollapsed ? "hidden" : ""
@@ -684,7 +689,7 @@ const Sidebar = () => {
             Audit Management
           </p>
           <ul className="w-full menu rounded-box">
-            {/* Discrepancy Reports */}
+            {/* DISCREPANCY REPORT SECTION */}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -714,7 +719,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/*  Return Authorization */}
+            {/*  RETURN AUTHORIZATION SECTION */}
             <li
               className={`menu-item transition-all duration-300 ${
                 isCollapsed ? "hidden" : ""
@@ -753,7 +758,7 @@ const Sidebar = () => {
             Warehouse
           </p>
           <ul className="w-full menu rounded-box">
-            {/* Purchase Requisitions */}
+            {/* WAREHOUSE SECTION */}
             <NavLink to="warehouse">
               <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
                 <div className="flex mt-1 items-center cursor-pointer">
