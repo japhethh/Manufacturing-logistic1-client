@@ -90,14 +90,14 @@ const InvoiceItems = () => {
           className="w-full"
           aria-label="Pending Invoice"
         >
-          <div className="card bg-gradient-to-br from-teal-100 to-teal-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
+          <div className="card bg-gradient-to-br from-cyan-100 to-cyan-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-teal-800 font-bold text-lg sm:text-xl">
+              <h2 className="text-cyan-800 font-bold text-lg sm:text-xl">
                 Pending Invoice
               </h2>
-              <AiOutlineForm className="text-4xl sm:text-5xl text-teal-500 transition-transform transform hover:scale-110" />
+              <AiOutlineForm className="text-4xl sm:text-5xl text-cyan-500 transition-transform transform hover:scale-110" />
             </div>
-            <span className="badge bg-gradient-to-r from-teal-300 to-teal-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+            <span className="badge bg-gradient-to-r from-cyan-300 to-cyan-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
               {pendingResult}
             </span>
           </div>
