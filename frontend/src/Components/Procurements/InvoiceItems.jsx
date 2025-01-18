@@ -65,68 +65,55 @@ const InvoiceItems = () => {
         </div>
       )}
 
-      {/* Cards section */}
+      {/* CARDS SELECTION */}
       <div
-        className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10  transition-opacity duration-500 ${
-          loading ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <NavLink
-          to="/invoice/all"
-          className="w-full"
-          aria-label="Create Vendor"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                All Invoice
-              </h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
-            </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
-              {allResult}
-            </span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/invoice/pending"
-          className="w-full"
-          aria-label="Create Vendor"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                Pending Invoice
-              </h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
-            </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
-              {pendingResult}
-            </span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/invoice/complete"
-          className="w-full"
-          aria-label="Vendor Product"
-        >
-          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                Complete Invoice
-              </h2>
-              <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
-            </div>
-            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
-              {approveResult}
-            </span>
-          </div>
-        </NavLink>
+  className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-opacity duration-500 ${
+    loading ? "opacity-0" : "opacity-100"
+  }`}
+>
+  <NavLink to="/invoice/all" className="w-full" aria-label="All Invoice">
+    <div className="card bg-white shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-gray-800 font-semibold text-lg sm:text-xl">
+          All Invoice
+        </h2>
+        <AiOutlineForm className="text-4xl sm:text-5xl text-blue-500 transition-transform transform hover:scale-110" />
       </div>
+      <span className="badge bg-gradient-to-r from-blue-300 to-blue-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+        {allResult}
+      </span>
+    </div>
+  </NavLink>
+
+  <NavLink to="/invoice/pending" className="w-full" aria-label="Pending Invoice">
+    <div className="card bg-white shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-gray-800 font-semibold text-lg sm:text-xl">
+          Pending Invoice
+        </h2>
+        <AiOutlineForm className="text-4xl sm:text-5xl text-blue-500 transition-transform transform hover:scale-110" />
+      </div>
+      <span className="badge bg-gradient-to-r from-blue-300 to-blue-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+        {pendingResult}
+      </span>
+    </div>
+  </NavLink>
+
+  <NavLink to="/invoice/complete" className="w-full" aria-label="Complete Invoice">
+    <div className="card bg-white shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-gray-800 font-semibold text-lg sm:text-xl">
+          Complete Invoice
+        </h2>
+        <FiPackage className="text-4xl sm:text-5xl text-green-500 transition-transform transform hover:scale-110" />
+      </div>
+      <span className="badge bg-gradient-to-r from-green-300 to-green-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+        {approveResult}
+      </span>
+    </div>
+  </NavLink>
+</div>
+
 
       {/* Content outlet */}
       <div
