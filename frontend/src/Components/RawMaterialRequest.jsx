@@ -86,7 +86,7 @@ const RawMaterialRequest = () => {
             } else {
               return "N/A";
             }
-          }
+          },
         },
         {
           title: "Request Status",
@@ -120,13 +120,13 @@ const RawMaterialRequest = () => {
                   userData?.role === "admin" || userData?.role === "superAdmin"
                     ? `
                       <button
-                        class="bg-blue-500 font-semibold text-white px-4 py-2 rounded"
+                        class="bg-blue-500 hover:bg-blue-600 duration-150 font-semibold text-white px-4 py-2 rounded"
                         id="approveBtn_${data._id}"
                       >
                         Approve
                       </button>
                       <button
-                        class="bg-red-500 font-semibold text-white px-4 py-2 rounded"
+                        class="bg-red-500 hover:bg-red-600 duration-150 font-semibold text-white px-4 py-2 rounded"
                         id="rejectBtn_${data._id}"
                       >
                         Reject
@@ -333,37 +333,51 @@ const RawMaterialRequest = () => {
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
 
   return (
-    <div className="p-6 ">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Raw Material Requests</h1>
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Raw Material Requests
+        </h1>
         <button
-          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[150px] md:w-[180px]"
+          className="bg-blue-600 text-white font-semibold text-xs md:text-md lg:text-base px-6 py-3 rounded-lg transition-all transform hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 w-[150px] md:w-[180px]"
           onClick={() => navigate("/create-request")}
         >
           + Create Request
         </button>
       </div>
 
-      <div className="overflow-x-auto bg-white shadow-md">
+      <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         {loading ? (
-          <div className="py-4 text-center">Loading...</div>
+          <div className="py-4 text-center text-gray-500">Loading...</div>
         ) : error ? (
           <div className="py-4 text-center text-red-500">{error}</div>
         ) : (
-          <table className="min-w-full text-sm display" id="myTable">
-            <thead className="bg-blue-800 text-white"></thead>
+          <table className="min-w-full text-sm table-auto" id="myTable">
+            <thead className="bg-blue-800 text-white">
+              <tr>
+                <th className="py-3 px-4 text-left">Request Name</th>
+                <th className="py-3 px-4 text-left">Status</th>
+                <th className="py-3 px-4 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700">{/* Table Rows here */}</tbody>
           </table>
         )}
       </div>
 
+      {/* Delete Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
-            <p>Are you sure you want to delete this request?</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity">
+          <div className="bg-white p-6 rounded-lg shadow-xl transition-all transform scale-95 hover:scale-100">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-600">
+              Are you sure you want to delete this request?
+            </p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                className="bg-gray-300 px-4 py-2 rounded"
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none"
                 onClick={() => {
                   setModalOpen(false);
                   setDataId("");
@@ -372,7 +386,7 @@ const RawMaterialRequest = () => {
                 Cancel
               </button>
               <button
-                className="bg-red-600 text-white px-4 py-2 rounded"
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none"
                 onClick={confirmDelete}
               >
                 Delete
@@ -382,20 +396,25 @@ const RawMaterialRequest = () => {
         </div>
       )}
 
+      {/* Approve Modal */}
       {approveModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold">Confirm Approve?</h3>
-            <p>Are you sure you want to approve this request?</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity">
+          <div className="bg-white p-6 rounded-lg shadow-xl transition-all transform scale-95 hover:scale-100">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Confirm Approval
+            </h3>
+            <p className="text-gray-600">
+              Are you sure you want to approve this request?
+            </p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                className="bg-gray-300 px-4 py-2 rounded"
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none"
                 onClick={() => setApproveModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-blue-600 text-white px-4 py-2 rounded"
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none"
                 onClick={confirmApprove}
               >
                 Confirm
@@ -405,20 +424,25 @@ const RawMaterialRequest = () => {
         </div>
       )}
 
+      {/* Reject Modal */}
       {rejectModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold">Confirm Reject?</h3>
-            <p>Are you sure you want to reject this request?</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity">
+          <div className="bg-white p-6 rounded-lg shadow-xl transition-all transform scale-95 hover:scale-100">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Confirm Reject
+            </h3>
+            <p className="text-gray-600">
+              Are you sure you want to reject this request?
+            </p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                className="bg-gray-300 px-4 py-2 rounded"
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none"
                 onClick={() => setRejectModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-red-600 text-white px-4 py-2 rounded"
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none"
                 onClick={confirmReject}
               >
                 Confirm
