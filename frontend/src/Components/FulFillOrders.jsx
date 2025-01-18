@@ -113,7 +113,7 @@ const FulFillOrders = () => {
       </h2>
       <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
         <table id="orderTable" className="table-auto w-full text-sm text-left">
-          <thead className="bg-gray-200">
+          <thead className="bg-blue-500 text-white">
             <tr>
               <th className="px-4 py-2">ID</th>
               <th className="px-4 py-2">Customer</th>
