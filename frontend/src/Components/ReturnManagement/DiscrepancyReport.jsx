@@ -124,7 +124,7 @@ const DiscrepancyReport = () => {
         <ul>
           <li>
             <NavLink to="/" className="text-blue-600">
-              <a>Home</a>
+              <a>Dashboard</a>
             </NavLink>
           </li>
           <li>
