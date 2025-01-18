@@ -18,7 +18,7 @@ const SmallBusinessWarehouse = () => {
         Warehouse Management
       </h1>
 
-      {/* Navigation Buttons */}
+      {/* CARDS NAVIGATION BUTTONS */}
       <div className="flex flex-wrap justify-center sm:justify-between mb-12 gap-6">
         <NavLink to="/fulfillorders" className="w-full sm:w-auto">
           <div className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
