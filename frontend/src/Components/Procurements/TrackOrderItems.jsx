@@ -17,57 +17,62 @@ const TrackOrderItems = () => {
 
       {/* Cards section */}
       <div
-        className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10  transition-opacity duration-500 ${
+        className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-opacity duration-500 ${
           loading ? "opacity-0" : "opacity-100"
         }`}
       >
+        {/* All Tracking Orders */}
         <NavLink
           to="/trackorders"
           className="w-full"
-          aria-label="Create Vendor"
+          aria-label="All Tracking Orders"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
+          <div className="card bg-white shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
+              <h2 className="text-gray-900 font-bold text-lg">
                 All Tracking Orders
               </h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+              <AiOutlineForm className="text-4xl text-blue-500" />
             </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm font-medium">
               5
             </span>
           </div>
         </NavLink>
 
+        {/* Pending Tracking Orders */}
         <NavLink
           to="/trackorders/pendings"
           className="w-full"
-          aria-label="Create Vendor"
+          aria-label="Pending Tracking Orders"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
+          <div className="card bg-white shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                Pending Tracking Orders
+              <h2 className="text-gray-900 font-bold text-lg">
+                Pending Orders
               </h2>
-              <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+              <AiOutlineForm className="text-4xl text-yellow-500" />
             </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-yellow-100 text-yellow-800 rounded-full px-3 py-1 text-sm font-medium">
               5
             </span>
           </div>
         </NavLink>
 
-        <NavLink to="" className="w-full" aria-label="Vendor Product">
-          <div className="card bg-white shadow-lg rounded-lg p-3 text-center transition-all">
+        {/* Completed Tracking Orders */}
+        <NavLink
+          to=""
+          className="w-full"
+          aria-label="Completed Tracking Orders"
+        >
+          <div className="card bg-white shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                Completed Tracking Orders
+              <h2 className="text-gray-900 font-bold text-lg">
+                Completed Orders
               </h2>
-              <FiPackage className="text-4xl text-green-500" /> {/* New Icon */}
+              <FiPackage className="text-4xl text-green-500" />
             </div>
-            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm font-medium">
               3
             </span>
           </div>
