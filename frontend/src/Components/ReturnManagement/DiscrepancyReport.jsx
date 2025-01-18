@@ -4,7 +4,7 @@ import axios from "axios";
 import Store from "../../context/Store";
 import { toast } from "react-toastify";
 import { apiURL } from "../../context/Store";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const DiscrepancyReport = () => {
   const [discrepancyData, setDiscrepancyData] = useState([]);
@@ -123,12 +123,13 @@ const DiscrepancyReport = () => {
       <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
         <ul>
           <li>
-            <a>Home</a>
+            <NavLink to="/" className="text-blue-600">
+              <a>Home</a>
+            </NavLink>
           </li>
           <li>
             <a>Documents</a>
           </li>
-          <li>Add Document</li>
         </ul>
       </div>
 
