@@ -27,14 +27,14 @@ const TrackOrderItems = () => {
           className="w-full"
           aria-label="All Tracking Orders"
         >
-          <div className="card bg-gradient-to-tl from-sky-100 to-sky-50 shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
+          <div className="card bg-gradient-to-br from-sky-200 to-sky-50 shadow-md hover:shadow-lg rounded-lg p-7 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sky-900 font-bold text-lg">
+              <h2 className="text-sky-900 font-bold text-xl">
                 All Tracking Orders
               </h2>
-              <AiOutlineForm className="text-4xl text-sky-500" />
+              <AiOutlineForm className="text-5xl text-sky-500" />
             </div>
-            <span className="badge bg-sky-200 text-sky-800 rounded-full px-3 py-1 text-sm font-medium">
+            <span className="badge bg-gradient-to-l from-sky-500 to-sky-200 text-white rounded-full px-3 py-2 text-sm font-medium">
               5
             </span>
           </div>
@@ -46,14 +46,14 @@ const TrackOrderItems = () => {
           className="w-full"
           aria-label="Pending Tracking Orders"
         >
-          <div className="card bg-gradient-to-tl from-cyan-100 to-cyan-50 shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
+          <div className="card bg-gradient-to-br from-cyan-200 to-cyan-50 shadow-md hover:shadow-lg rounded-lg p-7 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-cyan-800 font-bold text-lg">
+              <h2 className="text-cyan-800 font-bold text-xl">
                 Pending Orders
               </h2>
-              <AiOutlineForm className="text-4xl text-cyan-800" />
+              <AiOutlineForm className="text-5xl text-cyan-800" />
             </div>
-            <span className="badge bg-cyan-200 text-cyan-800 rounded-full px-3 py-1 text-sm font-medium">
+            <span className="badge bg-gradient-to-l from-cyan-500 to-cyan-200 text-white rounded-full px-3 py-2 text-sm font-medium">
               5
             </span>
           </div>
@@ -65,14 +65,14 @@ const TrackOrderItems = () => {
           className="w-full"
           aria-label="Completed Tracking Orders"
         >
-          <div className="card bg-gradient-to-tl from-teal-100 to-teal-50 shadow-md hover:shadow-lg rounded-lg p-5 text-center transition-transform transform hover:scale-105">
+          <div className="card bg-gradient-to-br from-teal-200 to-teal-50 shadow-md hover:shadow-lg rounded-lg p-7 text-center transition-transform transform hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-teal-800 font-bold text-lg">
+              <h2 className="text-teal-800 font-bold text-xl">
                 Completed Orders
               </h2>
-              <FiPackage className="text-4xl text-teal-800" />
+              <FiPackage className="text-5xl text-teal-800" />
             </div>
-            <span className="badge bg-teal-200 text-teal-800 rounded-full px-3 py-1 text-sm font-medium">
+            <span className="badge bg-gradient-to-l from-teal-500 to-teal-200 text-white rounded-full px-3 py-2 text-sm font-medium">
               3
             </span>
           </div>
