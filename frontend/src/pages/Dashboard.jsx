@@ -114,12 +114,6 @@ const Dashboard = () => {
     <>
       <div className="flex">
         <div className="flex-col w-full container-md mx-auto">
-          {/* <iframe
-            src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917"
-            width="100%"
-            height="700px"
-            frameBorder="0"
-          ></iframe> */}
           <div className="bg-gray-200 text-black h-auto p-5">
             {/* 5 cards */}
             <p className="font-semibold">Overview</p>
