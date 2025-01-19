@@ -53,7 +53,11 @@ const PaymentAllList = () => {
             title: "External Reference Number",
             data: "external_reference_number",
           },
-          { title: "Amount", data: "amount" },
+          { 
+            title: "Amount", 
+            data: "amount", 
+            render: (data) => `₱${parseFloat(data).toLocaleString("en-PH", { minimumFractionDigits: 2 })}` 
+          },          
           { title: "Description", data: "description" },
           { title: "Currency", data: "currency" },
           {

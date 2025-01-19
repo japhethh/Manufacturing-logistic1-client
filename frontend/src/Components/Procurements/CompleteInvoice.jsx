@@ -116,7 +116,7 @@ const CompleteInvoice = () => {
         {
           title: "Total Amount",
           data: "totalAmount",
-          render: (data) => `$${data.toFixed(2)}`,
+          render: (data) => `₱${data.toFixed(2)}`,
         },
         { title: "Payment", data: "paymentDetails.paymentMethod" },
 

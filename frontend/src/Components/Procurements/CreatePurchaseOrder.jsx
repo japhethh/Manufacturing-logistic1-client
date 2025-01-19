@@ -485,9 +485,9 @@ const CreatePurchaseOrder = () => {
         {/* Total Summary */}
         <div className="md:col-span-2 mt-6 bg-gray-100 p-4 rounded-md">
           <h3 className="text-lg font-semibold text-[#07074D] mb-4">Summary</h3>
-          <p>Subtotal: ${subtotal.toFixed(2)}</p>
-          <p>Tax: ${taxAmount.toFixed(2)}</p>
-          <p className="font-bold">Total: ${total.toFixed(2)}</p>
+          <p>Subtotal: ₱{subtotal.toFixed(2)}</p>
+          <p>Tax: ₱{taxAmount.toFixed(2)}</p>
+        <p className="font-bold">Total: ₱{total.toFixed(2)}</p>
         </div>
 
         {/* Submit and Reset Buttons */}
