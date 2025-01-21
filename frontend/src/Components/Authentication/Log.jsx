@@ -41,7 +41,8 @@ const Log = () => {
       console.log(response.data.token);
       window.location.href = "/";
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      // toast.error(error.response?.data?.message);
+      console.log(error?.response?.data?.message);
     }
   };
 
