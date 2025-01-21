@@ -165,7 +165,7 @@ const Receiving = () => {
           title: "Total Amount",
           data: "totalAmount",
           render: (data) =>
-            `<span class="font-bold">$${data.toFixed(2)}</span>`,
+            `<span class="font-bold">₱${data.toFixed(2)}</span>`,
         },
         {
           title: "Payment",

@@ -114,12 +114,6 @@ const Dashboard = () => {
     <>
       <div className="flex">
         <div className="flex-col w-full container-md mx-auto">
-          {/* <iframe
-            src="https://roadmap.sh/r/embed?id=66e5f53cf34c8868ec46b917"
-            width="100%"
-            height="700px"
-            frameBorder="0"
-          ></iframe> */}
           <div className="bg-gray-200 text-black h-auto p-5">
             {/* 5 cards */}
             <p className="font-semibold">Overview</p>
@@ -141,7 +135,7 @@ const Dashboard = () => {
                 </div>
                 <div className="my-3">
                   <p className="text-green-700 font-semibold">
-                    +$128.58{" "}
+                    +₱128.58{" "}
                     <span className="text-gray-600">than past week</span>
                   </p>
                 </div>
@@ -154,14 +148,14 @@ const Dashboard = () => {
                   <HiOutlineCurrencyDollar className="text-gray-700 text-2xl" />
                 </div>
                 <div className="flex gap-3 my-3 items-center">
-                  <p className="text-4xl font-bold">$537.83</p>
+                  <p className="text-4xl font-bold">₱537.83</p>
                   <p className="flex items-center gap-1 bg-green-100 text-green-700 rounded-full px-3 py-1 text-sm font-semibold shadow-md">
                     <IoIosArrowUp className="text-green-700" /> 10.8%
                   </p>
                 </div>
                 <div className="my-3">
                   <p className="text-green-700 font-semibold">
-                    +$128.58{" "}
+                    +₱128.58{" "}
                     <span className="text-gray-600">than past week</span>
                   </p>
                 </div>

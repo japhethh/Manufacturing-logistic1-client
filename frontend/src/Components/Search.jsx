@@ -169,6 +169,7 @@ const Search = () => {
               </div>
             </ul>
           </div>
+          {/* PROFILLE */}
           <div className="relative dropdown dropdown-end">
             <img
               src={user?.image ? user?.image : userData?.image}

@@ -200,8 +200,8 @@ const User = () => {
       <div className="breadcrumbs text-sm mb-5">
         <ul>
           <li>
-            <NavLink to="/">
-              <span>Home</span>
+            <NavLink to="/" className="text-blue-600">
+              <span>Dashboard</span>
             </NavLink>
           </li>
           <li>

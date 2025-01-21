@@ -23,7 +23,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const NavbarVendor = () => {
   const navigate = useNavigate();
 
@@ -223,7 +222,7 @@ const NavbarVendor = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  className="w-6 h-6 text-gray-700" // Added size and color
+                  class="w-6 h-6 text-gray-700" // Added size and color
                 >
                   <path
                     strokeLinecap="round"

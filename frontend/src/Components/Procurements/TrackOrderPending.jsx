@@ -112,7 +112,7 @@ const TrackOrderPending = () => {
         {
           title: "Total Amount",
           data: "totalAmount",
-          render: (data) => `$${data.toFixed(2)}`,
+          render: (data) => `₱${data.toFixed(2)}`,
         },
         { title: "Payment", data: "invoiceId.paymentDetails.paymentMethod" },
         { title: "Contact Email", data: "supplier.email" },

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { UserContext } from "../../context/userContext";
 import { useContext, useEffect, useState } from "react";
 import DefaultLogo from "../../assets/default_logo.jpg"; // Assuming you have a default logo
+import { NavLink } from "react-router-dom";
 
 const SystemSettings = () => {
   const [generalData, setGeneralData] = useState({});
@@ -12,7 +13,7 @@ const SystemSettings = () => {
   const [image, setImage] = useState(null); // For storing the file itself
   const [imagePreview, setImagePreview] = useState(null); // For displaying preview
   const [setUp, setSetUp] = useState(null);
-  
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setImage(file); // To set the file itself
@@ -123,12 +124,13 @@ const SystemSettings = () => {
       <div className="breadcrumbs text-sm mb-5">
         <ul>
           <li>
-            <a href="/">Home</a>
+            <NavLink to="/" className="text-blue-600">
+              <a>Dashboard</a>
+            </NavLink>
           </li>
           <li>
-            <a href="/documents">Documents</a>
+            <a>System Settings</a>
           </li>
-          <li>Add Document</li>
         </ul>
       </div>
 

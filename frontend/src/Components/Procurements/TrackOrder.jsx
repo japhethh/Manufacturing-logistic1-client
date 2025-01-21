@@ -158,7 +158,7 @@ const TrackOrder = () => {
         {
           title: "Total Amount",
           data: "totalAmount",
-          render: (data) => `$${data.toFixed(2)}`,
+          render: (data) => `₱${data.toFixed(2)}`,
         },
         {
           title: "Payment",
