@@ -93,13 +93,13 @@ const Log = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                className="shadow-sm rounded-md w-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="shadow-sm rounded-md w-full px-4 py-2 borde border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your password"
                 {...register("password", { required: "Password is required" })}
               />
               <span
                 onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer"
+                className="absolute inset-y-0 right-0 mr-3 mt-7 flex items-center text-sm leading-5 cursor-pointer"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
