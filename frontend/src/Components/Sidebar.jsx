@@ -389,8 +389,7 @@ const Sidebar = () => {
           >
             Procurement
           </p>
-          {/* Procurement Dropdown */}
-          
+
           {/* PURCHASE REQUISITIONS SECTION */}
           <ul className="w-full menu rounded-box">
             <li
