@@ -51,6 +51,7 @@ import {
 } from "./aggregation/rawMaterialAggregation.js";
 import tensorflowDf from "./Ai/tensorFlowDemandForecasting.js";
 import discrepancyTestRouter from "./Ai/DiscrepancyDetectionTest.js";
+import discrepancyTest from "./Ai/testing/discripancyTest.js";
 const port = process.env.PORT || 4000;
 
 const app = express();
@@ -122,6 +123,9 @@ app.use("/api/rawMaterialAggregation", forecastData);
 app.use("/api/demandForecast", tensorflowDf);
 app.use("/api/demandForecastMonth", getMonthRawMaterial);
 app.use("/api/detectDiscrepancyTest", discrepancyTestRouter);
+
+// Testing Site
+app.use("/api/discrepanciesTest", discrepancyTest);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
