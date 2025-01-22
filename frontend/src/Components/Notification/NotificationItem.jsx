@@ -34,7 +34,6 @@ const NotificationItem = ({ notification, onMarkAsRead }) => {
         notification?.isRead ? "bg-gray-100" : ""
       }`}
       onClick={handleMarkAsRead} // Mark as read on click
-      className="hover:bg-gray-200 p-2"
     >
       <NavLink to={`/notifications/${notification?._id}`}>
         <div className="flex flex-col gap-2">
