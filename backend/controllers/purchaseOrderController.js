@@ -5,6 +5,7 @@ import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
 import financeApprovalModel from "../models/financeApprovalModel.js";
 import axios from "axios";
 import generalSettingsModel from "../models/generalSettingsModel.js";
+import jwt from "jsonwebtoken";
 import Counter from "../models/Counter.js";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
@@ -25,6 +26,8 @@ const createPurchaseOrder = async (req, res) => {
       reason,
       paymentDetails,
     } = req.body;
+
+    console.log(req.body);
 
     // Check if any required fields are missing
     if (
@@ -93,7 +96,8 @@ const createPurchaseOrder = async (req, res) => {
     await savePO.populate("supplier");
 
     // Generate and Upload PDF
-    const pdfURL = await generatedAndUploadPdf(savePO);
+    const pdfURL = "Kupal si raffy";
+    // const pdfURL = await generatedAndUploadPdf(savePO);
 
     // Update PO with PDF URL
     savePO.pdfURL = pdfURL;
@@ -126,15 +130,28 @@ const createPurchaseOrder = async (req, res) => {
 
     console.log(financeApproval);
 
+    // Raffy tanga
+    const generateServiceToken = () => {
+      const payload = { service: "Logistics 1" };
+      return jwt.sign(payload, process.env.GATEWAY_JWT_SECRET, {
+        expiresIn: "1h",
+      });
+    };
+
     // FINANCE ------------------->
     // Axios
+
     const postRequest = async () => {
+      const tite = generateServiceToken();
       const response = await axios.post(
-        `https://backend-finance.jjm-manufacturing.com/API/BudgetRequests/RequestBudget`,
-        financeApproval
+        `https://manufacturing-api-gateway.onrender.com/logistics/request-budget`,
+        financeApproval,
+        { headers: { Authorization: `Bearer ${tite}` } }
       );
+
       console.log(response.data);
     };
+
     postRequest();
 
     res.status(201).json(newPurchaseOrder);
