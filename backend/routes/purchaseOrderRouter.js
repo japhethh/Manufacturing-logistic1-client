@@ -9,8 +9,6 @@ import {
   deletePurchaseOrder,
   updateStatus,
   updateStatusFinance,
-  rejectStatusFinance,
-  approveStatusFinance,
 } from "../controllers/purchaseOrderController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -26,7 +24,5 @@ purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
 purchaseOrderRouter.post("/delete/:id", deletePurchaseOrder);
 purchaseOrderRouter.put("/updateStatus/:id", updateStatus);
 purchaseOrderRouter.post("/updateStatusFinance", updateStatusFinance);
-purchaseOrderRouter.post("/rejectStatusFinance", rejectStatusFinance);
-purchaseOrderRouter.post("/approveStatusFinance", approveStatusFinance);
 
 export default purchaseOrderRouter;

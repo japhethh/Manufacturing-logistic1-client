@@ -88,13 +88,13 @@ const PurchaseOrderList = () => {
                 statusClass = "bg-blue-100 text-blue-800"; // Light blue for Pending
                 break;
               case "On process":
-                statusClass = "bg-red-200 text-red-800";
+                statusClass = "bg-orange-200 text-orange-800";
                 break;
               case "Approved":
                 statusClass = "bg-green-100 text-green-800"; // Light green for Approved
                 break;
-              case "In Process":
-                statusClass = "bg-yellow-100 text-yellow-800"; // Light yellow for In Process
+              case "Rejected":
+                statusClass = "bg-red-100 text-yellow-800"; // Light yellow for In Process
                 break;
               case "Shipped":
                 statusClass = "bg-orange-100 text-orange-800"; // Light orange for Shipped
