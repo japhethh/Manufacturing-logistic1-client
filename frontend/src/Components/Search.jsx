@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { IoIosMenu } from "react-icons/io";
-import { MdOutlineDarkMode } from "react-icons/md";
 import MobileSidebar from "./MobileSidebar";
 import Store, { apiURL } from "../context/Store";
 import { Link } from "react-router-dom";
@@ -115,11 +114,6 @@ const Search = () => {
 
         {/* Right-side icons and user profile */}
         <div className="flex items-center gap-3 md:gap-4">
-          <MdOutlineDarkMode
-            className="cursor-pointer text-xl md:text-2xl hover:text-gray-600"
-            aria-label="Toggle dark mode"
-          />
-
           {/* Notification Dropdown */}
           <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
             <button className="text-black size-8 p-2 " tabIndex={0}>
