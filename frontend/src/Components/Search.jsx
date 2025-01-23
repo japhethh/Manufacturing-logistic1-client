@@ -137,11 +137,13 @@ const Search = () => {
                 </span>
               </div>
             </button>
+
+            {/* NOTIFCATION BODY */}
             <ul
               tabIndex={0}
-              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 sm:max-w-xs md:max-w-md lg:max-w-lg"
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 max-w-xs md:max-w-md lg:max-w-lg"
             >
-              <div className="overflow-y-scroll max-h-96 w-full">
+              <div className="overflow-y-scroll max-h-96 w-72 md:w-80">
                 <div>
                   <h1 className="font-semibold text-lg md:text-xl lg:text-2xl px-3">
                     Notifications
