@@ -111,7 +111,7 @@ const PurchaseOrderList = () => {
           title: "Pdf",
           data: null,
           render: (data) =>
-            `<a class="text-blue-500 hover:text-blue-700 duration-100 underline" href="${
+            `<a class="text-blue-500 italic hover:text-blue-700 duration-100 underline" href="${
               data?.pdfURL ? data?.pdfURL : "N/A"
             }" target="_blank">Download PDF</a>`,
         },
@@ -123,7 +123,7 @@ const PurchaseOrderList = () => {
               <div class="py-2 px-4 flex space-x-2">
 
               ${
-                userData?.role === "admin" | userData?.role === "superAdmin"
+                (userData?.role === "admin") | (userData?.role === "superAdmin")
                   ? ` <button
               id="detailsBtn_${data?._id}"
               class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 duration-150 transition text-sm"
@@ -165,7 +165,7 @@ const PurchaseOrderList = () => {
       table.destroy();
     };
   }, [purchaseOrderData]);
-  
+
   const fetchPurchaseOrder = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/purchase-order/`);
