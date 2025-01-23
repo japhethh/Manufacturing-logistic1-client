@@ -284,7 +284,8 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
   }
 
   const update = await purchaseOrderModel.findByIdAndUpdate(id, {
-    approvalStatus: approvalId,
+    approvalStatus: status,
+    approvalId,
     comment,
   });
 
