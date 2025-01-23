@@ -71,7 +71,7 @@ const ViewPurchaseOrder = () => {
     doc.text("PURCHASE ORDER", marginX, marginY - 10);
 
     doc.addImage(logo, "PNG", 150, marginY - 20, 50, 20); // Align logo on the right
-    
+
     // doc.text("City, State, Zip", marginX, marginY + 2 * lineSpacing);
 
     // Add company information
@@ -217,116 +217,116 @@ const ViewPurchaseOrder = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg container mx-auto">
-  <div className="flex flex-wrap gap-4 mb-6 justify-center sm:justify-start">
-    <button
-      onClick={generatePDF}
-      className="px-4 py-2 font-semibold bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
-    >
-      Generate PDF
-    </button>
-    <button
-      onClick={handlePrint}
-      className="px-4 py-2 font-semibold bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
-    >
-      Print
-    </button>
-    <button
-      onClick={handleEdit}
-      className="px-4 py-2 font-semibold bg-emerald-500 text-white rounded-lg shadow hover:bg-emerald-600"
-    >
-      Edit
-    </button>
-  </div>
-
-  {purchaseOrder && (
-    <div className="printable">
-      {generalSettingsData.map((item, index) => (
-        <div
-          key={index}
-          className="flex flex-wrap items-center justify-between gap-4 mb-4 border-b pb-4"
+      <div className="flex flex-wrap gap-4 mb-6 justify-center sm:justify-start">
+        <button
+          onClick={generatePDF}
+          className="px-4 py-2 font-semibold bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
         >
-          <div>
-            <h1 className="text-2xl font-bold">{item.companyName}</h1>
-            <p className="text-sm text-gray-600">{item.companyEmail}</p>
-            <p className="text-sm text-gray-600">{item.companyAddress}</p>
-          </div>
-          <div>
-            <img width={130} src={item.logo} alt="Company Logo" />
-          </div>
-        </div>
-      ))}
-
-      <div className="flex flex-wrap gap-4 justify-between mb-6">
-        <div className="flex-1">
-          <h1 className="text-lg font-semibold">Vendor</h1>
-          <p className="text-sm">{purchaseOrder.supplier.supplierName}</p>
-          <p className="text-sm">{purchaseOrder.supplier.address.street}</p>
-          <p className="text-sm">{purchaseOrder.supplier.contactPhone}</p>
-          <p className="text-sm">{purchaseOrder.supplier.contactEmail}</p>
-        </div>
-
-        <div className="flex-1 text-right">
-          <h1 className="text-lg font-semibold">
-            Order #{purchaseOrder.purchaseOrderNumber}
-          </h1>
-          <p className="text-sm text-gray-600">
-            Order Date: {new Date(purchaseOrder.orderDate).toLocaleDateString()}
-          </p>
-        </div>
+          Generate PDF
+        </button>
+        <button
+          onClick={handlePrint}
+          className="px-4 py-2 font-semibold bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
+        >
+          Print
+        </button>
+        <button
+          onClick={handleEdit}
+          className="px-4 py-2 font-semibold bg-emerald-500 text-white rounded-lg shadow hover:bg-emerald-600"
+        >
+          Edit
+        </button>
       </div>
 
-      <div className="overflow-x-auto mb-6">
-        <table className="table-auto w-full text-left border-collapse">
-          <thead className="bg-gray-700 text-white">
-            <tr>
-              <th className="px-4 py-2">#</th>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Quantity</th>
-              <th className="px-4 py-2">Price</th>
-              <th className="px-4 py-2">Discount</th>
-              <th className="px-4 py-2">Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {purchaseOrder.items.map((item, index) => (
-              <tr
-                key={item._id}
-                className="border-b hover:bg-gray-100 transition"
+      {purchaseOrder && (
+        <div className="printable">
+          {generalSettingsData.map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-wrap items-center justify-between gap-4 mb-4 border-b pb-4"
+            >
+              <div>
+                <h1 className="text-2xl font-bold">{item.companyName}</h1>
+                <p className="text-sm text-gray-600">{item.companyEmail}</p>
+                <p className="text-sm text-gray-600">{item.companyAddress}</p>
+              </div>
+              <div>
+                <img width={130} src={item.logo} alt="Company Logo" />
+              </div>
+            </div>
+          ))}
+
+          <div className="flex flex-wrap gap-4 justify-between mb-6">
+            <div className="flex-1">
+              <h1 className="text-lg font-semibold">Vendor</h1>
+              <p className="text-sm">{purchaseOrder.supplier.supplierName}</p>
+              <p className="text-sm">{purchaseOrder.supplier.address.street}</p>
+              <p className="text-sm">{purchaseOrder.supplier.contactPhone}</p>
+              <p className="text-sm">{purchaseOrder.supplier.contactEmail}</p>
+            </div>
+
+            <div className="flex-1 text-right">
+              <h1 className="text-lg font-semibold">
+                Order #{purchaseOrder.purchaseOrderNumber}
+              </h1>
+              <p className="text-sm text-gray-600">
+                Order Date:{" "}
+                {new Date(purchaseOrder.orderDate).toLocaleDateString()}
+              </p>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto mb-6">
+            <table className="table-auto w-full text-left border-collapse">
+              <thead className="bg-gray-700 text-white">
+                <tr>
+                  <th className="px-4 py-2">#</th>
+                  <th className="px-4 py-2">Name</th>
+                  <th className="px-4 py-2">Quantity</th>
+                  <th className="px-4 py-2">Price</th>
+                  <th className="px-4 py-2">Discount</th>
+                  <th className="px-4 py-2">Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {purchaseOrder.items.map((item, index) => (
+                  <tr
+                    key={item._id}
+                    className="border-b hover:bg-gray-100 transition"
+                  >
+                    <td className="px-4 py-2">{index + 1}</td>
+                    <td className="px-4 py-2">{item.name}</td>
+                    <td className="px-4 py-2">{item.quantity}</td>
+                    <td className="px-4 py-2">₱{item.price.toFixed(2)}</td>
+                    <td className="px-4 py-2">{item.discount}%</td>
+                    <td className="px-4 py-2">₱{item.totalPrice.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex flex-wrap gap-4">
+            <div className="flex-1">
+              <h1 className="font-semibold text-md">Notes</h1>
+              <p className="text-sm text-gray-700">{purchaseOrder.notes}</p>
+            </div>
+            <div className="flex-1 text-right">
+              <h1 className="font-semibold text-md">Status</h1>
+              <button
+                className={`px-4 py-2 rounded-lg shadow text-white ${
+                  purchaseOrder.approvalStatus === "Approved"
+                    ? "bg-green-500"
+                    : "bg-yellow-500"
+                }`}
               >
-                <td className="px-4 py-2">{index + 1}</td>
-                <td className="px-4 py-2">{item.name}</td>
-                <td className="px-4 py-2">{item.quantity}</td>
-                <td className="px-4 py-2">${item.price.toFixed(2)}</td>
-                <td className="px-4 py-2">{item.discount}%</td>
-                <td className="px-4 py-2">${item.totalPrice.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="flex flex-wrap gap-4">
-        <div className="flex-1">
-          <h1 className="font-semibold text-md">Notes</h1>
-          <p className="text-sm text-gray-700">{purchaseOrder.notes}</p>
+                {purchaseOrder.approvalStatus}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex-1 text-right">
-          <h1 className="font-semibold text-md">Status</h1>
-          <button
-            className={`px-4 py-2 rounded-lg shadow text-white ${
-              purchaseOrder.approvalStatus === "Approved"
-                ? "bg-green-500"
-                : "bg-yellow-500"
-            }`}
-          >
-            {purchaseOrder.approvalStatus}
-          </button>
-        </div>
-      </div>
+      )}
     </div>
-  )}
-</div>
-
   );
 };
 
