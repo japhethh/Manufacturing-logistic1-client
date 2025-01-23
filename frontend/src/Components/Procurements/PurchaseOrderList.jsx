@@ -80,12 +80,15 @@ const PurchaseOrderList = () => {
           title: "Approval Status",
           data: null,
           render: (data) => {
-            const orderStatus = data?.financeApproval?.status || "N/A";
+            const orderStatus = data?.approvalStatus || "N/A";
             let statusClass = "";
 
             switch (orderStatus) {
               case "Pending":
                 statusClass = "bg-blue-100 text-blue-800"; // Light blue for Pending
+                break;
+              case "On process":
+                statusClass = "bg-red-200 text-red-800";
                 break;
               case "Approved":
                 statusClass = "bg-green-100 text-green-800"; // Light green for Approved

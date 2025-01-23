@@ -79,7 +79,7 @@ const purchaseOrderSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Capital expenditures", "Operational Expenses"],
+      enum: ["Capital Expenditures", "Operational Expenses"],
     },
 
     // HISTORY

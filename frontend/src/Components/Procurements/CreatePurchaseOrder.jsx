@@ -395,7 +395,7 @@ const CreatePurchaseOrder = () => {
               required
             >
               <option value="">Select Category</option>
-              <option value="Capital expenditures">Capital expenditures</option>
+              <option value="Capital Expenditures">Capital Expenditures</option>
               <option value="Operational Expenses">Operational Expenses</option>
             </select>
           </div>

@@ -309,7 +309,45 @@ const rejectStatusFinance = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Purchase Id not found!" });
   }
 
-  const update = await purchaseOrderModel.findByIdAndUpdate(approvalId);
+  const update = await purchaseOrderModel.findByIdAndUpdate(approvalId, {
+    approvalStatus: status,
+    approvalId,
+    comment,
+  });
+
+  if (!update) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Purchase order not found" });
+  }
+
+  res.status(200).json({ success: true, data: update });
+});
+
+const approveStatusFinance = expressAsyncHandler(async (req, res) => {
+  const { status, comment, approvalId } = req.body;
+
+  const exist = await purchaseOrderModel.findById(approvalId);
+
+  if (!exist) {
+    return res
+      .status(404)
+      .json({ success: false, message: "PurchaseOrder Id not found!" });
+  }
+
+  const update = await purchaseOrderModel.findByIdAndUpdate(approvalid, {
+    approvalStatus: status,
+    approvalId,
+    comment,
+  });
+
+  if (!update) {
+    return res
+      .status(404)
+      .json({ success: false, message: "PurchaseOrder not found!" });
+  }
+
+  res.status(200).json({ success: true, data: update });
 });
 
 export {
@@ -321,4 +359,6 @@ export {
   deletePurchaseOrder,
   updateStatus,
   updateStatusFinance,
+  rejectStatusFinance,
+  approveStatusFinance,
 };
