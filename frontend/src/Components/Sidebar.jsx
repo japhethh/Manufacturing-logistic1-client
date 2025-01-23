@@ -795,25 +795,35 @@ const Sidebar = () => {
           </p>
           <ul className="w-full menu rounded-box">
             {/* WAREHOUSE SECTION */}
-            <NavLink to="warehouse">
-              <li className={`menu-item ${isCollapsed ? "hidden" : ""}`}>
-                <div className="flex mt-1 items-center cursor-pointer">
-                  <TbBuildingWarehouse
-                    className={`transition-all duration-300 ${
-                      isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                    }`}
-                  />
-                  {!isCollapsed && (
-                    <span className="text-base font-semibold">Warehouse</span>
-                  )}
-                </div>
-              </li>
-            </NavLink>
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="warehouse"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <TbBuildingWarehouse
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold">Warehouse</span>
+                )}
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>
-
-      {/* Footer Section */}
     </div>
   );
 };
