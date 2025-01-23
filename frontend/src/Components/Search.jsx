@@ -184,7 +184,7 @@ const Search = () => {
               aria-label="User menu"
             >
               <li>
-                <a href="#profile" className="hover:bg-gray-100 p-2 rounded">
+                <a href="#profile" className="hover:bg-gray-100 p-2 rounded font-bold">
                   {userData?.name}
                 </a>
               </li>
