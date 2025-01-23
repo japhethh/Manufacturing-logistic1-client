@@ -122,7 +122,7 @@ const createPurchaseOrder = async (req, res) => {
       financeApprovalJson
     );
 
-    financeApproval.approvalId = financeApproval._id;
+    financeApproval.approvalId = financeApprovalJson.purchaseOrder;
 
     financeApproval.save();
 
@@ -296,6 +296,20 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ success: true, data: update });
+});
+
+const rejectStatusFinance = expressAsyncHandler(async (req, res) => {
+  const { status, comment, approvalId } = req.body;
+
+  const exist = await purchaseOrderModel.findById(approvalId);
+
+  if (!exist) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Purchase Id not found!" });
+  }
+
+  const update = await purchaseOrderModel.findByIdAndUpdate(approvalId);
 });
 
 export {
