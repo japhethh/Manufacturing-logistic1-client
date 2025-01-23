@@ -216,105 +216,117 @@ const ViewPurchaseOrder = () => {
   if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md container px-9 mx-auto">
-      <div className="flex gap-4 mb-4">
-        <button onClick={generatePDF} className="btn btn-primary">
-          Generate PDF
-        </button>
-        <button onClick={handlePrint} className="btn btn-secondary">
-          Print
-        </button>
-        <button onClick={handleEdit} className="btn btn-secondary">
-          Edit
-        </button>
-      </div>
+    <div className="p-6 bg-white rounded-lg shadow-lg container mx-auto">
+  <div className="flex flex-wrap gap-4 mb-6 justify-center sm:justify-start">
+    <button
+      onClick={generatePDF}
+      className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+    >
+      Generate PDF
+    </button>
+    <button
+      onClick={handlePrint}
+      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+    >
+      Print
+    </button>
+    <button
+      onClick={handleEdit}
+      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+    >
+      Edit
+    </button>
+  </div>
 
-      {purchaseOrder && (
-        <div className="printable">
-          {/* Only this will be printed */}
-          {generalSettingsData.map((item, index) => (
-            <div key={index} className="flex gap-2 justify-between">
-              <div>
-                <div>
-                  <h1>{item.companyName}</h1>
-                  <h1>{item.companyEmail}</h1>
-                  <h1>{item.companyAddress}</h1>
-                </div>
-              </div>
-              <div>
-                <img width={130} src={item.logo} alt="Company Logo" />
-              </div>
-            </div>
-          ))}
-          <div className="flex gap-2 justify-between">
-            <div className="flex-1">
-              <h1 className="text-xl font-semibold">Vendor</h1>
-              <h1 className="text-md">{purchaseOrder.supplier.supplierName}</h1>
-              <h1 className="text-md">
-                {purchaseOrder.supplier.address.street}
-              </h1>
-              <h1 className="text-md">{purchaseOrder.supplier.contactPhone}</h1>
-              <h1 className="text-md">{purchaseOrder.supplier.contactEmail}</h1>
-            </div>
-
-            <div className="flex-1 text-right">
-              <h1 className="text-lg">{purchaseOrder.purchaseOrderNumber}</h1>
-              <h1 className="text-lg">
-                Order Date:{" "}
-                {new Date(purchaseOrder.orderDate).toLocaleDateString()}
-              </h1>
-            </div>
+  {purchaseOrder && (
+    <div className="printable">
+      {generalSettingsData.map((item, index) => (
+        <div
+          key={index}
+          className="flex flex-wrap items-center justify-between gap-4 mb-4 border-b pb-4"
+        >
+          <div>
+            <h1 className="text-2xl font-bold">{item.companyName}</h1>
+            <p className="text-sm text-gray-600">{item.companyEmail}</p>
+            <p className="text-sm text-gray-600">{item.companyAddress}</p>
           </div>
-          <div className="mt-2">
-            <div className="overflow-x-auto">
-              <table className="table table-lg">
-                <thead className="bg-gray-500 text-base-200">
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Total Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {purchaseOrder.items.map((item, index) => (
-                    <tr key={item._id}>
-                      <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{item.quantity}</td>
-                      <td>${item.price.toFixed(2)}</td>
-                      <td>{item.discount}%</td>
-                      <td>${item.totalPrice.toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="flex gap-2 mt-4">
-              <div className="flex-1">
-                <h1 className="font-semibold text-md">Notes</h1>
-                <h1 className="text-md">{purchaseOrder.notes}</h1>
-              </div>
-              <div className="flex-1 text-right">
-                <h1 className="font-semibold text-md">Status</h1>
-                <button
-                  className={`px-3 py-2 rounded-lg ${
-                    purchaseOrder.approvalStatus === "Approved"
-                      ? "bg-green-500"
-                      : "bg-yellow-500"
-                  } text-base-100`}
-                >
-                  {purchaseOrder.approvalStatus}
-                </button>
-              </div>
-            </div>
+          <div>
+            <img width={130} src={item.logo} alt="Company Logo" />
           </div>
         </div>
-      )}
+      ))}
+
+      <div className="flex flex-wrap gap-4 justify-between mb-6">
+        <div className="flex-1">
+          <h1 className="text-lg font-semibold">Vendor</h1>
+          <p className="text-sm">{purchaseOrder.supplier.supplierName}</p>
+          <p className="text-sm">{purchaseOrder.supplier.address.street}</p>
+          <p className="text-sm">{purchaseOrder.supplier.contactPhone}</p>
+          <p className="text-sm">{purchaseOrder.supplier.contactEmail}</p>
+        </div>
+
+        <div className="flex-1 text-right">
+          <h1 className="text-lg font-semibold">
+            Order #{purchaseOrder.purchaseOrderNumber}
+          </h1>
+          <p className="text-sm text-gray-600">
+            Order Date: {new Date(purchaseOrder.orderDate).toLocaleDateString()}
+          </p>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto mb-6">
+        <table className="table-auto w-full text-left border-collapse">
+          <thead className="bg-gray-700 text-white">
+            <tr>
+              <th className="px-4 py-2">#</th>
+              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Price</th>
+              <th className="px-4 py-2">Discount</th>
+              <th className="px-4 py-2">Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {purchaseOrder.items.map((item, index) => (
+              <tr
+                key={item._id}
+                className="border-b hover:bg-gray-100 transition"
+              >
+                <td className="px-4 py-2">{index + 1}</td>
+                <td className="px-4 py-2">{item.name}</td>
+                <td className="px-4 py-2">{item.quantity}</td>
+                <td className="px-4 py-2">${item.price.toFixed(2)}</td>
+                <td className="px-4 py-2">{item.discount}%</td>
+                <td className="px-4 py-2">${item.totalPrice.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="flex flex-wrap gap-4">
+        <div className="flex-1">
+          <h1 className="font-semibold text-md">Notes</h1>
+          <p className="text-sm text-gray-700">{purchaseOrder.notes}</p>
+        </div>
+        <div className="flex-1 text-right">
+          <h1 className="font-semibold text-md">Status</h1>
+          <button
+            className={`px-4 py-2 rounded-lg shadow text-white ${
+              purchaseOrder.approvalStatus === "Approved"
+                ? "bg-green-500"
+                : "bg-yellow-500"
+            }`}
+          >
+            {purchaseOrder.approvalStatus}
+          </button>
+        </div>
+      </div>
     </div>
+  )}
+</div>
+
   );
 };
 
