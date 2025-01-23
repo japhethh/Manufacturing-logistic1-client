@@ -28,6 +28,8 @@ import { MdOutlineReportProblem } from "react-icons/md";
 import { IoMdReturnLeft } from "react-icons/io";
 import { MdInventory } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { IoMenu } from "react-icons/io5";
 import { BsChatRightText } from "react-icons/bs";
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
@@ -54,11 +56,10 @@ const Sidebar = () => {
       <div className="flex justify-end m-1 mb-2">
         <button
           onClick={toggleSidebar}
-          className="p-1 text-black transition duration-200 border border-gray-300 rounded-md hover:bg-gray-200 w-11"
-          aria-expanded={!isCollapsed}
-          aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          className="flex items-center justify-center p-2 text-black transition duration-200 border border-gray-400 rounded-md shadow-sm hover:bg-gray-100 active:bg-gray-500 focus:outline-none w-11 h-11"
+          aria-label="Toggle Sidebar"
         >
-          {isCollapsed ? "▶" : "◀"}
+          <IoMenu size={24} />
         </button>
       </div>
 
