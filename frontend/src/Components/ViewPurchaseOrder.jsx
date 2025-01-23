@@ -220,19 +220,19 @@ const ViewPurchaseOrder = () => {
   <div className="flex flex-wrap gap-4 mb-6 justify-center sm:justify-start">
     <button
       onClick={generatePDF}
-      className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+      className="px-4 py-2 font-semibold bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
     >
       Generate PDF
     </button>
     <button
       onClick={handlePrint}
-      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+      className="px-4 py-2 font-semibold bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
     >
       Print
     </button>
     <button
       onClick={handleEdit}
-      className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+      className="px-4 py-2 font-semibold bg-emerald-500 text-white rounded-lg shadow hover:bg-emerald-600"
     >
       Edit
     </button>
