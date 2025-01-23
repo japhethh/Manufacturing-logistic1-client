@@ -107,8 +107,8 @@ const Search = () => {
       <div className="flex items-center justify-end">
         {/* Sidebar toggle button */}
         <div className="lg:hidden flex items-center">
-          <label htmlFor="my-drawer" className="drawer-button">
-            <IoIosMenu size={24} />
+          <label htmlFor="my-drawer" className="drawer-button mr-3">
+            <IoIosMenu size={30} />
           </label>
         </div>
 
