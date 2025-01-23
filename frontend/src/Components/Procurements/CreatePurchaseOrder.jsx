@@ -3,8 +3,7 @@ import axios from "axios";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import NotificationService from "../../services/NotificationService";
-import { RiContactsBookLine } from "react-icons/ri";
-
+import Store from "../../context/Store";
 const CreatePurchaseOrder = () => {
   const [formData, setFormData] = useState({
     supplier: "",
@@ -20,8 +19,10 @@ const CreatePurchaseOrder = () => {
   });
   const [suppliers, setSuppliers] = useState([]);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
-  const { apiURL, token } = useContext(UserContext);
+  const { apiURL } = useContext(UserContext);
+  const { token } = Store();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -193,6 +194,7 @@ const CreatePurchaseOrder = () => {
           headers: { token: token },
         }
       );
+      NotificationService.success(response?.data.msg)
       NotificationService.success("Purchase Order Created");
       handleReset();
       navigate(`/purchase_orders/view_po/${response.data._id}`);
@@ -487,7 +489,7 @@ const CreatePurchaseOrder = () => {
           <h3 className="text-lg font-semibold text-[#07074D] mb-4">Summary</h3>
           <p>Subtotal: ₱{subtotal.toFixed(2)}</p>
           <p>Tax: ₱{taxAmount.toFixed(2)}</p>
-        <p className="font-bold">Total: ₱{total.toFixed(2)}</p>
+          <p className="font-bold">Total: ₱{total.toFixed(2)}</p>
         </div>
 
         {/* Submit and Reset Buttons */}

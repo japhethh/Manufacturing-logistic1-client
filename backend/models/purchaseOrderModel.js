@@ -49,7 +49,7 @@ const purchaseOrderSchema = mongoose.Schema(
     paymentTerm: { type: String, required: true },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected"],
+      enum: ["Pending", "Approved", "Rejected", "On process"],
       default: "Pending",
     },
     createdBy: {
@@ -124,6 +124,7 @@ const purchaseOrderSchema = mongoose.Schema(
         notes: { type: String }, // Optional notes on the status change
       },
     ],
+    comment: { type: String },
     paymentDetails: {
       paymentMethod: {
         type: String,
