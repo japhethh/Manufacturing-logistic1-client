@@ -115,7 +115,7 @@ const Search = () => {
         {/* Right-side icons and user profile */}
         <div className="flex items-center gap-3 md:gap-4">
           {/* Notification Dropdown */}
-          <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
+          <div className="dropdown dropdown-end items-center">
             <button className="text-black size-8 p-2 " tabIndex={0}>
               <div className="indicator">
                 <svg
