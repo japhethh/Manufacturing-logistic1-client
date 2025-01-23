@@ -49,7 +49,7 @@ const purchaseOrderSchema = mongoose.Schema(
     paymentTerm: { type: String, required: true },
     approvalStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected"],
+      enum: ["Pending", "Approved", "Rejected", "On process"],
       default: "Pending",
     },
     createdBy: {

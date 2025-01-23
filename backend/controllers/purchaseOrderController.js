@@ -273,7 +273,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 });
 
 const updateStatusFinance = expressAsyncHandler(async (req, res) => {
-  const { status, comment, id } = req.body;
+  const { status, comment, approvalId } = req.body;
 
   const exist = await purchaseOrderModel.findById(id);
 
@@ -284,7 +284,7 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
   }
 
   const update = await purchaseOrderModel.findByIdAndUpdate(id, {
-    approvalStatus: status,
+    approvalStatus: approvalId,
     comment,
   });
 
