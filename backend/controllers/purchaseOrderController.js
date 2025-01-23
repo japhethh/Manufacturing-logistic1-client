@@ -7,6 +7,7 @@ import axios from "axios";
 import generalSettingsModel from "../models/generalSettingsModel.js";
 import jwt from "jsonwebtoken";
 import Counter from "../models/Counter.js";
+import expressAsyncHandler from "express-async-handler";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
@@ -270,6 +271,32 @@ const updateStatus = asyncHandler(async (req, res) => {
 
   res.status(200).json(updatedStatus);
 });
+
+const updateStatusFinance = expressAsyncHandler(async (req, res) => {
+  const { status, comment, id } = req.body;
+
+  const exist = await purchaseOrderModel.findById(id);
+
+  if (!exist) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Purchase Order not found!" });
+  }
+
+  const update = await purchaseOrderModel.findByIdAndUpdate(id, {
+    approvalStatus: status,
+    comment,
+  });
+
+  if (!update) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Purchase not found!" });
+  }
+
+  res.status(200).json({ success: true, data: update });
+});
+
 export {
   createPurchaseOrder,
   getAllPurchaseOrder,
@@ -278,4 +305,5 @@ export {
   updatePurchaseOrder,
   deletePurchaseOrder,
   updateStatus,
+  updateStatusFinance,
 };

@@ -3,6 +3,7 @@ import financeApprovalModel from "../models/financeApprovalModel.js";
 import supplierModel from "../models/supplierModel.js";
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
 import NotificationVendorModel from "../models/notificationVendorModel.js";
+import expressAsyncHandler from "express-async-handler";
 
 const getAllFinanceApproval = asyncHandler(async (req, res) => {
   const getData = await financeApprovalModel.find({}).populate("purchaseOrder");

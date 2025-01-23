@@ -124,6 +124,7 @@ const purchaseOrderSchema = mongoose.Schema(
         notes: { type: String }, // Optional notes on the status change
       },
     ],
+    comment: { type: String },
     paymentDetails: {
       paymentMethod: {
         type: String,

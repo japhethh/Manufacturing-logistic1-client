@@ -8,6 +8,7 @@ import {
   updatePurchaseOrder,
   deletePurchaseOrder,
   updateStatus,
+  updateStatusFinance,
 } from "../controllers/purchaseOrderController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -22,5 +23,6 @@ purchaseOrderRouter.get("/auto-fill", autoFillPurchaseOrder);
 purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
 purchaseOrderRouter.post("/delete/:id", deletePurchaseOrder);
 purchaseOrderRouter.put("/updateStatus/:id", updateStatus);
+purchaseOrderRouter.put("/updateStatusFinance", updateStatusFinance);
 
 export default purchaseOrderRouter;

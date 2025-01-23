@@ -165,6 +165,7 @@ const PurchaseOrderList = () => {
       table.destroy();
     };
   }, [purchaseOrderData]);
+  
   const fetchPurchaseOrder = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/purchase-order/`);
