@@ -22,7 +22,7 @@ const CreatePurchaseOrder = () => {
   const { apiURL } = useContext(UserContext);
   const { token } = Store();
   const navigate = useNavigate();
-
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -155,8 +155,10 @@ const CreatePurchaseOrder = () => {
   };
 
   const handleSubmit = async () => {
+    setLoadingSubmit(true);
     console.log(formData);
     if (!validateForm()) {
+      setLoadingSubmit(false);
       return;
     }
 
@@ -194,13 +196,15 @@ const CreatePurchaseOrder = () => {
           headers: { token: token },
         }
       );
-      NotificationService.success(response?.data.msg)
+      NotificationService.success(response?.data.msg);
       NotificationService.success("Purchase Order Created");
       handleReset();
       navigate(`/purchase_orders/view_po/${response.data._id}`);
     } catch (error) {
       console.error("Error creating purchase order:", error);
       NotificationService.error(error.response.data.message);
+    } finally {
+      setLoadingSubmit(false);
     }
   };
 
@@ -504,9 +508,10 @@ const CreatePurchaseOrder = () => {
           <button
             type="button"
             onClick={handleSubmit}
+            disabled={loadingSubmit}
             className="px-6 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
           >
-            Submit
+            {loadingSubmit ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>

@@ -6,14 +6,15 @@ import { toast } from "react-toastify";
 import Store from "../context/Store";
 import { Link, NavLink, useNavigate } from "react-router-dom"; // Import useNavigate
 import io from "socket.io-client";
-
 const Receiving = () => {
   const [trackOrdersData, setTrackOrdersData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState("");
-  const { token } = Store();
+  const { token, fetchUserData, userData } = Store();
   const navigate = useNavigate(); // Initialize useNavigate
+  const isAdmin = userData?.role === "admin";
+  const isSuperAdmin = userData?.role === "superAdmin";
 
   const ENDPOINT =
     window.location.hostname === "localhost"
@@ -22,6 +23,7 @@ const Receiving = () => {
 
   useEffect(() => {
     fetchAllTrackingOrders();
+    fetchUserData();
   }, []);
 
   const fetchAllTrackingOrders = async () => {
@@ -193,15 +195,24 @@ const Receiving = () => {
           render: (data) => {
             return `
               <div class="flex justify-center font-bold">
-                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${data._id}">
+                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
+                  data._id
+                }">
                   <i class="fas fa-eye"></i>
                 </button>
-                <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="qcBtn_${data._id}">
+                <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="qcBtn_${
+                  data._id
+                }">
                   <i class="fas fa-check-circle"></i> Quality Control
                 </button>
-                <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
+                ${
+                  isSuperAdmin
+                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
                   <i class="fas fa-trash-alt"></i>
-                </button>
+                </button>`
+                    : ""
+                }
+                
               </div>
             `;
           },
@@ -210,16 +221,20 @@ const Receiving = () => {
       order: [[0, "desc"]],
       rowCallback: (row, data) => {
         const qcBtn = row.querySelector(`#qcBtn_${data?._id}`);
-        const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
-
+        
         qcBtn.addEventListener("click", () => {
           // Navigate to Quality Control page with the invoiceId
           navigate(`/quality-control/${data.invoiceId._id}`);
         });
 
-        rejectBtn.addEventListener("click", () => {
-          handleRejection(data._id);
-        });
+        // Super Admin is Here
+        if (isSuperAdmin) {
+          const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
+
+          rejectBtn.addEventListener("click", () => {
+            handleRejection(data._id);
+          });
+        }
       },
     });
 

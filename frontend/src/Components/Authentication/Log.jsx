@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import  { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ const Log = () => {
 
   const navigate = useNavigate();
   const { apiURL, setToken } = context;
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -28,6 +29,7 @@ const Log = () => {
   };
 
   const onSubmit = async (data) => {
+    setLoading(true)
     console.log(data);
     if (!data.email || !data.password) {
       toast.warning("Please fill all fields");
@@ -40,9 +42,12 @@ const Log = () => {
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
       window.location.href = "/";
+      setLoading(false)
     } catch (error) {
       // toast.error(error.response?.data?.message);
       console.log(error?.response?.data?.message);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -132,8 +137,9 @@ const Log = () => {
             <button
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={loading}
             >
-              Login
+              {loading ? "Loading..." : "Login"}
             </button>
           </form>
         </div>

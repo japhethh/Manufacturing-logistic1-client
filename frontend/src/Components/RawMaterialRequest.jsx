@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
-import { useContext } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import DataTable from "datatables.net-dt";
 import Store from "../context/Store";
+import DataTable from "datatables.net";
+import { toast } from "react-toastify";
 
 const RawMaterialRequest = () => {
   const { fetchUserData, userData } = Store();
-
   useEffect(() => {
     fetchUserData();
   }, []);
-
   console.log(userData);
-
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +20,6 @@ const RawMaterialRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
-
   const [dataId, setDataId] = useState("");
   // Pagination and sorting states
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,15 +28,12 @@ const RawMaterialRequest = () => {
     key: "requestDate",
     direction: "ascending",
   });
-
   const navigate = useNavigate();
   const { apiURL, token } = useContext(UserContext);
-
   console.log(dataId);
   useEffect(() => {
     fetchRequests();
   }, []);
-
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: requests,
@@ -98,7 +90,6 @@ const RawMaterialRequest = () => {
               Rejected: "bg-red-400 text-white",
               Pending: "bg-gray-400 text-white",
             };
-
             return `
               <div class="flex justify-center">
                 <button class="py-1 px-2 rounded-full ${
@@ -161,26 +152,20 @@ const RawMaterialRequest = () => {
         if (userData?.role === "superAdmin") {
           const createPOBtn = row.querySelector(`#createPOBtn_${data._id}`);
           const deleteBtn = row.querySelector(`#deleteBtn_${data._id}`);
-
           createPOBtn.addEventListener("click", () => handleEdit(data));
           deleteBtn.addEventListener("click", () => openDeleteModal(data._id));
         }
-
         const approveBtn = row.querySelector(`#approveBtn_${data._id}`);
         const rejectBtn = row.querySelector(`#rejectBtn_${data._id}`);
-
         // Attach event listeners for buttons
-
         approveBtn.addEventListener("click", () => openApproveModel(data._id));
         rejectBtn.addEventListener("click", () => openRejectModel(data._id));
       },
     });
-
     return () => {
       table.destroy();
     };
   }, [requests]);
-
   const fetchRequests = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/rawmaterial/request`);
@@ -192,12 +177,10 @@ const RawMaterialRequest = () => {
       setLoading(false);
     }
   };
-
   const openDeleteModal = (id) => {
     setDeleteRequestId(id);
     setModalOpen(true);
   };
-
   const confirmDelete = async () => {
     try {
       await axios.post(`${apiURL}/api/rawmaterial/delete/${deleteRequestId}`);
@@ -210,12 +193,10 @@ const RawMaterialRequest = () => {
       setModalOpen(false);
     }
   };
-
   const openApproveModel = (id) => {
     setDataId(id);
     setApproveModalOpen(true);
   };
-
   const confirmApprove = async () => {
     try {
       await axios.put(
@@ -234,12 +215,10 @@ const RawMaterialRequest = () => {
       setModalOpen(false);
     }
   };
-
   const openRejectModel = (id) => {
     setDataId(id);
     setRejectModalOpen(true);
   };
-
   const confirmReject = async () => {
     try {
       await axios.put(
@@ -258,7 +237,6 @@ const RawMaterialRequest = () => {
       setModalOpen(false);
     }
   };
-
   const handleStatusChange = async (requestId, newStatus) => {
     try {
       const response = await axios.put(
@@ -273,7 +251,6 @@ const RawMaterialRequest = () => {
       toast.error("Error updating request status.");
     }
   };
-
   const handleEdit = (request) => {
     const requestData = {
       supplier: request.supplier,
@@ -290,7 +267,6 @@ const RawMaterialRequest = () => {
     };
     navigate(`/purchase-order/edit`, { state: { requestData } });
   };
-
   // Sorting functionality
   const sortedRequests = () => {
     let sorted = [...requests];
@@ -309,7 +285,6 @@ const RawMaterialRequest = () => {
     }
     return sorted;
   };
-
   const requestSort = (key) => {
     const direction =
       sortConfig.key === key && sortConfig.direction === "ascending"
@@ -317,12 +292,10 @@ const RawMaterialRequest = () => {
         : "ascending";
     setSortConfig({ key, direction });
   };
-
   // Filter by search term
   const filteredRequests = sortedRequests().filter((request) =>
     request.requestedBy.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   // Pagination logic
   const indexOfLastRequest = currentPage * itemsPerPage;
   const indexOfFirstRequest = indexOfLastRequest - itemsPerPage;
@@ -331,9 +304,35 @@ const RawMaterialRequest = () => {
     indexOfLastRequest
   );
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
-
   return (
     <div className="p-6">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+          <div className="flex flex-col items-center">
+            <svg
+              className="animate-spin h-10 w-10 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              ></path>
+            </svg>
+            <p className="text-white mt-2">Loading...</p>
+          </div>
+        </div>
+      )}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-gray-800">
           Raw Material Requests
@@ -345,7 +344,6 @@ const RawMaterialRequest = () => {
           + Create Request
         </button>
       </div>
-
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         {loading ? (
           <div className="py-4 text-center text-gray-500">Loading...</div>
@@ -364,7 +362,6 @@ const RawMaterialRequest = () => {
           </table>
         )}
       </div>
-
       {/* Delete Modal */}
       {modalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity">
@@ -395,7 +392,6 @@ const RawMaterialRequest = () => {
           </div>
         </div>
       )}
-
       {/* Approve Modal */}
       {approveModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity">
@@ -423,7 +419,6 @@ const RawMaterialRequest = () => {
           </div>
         </div>
       )}
-
       {/* Reject Modal */}
       {rejectModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity">
