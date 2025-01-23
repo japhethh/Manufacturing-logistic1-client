@@ -275,7 +275,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 const updateStatusFinance = expressAsyncHandler(async (req, res) => {
   const { status, comment, approvalId } = req.body;
 
-  const exist = await purchaseOrderModel.findById(id);
+  const exist = await purchaseOrderModel.findById(approvalId);
 
   if (!exist) {
     return res
@@ -283,7 +283,7 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Purchase Order not found!" });
   }
 
-  const update = await purchaseOrderModel.findByIdAndUpdate(id, {
+  const update = await purchaseOrderModel.findByIdAndUpdate(approvalId, {
     approvalStatus: status,
     approvalId,
     comment,
