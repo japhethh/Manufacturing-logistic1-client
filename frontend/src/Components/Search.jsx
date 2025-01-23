@@ -33,7 +33,7 @@ const Search = () => {
       setNotifications(response.data);
     } catch (error) {
       // toast.error(error?.response.data.message);
-      console.log(error?.response.data.message)
+      console.log(error?.response.data.message);
     }
   };
 
@@ -107,7 +107,7 @@ const Search = () => {
       <div className="flex items-center justify-end">
         {/* Sidebar toggle button */}
         <div className="lg:hidden flex items-center">
-          <label htmlFor="my-drawer" className="drawer-button mr-3">
+          <label htmlFor="my-drawer" className="drawer-button mr-2">
             <IoIosMenu size={30} />
           </label>
         </div>
@@ -115,7 +115,7 @@ const Search = () => {
         {/* Right-side icons and user profile */}
         <div className="flex items-center gap-3 md:gap-4">
           {/* Notification Dropdown */}
-          <div className="dropdown dropdown-end items-center">
+          <div className="dropdown dropdown-end items-center mr-2">
             <button className="text-black size-8 p-2 " tabIndex={0}>
               <div className="indicator">
                 <svg
@@ -139,16 +139,20 @@ const Search = () => {
             </button>
             <ul
               tabIndex={0}
-              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800  "
+              className="mt-2 p-2 shadow-lg rounded-lg menu dropdown-content bg-white text-gray-800 sm:max-w-xs md:max-w-md lg:max-w-lg"
             >
-              <div className="overflow-y-scroll max-w-96 max-h-96 w-96">
-                <div className="">
-                  <h1 className="font-semibold text-2xl px-3">Notifications</h1>
+              <div className="overflow-y-scroll max-h-96 w-full">
+                <div>
+                  <h1 className="font-semibold text-lg md:text-xl lg:text-2xl px-3">
+                    Notifications
+                  </h1>
                   <div className="divider"></div>
                 </div>
 
                 {notifications.filter((notif) => !notif.isRead).length === 0 ? (
-                  <li className="p-2">No new notifications</li>
+                  <li className="p-2 text-sm md:text-base">
+                    No new notifications
+                  </li>
                 ) : (
                   notifications
                     .filter((notif) => !notif.isRead) // Only display unread notifications
