@@ -13,6 +13,7 @@
     "createpurchaseorder",
     "createuser",
     "dashboardvendor",
+    "datatables",
     "fulfillorders",
     "gatherdata",
     "inventorymanagement",
