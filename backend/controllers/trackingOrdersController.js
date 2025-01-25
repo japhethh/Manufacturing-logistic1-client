@@ -139,8 +139,6 @@ const getAllTrackingOrderSupplier = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json(trackingOrders);
-
-  // const
 });
 
 export {
