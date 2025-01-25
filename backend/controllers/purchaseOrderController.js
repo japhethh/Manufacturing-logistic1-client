@@ -8,6 +8,7 @@ import generalSettingsModel from "../models/generalSettingsModel.js";
 import jwt from "jsonwebtoken";
 import Counter from "../models/Counter.js";
 import expressAsyncHandler from "express-async-handler";
+import supplierModel from "../models/supplierModel.js";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
@@ -109,7 +110,6 @@ const createPurchaseOrder = async (req, res) => {
       purchaseOrder: savePO._id,
       typeOfRequest: "request",
       category: savePO.category,
-
       department: "Logistic1",
       totalBudget: savePO.totalAmount,
       documents: savePO.pdfURL,
@@ -143,11 +143,11 @@ const createPurchaseOrder = async (req, res) => {
     // Axios
 
     const postRequest = async () => {
-      const tite = generateServiceToken();
+      const raffy = generateServiceToken();
       const response = await axios.post(
         `https://manufacturing-api-gateway.onrender.com/logistics/request-budget`,
         financeApproval,
-        { headers: { Authorization: `Bearer ${tite}` } }
+        { headers: { Authorization: `Bearer ${raffy}` } }
       );
 
       console.log(response.data);
@@ -171,7 +171,6 @@ const getAllPurchaseOrder = asyncHandler(async (req, res) => {
       .populate({
         path: "financeApproval",
       })
-      .sort({ createdAt: -1 })
       // .sort({ orderDate: -1, "supplier.supplierName": 1 }) // Sort by orderDate (descending) and supplierName (ascending)
       .exec(); // Populate the createdBy field with user info
     // .populate("rawmaterialRequest", "name description"); // Populate the raw material request
@@ -283,6 +282,16 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Purchase Order not found!" });
   }
 
+  const theSupplier = exist.supplier;
+  // console.log(theSupplier)
+
+  const existSupplier = await supplierModel.findById(theSupplier);
+
+  if (!existSupplier) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Supplier not found" });
+  }
   const update = await purchaseOrderModel.findByIdAndUpdate(approvalId, {
     approvalStatus: status,
     approvalId,
@@ -294,6 +303,25 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
       .status(404)
       .json({ success: false, message: "Purchase not found!" });
   }
+
+  const address = {
+    street: "ff",
+    city: "ff",
+    state: "kk",
+    zipCode: "333",
+    country: "ff",
+  };
+  existSupplier.address = address;
+
+  existSupplier.purchaseOrders.push(approvalId);
+  await existSupplier.save();
+
+  // if (update === "Approved") {
+  //   const existSupplier = await supplierModel.findById(theSupplier);
+  //   console.log(existSupplier);
+
+  //   return res.status(404).json({ success: false, message: "" });
+  // }
 
   res.status(200).json({ success: true, data: update });
 });

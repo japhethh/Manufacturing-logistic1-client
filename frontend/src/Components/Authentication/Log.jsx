@@ -44,7 +44,7 @@ const Log = () => {
       window.location.href = "/";
       setLoading(false)
     } catch (error) {
-      // toast.error(error.response?.data?.message);
+      toast.info(error.response?.data?.msg);
       console.log(error?.response?.data?.message);
     }finally{
       setLoading(false)

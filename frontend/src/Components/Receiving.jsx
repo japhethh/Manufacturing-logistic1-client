@@ -26,6 +26,8 @@ const Receiving = () => {
     fetchUserData();
   }, []);
 
+  console.log(userData);
+
   const fetchAllTrackingOrders = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/trackingOrders/`);
@@ -97,6 +99,10 @@ const Receiving = () => {
       data: trackOrdersData,
       columns: [
         {
+          title: "TrackNumber",
+          data: "_id",
+        },
+        {
           title: "Created At",
           data: "createdAt",
           render: (data) => new Date(data).toLocaleDateString(),
@@ -109,7 +115,7 @@ const Receiving = () => {
         {
           title: "Invoice #",
           data: "invoiceId.invoiceNumber",
-          render: (data) => `<span class="font-bold">${data}</span>`,
+          render: (data) => data,
         },
         {
           title: "PurchaseOrder #",
@@ -121,14 +127,38 @@ const Receiving = () => {
           },
         },
         {
+          title: "Delivery Status",
+          data: "deliveryStatus",
+          render: (data) => {
+            let statusClass = "";
+            switch (data) {
+              case "Dispatch":
+                statusClass = "bg-yellow-100 text-yellow-800";
+                break;
+              case "In Transit":
+                statusClass = "bg-blue-100 text-blue-800";
+                break;
+              case "Delivered":
+                statusClass = "bg-green-100 text-green-800";
+                break;
+
+              case "Pending":
+              default:
+                statusClass = "bg-orange-100 text-orange-800";
+                break;
+            }
+            return `<span class=" ${statusClass}  inline-block px-2 py-1 rounded">${data}</span>`;
+          },
+        },
+        {
           title: "Supplier Name",
           data: "supplier.supplierName",
-          render: (data) => `<span class="font-bold">${data}</span>`,
+          render: (data) => `${data ? data : "N/A"}`,
         },
         {
           title: "Company Name",
           data: "generalSettings.companyName",
-          render: (data) => `<span class="font-bold">${data}</span>`,
+          render: (data) => `${data ? data : "N/A"}`,
         },
         {
           title: "Purchase Order",
@@ -141,33 +171,14 @@ const Receiving = () => {
         {
           title: "Vendor",
           data: "supplier.supplierName",
-          render: (data) => `<span class="font-bold">${data}</span>`,
+          render: (data) => (data ? data : "N/A"),
         },
-        {
-          title: "Delivery Status",
-          data: "deliveryStatus",
-          render: (data) => {
-            let statusClass = "";
-            switch (data) {
-              case "In Transit":
-                statusClass = "bg-green-100 text-green-800";
-                break;
-              case "Delivered":
-                statusClass = "bg-red-100 text-red-800";
-                break;
-              case "Pending":
-              default:
-                statusClass = "bg-blue-100 text-blue-800";
-                break;
-            }
-            return `<span class="font-bold ${statusClass} inline-block px-2 py-1 rounded">${data}</span>`;
-          },
-        },
+
         {
           title: "Total Amount",
           data: "totalAmount",
           render: (data) =>
-            `<span class="font-bold">₱${data.toFixed(2)}</span>`,
+            `<span class="">₱${data.toFixed(2)}</span>`,
         },
         {
           title: "Payment",
@@ -214,14 +225,15 @@ const Receiving = () => {
                 }
                 
               </div>
+
             `;
           },
         },
       ],
-      order: [[0, "desc"]],
+      order: [[2, "asc"]],
       rowCallback: (row, data) => {
         const qcBtn = row.querySelector(`#qcBtn_${data?._id}`);
-        
+
         qcBtn.addEventListener("click", () => {
           // Navigate to Quality Control page with the invoiceId
           navigate(`/quality-control/${data.invoiceId._id}`);

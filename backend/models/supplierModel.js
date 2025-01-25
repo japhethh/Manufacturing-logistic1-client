@@ -36,7 +36,7 @@ const supplierSchema = mongoose.Schema(
       enum: ["Raw Material", "Service Provider", "Equipment Supplier", "Other"],
       // You can choose to require this based on status if needed
     },
-    gender: { type: String, enum: ["male", "female", "other"] },
+    gender: { type: String, enum: ["Male", "Female", "other"] },
 
     // Contact Information
     contactPerson: {

@@ -2,54 +2,43 @@ import tf from "@tensorflow/tfjs";
 import express from "express";
 
 const discrepancyTest = express.Router();
-const exampleData = [
-  { invoiceAmount: 950, purchaseOrderAmount: 1200 }, // Difference: 50
-  { invoiceAmount: 1200, purchaseOrderAmount: 1100 }, // Difference: 100
-  { invoiceAmount: 750, purchaseOrderAmount: 800 },  // Difference: 50
-  { invoiceAmount: 400, purchaseOrderAmount: 550 },  // Difference: 150
-  { invoiceAmount: 300, purchaseOrderAmount: 300 },  // Difference: 0
-];
 
-const detectDiscrepancies = (data, threshold) => {
-  const invoiceAmounts = data.map((item) => item.invoiceAmount);
-  const purchaseOrderAmounts = data.map((item) => item.purchaseOrderAmount);
+// Detect Discrepancies Using Simple Logic
+const detectDiscrepancies = (inputData) => {
+  return inputData.map((item, index) => {
+    const { invoiceAmount, purchaseOrderAmount } = item;
 
-  const invoiceTensor = tf.tensor(invoiceAmounts);
-  const purchaseTensor = tf.tensor(purchaseOrderAmounts);
-
-  const discrepancyTensor = invoiceTensor.sub(purchaseTensor).abs();
-
-  return discrepancyTensor
-    .greater(tf.scalar(threshold))
-    .arraySync()
-    .map((flag, index) =>
-      flag
-        ? {
-            index,
-            actual: invoiceAmounts[index],
-            expected: purchaseOrderAmounts[index],
-            difference: Math.abs(
-              invoiceAmounts[index] - purchaseOrderAmounts[index]
-            ),
-          }
-        : null
-    )
-    .filter((item) => item !== null);
+    const isDiscrepancy = invoiceAmount !== purchaseOrderAmount; // Direct comparison
+    if (isDiscrepancy) {
+      return {
+        index,
+        actual: invoiceAmount,
+        expected: purchaseOrderAmount,
+        isDiscrepancy,
+      };
+    }
+    return null; // No discrepancy
+  });
 };
 
-// API route to detect discrepancies
-discrepancyTest.post("/", async (req, res) => {
-
-  console.log(req.body.threshold)
+// API Route
+discrepancyTest.post("/", (req, res) => {
   try {
-    const { threshold = 50 } = req.body; // Default threshold is 50
-    const discrepancies = detectDiscrepancies(exampleData, threshold);
-    res.json({ discrepancies });
+    const { data = [] } = req.body;
+
+    if (!data || data.length === 0) {
+      return res.status(400).json({ error: "No data provided for analysis." });
+    }
+
+    const discrepancies = detectDiscrepancies(data);
+
+    // Filter out null values and respond with the result
+    const filteredDiscrepancies = discrepancies.filter((item) => item !== null);
+    res.json({ discrepancies: filteredDiscrepancies });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error detecting discrepancies", details: error.message });
+    res.status(500).json({ error: "Error detecting discrepancies", details: error.message });
   }
 });
+
 
 export default discrepancyTest;

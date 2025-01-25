@@ -86,9 +86,9 @@ const RawMaterialRequest = () => {
           render: (data) => {
             const status = data?.requestStatus;
             const statusClasses = {
-              Approved: "bg-blue-400 text-white",
-              Rejected: "bg-red-400 text-white",
-              Pending: "bg-gray-400 text-white",
+              Approved: "bg-blue-200 text-blue-800",
+              Rejected: "bg-red-200 text-red-800",
+              Pending: "bg-gray-200 text-gray-800",
             };
             return `
               <div class="flex justify-center">

@@ -40,7 +40,7 @@ import { croncron } from "./cronjob.js";
 import { FilterAccounts } from "./testing/aggregateUser.js";
 import testingAggregateUserRouter from "./routes/testingAggregateUserRouter.js";
 import ExpressMongoSanitize from "express-mongo-sanitize";
-import { verifyToken } from "./middleware/Auth.js";
+import { verifyToken, vendorVerifyToken } from "./middleware/Auth.js";
 import tf from "@tensorflow/tfjs";
 
 // Import the test file in the using tensorflow
@@ -52,6 +52,7 @@ import {
 import tensorflowDf from "./Ai/tensorFlowDemandForecasting.js";
 import discrepancyTestRouter from "./Ai/DiscrepancyDetectionTest.js";
 import discrepancyTest from "./Ai/testing/discripancyTest.js";
+import discrepancyDetectionFinalRouter from "./Ai/DiscrepancyDetection/discrepancyDetectionRouter.js";
 const port = process.env.PORT || 4000;
 
 const app = express();
@@ -91,6 +92,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/verifyToken", verifyToken);
+app.use("/api/vendorVerifyToken", vendorVerifyToken);
 
 app.use("/api/user", userRouter);
 app.use("/api/rawmaterial", rawmaterialRouter);
@@ -123,6 +125,7 @@ app.use("/api/rawMaterialAggregation", forecastData);
 app.use("/api/demandForecast", tensorflowDf);
 app.use("/api/demandForecastMonth", getMonthRawMaterial);
 app.use("/api/detectDiscrepancyTest", discrepancyTestRouter);
+app.use("/api/discrepancyDetectionFinal", discrepancyDetectionFinalRouter);
 
 // Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);

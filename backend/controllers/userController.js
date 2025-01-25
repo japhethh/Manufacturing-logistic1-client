@@ -249,7 +249,7 @@ const loginUser = asyncHandler(async (req, res) => {
   } else {
     res
       .status(404)
-      .json({ success: false, message: "Invalid Email or Password" });
+      .json({ success: false, msg: "Invalid Email or Password" });
   }
 });
 

@@ -44,6 +44,7 @@ const Login = () => {
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
       navigate("/dashboardvendor");
+      console.log(response?.data.token)
       window.location.reload();
     } catch (error) {
       reset();

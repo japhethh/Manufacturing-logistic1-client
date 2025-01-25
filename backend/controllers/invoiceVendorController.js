@@ -25,6 +25,7 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
     status,
   } = req.body;
 
+
   try {
     const counter = await Counter.findByIdAndUpdate(
       {
@@ -299,6 +300,8 @@ const approveInvoice = asyncHandler(async (req, res) => {
       purchaseOrderId: invoiced.purchaseOrder._id,
       deliveryStatus: "Pending",
       supplier: invoiced.vendor._id,
+      // quantityOrdered:
+      // quantityInvoiced:invoiced.
       invoiceAmount: invoiced.totalAmount,
       purchaseOrderAmount: invoiced.purchaseOrder.totalAmount,
       generalSettings: general,

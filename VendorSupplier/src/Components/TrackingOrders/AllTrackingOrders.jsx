@@ -60,17 +60,20 @@ const AllTrackingOrders = () => {
             data: "deliveryStatus",
             render: (data) => {
               let statusClass = "";
-
               switch (data) {
+                case "Dispatch":
+                  statusClass = "bg-yellow-100 text-yellow-800";
+                  break;
                 case "In Transit":
-                  statusClass = "bg-yellow-100 text-yellow-800"; // Light green background for approved
+                  statusClass = "bg-blue-100 text-blue-800";
                   break;
                 case "Delivered":
-                  statusClass = "bg-green-100 text-green-800"; // Light red background for rejected
+                  statusClass = "bg-green-100 text-green-800";
                   break;
+
                 case "Pending":
                 default:
-                  statusClass = "bg-blue-100 text-blue-800"; // Light blue background for pending
+                  statusClass = "bg-orange-100 text-orange-800";
                   break;
               }
 
