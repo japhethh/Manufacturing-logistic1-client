@@ -34,7 +34,7 @@ const DiscrepancyDetection = () => {
         {
           title: "Discrepancy Difference",
           data: null,
-          render: (data) => `${data?.totalAmount ? data?.totalAmount : "N/A"}`,
+          render: (data) => `${data?.discrepancyDetails?.invoiceDiscrepancy ? data?.discrepancyDetails?.invoiceDiscrepancy : "N/A"}`,
         },
         {
           title: "Discrepancy Reason",
