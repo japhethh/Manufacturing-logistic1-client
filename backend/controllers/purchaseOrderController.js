@@ -98,8 +98,8 @@ const createPurchaseOrder = async (req, res) => {
     await savePO.populate("supplier");
 
     // Generate and Upload PDF
-    const pdfURL = "Kupal si raffy";
-    // const pdfURL = await generatedAndUploadPdf(savePO);
+    // const pdfURL = "Kupal si raffy";
+    const pdfURL = await generatedAndUploadPdf(savePO);
 
     // Update PO with PDF URL
     savePO.pdfURL = pdfURL;
@@ -304,24 +304,8 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Purchase not found!" });
   }
 
-  const address = {
-    street: "ff",
-    city: "ff",
-    state: "kk",
-    zipCode: "333",
-    country: "ff",
-  };
-  existSupplier.address = address;
-
   existSupplier.purchaseOrders.push(approvalId);
   await existSupplier.save();
-
-  // if (update === "Approved") {
-  //   const existSupplier = await supplierModel.findById(theSupplier);
-  //   console.log(existSupplier);
-
-  //   return res.status(404).json({ success: false, message: "" });
-  // }
 
   res.status(200).json({ success: true, data: update });
 });

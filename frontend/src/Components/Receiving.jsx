@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Store from "../context/Store";
 import { Link, NavLink, useNavigate } from "react-router-dom"; // Import useNavigate
 import io from "socket.io-client";
+import { AiOutlineForm } from "react-icons/ai";
 const Receiving = () => {
   const [trackOrdersData, setTrackOrdersData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -26,13 +27,12 @@ const Receiving = () => {
     fetchUserData();
   }, []);
 
-  console.log(userData);
-
   const fetchAllTrackingOrders = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/trackingOrders/`);
-      setTrackOrdersData(response.data);
       console.log(response.data);
+
+      setTrackOrdersData(response.data);
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -99,7 +99,13 @@ const Receiving = () => {
       data: trackOrdersData,
       columns: [
         {
-          title: "TrackNumber",
+          title: "Tracking Number #",
+          data: "trackingOrderNumber",
+          render: (data) =>
+            `${data ? data : `<span class="text-red-500 ">N/A</span>`}`,
+        },
+        {
+          title: "Track ID",
           data: "_id",
         },
         {
@@ -121,9 +127,7 @@ const Receiving = () => {
           title: "PurchaseOrder #",
           data: "purchaseOrderId.purchaseOrderNumber",
           render: (data, type, row) => {
-            return row.purchaseOrderId
-              ? row.purchaseOrderId.purchaseOrderNumber
-              : "N/A";
+            return data ? data : "N/A";
           },
         },
         {
@@ -177,8 +181,7 @@ const Receiving = () => {
         {
           title: "Total Amount",
           data: "totalAmount",
-          render: (data) =>
-            `<span class="">₱${data.toFixed(2)}</span>`,
+          render: (data) => `<span class="">₱${data.toFixed(2)}</span>`,
         },
         {
           title: "Payment",
@@ -230,7 +233,7 @@ const Receiving = () => {
           },
         },
       ],
-      order: [[2, "asc"]],
+      order: [[4, "desc"]],
       rowCallback: (row, data) => {
         const qcBtn = row.querySelector(`#qcBtn_${data?._id}`);
 
@@ -269,9 +272,30 @@ const Receiving = () => {
           </li>
         </ul>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-opacity duration-500">
+        <NavLink
+          to="/trackorders/discrepancy_detection"
+          className="w-full"
+          aria-label="Discrepancy Detection"
+        >
+          <div className="card bg-gradient-to-br from-yellow-50 to-yellow-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl ">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-yellow-800 font-bold text-lg">
+                Discrepancy Detection
+              </h2>
+              <AiOutlineForm className="text-4xl text-yellow-500" />
+            </div>
+            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">
+              5
+            </span>
+          </div>
+        </NavLink>
+      </div>
       <h1 className="text-3xl font-extrabold my-8 text-center drop-shadow-lg">
         Receiving in Warehouse Management
       </h1>
+
       <div className="overflow-x-auto">
         <table
           id="myTable"

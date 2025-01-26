@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 
 const TrackingOrderSchema = mongoose.Schema(
   {
+    trackingOrderNumber: {
+      type: String,
+      required:true
+    },
     invoiceId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Invoice",

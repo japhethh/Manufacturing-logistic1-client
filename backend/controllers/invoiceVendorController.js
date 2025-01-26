@@ -8,6 +8,7 @@ import Counter from "../models/Counter.js";
 import userModel from "../models/userModel.js";
 import supplierModel from "../models/supplierModel.js";
 import expressAsyncHandler from "express-async-handler";
+import NotificationLogisticModel from "../models/notificationLogisticModel.js";
 
 const createInvoice = expressAsyncHandler(async (req, res) => {
   const {
@@ -24,7 +25,6 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
     notes,
     status,
   } = req.body;
-
 
   try {
     const counter = await Counter.findByIdAndUpdate(
@@ -88,6 +88,63 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
         .status(404)
         .json({ success: false, message: "Purchase Order not found!" });
     }
+
+    const trackingCounter = await Counter.findByIdAndUpdate(
+      {
+        _id: "trackingOrderNumber",
+      },
+      {
+        $inc: { sequence_value: 1 },
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+
+    const trackingOrderNumber = trackingCounter.sequence_value
+      .toString()
+      .padStart(3, "0");
+
+    const referenceNumber = `TRK-${trackingOrderNumber}`;
+
+    const generalSettings = await generalSettingsModel.find();
+    if (generalSettings === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "General Settings not found!" });
+    }
+
+    const general = generalSettings[0];
+
+    const existInvoiceId = await Invoice.findById(newInvoice).populate(
+      "purchaseOrder"
+    );
+
+    if (!existInvoiceId) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invoice Id not found" });
+    }
+    const newTrackingOrder = new TrackingOrderModel({
+      trackingOrderNumber: referenceNumber,
+      invoiceId: newInvoice._id,
+      purchaseOrderId: existInvoiceId.purchaseOrder,
+      deliveryStatus: "Pending",
+      supplier: newInvoice.vendor._id,
+      // quantityOrdered:
+      // quantityInvoiced:invoiced.
+      invoiceAmount: newInvoice.totalAmount,
+      purchaseOrderAmount: existInvoiceId.purchaseOrder.totalAmount,
+      generalSettings: general,
+      totalAmount: newInvoice.totalAmount,
+    });
+
+    await newTrackingOrder.save();
+
+    console.log(newTrackingOrder);
+
+    const notificationVendor = new NotificationLogisticModel
 
     // Return success response
     res.status(201).json({
@@ -295,7 +352,27 @@ const approveInvoice = asyncHandler(async (req, res) => {
 
     const general = generalSettings[0];
 
+    const counter = await Counter.findByIdAndUpdate(
+      {
+        _id: "trackingOrderNumber",
+      },
+      {
+        $inc: { sequence_value: 1 },
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+
+    const trackingOrderNumber = counter.sequence_value
+      .toString()
+      .padStart(3, "0");
+
+    const reference = `TRK-${trackingOrderNumber}`;
+
     const newTrackingOrder = new TrackingOrderModel({
+      trackingOrderNumber: reference,
       invoiceId: invoiced._id,
       purchaseOrderId: invoiced.purchaseOrder._id,
       deliveryStatus: "Pending",
