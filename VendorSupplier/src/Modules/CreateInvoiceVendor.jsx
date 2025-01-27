@@ -29,6 +29,7 @@ const CreateInvoiceVendor = () => {
   // USEEFFECT
   const onSubmit = async (data) => {
     console.log(data);
+
     try {
       const response = await axios.post(`${apiURL}/api/invoices/create`, data, {
         headers: { token: token },
@@ -146,6 +147,7 @@ const CreateInvoiceVendor = () => {
                   placeholder="Enter Reference Number"
                   className="input input-bordered input-info w-full"
                   aria-label="Reference Number"
+                  disabled
                   value={purchaseData?.purchaseOrderNumber}
                   {...register("referenceNumber", {
                     required: "Reference Number is required",
@@ -169,6 +171,7 @@ const CreateInvoiceVendor = () => {
                   {...register("currency", {
                     required: "Currency is required",
                   })}
+                  disabled
                 >
                   <option value="" disabled selected>
                     Select Currency
@@ -273,6 +276,7 @@ const CreateInvoiceVendor = () => {
                     required: "Payment Type is required",
                   })}
                   defaultValue={purchaseData?.paymentDetails?.paymentMethod}
+                  disabled
                 >
                   <option disabled value="">
                     Select Payment Type

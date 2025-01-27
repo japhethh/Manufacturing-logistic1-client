@@ -44,15 +44,20 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
     // Create new invoice document
     const newInvoice = new Invoice({
       invoiceNumber: reference,
-      purchaseOrder: _id,
-      vendor: supplier._id,
       items: items.map((item) => ({
         product: item.productId,
         productName: item.name,
         quantity: item.quantity,
         unitPrice: item.price,
+        // New properties
+        name: item.name,
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.price,
         totalPrice: item.totalPrice,
       })),
+      purchaseOrder: _id,
+      vendor: supplier._id,
       totalAmount,
       paymentDetails,
       issueDate,
@@ -144,7 +149,7 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
 
     console.log(newTrackingOrder);
 
-    const notificationVendor = new NotificationLogisticModel
+    const notificationVendor = new NotificationLogisticModel();
 
     // Return success response
     res.status(201).json({

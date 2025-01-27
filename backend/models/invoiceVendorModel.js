@@ -40,6 +40,14 @@ const invoiceVendorSchema = new mongoose.Schema(
           type: Number,
           required: false, // Calculated as quantity * unitPrice
         },
+        name: { type: String, required: true },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
+        price: { type: Number, required: true },
+        discount: { type: Number },
+        // totalPrice: {
+        //   type: Number,
+        //   required: true,
+        // },
       },
     ],
     totalAmount: {

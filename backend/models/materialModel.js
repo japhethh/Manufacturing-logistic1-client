@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Counter from "./Counter.js";
+
 
 const materialSchema = mongoose.Schema({
   materialName: {
