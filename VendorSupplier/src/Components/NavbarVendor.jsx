@@ -211,7 +211,7 @@ const NavbarVendor = () => {
         </div>
 
         {/*  */}
-        <div className="navbar-end gap-4 flex">
+        <div className="navbar-end gap-4 flex items-center">
           {/* Notification Dropdown */}
           <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
             <button className="text-black size-8 p-2 " tabIndex={0}>
@@ -222,7 +222,7 @@ const NavbarVendor = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  class="w-6 h-6 text-gray-700" // Added size and color
+                  class="w-6 h-6 text-black" // Added size and color
                 >
                   <path
                     strokeLinecap="round"
