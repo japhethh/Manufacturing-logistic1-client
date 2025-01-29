@@ -124,7 +124,7 @@ const Category = () => {
   };
 
   return (
-    <div className="bg-white h-auto w-full p-5">
+    <div className="bg-white rounded-md h-auto w-full p-5">
       <div className="flex justify-between items-center mb-4">
         <button
           className="bg-blue-600 hover:bg-blue-500 duration-200 text-white font-semibold w-40 h-10 rounded-lg"
