@@ -2,6 +2,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import { AiOutlineForm } from "react-icons/ai";
 import { FiPackage } from "react-icons/fi";
 import { MdOutlineSpatialTracking } from "react-icons/md";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { MdTrackChanges } from "react-icons/md";
 import { useState } from "react";
 
 const TrackingOrderItems = () => {
@@ -50,7 +52,7 @@ const TrackingOrderItems = () => {
               <h2 className="text-cyan-800 font-bold text-xl">
                 Pending Tracking Orders
               </h2>
-              <MdOutlineSpatialTracking className="text-4xl text-cyan-700" />{" "}
+              <MdOutlinePendingActions className="text-4xl text-cyan-700" />{" "}
             </div>
             <span className="badge bg-gradient-to-br from-cyan-400 via-cyan-300 to-cyan-100 text-cyan-900 font-bold rounded-full px-3 py-2 text-lg">
               5
@@ -85,7 +87,7 @@ const TrackingOrderItems = () => {
               <h2 className="text-blue-800 font-bold text-xl">
                 In Transit Tracking Orders
               </h2>
-              <MdOutlineSpatialTracking className="text-4xl text-blue-700" />{" "}
+              <MdTrackChanges className="text-4xl text-blue-700" />{" "}
             </div>
             <span className="badge bg-gradient-to-br from-blue-400 via-blue-300 to-blue-100 text-blue-900 font-bold rounded-full px-3 py-2 text-lg">
               5
