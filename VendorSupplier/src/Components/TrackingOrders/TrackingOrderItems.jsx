@@ -16,7 +16,7 @@ const TrackingOrderItems = () => {
         </div>
       )}
 
-      {/* Cards section */}
+      {/* CARDS SECTIONS */}
       <div
         className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10  transition-opacity duration-500 ${
           loading ? "opacity-0" : "opacity-100"
@@ -33,7 +33,7 @@ const TrackingOrderItems = () => {
                 All Tracking Orders
               </h2>
               <AiOutlineForm className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+     
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               5
@@ -52,7 +52,6 @@ const TrackingOrderItems = () => {
                 Pending Tracking Orders
               </h2>
               <MdOutlineSpatialTracking className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               5
@@ -71,7 +70,7 @@ const TrackingOrderItems = () => {
                 Dispatch Tracking Orders
               </h2>
               <MdOutlineSpatialTracking className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+  
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               5
@@ -89,7 +88,7 @@ const TrackingOrderItems = () => {
                 In Transit Tracking Orders
               </h2>
               <MdOutlineSpatialTracking className="text-4xl text-blue-500" />{" "}
-              {/* New Icon */}
+          
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               5
@@ -107,7 +106,7 @@ const TrackingOrderItems = () => {
               <h2 className="text-gray-800 font-semibold text-lg">
                 Delivered Tracking Orders
               </h2>
-              <FiPackage className="text-4xl text-blue-500" /> {/* New Icon */}
+              <FiPackage className="text-4xl text-blue-500" />
             </div>
             <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
               3
