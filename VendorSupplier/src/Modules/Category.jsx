@@ -44,8 +44,8 @@ const Category = () => {
           data: null,
           render: (data) => {
             return `
-              <button class="bg-yellow-500 hover:bg-yellow-400 text-white px-2 py-1 rounded-lg mx-1" id=updateBtn_${data._id}>Edit</button>
-              <button class="bg-red-500 hover:bg-red-400 text-white px-2 py-1 rounded-lg mx-1" id="deleteBtn_${data._id}">Delete</button>
+              <button class="bg-blue-600 hover:bg-blue-700 text-white duration-200 px-5 py-1 rounded-lg mx-1" id=updateBtn_${data._id}>Edit</button>
+              <button class="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white duration-200 px-2 py-1 rounded-lg mx-1" id="deleteBtn_${data._id}">Delete</button>
             `;
           },
         },
@@ -127,7 +127,7 @@ const Category = () => {
     <div className="bg-white h-auto w-full p-5">
       <div className="flex justify-between items-center mb-4">
         <button
-          className="bg-blue-600 hover:bg-blue-500 duration-200 text-white w-40 h-10 rounded-lg"
+          className="bg-blue-600 hover:bg-blue-500 duration-200 text-white font-semibold w-40 h-10 rounded-lg"
           onClick={() => {
             setNewCategory(""); // Reset input field
             setModalType("add"); // Set modal for add
@@ -156,13 +156,13 @@ const Category = () => {
             />
             <div className="flex justify-end">
               <button
-                className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg"
+                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg"
                 onClick={handleAddCategory} // Add the category
               >
                 Add
               </button>
               <button
-                className="bg-gray-400 hover:bg-gray-300 text-white px-4 py-2 rounded-lg ml-2"
+                className="bg-gray-400 hover:bg-gray-300 text-white font-semibold px-4 py-2 rounded-lg ml-2"
                 onClick={() => setShowModal(false)}
               >
                 Cancel
