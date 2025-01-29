@@ -78,19 +78,38 @@ const Receiving = () => {
     }
   };
 
-  const handleRejection = async (invoiceId) => {
+  // const handleRejection = async (invoiceId) => {
+  //   try {
+  //     await axios.post(
+  //       `${apiURL}/api/invoices/reject/${invoiceId}`,
+  //       {},
+  //       {
+  //         headers: { token: token },
+  //       }
+  //     );
+  //     toast.warn("Invoice rejected!");
+  //     fetchAllTrackingOrders();
+  //   } catch (error) {
+  //     toast.error("Error rejecting invoice: " + error?.response.data.message);
+  //   }
+  // };
+
+  const deleteOrder = async (trackingId) => {
+    const status = "Deleted";
     try {
-      await axios.post(
-        `${apiURL}/api/invoices/reject/${invoiceId}`,
-        {},
+      const response = await axios.post(
+        `${apiURL}/api/trackingOrders/deletedTrackingOrderSuperAdmin`,
         {
-          headers: { token: token },
+          trackingId,
+          status,
         }
       );
-      toast.warn("Invoice rejected!");
-      fetchAllTrackingOrders();
+      toast.error(response?.data.message);
     } catch (error) {
-      toast.error("Error rejecting invoice: " + error?.response.data.message);
+      toast.error(
+        "Error deleting tracking order: " + error?.response.data.message
+      );
+      console.log(error?.response.data.message);
     }
   };
 
@@ -221,7 +240,7 @@ const Receiving = () => {
                 </button>
                 ${
                   isSuperAdmin
-                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
+                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data._id}">
                   <i class="fas fa-trash-alt"></i>
                 </button>`
                     : ""
@@ -244,10 +263,11 @@ const Receiving = () => {
 
         // Super Admin is Here
         if (isSuperAdmin) {
-          const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
+          const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
 
-          rejectBtn.addEventListener("click", () => {
-            handleRejection(data._id);
+          deleteBtn.addEventListener("click", () => {
+            window.confirm("Are you sure you want to delete this order?") &&
+              deleteOrder(data._id);
           });
         }
       },
