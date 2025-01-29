@@ -3,6 +3,8 @@ import TrackingOrderModel from "../models/trackingOrderModel.js";
 import supplierModel from "../models/supplierModel.js";
 import Invoice from "../models/invoiceVendorModel.js";
 import MaterialModel from "../models/materialModel.js";
+import trackingOrderHistoryModel from "../models/trackingOrderHistoryModel.js";
+import expressAsyncHandler from "express-async-handler";
 
 const getAllTrackingOrders = asyncHandler(async (req, res) => {
   // const { id } = req.params;
@@ -141,9 +143,50 @@ const getAllTrackingOrderSupplier = asyncHandler(async (req, res) => {
   res.status(200).json(trackingOrders);
 });
 
+const deletedTrackingOrderSuperAdmin = expressAsyncHandler(async (req, res) => {
+  const { trackingId, status } = req.body;
+
+  if (!trackingId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Id is required not found" });
+  }
+
+  const existingTrackingOrder = await TrackingOrderModel.findById(trackingId);
+  if (!existingTrackingOrder) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Tracking Order Id not found" });
+  }
+
+  console.log(existingTrackingOrder);
+  // Create a history record without the _id field
+  const { _id, ...trackDataWithoutId } = existingTrackingOrder.toObject();
+
+  trackDataWithoutId.trackingOrderHistoryStatus = status;
+  const trackHistory = new trackingOrderHistoryModel(trackDataWithoutId);
+
+  await trackHistory.save();
+
+  const deletedTrackingOrder = await TrackingOrderModel.findByIdAndDelete(
+    trackingId
+  );
+
+  if (!deletedTrackingOrder) {
+    return res
+      .status(400)
+      .json({ success: false, message: "TrackingOrder not found" });
+  }
+
+  res
+    .status(200)
+    .json({ success: true, message: "Tracking Order Deleted Successfully!" });
+});
+
 export {
   getAllTrackingOrders,
   updateStatus,
   getSpecificId,
   getAllTrackingOrderSupplier,
+  deletedTrackingOrderSuperAdmin,
 };

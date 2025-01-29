@@ -53,6 +53,7 @@ import tensorflowDf from "./Ai/tensorFlowDemandForecasting.js";
 import discrepancyTestRouter from "./Ai/DiscrepancyDetectionTest.js";
 import discrepancyTest from "./Ai/testing/discripancyTest.js";
 import discrepancyDetectionFinalRouter from "./Ai/DiscrepancyDetection/discrepancyDetectionRouter.js";
+import trackingOrderHistoryRouter from "./routes/trackingOrderHistoryRouter.js";
 const port = process.env.PORT || 4000;
 
 const app = express();
@@ -126,6 +127,7 @@ app.use("/api/demandForecast", tensorflowDf);
 app.use("/api/demandForecastMonth", getMonthRawMaterial);
 app.use("/api/detectDiscrepancyTest", discrepancyTestRouter);
 app.use("/api/discrepancyDetectionFinal", discrepancyDetectionFinalRouter);
+app.use("/api/trackingOrdersHistory", trackingOrderHistoryRouter);
 
 // Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);
