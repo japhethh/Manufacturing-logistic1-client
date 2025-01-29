@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import TrackingOrderItems from "./TrackingOrderItems";
 import { toast } from "react-toastify";
 
-const AllTrackingOrders = () => {
+const TrackingOrdersDispatch = () => {
   const { token } = verifyStore();
   const [trackingOrdersData, setTrackingOrdersData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,13 +23,16 @@ const AllTrackingOrders = () => {
         `${apiURL}/api/trackingOrders/getAllTrackingOrderSupplier`,
         { headers: { token: token } }
       );
-
-      setTrackingOrdersData(response.data);
+      const filteredData = response.data.filter(
+        (order) => order.deliveryStatus === "Dispatch"
+      );
+      setTrackingOrdersData(filteredData);
       console.log(response.data);
     } catch (error) {
       toast.error("Error fetching tracking orders data");
     }
   };
+
   useEffect(() => {
     let table;
     if (trackingOrdersData.length > 0) {
@@ -180,4 +183,4 @@ const AllTrackingOrders = () => {
   );
 };
 
-export default AllTrackingOrders;
+export default TrackingOrdersDispatch;

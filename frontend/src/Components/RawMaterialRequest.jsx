@@ -39,6 +39,11 @@ const RawMaterialRequest = () => {
       data: requests,
       columns: [
         {
+          title:"Raw Material Number #",
+          data: "_id",
+          render: (data) => `${data ? data : `<span>${data}</span>`}` 
+        },
+        {
           title: "Reference",
           data: null,
           render: (data) =>
