@@ -94,6 +94,25 @@ const Receiving = () => {
     }
   };
 
+  const deleteOrder = async (trackingId) => {
+    const status = "Deleted";
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/trackingOrders/deletedTrackingOrderSuperAdmin`,
+        {
+          trackingId,
+          status,
+        }
+      );
+      toast.error(response?.data.message);
+    } catch (error) {
+      toast.error(
+        "Error deleting tracking order: " + error?.response.data.message
+      );
+      console.log(error?.response.data.message);
+    }
+  };
+
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: trackOrdersData,
@@ -221,7 +240,7 @@ const Receiving = () => {
                 </button>
                 ${
                   isSuperAdmin
-                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="rejectBtn_${data._id}">
+                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data._id}">
                   <i class="fas fa-trash-alt"></i>
                 </button>`
                     : ""
@@ -244,10 +263,11 @@ const Receiving = () => {
 
         // Super Admin is Here
         if (isSuperAdmin) {
-          const rejectBtn = row.querySelector(`#rejectBtn_${data?._id}`);
+          const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
 
-          rejectBtn.addEventListener("click", () => {
-            handleRejection(data._id);
+          deleteBtn.addEventListener("click", () => {
+            window.confirm("Are you sure you want to delete this order?") &&
+              deleteOrder(data._id);
           });
         }
       },
