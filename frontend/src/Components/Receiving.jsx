@@ -78,21 +78,21 @@ const Receiving = () => {
     }
   };
 
-  const handleRejection = async (invoiceId) => {
-    try {
-      await axios.post(
-        `${apiURL}/api/invoices/reject/${invoiceId}`,
-        {},
-        {
-          headers: { token: token },
-        }
-      );
-      toast.warn("Invoice rejected!");
-      fetchAllTrackingOrders();
-    } catch (error) {
-      toast.error("Error rejecting invoice: " + error?.response.data.message);
-    }
-  };
+  // const handleRejection = async (invoiceId) => {
+  //   try {
+  //     await axios.post(
+  //       `${apiURL}/api/invoices/reject/${invoiceId}`,
+  //       {},
+  //       {
+  //         headers: { token: token },
+  //       }
+  //     );
+  //     toast.warn("Invoice rejected!");
+  //     fetchAllTrackingOrders();
+  //   } catch (error) {
+  //     toast.error("Error rejecting invoice: " + error?.response.data.message);
+  //   }
+  // };
 
   const deleteOrder = async (trackingId) => {
     const status = "Deleted";
