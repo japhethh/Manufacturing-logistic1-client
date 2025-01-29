@@ -169,7 +169,7 @@ const AllTrackingOrders = () => {
   };
 
   return (
-    <div className="p-5 lg:w-[1270px] bg-gray-200">
+    <div className="p-5 lg:w-[1260px] bg-gray-200">
       <TrackingOrderItems />
       <div className="overflow-x-scroll w-full bg-white p-5 rounded-xl">
         <table id="myTable" className="display min-w-full table-xs">
