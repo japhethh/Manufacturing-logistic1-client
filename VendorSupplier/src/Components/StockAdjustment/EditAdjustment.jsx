@@ -144,26 +144,32 @@ const EditAdjustment = () => {
 
   return (
     <div className="mx-4">
-      <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
-        <ul>
+      {/* Breadcrumb */}
+      <div className="breadcrumbs text-sm mb-6 shadow-lg bg-white p-4 rounded-lg">
+        <ul className="flex space-x-4">
           <li>
-            <Link to="/dashboardvendor">Home</Link>
+            <Link
+              to="/adjustments"
+              className="text-blue-600 hover:text-blue-800 transition-all"
+            >
+              Stock adjustment
+            </Link>
           </li>
-          <li>
-            <Link to="/adjustments">Adjustment</Link>
-          </li>
-          <li>Add Document</li>
+          <li className="text-gray-600">Edit Stock</li>
         </ul>
       </div>
 
-      {/* Search */}
-      <div className="m-4 bg-white shadow-md p-4">
-        <div>
-          <label className="input input-bordered flex items-center gap-2">
+      {/* Search Section */}
+      <div className="m-4 bg-white shadow-lg rounded-lg p-6">
+        <div className="relative">
+          <label className="input-label text-base font-medium text-black">
+            Search by Material Name
+          </label>
+          <div className="flex items-center space-x-2 mt-2">
             <input
               type="text"
-              className="grow"
-              placeholder="Search by Material Name"
+              className="input-field flex-1 transition-all p-2 border border-black/50 rounded-lg"
+              placeholder="Search..."
               value={searchTerm}
               onChange={handleSearch}
             />
@@ -171,7 +177,7 @@ const EditAdjustment = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
               fill="currentColor"
-              className="h-4 w-4 opacity-70"
+              className="h-5 w-5 opacity-70 transition-all"
             >
               <path
                 fillRule="evenodd"
@@ -179,41 +185,39 @@ const EditAdjustment = () => {
                 clipRule="evenodd"
               />
             </svg>
-          </label>
-
+          </div>
           {searchTerm && (
-            <ul className="menu bg-base-100 w-full p-2 mt-2">
+            <ul className="menu bg-white border border-gray-200 rounded-lg mt-2 p-2">
               {searchResults.length > 0 ? (
                 searchResults.map((item) => (
-                  <li key={item._id} className="p-2 border-b">
-                    <div
-                      className="flex justify-between items-center cursor-pointer"
-                      onClick={() => handleAddToTable(item)} // Add item to table on click
-                    >
-                      <div>
-                        <p>
-                          <strong>Material:</strong> {item.materialName}
-                        </p>
-                        <p>
-                          <strong>Code:</strong> {item.materialCode}
-                        </p>
-                        <p>
-                          <strong>Available:</strong> {item.available}
-                        </p>
-                        <p>
-                          <strong>Price:</strong> ${item.pricePerUnit}
-                        </p>
-                      </div>
-                      <img
-                        src={item.image}
-                        alt={item.materialName}
-                        className="h-16 w-16 object-cover rounded-md"
-                      />
+                  <li
+                    key={item._id}
+                    className="flex items-center justify-between p-3 border-b hover:bg-gray-50 cursor-pointer transition-all"
+                    onClick={() => handleAddToTable(item)}
+                  >
+                    <div>
+                      <p>
+                        <strong>Material:</strong> {item.materialName}
+                      </p>
+                      <p>
+                        <strong>Code:</strong> {item.materialCode}
+                      </p>
+                      <p>
+                        <strong>Available:</strong> {item.available}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ${item.pricePerUnit}
+                      </p>
                     </div>
+                    <img
+                      src={item.image}
+                      alt={item.materialName}
+                      className="h-16 w-16 object-cover rounded-md ml-4"
+                    />
                   </li>
                 ))
               ) : (
-                <li>No materials found.</li>
+                <li className="p-2">No materials found.</li>
               )}
             </ul>
           )}
@@ -221,13 +225,13 @@ const EditAdjustment = () => {
       </div>
 
       {/* Form for creating adjustment */}
-      <div className="m-4 bg-white shadow-md p-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="m-4 bg-white shadow-lg rounded-lg p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
           {/* Reference */}
           <div>
             <label
               htmlFor="reference"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-black"
             >
               Reference <span className="text-red-500">*</span>
             </label>
@@ -236,7 +240,7 @@ const EditAdjustment = () => {
               value={adjustment?.reference}
               disabled
               id="reference"
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="input-field bg-gray-100 p-1 rounded-md font-medium"
             />
           </div>
 
@@ -244,79 +248,81 @@ const EditAdjustment = () => {
           <div>
             <label
               htmlFor="date"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-black"
             >
               Order Date <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
               id="date"
-              value={date} // Use the formatted date string
-              onChange={(e) => setDate(e.target.value)} // Update the date state
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="input-field bg-gray-100 p-1 rounded-md font-medium"
             />
           </div>
         </div>
 
-        <div className="my-4">
-          <table className="w-full border-collapse border border-gray-400">
-            <thead>
+        {/* Table for selected materials */}
+        <div className="my-6 overflow-x-auto">
+          <table className="min-w-full border-collapse table-auto bg-white shadow-md rounded-lg">
+            <thead className="bg-gray-100 text-gray-700">
               <tr>
-                <th className="border border-gray-400 p-2">ID</th>
-                <th className="border border-gray-400 p-2">Product Name</th>
-                <th className="border border-gray-400 p-2">Code</th>
-                <th className="border border-gray-400 p-2">Stock</th>
-                <th className="border border-gray-400 p-2">Quantity</th>
-                <th className="border border-gray-400 p-2">Type</th>
-                <th className="border border-gray-400 p-2">Action</th>
+                <th className="px-4 py-3 text-left">ID</th>
+                <th className="px-4 py-3 text-left">Product Name</th>
+                <th className="px-4 py-3 text-left">Code</th>
+                <th className="px-4 py-3 text-left">Stock</th>
+                <th className="px-4 py-3 text-left">Quantity</th>
+                <th className="px-4 py-3 text-left">Type</th>
+                <th className="px-4 py-3 text-left">Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-gray-700">
               {data.map((row) => (
-                <tr key={row?.material_id?.id || row._id}>
-                  <td className="border border-gray-400 p-2">
+                <tr
+                  key={row?.material_id?.id || row._id}
+                  className="border-b hover:bg-gray-50 transition-all"
+                >
+                  <td className="px-4 py-3">
                     {row?.material_id?.id || row._id}
                   </td>
-                  <td className="border border-gray-400 p-2">
+                  <td className="px-4 py-3">
                     {row?.material_id?.materialName || row.materialName}
                   </td>
-                  <td className="border border-gray-400 p-2">
+                  <td className="px-4 py-3">
                     {row?.material_id?.materialCode || row.materialCode}
                   </td>
-                  <td className="border border-gray-400 p-2">
-                    <div className="flex justify-center items-center">
-                      <button className="btn bg-[#3399FF] text-white font-bold btn-xs ">
-                        {row?.material_id?.available || row?.available}
-                      </button>
-                    </div>
+                  <td className="px-4 py-3">
+                    <button className="btn bg-[#3399FF] text-white font-bold btn-xs hover:bg-[#0069d9] transition-all">
+                      {row?.material_id?.available || row?.available}
+                    </button>
                   </td>
-                  <td className="border border-gray-400 p-2">
+                  <td className="px-4 py-3">
                     <input
                       type="number"
                       value={row?.quantity}
                       onChange={(e) =>
-                        handleQuantityChange(row._id || row._id, e.target.value)
+                        handleQuantityChange(row._id, e.target.value)
                       }
-                      className="w-16 px-2 py-1 border rounded"
+                      className="w-16 px-2 py-1 border rounded-md focus:ring-2 focus:ring-blue-400"
                       min="1"
                     />
                   </td>
-                  <td className="border border-gray-400 p-2">
+                  <td className="px-4 py-3">
                     <select
                       value={row?.type || "add"}
                       onChange={(e) =>
                         handleTypeChange(row.id || row._id, e.target.value)
                       }
-                      className="w-20 px-2 py-1 border rounded"
+                      className="w-20 px-2 py-1 border rounded-md focus:ring-2 focus:ring-blue-400"
                     >
                       <option value="add">add</option>
                       <option value="sub">sub</option>
                     </select>
                   </td>
-                  <td className="border border-gray-400 p-2">
+                  <td className="px-4 py-3">
                     <button
                       onClick={() => handleDelete(row)}
-                      className="btn bg-red-500 text-white font-bold btn-xs"
+                      className="btn bg-red-500 text-white font-bold btn-xs hover:bg-red-600 transition-all"
                     >
                       Delete
                     </button>
@@ -327,7 +333,8 @@ const EditAdjustment = () => {
           </table>
         </div>
 
-        <div className="my-4">
+        {/* Notes Section */}
+        <div className="my-6">
           <label
             htmlFor="notes"
             className="block text-base font-medium text-[#07074D]"
@@ -339,14 +346,15 @@ const EditAdjustment = () => {
             rows="4"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+            className="input-field border border-black/60 rounded-md p-3"
           ></textarea>
         </div>
 
-        <div className="my-4 flex justify-end">
+        {/* Submit Button */}
+        <div className="flex justify-end">
           <button
             onClick={onSubmit}
-            className="btn bg-[#3399FF] text-white font-bold px-6 py-2 rounded-md"
+            className="btn bg-blue-600 text-white font-bold px-6 py-3 rounded-md hover:bg-blue-700 transition-all"
           >
             Submit Adjustment
           </button>
