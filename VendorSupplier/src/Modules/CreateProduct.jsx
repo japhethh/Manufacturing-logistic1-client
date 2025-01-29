@@ -26,7 +26,7 @@ const CreateProduct = () => {
         </div>
       )}
 
-      {/* The four cards that stay at the top */}
+      {/* 4 CARDS */}
       <div
         className={`flex flex-col md:flex-row justify-start gap-4 mb-10 ${
           loading ? "hidden" : ""
@@ -37,11 +37,9 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Category"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">Category</h2>
-              <MdCategory className="text-3xl text-blue-600" />
-            </div>
+          <div className="card bg-gradient-to-l from-cyan-50 to-cyan-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-cyan-800 font-bold text-lg">Category</h2>
+            <MdCategory className="text-4xl text-cyan-700 self-end" />
           </div>
         </NavLink>
 
@@ -50,13 +48,11 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Create Product"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                Create Product
-              </h2>
-              <IoIosCreate className="text-3xl text-blue-600" />
-            </div>
+          <div className="card bg-gradient-to-l from-blue-50 to-blue-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-blue-800 font-bold text-lg">
+              Create Product
+            </h2>
+            <IoIosCreate className="text-4xl text-blue-700 self-end" />
           </div>
         </NavLink>
 
@@ -65,13 +61,9 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="All Products"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                All Products
-              </h2>
-              <MdBallot className="text-3xl text-blue-600" />
-            </div>
+          <div className="card bg-gradient-to-l from-purple-50 to-purple-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-purple-800 font-bold text-lg">All Products</h2>
+            <MdBallot className="text-4xl text-purple-700 self-end" />
           </div>
         </NavLink>
 
@@ -80,18 +72,16 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Print Barcode"
         >
-          <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-gray-800 font-semibold text-lg">
-                Print Barcode
-              </h2>
-              <FaPrint className="text-3xl text-blue-600" />
-            </div>
+          <div className="card bg-gradient-to-l from-fuchsia-50 to-fuchsia-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-fuchsia-800 font-bold text-lg">
+              Print Barcode
+            </h2>
+            <FaPrint className="text-4xl text-fuchsia-700 self-end" />
           </div>
         </NavLink>
       </div>
 
-      {/* This is where the selected component will be displayed */}
+      {/* Display Selected Component */}
       <div className={`mt-8 ${loading ? "hidden" : ""}`}>
         <Outlet />
       </div>

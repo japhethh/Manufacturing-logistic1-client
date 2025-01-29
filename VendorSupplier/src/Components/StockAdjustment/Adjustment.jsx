@@ -59,10 +59,10 @@ const Adjustment = () => {
           data: null,
           render: (data, type, row) => `
           <div class="flex justify-center"> 
-            <button class="bg-blue-500 hover:bg-blue-400 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+            <button class="bg-sky-500 hover:bg-sky-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
               <i class="fas fa-edit"></i>
             </button>
-            <button class="bg-green-700 hover:bg-green-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
+            <button class="bg-blue-700 hover:bg-blue-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${row._id}"> <i class="fas fa-eye"></i>
             </button>
             <button class="bg-red-500 hover:bg-red-400 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
@@ -157,23 +157,15 @@ const Adjustment = () => {
   };
 
   return (
-    <div className="bg-gray-200 h-auto w-full p-5">
-      <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
-        <ul>
-          <li>
-            <a>Home</a>
-          </li>
-          <li>
-            <a>Documents</a>
-          </li>
-          <li>Add Document</li>
-        </ul>
-      </div>
+    <div className="bg-gray-100 min-h-screen p-6">
+      <h1 className="text-4xl font-extrabold text-gray-800 mb-8 tracking-wide">
+        Stock Adjustment
+      </h1>
 
-      <div className="mb-4 shadow-md bg-white p-4">
-        <div className="flex justify-between items-center">
+      <div className="mb-6 shadow-md bg-white p-6 rounded-lg">
+        <div className="flex justify-between items-center mb-4">
           <button
-            className="bg-blue-600 hover:bg-blue-500 duration-200 text-white w-40 h-10 rounded-lg"
+            className="bg-blue-600 hover:bg-blue-500 text-white w-40 h-12 rounded-lg transition duration-200"
             onClick={() => {
               setShowModal(true);
               navigate("/adjustments/create");
@@ -183,30 +175,35 @@ const Adjustment = () => {
           </button>
         </div>
         <div className="divider"></div>
-        <table id="myTable" className="display w-full">
-          <thead className=" bg-blue-800 text-white"> </thead>
+
+        <table id="myTable" className="display w-full table-auto mt-4">
+          <thead className="bg-blue-800 text-white text-sm">
+            {/* Table Headers here */}
+          </thead>
         </table>
 
         {/* Delete Modal */}
         {showModal && modalType === "delete" && selectedData && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-5 w-1/3">
-              <h3 className="text-lg font-bold">Adjustment</h3>
-              <p className="py-4">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg p-6 w-1/3 shadow-lg transition transform scale-105">
+              <h3 className="text-lg font-semibold text-gray-700 mb-4">
+                Confirm Deletion
+              </h3>
+              <p className="text-gray-600 mb-6">
                 Are you sure you want to{" "}
                 <span className="text-red-600 font-bold">delete</span> the
-                category{" "}
+                adjustment for{" "}
                 <span className="font-bold">{selectedData?.reference}</span>?
               </p>
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => handleDelete(selectedData._id)}
-                  className="btn btn-error btn-md text-white"
+                  className="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-lg transition"
                 >
                   Confirm
                 </button>
                 <button
-                  className="btn btn-outline btn-error btn-md text-white"
+                  className="bg-gray-400 hover:bg-gray-300 text-white px-6 py-3 rounded-lg transition"
                   onClick={() => {
                     setSelectedData(null);
                     setShowModal(false);
@@ -219,26 +216,22 @@ const Adjustment = () => {
           </div>
         )}
 
-        {/* Detail */}
+        {/* Detail Modal */}
         {showModal &&
           modalType === "detail" &&
           selectedData &&
           fetchAdjustment && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white rounded-lg p-5 w-4/6">
-                <div className="py-4 grid grid-cols-2">
-                  <div className="font-semibold">
-                    <div className="border border-1 py-2 px-2">
-                      <h1>Date</h1>
-                    </div>
-                    <div className="border border-1 py-2 px-2">
-                      <h1>Reference</h1>
-                    </div>
-                  </div>
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+              <div className="bg-white rounded-lg p-8 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 shadow-xl transition-all transform scale-105">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+                  Adjustment Details
+                </h3>
 
-                  <div>
-                    <div className="border border-1 py-2 px-2">
-                      <h1>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                  <div className="flex flex-col space-y-3">
+                    <div className="font-semibold text-gray-600">
+                      Date:{" "}
+                      <span className="font-normal text-gray-700">
                         {fetchAdjustment?.date
                           ? new Date(fetchAdjustment.date).toLocaleDateString(
                               "en-US",
@@ -249,36 +242,41 @@ const Adjustment = () => {
                               }
                             )
                           : "N/A"}
-                      </h1>
+                      </span>
                     </div>
-                    <div className="border border-1 py-2 px-2">
-                      <h1>
-                        {" "}
-                        {fetchAdjustment?.reference
-                          ? fetchAdjustment?.reference
-                          : "N/A"}
-                      </h1>
+                    <div className="font-semibold text-gray-600">
+                      Reference:{" "}
+                      <span className="font-normal text-gray-700">
+                        {fetchAdjustment?.reference || "N/A"}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="table-responsive">
-                  <table className="table table-primary">
-                    <thead>
+                <div className="overflow-x-auto mb-8">
+                  <table className="table-auto w-full text-sm text-gray-700">
+                    <thead className="bg-gray-200 text-gray-800">
                       <tr>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Code</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Type</th>
+                        <th className="px-4 py-3 text-left">Product Name</th>
+                        <th className="px-4 py-3 text-left">Code</th>
+                        <th className="px-4 py-3 text-left">Quantity</th>
+                        <th className="px-4 py-3 text-left">Type</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {selectedData.map((item, index) => (
-                        <tr key={item?._id} className="">
-                          <td scope="row">{item?.material_id?.materialName}</td>
-                          <td>{item?.material_id?.materialCode}</td>
-                          <td>{item?.quantity}</td>
-                          <td>
+                      {selectedData.map((item) => (
+                        <tr
+                          key={item?._id}
+                          className="border-b hover:bg-gray-50"
+                        >
+                          <td className="px-4 py-3">
+                            {item?.material_id?.materialName}
+                          </td>
+                          <td className="px-4 py-3">
+                            {item?.material_id?.materialCode}
+                          </td>
+                          <td className="px-4 py-3">{item?.quantity}</td>
+                          <td className="px-4 py-3">
                             {item?.type === "add" ? "(+)" : "(-)"} {item?.type}
                           </td>
                         </tr>
@@ -287,11 +285,12 @@ const Adjustment = () => {
                   </table>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-4">
                   <button
-                    className="btn btn-info btn-md text-white "
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition duration-200"
                     onClick={() => {
-                      setSelectedData(null), setShowModal(false);
+                      setSelectedData(null);
+                      setShowModal(false);
                       setFetchAdjustment(null);
                     }}
                   >
@@ -304,9 +303,11 @@ const Adjustment = () => {
 
         {/* Edit Modal */}
         {showModal && modalType === "edit" && selectedData && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-5 w-1/3">
-              <h2 className="text-lg font-semibold mb-4">Edit Category</h2>
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg p-6 w-1/3 shadow-lg transition transform scale-105">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Edit Category
+              </h2>
               <input
                 type="text"
                 value={editCategory.category_name}
@@ -317,7 +318,7 @@ const Adjustment = () => {
                   })
                 }
                 placeholder="Category Name"
-                className="border border-gray-300 rounded-lg p-2 w-full mb-4"
+                className="border border-gray-300 rounded-lg p-3 w-full mb-4"
               />
               <input
                 type="text"
@@ -329,17 +330,17 @@ const Adjustment = () => {
                   })
                 }
                 placeholder="Category Code"
-                className="border border-gray-300 rounded-lg p-2 w-full mb-4"
+                className="border border-gray-300 rounded-lg p-3 w-full mb-4"
               />
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-4">
                 <button
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg"
+                  className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition"
                   onClick={handleEditCategory}
                 >
                   Save Changes
                 </button>
                 <button
-                  className="bg-gray-400 hover:bg-gray-300 text-white px-4 py-2 rounded-lg ml-2"
+                  className="bg-gray-400 hover:bg-gray-300 text-white px-6 py-3 rounded-lg transition"
                   onClick={() => {
                     setShowModal(false);
                     setSelectedData(null);
