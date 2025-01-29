@@ -221,13 +221,14 @@ const Adjustment = () => {
           modalType === "detail" &&
           selectedData &&
           fetchAdjustment && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-white rounded-lg p-6 w-4/5 md:w-2/3 shadow-lg transition transform scale-105">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+              <div className="bg-white rounded-lg p-8 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 shadow-xl transition-all transform scale-105">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6">
                   Adjustment Details
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div className="flex flex-col space-y-2">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                  <div className="flex flex-col space-y-3">
                     <div className="font-semibold text-gray-600">
                       Date:{" "}
                       <span className="font-normal text-gray-700">
@@ -252,27 +253,30 @@ const Adjustment = () => {
                   </div>
                 </div>
 
-                <div className="table-responsive mb-6">
-                  <table className="table-auto w-full">
-                    <thead className="bg-gray-100 text-gray-800">
+                <div className="overflow-x-auto mb-8">
+                  <table className="table-auto w-full text-sm text-gray-700">
+                    <thead className="bg-gray-200 text-gray-800">
                       <tr>
-                        <th className="px-4 py-2">Product Name</th>
-                        <th className="px-4 py-2">Code</th>
-                        <th className="px-4 py-2">Quantity</th>
-                        <th className="px-4 py-2">Type</th>
+                        <th className="px-4 py-3 text-left">Product Name</th>
+                        <th className="px-4 py-3 text-left">Code</th>
+                        <th className="px-4 py-3 text-left">Quantity</th>
+                        <th className="px-4 py-3 text-left">Type</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {selectedData.map((item, index) => (
-                        <tr key={item?._id} className="border-b">
-                          <td className="px-4 py-2">
+                      {selectedData.map((item) => (
+                        <tr
+                          key={item?._id}
+                          className="border-b hover:bg-gray-50"
+                        >
+                          <td className="px-4 py-3">
                             {item?.material_id?.materialName}
                           </td>
-                          <td className="px-4 py-2">
+                          <td className="px-4 py-3">
                             {item?.material_id?.materialCode}
                           </td>
-                          <td className="px-4 py-2">{item?.quantity}</td>
-                          <td className="px-4 py-2">
+                          <td className="px-4 py-3">{item?.quantity}</td>
+                          <td className="px-4 py-3">
                             {item?.type === "add" ? "(+)" : "(-)"} {item?.type}
                           </td>
                         </tr>
@@ -281,9 +285,9 @@ const Adjustment = () => {
                   </table>
                 </div>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-4">
                   <button
-                    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition"
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition duration-200"
                     onClick={() => {
                       setSelectedData(null);
                       setShowModal(false);
