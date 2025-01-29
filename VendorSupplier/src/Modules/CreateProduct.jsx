@@ -1,13 +1,21 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MdCategory } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { MdBallot } from "react-icons/md";
 import { FaPrint } from "react-icons/fa6";
 
-
 const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // INSTANTLY OPEN CATEGORY SECTION
+  useEffect(() => {
+    if (location.pathname === "/createproduct") {
+      navigate("category");
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <div className="p-6 bg-gray-200 min-h-screen">
@@ -27,7 +35,7 @@ const CreateProduct = () => {
         <NavLink
           to="category"
           className="w-full md:w-1/3 lg:w-1/4"
-          aria-label="Pending Orders"
+          aria-label="Category"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
@@ -40,7 +48,7 @@ const CreateProduct = () => {
         <NavLink
           to="products"
           className="w-full md:w-1/3 lg:w-1/4"
-          aria-label="Receiving Orders"
+          aria-label="Create Product"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
@@ -55,7 +63,7 @@ const CreateProduct = () => {
         <NavLink
           to="allproducts"
           className="w-full md:w-1/3 lg:w-1/4"
-          aria-label="Complete Orders"
+          aria-label="All Products"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
@@ -70,7 +78,7 @@ const CreateProduct = () => {
         <NavLink
           to="printproducts"
           className="w-full md:w-1/3 lg:w-1/4"
-          aria-label="Complete Orders"
+          aria-label="Print Barcode"
         >
           <div className="card bg-white shadow-lg rounded-lg p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-between">
