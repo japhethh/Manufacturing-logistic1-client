@@ -42,7 +42,7 @@ const TrackingOrderItems = () => {
         </NavLink>
 
         <NavLink
-          to="/invoice/pending"
+          to="/trackingOrders/pending"
           className="w-full"
           aria-label="Create Vendor"
         >
@@ -61,14 +61,51 @@ const TrackingOrderItems = () => {
         </NavLink>
 
         <NavLink
-          to="/invoice/complete"
+          to="/trackingOrders/dispatch"
+          className="w-full"
+          aria-label="Create Vendor"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-gray-800 font-semibold text-lg">
+                Dispatch Tracking Orders
+              </h2>
+              <MdOutlineSpatialTracking className="text-4xl text-blue-500" />{" "}
+              {/* New Icon */}
+            </div>
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+              5
+            </span>
+          </div>
+        </NavLink>
+        <NavLink
+          to="/trackingOrders/In_Transit"
+          className="w-full"
+          aria-label="Create Vendor"
+        >
+          <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-gray-800 font-semibold text-lg">
+                In Transit Tracking Orders
+              </h2>
+              <MdOutlineSpatialTracking className="text-4xl text-blue-500" />{" "}
+              {/* New Icon */}
+            </div>
+            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+              5
+            </span>
+          </div>
+        </NavLink>
+
+        <NavLink
+          to="/trackingOrders/delivered"
           className="w-full"
           aria-label="Vendor Product"
         >
           <div className="card bg-white shadow-lg rounded-lg p-6 text-center transition-all">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-gray-800 font-semibold text-lg">
-                Complete Tracking Orders
+                Delivered Tracking Orders
               </h2>
               <FiPackage className="text-4xl text-blue-500" /> {/* New Icon */}
             </div>

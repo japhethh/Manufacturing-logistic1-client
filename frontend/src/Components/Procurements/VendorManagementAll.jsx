@@ -114,9 +114,7 @@ const VendorManagementAll = () => {
 
             ${
               userData?.role === "superAdmin"
-                ? ` <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id=updateBtn_${data?._id}>
-              <i class="fas fa-edit"></i>
-              </button>
+                ? `
               <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
               <i class="fas fa-trash-alt"></i>
               </button>`
@@ -131,18 +129,10 @@ const VendorManagementAll = () => {
         // Attach an event listener to the delete button for each row
         if (userData?.role === "superAdmin") {
           const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
-          const updateBtn = row.querySelector(`#updateBtn_${data?._id}`);
 
           deleteBtn.addEventListener("click", () => {
             setSelectedData(data);
             setModalType("delete"); // Set modal for delete
-            setShowModal(true); // Show the modal
-          });
-
-          updateBtn.addEventListener("click", () => {
-            setSelectedData(data);
-
-            setModalType("edit"); // Set modal for delete
             setShowModal(true); // Show the modal
           });
         }
