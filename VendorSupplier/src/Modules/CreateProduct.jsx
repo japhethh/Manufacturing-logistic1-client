@@ -37,9 +37,9 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Category"
         >
-          <div className="card bg-gradient-to-l from-blue-100 to-blue-200 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-blue-900 font-bold text-lg">Category</h2>
-            <MdCategory className="text-4xl text-blue-800 self-end" />
+          <div className="card bg-gradient-to-l from-cyan-50 to-cyan-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-cyan-800 font-bold text-lg">Category</h2>
+            <MdCategory className="text-4xl text-cyan-700 self-end" />
           </div>
         </NavLink>
 
@@ -48,11 +48,11 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Create Product"
         >
-          <div className="card bg-gradient-to-l from-yellow-100 to-yellow-200 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-yellow-900 font-bold text-lg">
+          <div className="card bg-gradient-to-l from-blue-50 to-blue-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-blue-800 font-bold text-lg">
               Create Product
             </h2>
-            <IoIosCreate className="text-4xl text-yellow-800 self-end" />
+            <IoIosCreate className="text-4xl text-blue-700 self-end" />
           </div>
         </NavLink>
 
@@ -61,9 +61,9 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="All Products"
         >
-          <div className="card bg-gradient-to-l from-red-100 to-red-200 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-red-900 font-bold text-lg">All Products</h2>
-            <MdBallot className="text-4xl text-red-800 self-end" />
+          <div className="card bg-gradient-to-l from-purple-50 to-purple-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-purple-800 font-bold text-lg">All Products</h2>
+            <MdBallot className="text-4xl text-purple-700 self-end" />
           </div>
         </NavLink>
 
@@ -72,11 +72,11 @@ const CreateProduct = () => {
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Print Barcode"
         >
-          <div className="card bg-gradient-to-l from-green-100 to-green-200 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-green-900 font-bold text-lg">
+          <div className="card bg-gradient-to-l from-fuchsia-50 to-fuchsia-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <h2 className="text-fuchsia-800 font-bold text-lg">
               Print Barcode
             </h2>
-            <FaPrint className="text-4xl text-green-800 self-end" />
+            <FaPrint className="text-4xl text-fuchsia-700 self-end" />
           </div>
         </NavLink>
       </div>
