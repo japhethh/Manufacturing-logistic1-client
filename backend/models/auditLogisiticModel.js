@@ -35,7 +35,14 @@ const auditLogisticSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["Admin", "Supplier", "Logistic", "Quality Control", "Finance"],
+      enum: [
+        "admin",
+        "superAdmin",
+        "Supplier",
+        "Logistic",
+        "Quality Control",
+        "Finance",
+      ],
     },
     timestamp: {
       type: Date,

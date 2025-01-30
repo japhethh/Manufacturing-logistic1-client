@@ -21,7 +21,7 @@ purchaseOrderRouter.get("/edit/:id", getSpecificPurchaseOrder);
 purchaseOrderRouter.put("/update/:id", authMiddleware, updatePurchaseOrder);
 purchaseOrderRouter.get("/auto-fill", autoFillPurchaseOrder);
 purchaseOrderRouter.post("/create", authMiddleware, createPurchaseOrder);
-purchaseOrderRouter.post("/delete/:id", deletePurchaseOrder);
+purchaseOrderRouter.post("/delete/:id", authMiddleware, deletePurchaseOrder);
 purchaseOrderRouter.put("/updateStatus/:id", updateStatus);
 purchaseOrderRouter.post("/updateStatusFinance", updateStatusFinance);
 

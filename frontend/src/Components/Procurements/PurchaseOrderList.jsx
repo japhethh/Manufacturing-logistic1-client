@@ -8,7 +8,7 @@ import DataTable from "datatables.net-dt";
 import { MdRemoveRedEye } from "react-icons/md";
 import Store from "../../context/Store";
 const PurchaseOrderList = () => {
-  const { userData, fetchUserData } = Store();
+  const { userData, fetchUserData, token } = Store();
 
   const { apiURL } = useContext(UserContext);
   const navigate = useNavigate();
@@ -192,10 +192,14 @@ const PurchaseOrderList = () => {
   const deletePurchaseOrder = async () => {
     try {
       await axios.post(
-        `${apiURL}/api/purchase-order/delete/${selectedOrderId}`
+        `${apiURL}/api/purchase-order/delete/${selectedOrderId}`,
+        {},
+        {
+          headers: { token: token },
+        }
       );
       fetchPurchaseOrder();
-      toast.success("Purchase Order deleted successfully.");
+      toast.info("Purchase Order deleted successfully.");
       setShowModal(false);
     } catch (error) {
       toast.error("Failed to delete purchase order.");
