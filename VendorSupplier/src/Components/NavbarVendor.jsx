@@ -10,6 +10,7 @@ import {
   FaComments,
   FaUserCog,
 } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { AiFillProduct } from "react-icons/ai"; // Add this import
 import { BsClipboardCheckFill } from "react-icons/bs"; // Add this import
 import men from "../assets/men.jpg";
@@ -147,19 +148,19 @@ const NavbarVendor = () => {
   };
 
   return (
-    <div className="navbar sticky top-0 z-50 bg-white px-5 shadow-md">
-      {/* Mobile Drawer Sidebar */}
+    <div className="navbar sticky top-0 z-50 bg-white px-5 shadow-md transition-all duration-300">
+      {/* MOBILE SIDEBAR ICON */}
       <div className="navbar-start block md:hidden lg:hidden w-32">
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
             {/* Toggle Button */}
-            <label htmlFor="my-drawer" className="drawer-button">
-              <TbLayoutSidebarRightCollapseFilled className="text-black h-6 w-6" />
+            <label htmlFor="my-drawer" className="drawer-button cursor-pointer">
+              <GiHamburgerMenu className="text-black h-6 w-6 hover:text-blue-700 transition-colors duration-200" />
             </label>
           </div>
 
-          {/* Sidebar Content */}
+          {/* SIDEBAR CONTENT */}
           <div className="drawer-side">
             <label
               htmlFor="my-drawer"
@@ -167,7 +168,7 @@ const NavbarVendor = () => {
               aria-label="Close sidebar"
             ></label>
             <div className="bg-white min-h-full w-80 px-4 py-5 shadow-lg transition-transform transform duration-300 ease-in-out">
-              {/* Logo */}
+              {/* LOGO */}
               <NavLink to="/dashboardvendor" className="flex items-center mb-8">
                 <img
                   src={vendor}
@@ -179,12 +180,12 @@ const NavbarVendor = () => {
                 </h2>
               </NavLink>
 
-              {/* Sidebar Links */}
+              {/* SIDEBAR LINKS */}
               <ul className="space-y-4">
                 {menuItems.map((item, index) => (
                   <li
                     key={index}
-                    className="hover:bg-gray-200 rounded-md transition-colors"
+                    className="hover:bg-gray-200 rounded-md transition-colors duration-200"
                   >
                     <NavLink
                       to={item.to}
@@ -204,17 +205,22 @@ const NavbarVendor = () => {
         </div>
       </div>
 
-      {/* Rest of the Navbar Content */}
+      {/* REST OF NAVBAR CONTENT */}
       <div className="flex justify-between w-full">
         <div className="navbar-center">
-          <span className="text-black font-bold text-2xl">Vendor Supplier</span>
+          <span className="text-black font-bold text-2xl hover:text-blue-700 transition-colors duration-200">
+            Vendor Supplier
+          </span>
         </div>
 
-        {/*  */}
+        {/* NOTIFICATION DROPDOWN & USER PROFILE */}
         <div className="navbar-end gap-4 flex items-center">
-          {/* Notification Dropdown */}
-          <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
-            <button className="text-black size-8 p-2 " tabIndex={0}>
+          {/* NOTIFICATION DROPDOWN */}
+          <div className="dropdown dropdown-end items-center">
+            <button
+              className="text-black size-8 p-2 hover:text-blue-700 transition-colors duration-200"
+              tabIndex={0}
+            >
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +228,7 @@ const NavbarVendor = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  class="w-6 h-6 text-black" // Added size and color
+                  class="w-6 h-6 text-black"
                 >
                   <path
                     strokeLinecap="round"
@@ -265,13 +271,13 @@ const NavbarVendor = () => {
           </div>
 
           {/* User Profile Dropdown */}
-          <div className="dropdown dropdown-end ml-2 items-center hidden md:block lg:block">
+          <div className="dropdown dropdown-end ml-2 items-center">
             <img
               src={men}
               tabIndex={0}
               role="button"
               alt="User Profile"
-              className="rounded-full w-8 h-8 cursor-pointer"
+              className="rounded-full w-8 h-8 cursor-pointer hover:ring-2 ring-blue-500 transition-all duration-200"
             />
             <ul
               tabIndex={0}
@@ -281,7 +287,7 @@ const NavbarVendor = () => {
               <li>
                 <NavLink
                   to="/profile"
-                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2"
+                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2 transition-colors duration-200"
                 >
                   <FaUser className="text-xl" />
                   Profile
@@ -291,7 +297,7 @@ const NavbarVendor = () => {
               <li>
                 <NavLink
                   to="/settings"
-                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2"
+                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2 transition-colors duration-200"
                 >
                   <FaCog className="text-xl" />
                   Settings
@@ -300,7 +306,7 @@ const NavbarVendor = () => {
               {/* Logout */}
               <li>
                 <span
-                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2 cursor-pointer"
+                  className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2 cursor-pointer transition-colors duration-200"
                   onClick={handleLogout}
                 >
                   <FaSignOutAlt className="text-xl" />
