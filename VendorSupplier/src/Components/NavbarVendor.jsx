@@ -10,6 +10,7 @@ import {
   FaComments,
   FaUserCog,
 } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { AiFillProduct } from "react-icons/ai"; // Add this import
 import { BsClipboardCheckFill } from "react-icons/bs"; // Add this import
 import men from "../assets/men.jpg";
@@ -148,18 +149,18 @@ const NavbarVendor = () => {
 
   return (
     <div className="navbar sticky top-0 z-50 bg-white px-5 shadow-md">
-      {/* Mobile Drawer Sidebar */}
+      {/* MOBILE SIDEBAR ICON */}
       <div className="navbar-start block md:hidden lg:hidden w-32">
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
             {/* Toggle Button */}
             <label htmlFor="my-drawer" className="drawer-button">
-              <TbLayoutSidebarRightCollapseFilled className="text-black h-6 w-6" />
+              <GiHamburgerMenu className="text-black h-6 w-6" />
             </label>
           </div>
 
-          {/* Sidebar Content */}
+          {/* SIDEBAR CONTENT */}
           <div className="drawer-side">
             <label
               htmlFor="my-drawer"
@@ -167,7 +168,7 @@ const NavbarVendor = () => {
               aria-label="Close sidebar"
             ></label>
             <div className="bg-white min-h-full w-80 px-4 py-5 shadow-lg transition-transform transform duration-300 ease-in-out">
-              {/* Logo */}
+              {/* LOGO */}
               <NavLink to="/dashboardvendor" className="flex items-center mb-8">
                 <img
                   src={vendor}
@@ -179,7 +180,7 @@ const NavbarVendor = () => {
                 </h2>
               </NavLink>
 
-              {/* Sidebar Links */}
+              {/* SIDEBAR LINKS */}
               <ul className="space-y-4">
                 {menuItems.map((item, index) => (
                   <li
@@ -204,7 +205,7 @@ const NavbarVendor = () => {
         </div>
       </div>
 
-      {/* Rest of the Navbar Content */}
+      {/* REST OF NAVBAR CONTENT */}
       <div className="flex justify-between w-full">
         <div className="navbar-center">
           <span className="text-black font-bold text-2xl">Vendor Supplier</span>
@@ -212,7 +213,7 @@ const NavbarVendor = () => {
 
         {/*  */}
         <div className="navbar-end gap-4 flex items-center">
-          {/* Notification Dropdown */}
+          {/* NOTIFICATION DROPDOWN */}
           <div className="dropdown dropdown-end items-center hidden md:block lg:block ">
             <button className="text-black size-8 p-2 " tabIndex={0}>
               <div className="indicator">
