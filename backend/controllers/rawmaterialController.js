@@ -149,8 +149,6 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
 
   const { userId, status } = req.body;
 
-  console.log(userId);
-  console.log(status);
   if (!userId || !status) {
     return res
       .status(404)
