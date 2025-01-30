@@ -9,6 +9,8 @@ import jwt from "jsonwebtoken";
 import Counter from "../models/Counter.js";
 import expressAsyncHandler from "express-async-handler";
 import supplierModel from "../models/supplierModel.js";
+import AuditLog from "../models/auditLogisiticModel.js";
+import userModel from "../models/userModel.js";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
@@ -54,6 +56,14 @@ const createPurchaseOrder = async (req, res) => {
     //     .status(400)
     //     .json({ success: false, message: "Info Not Found!" });
     // }
+
+    const userExist = await userModel.findById(userId);
+    if (!userExist) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User id not found!" });
+    }
+
     const generalSetting = await generalSettingsModel.find();
     if (!generalSetting) {
       return res
@@ -93,6 +103,20 @@ const createPurchaseOrder = async (req, res) => {
     });
 
     const savePO = await newPurchaseOrder.save();
+
+    const newAuditLog = new AuditLog({
+      eventTypes: "Create",
+      entityType: "Purchase Order",
+      entityId: savePO?._id,
+      changes: {
+        oldValue: null,
+        newValue: savePO,
+      },
+      performeBy: userExist,
+      role: userExist.role,
+    });
+
+    await newAuditLog.save();
 
     // Populate supplier details
     await savePO.populate("supplier");
@@ -220,13 +244,43 @@ const getSpecificPurchaseOrder = asyncHandler(async (req, res) => {
 const updatePurchaseOrder = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
     const updateData = req.body;
+
+    const userExist = await userModel.findById(userId);
+    if (!userExist) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User id not found!" });
+    }
+
+    const purchaseOrderId = await purchaseOrderModel.findById(id);
+
+    if (!purchaseOrderId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Purchase Order Id not found!" });
+    }
 
     const getPurchaseOrderId = await purchaseOrderModel.findByIdAndUpdate(
       id,
       updateData,
       { new: true }
     );
+
+    const newAuditLog = new AuditLog({
+      eventTypes: "Update",
+      entityType: "Purchase Order",
+      entityId: getPurchaseOrderId?._id,
+      changes: {
+        oldValue: purchaseOrderId,
+        newValue: getPurchaseOrderId,
+      },
+      performeBy: userExist._id,
+      role: userExist.role,
+    });
+
+    await newAuditLog.save();
     // console.log(getPurchaseOrderId._id)
     res.status(200).json({
       success: true,
@@ -241,13 +295,45 @@ const updatePurchaseOrder = asyncHandler(async (req, res) => {
 
 const deletePurchaseOrder = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.body;
 
+  const userExist = await userModel.findById(userId);
+
+  if (!userExist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User id not found!" });
+  }
+
+  const purchaseOrderId = await purchaseOrderModel.findById(id);
+
+  if (!purchaseOrderId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Purchase Order Id not found!" });
+  }
   const Deleted = await purchaseOrderModel.findByIdAndDelete(id);
+
   if (!Deleted) {
     return res
       .status(400)
       .json({ success: false, message: "Purchase Order Not Found" });
   }
+
+  const newAuditLog = new AuditLog({
+    eventTypes: "Delete",
+    entityType: "Purchase Order",
+    entityId: purchaseOrderId?._id,
+    changes: {
+      oldValue: purchaseOrderId,
+      newValue: Deleted,
+    },
+    performeBy: userExist._id,
+    role: userExist.role,
+  });
+
+  await newAuditLog.save();
+  
   res.status(200).json({ success: true, message: "Deleted Successfully!" });
 });
 
