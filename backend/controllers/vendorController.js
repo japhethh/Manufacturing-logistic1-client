@@ -200,6 +200,7 @@ const rejectOrders = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Order approved successfully." });
 });
+
 export {
   getUserData,
   getAllPendingOrders,

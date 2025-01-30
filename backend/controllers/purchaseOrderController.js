@@ -14,9 +14,7 @@ import userModel from "../models/userModel.js";
 // Create Purchase Order Controller
 const createPurchaseOrder = async (req, res) => {
   try {
-    // Destructure fields from req.body
     const {
-      // purchaseOrderNumber,
       supplier,
       orderDate,
       items,
@@ -26,14 +24,13 @@ const createPurchaseOrder = async (req, res) => {
       notes,
       paymentTerm,
       approvalStatus,
-      userId, // Assuming you're getting user info from the token
+      userId, 
       reason,
       paymentDetails,
     } = req.body;
 
     console.log(req.body);
 
-    // Check if any required fields are missing
     if (
       !supplier ||
       !orderDate ||
@@ -46,16 +43,6 @@ const createPurchaseOrder = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // const companyAccountId = "66f1ef49f50be7fc60baedb3";
-    // const addressAccount = await generalSettingsModel.findById(
-    //   companyAccountId
-    // );
-
-    // if (!addressAccount) {
-    //   return res
-    //     .status(400)
-    //     .json({ success: false, message: "Info Not Found!" });
-    // }
 
     const userExist = await userModel.findById(userId);
     if (!userExist) {
@@ -333,7 +320,7 @@ const deletePurchaseOrder = asyncHandler(async (req, res) => {
   });
 
   await newAuditLog.save();
-  
+
   res.status(200).json({ success: true, message: "Deleted Successfully!" });
 });
 
