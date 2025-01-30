@@ -83,7 +83,7 @@ const DashboardVendor = () => {
             value: "20 Items Low",
             color: "text-red-600",
           },
-          { title: "Payments Due", value: "$5000", color: "text-purple-600" },
+          { title: "Payments Due", value: "₱5000", color: "text-purple-600" },
         ].map((card, index) => (
           <div
             key={index}
