@@ -75,10 +75,10 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-blue-50 to-blue-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-blue-800 font-bold text-lg">All</h2>
+              <h2 className="text-blue-800 font-bold text-xl">All</h2>
               <AiOutlineForm className="text-4xl text-blue-500" />
             </div>
-            <span className="badge bg-blue-200 text-blue-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-blue-200 text-blue-900 font-bold rounded-full px-3 py-3 text-lg">
               5
             </span>
           </div>
@@ -90,12 +90,12 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-green-50 to-green-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-green-800 font-bold text-lg">
+              <h2 className="text-green-800 font-bold text-xl">
                 Vendor Products
               </h2>
               <FiPackage className="text-4xl text-green-500" />
             </div>
-            <span className="badge bg-green-200 text-green-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-green-200 text-green-800 font-bold rounded-full px-3 py-3 text-lg">
               {totalProducts}
             </span>
           </div>
@@ -107,10 +107,10 @@ const VendorManagementItem = () => {
         >
           <div className="card bg-gradient-to-br from-purple-50 to bg-purple-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-purple-800 font-bold text-lg">Vendors</h2>
+              <h2 className="text-purple-800 font-bold text-xl">Vendors</h2>
               <AiOutlineForm className="text-4xl text-purple-500" />
             </div>
-            <span className="badge bg-purple-200 text-purple-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-purple-200 text-purple-800 font-bold rounded-full px-3 py-3 text-lg">
               {totalVendors}
             </span>
           </div>
