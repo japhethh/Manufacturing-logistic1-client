@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import supplierModel from "../models/supplierModel.js";
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
+import AuditSupplierLog from "../models/auditSupplierModel.js";
 
 const getUserData = asyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -100,7 +101,7 @@ const getAllRejectedOrders = asyncHandler(async (req, res) => {
 
 const approveOrders = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
-  const { userId } = req.body;
+  const { userId, status } = req.body;
 
   const order = await purchaseOrderModel.findById(orderId);
 
@@ -129,6 +130,20 @@ const approveOrders = asyncHandler(async (req, res) => {
   });
 
   await order.save();
+
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: status,
+    entityType: "RawmaterialRequest",
+    entityId: orderId,
+    changes: {
+      oldValue: user,
+      newValue: order,
+    },
+    performeBy: userId,
+    role: user?.role,
+  });
+
+  await newAuditLog.save();
   console.log(order.orderStatus);
 
   res.status(200).json({ message: "Order approved successfully." });
@@ -138,7 +153,7 @@ const approveOrders = asyncHandler(async (req, res) => {
 
 const rejectOrders = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
-  const { userId, reason } = req.body;
+  const { userId, reason, status } = req.body;
 
   const order = await purchaseOrderModel.findById(orderId);
 
@@ -167,6 +182,20 @@ const rejectOrders = asyncHandler(async (req, res) => {
   });
 
   await order.save();
+
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: status,
+    entityType: "RawmaterialRequest",
+    entityId: orderId,
+    changes: {
+      oldValue: user,
+      newValue: order,
+    },
+    performeBy: userId,
+    role: user?.role,
+  });
+
+  await newAuditLog.save();
   console.log(order.orderStatus);
 
   res.status(200).json({ message: "Order approved successfully." });

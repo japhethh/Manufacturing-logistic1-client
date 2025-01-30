@@ -11,16 +11,13 @@ const PendingOrdersVendor = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const [selectedOrder, setSelectedOrder] = useState(null); // For View Modal
   const [modalOpen, setModalOpen] = useState(false); // View Modal
-
   const [reason, setReason] = useState(""); // For Reject Modal
   const [rejectModalOpen, setRejectModalOpen] = useState(false); // Reject Modal
-
   const [approveModalOpen, setApproveModalOpen] = useState(false); // Approve Modal
   const [currentOrderId, setCurrentOrderId] = useState(null); // Current order ID for approval
-
+  const [status, setStatus] = useState("");
   // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Number of orders per page
@@ -192,7 +189,7 @@ const PendingOrdersVendor = () => {
     try {
       const response = await axios.put(
         `${apiURL}/api/vendor/purchaseOrders/approve/${orderId}`,
-        {},
+        { status },
         {
           headers: {
             token: token,
@@ -213,6 +210,7 @@ const PendingOrdersVendor = () => {
 
   // Handle Approve Button Click (opens Approve Modal)
   const handleApproveClick = (orderId) => {
+    setStatus("Approved");
     setCurrentOrderId(orderId);
     setApproveModalOpen(true);
   };
@@ -226,6 +224,7 @@ const PendingOrdersVendor = () => {
 
   // Reject an order
   const handleReject = async () => {
+    setStatus("Rejected");
     console.log(reason);
     if (!reason.trim()) {
       toast.error("Please provide a reason for rejection.");
@@ -235,7 +234,7 @@ const PendingOrdersVendor = () => {
     try {
       await axios.put(
         `${apiURL}/api/vendor/purchaseOrders/rejected/${selectedOrder._id}`,
-        { reason },
+        { reason, status },
         {
           headers: { token },
         }
