@@ -5,6 +5,7 @@ import rawmaterialModel from "../models/rawmaterialModel.js";
 import asyncHandler from "express-async-handler";
 import userModel from "../models/userModel.js";
 import { ensureShape } from "@tensorflow/tfjs";
+import AuditLog from "../models/auditLogisiticModel.js";
 
 const requested = asyncHandler(async (req, res) => {
   try {
@@ -161,6 +162,27 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
     return res.status(404).json({ success: false, message: "User not found!" });
   }
 
+  const existRawmaterial = await rawmaterialModel.findById(id);
+
+  if (!existRawmaterial) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Raw material not found!" });
+  }
+
+  const newAuditLog = new AuditLog({
+    eventTypes: status,
+    entityType: "RawmaterialRequest",
+    entityId: id,
+    changes: {
+      oldValue: existRawmaterial.requestStatus,
+      newValue: status,
+    },
+    performeBy: userId,
+    role: exist.role,
+  });
+
+  await newAuditLog.save();
   const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
     approvedBy: userId,
     requestStatus: status,
@@ -194,10 +216,30 @@ const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
 
   const exist = await userModel.find();
 
+  const existRawmaterial = await rawmaterialModel.findById(id);
+
+  if (!existRawmaterial) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Raw material not found!" });
+  }
   if (!exist) {
     return res.status(404).json({ success: false, message: "User not found!" });
   }
 
+  const newAuditLog = new AuditLog({
+    eventTypes: status,
+    entityType: "RawmaterialRequest",
+    entityId: id,
+    changes: {
+      oldValue: existRawmaterial.requestStatus,
+      newValue: status,
+    },
+    performeBy: userId,
+    role: exist.role,
+  });
+
+  await newAuditLog.save();
   const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
     approvedBy: userId,
     requestStatus: status,

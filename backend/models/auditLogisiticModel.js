@@ -4,7 +4,7 @@ const auditLogisticSchema = mongoose.Schema(
   {
     eventTypes: {
       type: String,
-      enum: ["Create", "Update", "Delete", "Approve", "Reject", "Dispatch"],
+      enum: ["Create", "Update", "Delete", "Approved", "Rejected", "Dispatch"],
       required: true,
     },
     entityType: {
@@ -12,6 +12,7 @@ const auditLogisticSchema = mongoose.Schema(
       enum: [
         "Purchase Order",
         "Invoice",
+        "RawmaterialRequest",
         "Tracking Order",
         "Material",
         "Supplier",
