@@ -9,6 +9,7 @@ import userModel from "../models/userModel.js";
 import supplierModel from "../models/supplierModel.js";
 import expressAsyncHandler from "express-async-handler";
 import NotificationLogisticModel from "../models/notificationLogisticModel.js";
+import AuditSupplierLog from "../models/auditSupplierModel.js";
 
 const createInvoice = expressAsyncHandler(async (req, res) => {
   const {
@@ -24,7 +25,16 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
     tax,
     notes,
     status,
+    userId,
   } = req.body;
+
+  const existSupplier = await supplierModel.findById(userId);
+
+  if (!existSupplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier Id not found!" });
+  }
 
   try {
     const counter = await Counter.findByIdAndUpdate(
@@ -77,6 +87,20 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
 
     // Save the invoice document
     await newInvoice.save();
+
+    const newAuditLog = new AuditSupplierLog({
+      eventTypes: "Create",
+      entityType: "Invoice",
+      entityId: newInvoice.id,
+      changes: {
+        oldValue: null,
+        newValue: newInvoice,
+      },
+      performeBy: userId,
+      role: exist?.role,
+    });
+
+    await newAuditLog.save();
 
     const updateStatus = await purchaseOrderModel.findByIdAndUpdate(
       _id,
@@ -306,6 +330,15 @@ const getSingleInvoice = asyncHandler(async (req, res) => {
 const updateInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const { id } = req.params;
+
+  const existInvoice = await Invoice.findById(id);
+
+  if (!existInvoice) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier Id not found!" });
+  }
+
   const updatedInvoice = await Invoice.findByIdAndUpdate(id, req.body, {
     new: true,
   });
@@ -316,6 +349,28 @@ const updateInvoice = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Invoice not found" });
   }
 
+  const existSupplier = await supplierModel.findById(userId);
+
+  if (!existSupplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier Id not found!" });
+  }
+
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: "Update",
+    entityType: "Invoice",
+    entityId: existInvoice.id,
+    changes: {
+      oldValue: existInvoice,
+      newValue: updatedInvoice,
+    },
+    performeBy: userId,
+    role: exist?.role,
+  });
+
+  await newAuditLog.save();
+
   res.status(200).json({ success: true, message: "Successfully Update" });
 });
 
@@ -323,10 +378,28 @@ const deleteInvoice = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   const { id } = req.params;
 
+  const existInvoice = await Invoice.findById(id);
+  if(!existInvoice){
+    return res.status(400).json({success:false, message:"Invoice id not found!"})
+  }
+
   const deletedInvoice = await Invoice.findByIdAndDelete(id);
   if (!deletedInvoice) {
     res.status(400).json({ success: false, message: "Invoice not found" });
   }
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: "Delete",
+    entityType: "Invoice",
+    entityId: existInvoice.id,
+    changes: {
+      oldValue: existInvoice,
+      newValue: deletedInvoice,
+    },
+    performeBy: userId,
+    role: exist?.role,
+  });
+
+  await newAuditLog.save();
 
   res.status(200).json({ success: true, message: "Deleted Successfully" });
 });

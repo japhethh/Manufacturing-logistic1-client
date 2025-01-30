@@ -156,7 +156,7 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Required to fill all!" });
   }
 
-  const exist = await userModel.find();
+  const exist = await userModel.findById(userId);
 
   if (!exist) {
     return res.status(404).json({ success: false, message: "User not found!" });
@@ -214,7 +214,7 @@ const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Required to fill all!" });
   }
 
-  const exist = await userModel.find();
+  const exist = await userModel.findById(userId);
 
   const existRawmaterial = await rawmaterialModel.findById(id);
 
