@@ -10,7 +10,7 @@ const auditLogisticSchema = mongoose.Schema(
     entityType: {
       type: String,
       enum: [
-        "Purchase Order",
+        "PurchaseOrder",
         "Invoice",
         "RawmaterialRequest",
         "Tracking Order",

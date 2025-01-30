@@ -12,7 +12,11 @@ const categoryVendorRouter = express.Router();
 categoryVendorRouter.get("/", authMiddleware, getAllCategory);
 categoryVendorRouter.post("/createCategory", authMiddleware, createCategory);
 categoryVendorRouter.get("/getSpecificCategory/:id", getSpecificCategory);
-categoryVendorRouter.delete("/deleteCategory/:id", deleteCategory);
+categoryVendorRouter.post(
+  "/deleteCategory/:id",
+  authMiddleware,
+  deleteCategory
+);
 categoryVendorRouter.put("/updateCategory/:id", authMiddleware, updateCategory);
 
 export default categoryVendorRouter;

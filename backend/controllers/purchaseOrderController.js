@@ -93,7 +93,7 @@ const createPurchaseOrder = async (req, res) => {
 
     const newAuditLog = new AuditLog({
       eventTypes: "Create",
-      entityType: "Purchase Order",
+      entityType: "PurchaseOrder",
       entityId: savePO?._id,
       changes: {
         oldValue: null,
@@ -257,7 +257,7 @@ const updatePurchaseOrder = asyncHandler(async (req, res) => {
 
     const newAuditLog = new AuditLog({
       eventTypes: "Update",
-      entityType: "Purchase Order",
+      entityType: "PurchaseOrder",
       entityId: getPurchaseOrderId?._id,
       changes: {
         oldValue: purchaseOrderId,
@@ -309,7 +309,7 @@ const deletePurchaseOrder = asyncHandler(async (req, res) => {
 
   const newAuditLog = new AuditLog({
     eventTypes: "Delete",
-    entityType: "Purchase Order",
+    entityType: "PurchaseOrder",
     entityId: purchaseOrderId?._id,
     changes: {
       oldValue: purchaseOrderId,

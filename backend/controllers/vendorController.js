@@ -133,7 +133,7 @@ const approveOrders = asyncHandler(async (req, res) => {
 
   const newAuditLog = new AuditSupplierLog({
     eventTypes: status,
-    entityType: "RawmaterialRequest",
+    entityType: "PurchaseOrder",
     entityId: orderId,
     changes: {
       oldValue: user,
@@ -185,8 +185,8 @@ const rejectOrders = asyncHandler(async (req, res) => {
 
   const newAuditLog = new AuditSupplierLog({
     eventTypes: status,
-    entityType: "RawmaterialRequest",
-    entityId: orderId,
+    entityType: "PurchaseOrder",
+    entityId: order._id,
     changes: {
       oldValue: user,
       newValue: order,

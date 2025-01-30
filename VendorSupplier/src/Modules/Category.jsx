@@ -16,6 +16,8 @@ const Category = () => {
     category_name: "",
     category_code: "",
   });
+  const [status, setStatus] = useState("");
+
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/category/`, {
@@ -80,10 +82,13 @@ const Category = () => {
   }, [categories]);
 
   const handleDelete = async (dataId) => {
+    setStatus("Delete");
     console.log(dataId);
     try {
-      const response = await axios.delete(
-        `${apiURL}/api/category/deleteCategory/${dataId}`
+      const response = await axios.post(
+        `${apiURL}/api/category/deleteCategory/${dataId}`,
+        { status },
+        { headers: { token: token } }
       );
       fetchCategories();
       toast.info(response.data.message);
@@ -94,10 +99,11 @@ const Category = () => {
   };
 
   const handleAddCategory = async () => {
+    setStatus("Create");
     try {
       const response = await axios.post(
         `${apiURL}/api/category/createCategory`,
-        { category_name: newCategory },
+        { category_name: newCategory, status },
         { headers: { token: token } }
       );
       fetchCategories();
@@ -109,6 +115,8 @@ const Category = () => {
   };
 
   const handleEditCategory = async () => {
+    setStatus("Update");
+
     try {
       const response = await axios.put(
         `${apiURL}/api/category/updateCategory/${selectedData._id}`,

@@ -9,7 +9,6 @@ const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
   // INSTANTLY OPEN CATEGORY SECTION
   useEffect(() => {
     if (location.pathname === "/createproduct") {
@@ -49,9 +48,7 @@ const CreateProduct = () => {
           aria-label="Create Product"
         >
           <div className="card bg-gradient-to-l from-blue-50 to-blue-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-blue-800 font-bold text-lg">
-              Create Product
-            </h2>
+            <h2 className="text-blue-800 font-bold text-lg">Create Product</h2>
             <IoIosCreate className="text-4xl text-blue-700 self-end" />
           </div>
         </NavLink>

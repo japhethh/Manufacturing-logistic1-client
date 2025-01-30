@@ -4,6 +4,7 @@ import supplierModel from "../models/supplierModel.js";
 import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
 import Counter from "../models/Counter.js";
+import AuditSupplierLog from "../models/auditSupplierModel.js";
 
 // Create
 const createMaterial = asyncHandler(async (req, res) => {
@@ -16,6 +17,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     userId,
     available,
     cost,
+    status,
   } = req.body;
 
   if (
@@ -26,9 +28,17 @@ const createMaterial = asyncHandler(async (req, res) => {
     !pricePerUnit &&
     !userId &&
     !available &&
-    !cost
+    !cost &&
+    !status
   ) {
     return res.status(400).json("Enter all field!");
+  }
+
+  const existSupplier = await supplierModel.findById(userId);
+  if (!existSupplier) {
+    return res
+      .status(400)
+      .json({ succes: false, message: "Supplier Id not found!" });
   }
 
   const material = new MaterialModel({

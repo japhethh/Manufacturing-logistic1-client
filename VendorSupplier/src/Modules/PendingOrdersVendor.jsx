@@ -239,7 +239,7 @@ const PendingOrdersVendor = () => {
           headers: { token },
         }
       );
-      toast.success("Order rejected successfully!");
+      toast.info("Order rejected successfully!");
       handleUpdate(); // Refresh orders
     } catch (err) {
       toast.error("Error rejecting the order.");
