@@ -95,7 +95,12 @@ const DashboardVendor = () => {
       {!loading && !error && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cards.map((card, index) => (
-            <Card key={index} title={card.title} value={card.value} color={card.color} />
+            <Card
+              key={index}
+              title={card.title}
+              value={card.value}
+              color={card.color}
+            />
           ))}
         </div>
       )}
@@ -112,8 +117,18 @@ const DashboardVendor = () => {
               <YAxis />
               <Tooltip />
               <CartesianGrid strokeDasharray="3 3" />
-              <Line type="monotone" dataKey="sales" stroke="#4F46E5" name="Sales" />
-              <Line type="monotone" dataKey="revenue" stroke="#FBBF24" name="Revenue" />
+              <Line
+                type="monotone"
+                dataKey="sales"
+                stroke="#4F46E5"
+                name="Sales"
+              />
+              <Line
+                type="monotone"
+                dataKey="revenue"
+                stroke="#FBBF24"
+                name="Revenue"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
