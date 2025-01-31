@@ -12,6 +12,7 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
+import { MdSpatialTracking } from "react-icons/md";
 import { BsClipboardCheckFill } from "react-icons/bs";
 import { AiFillProduct } from "react-icons/ai";
 
@@ -40,7 +41,7 @@ const SidebarVendor = () => {
       to: "/adjustments",
     },
     {
-      icon: <BsClipboardCheckFill className="text-2xl" />,
+      icon: <MdSpatialTracking className="text-2xl" />,
       label: "Tracking Orders",
       to: "/trackingOrders",
     },
