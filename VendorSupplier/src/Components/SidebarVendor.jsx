@@ -147,7 +147,7 @@ const SidebarVendor = () => {
               }`
             }
           >
-            <FaUserCog className="mr-3 text-2xl" />
+            <CgProfile className="mr-3 text-2xl" />
             {isSidebarOpen && (
               <span className="text-lg font-medium">Profile</span>
             )}
