@@ -103,7 +103,7 @@ const ReceiveOrdersVendor = () => {
       if (order) openModal(order);
     };
   };
- 
+
   const openModal = (order) => {
     setSelectedOrder(order);
     setModalOpen(true);
