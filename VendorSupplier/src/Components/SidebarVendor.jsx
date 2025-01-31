@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { MdSpatialTracking } from "react-icons/md";
 import { BsClipboardCheckFill } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
 import { AiFillProduct } from "react-icons/ai";
 
 const SidebarVendor = () => {
