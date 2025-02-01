@@ -89,7 +89,11 @@ const SidebarVendor = () => {
         className="lg:hidden p-4 text-gray-800 hover:text-blue-700 focus:outline-none"
         aria-label="Toggle Sidebar"
       >
-        {isSidebarOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
+        {isSidebarOpen ? (
+          <FaTimes className="text-2xl" />
+        ) : (
+          <FaBars className="text-2xl" />
+        )}
       </button>
 
       <nav className="p-5 flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-800 scrollbar-track-gray-100">
@@ -104,7 +108,9 @@ const SidebarVendor = () => {
               }`}
             />
             {isSidebarOpen && (
-              <h2 className="text-xl font-bold text-gray-800">Vendor Management</h2>
+              <h2 className="text-xl font-bold text-gray-800">
+                Vendor Management
+              </h2>
             )}
           </NavLink>
         </div>
@@ -137,7 +143,7 @@ const SidebarVendor = () => {
         {/* Profile Link at the Bottom */}
         <div className="mt-auto border-t pt-4">
           <NavLink
-            to="/profile"
+            to="/ProfileVendor"
             className={({ isActive }) =>
               `flex items-center px-4 py-3 rounded-md transition duration-200 
               ${
