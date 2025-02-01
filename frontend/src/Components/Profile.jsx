@@ -79,175 +79,171 @@ const Profile = () => {
   };
 
   return (
-    <div className="container-md mx-auto px-5 bg-base-200">
-      <div className="py-5">
-        <h1 className="font-semibold py-3 text-2xl text-gray-600">
-          Hello, <span className="text-blue-600">{userData?.name}</span>
-        </h1>
-        <h1 className="italic font-thin">
-          Change your profile information & password from here...
-        </h1>
-      </div>
-
-      <div className="flex gap-5">
-        <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
-          <div className="bg-[#fff] rounded-md shadow-md p-5 ">
-            <div className="h-46 mb-3">
-              <h1 className="text-center">
-                Profile Image <span className="text-red-500">*</span>
-              </h1>
-              <div className="flex justify-center items-center py-2  ">
-                <label htmlFor="img" className="border-3">
+    <div className="container-md mx-auto px-5 bg-base-200 min-h-screen">
+    <div className="py-8">
+      <h1 className="font-semibold py-3 text-3xl text-gray-700">
+        Hello, <span className="text-blue-600">{userData?.name}</span>
+      </h1>
+      <h1 className="italic font-light text-gray-500">
+        Change your profile information & password from here...
+      </h1>
+    </div>
+  
+    <div className="flex flex-col lg:flex-row gap-8">
+      {/* Profile Update Section */}
+      <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
+        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div className="mb-6">
+            <h1 className="text-center text-xl font-medium text-gray-700">
+              Profile Image <span className="text-red-500">*</span>
+            </h1>
+            <div className="flex justify-center items-center py-4">
+              <label htmlFor="img" className="cursor-pointer">
+                <div className="relative w-44 h-44 rounded-full overflow-hidden border-4 border-blue-100 hover:border-blue-200 transition-all duration-300">
                   <img
-                    className="w-44 h-44 object-cover cursor-pointer "
+                    className="w-full h-full object-cover"
                     src={userData?.image}
-                    alt=""
+                    alt="Profile"
                   />
-                </label>
-              </div>
+                  <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-white text-sm font-medium">Change Image</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <input
+              id="img"
+              type="file"
+              {...register("image")}
+              className="hidden"
+            />
+          </div>
+  
+          <div className="space-y-4">
+            {/* Contact Person */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Contact Person <span className="text-red-500">*</span>
+              </label>
               <input
-                id="img"
-                type="file"
-                {...register("image")}
-                className="hidden file-input file-input-bordered w-full"
-                // Handle file change if needed
+                type="text"
+                className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                {...register("name", { required: "Name is Required" })}
               />
-            </div>
-
-            <div className="py-2">
-              {/* Contact Person */}
-              <div className="mb-3">
-                <label className="block mb-2">
-                  Contact Person <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  {...register("name", { required: "Name is Required" })}
-                />
-                {errors.name && (
-                  <span className="text-red-500 text-sm">
-                    {errors.name.message}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="py-2">
-              {/* Email */}
-              <div className="mb-3">
-                <label className="block mb-2">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email" // Changed to email type for validation
-                  className="input input-bordered w-full"
-                  {...register("email", { required: "Email is Required" })}
-                />
-                {errors.email && (
-                  <span className="text-red-500 text-sm">
-                    {errors.email.message}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className="pt-5">
-              <button
-                type="submit"
-                className="btn bg-blue-500 text-white flex justify-between items-center"
-              >
-                Update Profile{" "}
-                <span>
-                  <IoMdCheckmark />
+              {errors.name && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.name.message}
                 </span>
-              </button>
+              )}
+            </div>
+  
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                {...register("email", { required: "Email is Required" })}
+              />
+              {errors.email && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </span>
+              )}
             </div>
           </div>
-        </form>
-
-        {/* Current Password */}
-        <div className="bg-[#fff] rounded-md shadow-md p-5  flex-1">
-          <div className="flex gap-5 ">
-            {/* Password Update Section */}
-            <form className="w-full" onSubmit={handleSubmit(passwordSubmit)}>
-              {/* Current Password */}
-              <div className="mb-3">
-                <label className="block mb-2">
-                  Current Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  {...register("currentPass", {
-                    required: "Current password is required",
-                  })}
-                  className="input input-bordered w-full"
-                  required
-                />
-                {errors.currentPass && (
-                  <span className="text-red-500 text-sm">
-                    {errors.currentPass.message}
-                  </span>
-                )}
-              </div>
-
-              {/* New Password */}
-              <div className="mb-3">
-                <label className="block mb-2">
-                  New Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  {...register("pass", {
-                    required: "New password is required",
-                  })}
-                  className="input input-bordered w-full"
-                  required
-                />
-                {errors.pass && (
-                  <span className="text-red-500 text-sm">
-                    {errors.pass.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Confirm Password */}
-              <div className="mb-3">
-                <label className="block mb-2">
-                  Confirm Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  {...register("confirmPass", {
-                    required: "Please confirm your password",
-                    validate: (value) =>
-                      value === watch("pass") || "Password do not match",
-                  })}
-                  className="input input-bordered w-full"
-                />
-                {errors.confirmPass && (
-                  <span className="text-red-500 text-sm">
-                    {errors.confirmPass.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <div className="pt-5">
-                <button
-                  type="submit"
-                  className="btn bg-blue-500 text-white flex justify-between items-center"
-                >
-                  Update Password{" "}
-                  <span>
-                    <IoMdCheckmark />
-                  </span>
-                </button>
-              </div>
-            </form>
+  
+          <div className="pt-6">
+            <button
+              type="submit"
+              className="btn bg-blue-500 hover:bg-blue-600 text-white w-full flex justify-center items-center gap-2 transition-all"
+            >
+              Update Profile
+              <IoMdCheckmark className="text-lg" />
+            </button>
           </div>
         </div>
+      </form>
+  
+      {/* Password Update Section */}
+      <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 flex-1">
+        <form onSubmit={handleSubmit(passwordSubmit)}>
+          <div className="space-y-4">
+            {/* Current Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Current Password <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="password"
+                className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                {...register("currentPass", {
+                  required: "Current password is required",
+                })}
+              />
+              {errors.currentPass && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.currentPass.message}
+                </span>
+              )}
+            </div>
+  
+            {/* New Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                New Password <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="password"
+                className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                {...register("pass", {
+                  required: "New password is required",
+                })}
+              />
+              {errors.pass && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.pass.message}
+                </span>
+              )}
+            </div>
+  
+            {/* Confirm Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Confirm Password <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="password"
+                className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                {...register("confirmPass", {
+                  required: "Please confirm your password",
+                  validate: (value) =>
+                    value === watch("pass") || "Passwords do not match",
+                })}
+              />
+              {errors.confirmPass && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.confirmPass.message}
+                </span>
+              )}
+            </div>
+          </div>
+  
+          <div className="pt-6">
+            <button
+              type="submit"
+              className="btn bg-blue-500 hover:bg-blue-600 text-white w-full flex justify-center items-center gap-2 transition-all"
+            >
+              Update Password
+              <IoMdCheckmark className="text-lg" />
+            </button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
   );
 };
 
