@@ -46,6 +46,7 @@ import TrackingOrdersInTransit from "./Components/TrackingOrders/TrackingOrderIn
 import TrackingOrdersPending from "./Components/TrackingOrders/TrackingOrdersPending.jsx";
 import TrackingOrdersDelired from "./Components/TrackingOrders/TrackingOrdersDelivered.jsx";
 import TrackingOrdersDelivered from "./Components/TrackingOrders/TrackingOrdersDelivered.jsx";
+import Profile from "./Components/Profile/Profile.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -231,8 +232,7 @@ const App = () => {
               path="/order-details/:orderId"
               element={<OrderDetailPage />}
             />
-
-            
+            <Route path="/order-details/:orderId" element={<profile />} />
           </Routes>
         </div>
       </div>

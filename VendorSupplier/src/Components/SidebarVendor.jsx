@@ -137,7 +137,7 @@ const SidebarVendor = () => {
         {/* Profile Link at the Bottom */}
         <div className="mt-auto border-t pt-4">
           <NavLink
-            to="/dashboardvendor"
+            to="/profile"
             className={({ isActive }) =>
               `flex items-center px-4 py-3 rounded-md transition duration-200 
               ${
