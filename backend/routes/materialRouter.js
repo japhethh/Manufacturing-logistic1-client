@@ -43,6 +43,6 @@ materialRouter.put(
   updateMaterial
 );
 
-materialRouter.delete("/deleteMaterial/:id", deleteMaterial);
+materialRouter.delete("/deleteMaterial/:id", authMiddleware, deleteMaterial);
 materialRouter.get("/productCount", productCount);
 export default materialRouter;

@@ -17,8 +17,9 @@ const createMaterial = asyncHandler(async (req, res) => {
     userId,
     available,
     cost,
-    status,
   } = req.body;
+
+  console.log("Hello world!");
 
   if (
     !materialName &&
@@ -28,8 +29,7 @@ const createMaterial = asyncHandler(async (req, res) => {
     !pricePerUnit &&
     !userId &&
     !available &&
-    !cost &&
-    !status
+    !cost
   ) {
     return res.status(400).json("Enter all field!");
   }
@@ -207,6 +207,20 @@ const appendMaterial = asyncHandler(async (req, res) => {
 
   await newMaterial.save();
 
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: "Create",
+    entityType: "Material",
+    entityId: newMaterial._id,
+    changes: {
+      oldValue: null,
+      newValue: newMaterial,
+    },
+    performeBy: userId,
+    role: supplierUser.role,
+  });
+
+  await newAuditLog.save();
+
   supplierUser.materialSupplied.push(savedMaterial._id);
 
   await supplierUser.save();
@@ -220,6 +234,15 @@ const appendMaterial = asyncHandler(async (req, res) => {
 
 const deleteMaterial = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.body;
+
+  const supplierUser = await supplierModel.findById(userId);
+
+  if (!supplierUser) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier Id not found!" });
+  }
 
   const materialExist = await MaterialModel.findById(id);
   if (!materialExist) {
@@ -229,6 +252,20 @@ const deleteMaterial = asyncHandler(async (req, res) => {
   }
 
   await MaterialModel.findByIdAndDelete(id);
+
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: "Delete",
+    entityType: "Material",
+    entityId: materialExist._id,
+    changes: {
+      oldValue: materialExist,
+      newValue: null,
+    },
+    performeBy: userId,
+    role: supplierUser.role,
+  });
+
+  await newAuditLog.save();
 
   res
     .status(200)
@@ -263,6 +300,20 @@ const updateMaterial = asyncHandler(async (req, res) => {
       .status(400)
       .json({ success: false, message: "Material not found" });
   }
+
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: "Update",
+    entityType: "Material",
+    entityId: materialData._id,
+    changes: {
+      oldValue: materialData,
+      newValue: updatedMaterial,
+    },
+    performeBy: userId,
+    role: exist.role, 
+  });
+
+  await newAuditLog.save();
 
   res.status(200).json({
     success: true,

@@ -9,7 +9,7 @@ const adjusted_productsSchema = mongoose.Schema({
   },
   quantity: { type: Number, required: true },
   type: { type: String, enum: ["add", "sub"], required: true },
-  supplier: {
+  supplier: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: "Supplier",
     required: true,
