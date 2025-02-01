@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import vendor from "../assets/vendor.png";
 import {
@@ -8,11 +9,17 @@ import {
   FaFileInvoice,
   FaComments,
   FaUserCog,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
+import { MdSpatialTracking } from "react-icons/md";
 import { BsClipboardCheckFill } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
 import { AiFillProduct } from "react-icons/ai";
 
 const SidebarVendor = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   const menuItems = [
     {
       icon: <FaTachometerAlt className="text-2xl" />,
@@ -35,7 +42,7 @@ const SidebarVendor = () => {
       to: "/adjustments",
     },
     {
-      icon: <BsClipboardCheckFill className="text-2xl" />,
+      icon: <MdSpatialTracking className="text-2xl" />,
       label: "Tracking Orders",
       to: "/trackingOrders",
     },
@@ -66,8 +73,25 @@ const SidebarVendor = () => {
     },
   ];
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="bg-white shadow-lg h-screen sticky top-0 w-64 lg:flex hidden flex-col transition-all duration-300">
+    <div
+      className={`bg-white shadow-lg h-screen sticky top-0 ${
+        isSidebarOpen ? "w-64" : "w-20"
+      } lg:flex hidden flex-col transition-all duration-300 ease-in-out`}
+    >
+      {/* Sidebar Toggle Button */}
+      <button
+        onClick={toggleSidebar}
+        className="lg:hidden p-4 text-gray-800 hover:text-blue-700 focus:outline-none"
+        aria-label="Toggle Sidebar"
+      >
+        {isSidebarOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
+      </button>
+
       <nav className="p-5 flex flex-col h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-800 scrollbar-track-gray-100">
         {/* Sidebar Header with Logo */}
         <div className="flex items-center justify-between mb-6">
@@ -75,11 +99,13 @@ const SidebarVendor = () => {
             <img
               src={vendor}
               alt="Vendor Management Logo"
-              className="w-16 h-16 rounded-full border border-gray-300 transition-transform transform hover:scale-105"
+              className={`w-16 h-16 rounded-full border border-gray-300 transition-transform transform hover:scale-105 ${
+                !isSidebarOpen ? "mx-auto" : ""
+              }`}
             />
-            <h2 className="text-xl font-bold text-gray-800">
-              Vendor Management
-            </h2>
+            {isSidebarOpen && (
+              <h2 className="text-xl font-bold text-gray-800">Vendor Management</h2>
+            )}
           </NavLink>
         </div>
 
@@ -93,28 +119,38 @@ const SidebarVendor = () => {
                   `flex items-center px-4 py-3 rounded-md transition duration-200 
                   ${
                     isActive
-                      ? "bg-gray-300 text-blue-700"
+                      ? "bg-blue-100 text-blue-700"
                       : "text-gray-800 hover:bg-gray-100 hover:text-blue-700"
                   }`
                 }
                 aria-label={item.label}
               >
                 <span className="mr-3">{item.icon}</span>
-                <span className="text-lg font-medium">{item.label}</span>
+                {isSidebarOpen && (
+                  <span className="text-lg font-medium">{item.label}</span>
+                )}
               </NavLink>
             </li>
           ))}
         </ul>
 
         {/* Profile Link at the Bottom */}
-        {/* Under Construction */}
         <div className="mt-auto border-t pt-4">
           <NavLink
             to="/dashboardvendor"
-            className="flex items-center px-4 py-3 text-gray-800 font-medium hover:text-blue-700 transition duration-200"
+            className={({ isActive }) =>
+              `flex items-center px-4 py-3 rounded-md transition duration-200 
+              ${
+                isActive
+                  ? "bg-blue-100 text-blue-700"
+                  : "text-gray-800 hover:bg-gray-100 hover:text-blue-700"
+              }`
+            }
           >
-            <FaUserCog className="mr-3 text-2xl" />
-            <span className="text-lg font-medium">Profile</span>
+            <CgProfile className="mr-3 text-2xl" />
+            {isSidebarOpen && (
+              <span className="text-lg font-medium">Profile</span>
+            )}
           </NavLink>
         </div>
       </nav>
