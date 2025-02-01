@@ -31,6 +31,8 @@ import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { BsChatRightText } from "react-icons/bs";
+import { AiOutlineAudit } from "react-icons/ai";
+
 const Sidebar = () => {
   // State to track sidebar collapse/expand status
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -733,7 +735,7 @@ const Sidebar = () => {
               }`}
             >
               <NavLink
-                to="/discrepancy_report"
+                to="/auditLog-logistic"
                 className={({ isActive }) =>
                   `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
         ${
@@ -743,15 +745,13 @@ const Sidebar = () => {
         }`
                 }
               >
-                <MdOutlineReportProblem
+                <AiOutlineAudit
                   className={`transition-all duration-300 ${
                     isCollapsed ? "w-7 h-7" : "w-5 h-5"
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">
-                    Discrepancy Reports
-                  </span>
+                  <span className="text-base font-semibold">Audit Logs</span>
                 )}
               </NavLink>
             </li>

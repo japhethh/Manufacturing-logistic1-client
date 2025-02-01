@@ -59,6 +59,7 @@ import Messages from "./Components/Message/Messages.jsx";
 import TestingCrypto from "./testing/TestingCrypto.jsx";
 import TensorFlowExample from "./testing/TensorFlow.jsx";
 import DiscrepancyDetection from "./Components/Warehouse/DiscrepancyDetection.jsx";
+import AuditLog from "./Components/Audit_Management/AuditLog.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -249,6 +250,7 @@ const App = () => {
           {/* Return management */}
           <Route path="/discrepancy_report" element={<DiscrepancyReport />} />
           <Route path="/tensorFlow" element={<TensorFlowExample />} />
+          <Route path="/auditLog-logistic" element={<AuditLog />} />
         </Routes>
       </div>
     </div>
