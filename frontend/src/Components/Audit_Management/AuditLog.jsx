@@ -9,6 +9,11 @@ const AuditLog = () => {
   const [auditLogData, setAuditLogData] = useState([]);
   const { token } = Store();
 
+  // Fetching Data
+  useEffect(() => {
+    fetchAuditLog();
+  }, []);
+
   const fetchAuditLog = async () => {
     setLoading(true);
     try {
@@ -26,11 +31,6 @@ const AuditLog = () => {
     }
   };
 
-  // Fetching Data
-  useEffect(() => {
-    fetchAuditLog();
-  }, []);
-
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: auditLogData,
@@ -46,7 +46,7 @@ const AuditLog = () => {
           render: (data) => `${data ? data : "N/A"}`,
         },
         {
-          title: "Action",
+          title: "Actions",
           data: "eventTypes",
           render: (data) => `${data ? data : "N/A"}`,
         },
@@ -61,7 +61,7 @@ const AuditLog = () => {
     return () => {
       table.destroy();
     };
-  }, []);
+  }, [auditLogData]);
 
   return (
     <div className="px-4 py-4">
