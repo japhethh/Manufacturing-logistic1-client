@@ -1,7 +1,20 @@
-import React from "react";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Profile = () => {
+  const [showPassword, setShowPassword] = useState({
+    current: false,
+    new: false,
+    confirm: false,
+  });
+
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
   return (
     <div className="flex items-center justify-center bg-gray-50 p-4">
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl w-full">
@@ -64,18 +77,21 @@ const Profile = () => {
                 icon: <FaLock />,
                 type: "password",
                 placeholder: "Enter current password",
+                field: "current",
               },
               {
                 label: "New Password",
                 icon: <FaLock />,
                 type: "password",
                 placeholder: "Enter new password",
+                field: "new",
               },
               {
                 label: "Confirm Password",
                 icon: <FaLock />,
                 type: "password",
                 placeholder: "Confirm new password",
+                field: "confirm",
               },
             ].map((field, index) => (
               <div key={index}>
@@ -89,10 +105,17 @@ const Profile = () => {
                     </div>
                   )}
                   <input
-                    type={field.type}
-                    className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    type={showPassword[field.field] ? "text" : "password"}
+                    className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder={field.placeholder}
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    onClick={() => togglePasswordVisibility(field.field)}
+                  >
+                    {showPassword[field.field] ? <FaEyeSlash /> : <FaEye />}
+                  </button>
                 </div>
               </div>
             ))}
