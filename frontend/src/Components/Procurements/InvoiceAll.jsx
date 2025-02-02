@@ -25,14 +25,14 @@ const InvoiceAll = () => {
   }, []);
 
   const fetchAllInvoice = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await axios.get(`${apiURL}/api/invoices/`, {
         headers: { token: token },
       });
       setInvoiceData(response.data.invoices);
       console.log(response.data.invoices);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.log(error?.response.data.message);
     }
