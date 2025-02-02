@@ -10,13 +10,14 @@ const auditSupplierModel = mongoose.Schema(
     entityType: {
       type: String,
       enum: [
-        "PurchaseOrder",  
+        "PurchaseOrder",
         "Invoice",
         "categories",
-        "RawmaterialRequest",         
+        "RawmaterialRequest",
         "Tracking Order",
         "Material",
         "Supplier",
+        "adjustments",
       ],
       required: true,
     },

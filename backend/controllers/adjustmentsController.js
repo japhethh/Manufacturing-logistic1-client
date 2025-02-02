@@ -4,6 +4,7 @@ import supplierModel from "../models/supplierModel.js";
 import adjusted_productsModel from "../models/adjusted_productsModel.js";
 import MaterialModel from "../models/materialModel.js";
 import Counter from "../models/Counter.js";
+import AuditSupplierLog from "../models/auditSupplierModel.js";
 
 // GETALL
 const getAllAdjustment = asyncHandler(async (req, res) => {
@@ -101,6 +102,28 @@ const createAdjustment = asyncHandler(async (req, res) => {
     });
 
     await createNew.save();
+
+    const exist = await supplierModel.findById(userId);
+
+    if (!exist) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Supplier Id not found!" });
+    }
+
+    const newAuditLog = new AuditSupplierLog({
+      eventTypes: "Create",
+      entityType: "adjustments",
+      entityId: createNew.id,
+      changes: {
+        oldValue: null,
+        newValue: createNew,
+      },
+      performeBy: userId,
+      role: exist?.role,
+    });
+
+    await newAuditLog.save();
   }
 
   res.status(201).json({ success: true, message: "Adjustment Created!" });
@@ -216,6 +239,16 @@ const updateAdjustment = asyncHandler(async (req, res) => {
       }
     } else {
       // If the product does not exist, create a new one
+
+      const existAdjustProduct = await adjusted_productsModel.findById(id);
+
+      if (!existAdjustProduct) {
+        return res.status(400).json({
+          success: false,
+          message: "Adjusttment Product id not found!",
+        });
+      }
+
       const newProduct = new adjusted_productsModel({
         adjustment_id: id,
         material_id: materialId,
@@ -224,6 +257,20 @@ const updateAdjustment = asyncHandler(async (req, res) => {
         supplier: userId,
       });
       await newProduct.save();
+
+      // const newAuditLog = new AuditSupplierLog({
+      //   eventTypes: "Update",
+      //   entityType: "adjustments",
+      //   entityId: id,
+      //   changes: {
+      //     oldValue: existAdjustProduct,
+      //     newValue: newProduct,
+      //   },
+      //   performeBy: userId,
+      //   role: existingSupplier?.role,
+      // });
+
+      // await newAuditLog.save();
       productUpdated = true; // Flag that a product was added
     }
   }
@@ -263,7 +310,21 @@ const deleteAdjustment = asyncHandler(async (req, res) => {
       .json({ success: false, message: "AdjustmentId not found!" });
   }
   await adjustmentModel.findByIdAndDelete(id);
-  existing;
+
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: "Delete",
+    entityType: "adjustments",
+    entityId: id,
+    changes: {
+      oldValue: adjustmentExisting,
+      newValue: adjustmentModel,
+    },
+    performeBy: userId,
+    role: existing?.role,
+  });
+
+  await newAuditLog.save();
+
   res.status(200).json({ success: true, message: "Deleted Successfully!" });
 });
 // END
