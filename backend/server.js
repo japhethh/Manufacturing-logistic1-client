@@ -41,6 +41,7 @@ import { FilterAccounts } from "./testing/aggregateUser.js";
 import testingAggregateUserRouter from "./routes/testingAggregateUserRouter.js";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import { verifyToken, vendorVerifyToken } from "./middleware/Auth.js";
+import vendorProfileRouter from "./routes/vendorProfileRoute.js";
 import tf from "@tensorflow/tfjs";
 
 // Import the test file in the using tensorflow
@@ -131,6 +132,7 @@ app.use("/api/detectDiscrepancyTest", discrepancyTestRouter);
 app.use("/api/discrepancyDetectionFinal", discrepancyDetectionFinalRouter);
 app.use("/api/trackingOrdersHistory", trackingOrderHistoryRouter);
 app.use("/api/auditLogisticLog", auditLogisticRouter);
+// app.use("/api/vendorProfile", vendorProfileRouter);
 
 // Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);
