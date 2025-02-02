@@ -132,7 +132,7 @@ app.use("/api/detectDiscrepancyTest", discrepancyTestRouter);
 app.use("/api/discrepancyDetectionFinal", discrepancyDetectionFinalRouter);
 app.use("/api/trackingOrdersHistory", trackingOrderHistoryRouter);
 app.use("/api/auditLogisticLog", auditLogisticRouter);
-// app.use("/api/vendorProfile", vendorProfileRouter);
+app.use("/api/vendorProfile", vendorProfileRouter);
 
 // Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);
