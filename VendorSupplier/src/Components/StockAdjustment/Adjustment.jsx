@@ -222,16 +222,18 @@ const Adjustment = () => {
           selectedData &&
           fetchAdjustment && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-              <div className="bg-white rounded-lg p-8 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 shadow-xl transition-all transform scale-105">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+              <div className="bg-white rounded-2xl p-8 w-full sm:w-4/5 md:w-2/3 lg:w-1/2 shadow-2xl transform transition-all duration-300 scale-100 hover:scale-[1.02]">
+                {/* Modal Title */}
+                <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">
                   Adjustment Details
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                {/* Adjustment Info */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 border-b pb-6">
                   <div className="flex flex-col space-y-3">
-                    <div className="font-semibold text-gray-600">
+                    <div className="text-gray-700 font-medium">
                       Date:{" "}
-                      <span className="font-normal text-gray-700">
+                      <span className="font-normal text-gray-600">
                         {fetchAdjustment?.date
                           ? new Date(fetchAdjustment.date).toLocaleDateString(
                               "en-US",
@@ -244,39 +246,46 @@ const Adjustment = () => {
                           : "N/A"}
                       </span>
                     </div>
-                    <div className="font-semibold text-gray-600">
+                    <div className="text-gray-700 font-medium">
                       Reference:{" "}
-                      <span className="font-normal text-gray-700">
+                      <span className="font-normal text-gray-600">
                         {fetchAdjustment?.reference || "N/A"}
                       </span>
                     </div>
                   </div>
                 </div>
 
+                {/* Table Section */}
                 <div className="overflow-x-auto mb-8">
-                  <table className="table-auto w-full text-sm text-gray-700">
-                    <thead className="bg-gray-200 text-gray-800">
+                  <table className="table-auto w-full text-sm text-gray-700 border rounded-lg">
+                    <thead className="bg-gray-100 text-gray-800">
                       <tr>
-                        <th className="px-4 py-3 text-left">Product Name</th>
-                        <th className="px-4 py-3 text-left">Code</th>
-                        <th className="px-4 py-3 text-left">Quantity</th>
-                        <th className="px-4 py-3 text-left">Type</th>
+                        <th className="px-5 py-3 text-left">Product Name</th>
+                        <th className="px-5 py-3 text-left">Code</th>
+                        <th className="px-5 py-3 text-left">Quantity</th>
+                        <th className="px-5 py-3 text-left">Type</th>
                       </tr>
                     </thead>
                     <tbody>
                       {selectedData.map((item) => (
                         <tr
                           key={item?._id}
-                          className="border-b hover:bg-gray-50"
+                          className="border-b hover:bg-gray-50 transition duration-200"
                         >
-                          <td className="px-4 py-3">
+                          <td className="px-5 py-4">
                             {item?.material_id?.materialName}
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-5 py-4">
                             {item?.material_id?.materialCode}
                           </td>
-                          <td className="px-4 py-3">{item?.quantity}</td>
-                          <td className="px-4 py-3">
+                          <td className="px-5 py-4">{item?.quantity}</td>
+                          <td
+                            className={`px-5 py-4 font-semibold ${
+                              item?.type === "add"
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                          >
                             {item?.type === "add" ? "(+)" : "(-)"} {item?.type}
                           </td>
                         </tr>
@@ -285,6 +294,7 @@ const Adjustment = () => {
                   </table>
                 </div>
 
+                {/* Actions */}
                 <div className="flex justify-end gap-4">
                   <button
                     className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition duration-200"
