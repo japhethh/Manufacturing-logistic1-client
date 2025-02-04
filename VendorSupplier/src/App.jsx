@@ -48,7 +48,6 @@ import TrackingOrdersDelired from "./Components/TrackingOrders/TrackingOrdersDel
 import TrackingOrdersDelivered from "./Components/TrackingOrders/TrackingOrdersDelivered.jsx";
 import ProfileVendor from "./Components/ProfileVendor/ProfileVendor.jsx";
 
-
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();

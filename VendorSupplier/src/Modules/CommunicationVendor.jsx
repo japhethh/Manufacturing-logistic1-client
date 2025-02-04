@@ -350,7 +350,12 @@ const ChatUI = () => {
                 </div>
 
                 <div>
-                  <button onClick={() => setSearchTerm("")} className="font-bold text-xl btn">x</button>
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="font-bold text-xl btn"
+                  >
+                    x
+                  </button>
                 </div>
               </div>
 

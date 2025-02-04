@@ -107,7 +107,7 @@ const DashboardVendor = () => {
 
       {/* Line Chart for Sales and Revenue */}
       {!loading && !error && (
-        <div className="mt-10 bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-transform transform hover:scale-105">
+        <div className="mt-10 bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-800 mb-5">
             Monthly Sales and Revenue
           </h2>
