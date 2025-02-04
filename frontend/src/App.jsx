@@ -60,6 +60,7 @@ import TestingCrypto from "./testing/TestingCrypto.jsx";
 import TensorFlowExample from "./testing/TensorFlow.jsx";
 import DiscrepancyDetection from "./Components/Warehouse/DiscrepancyDetection.jsx";
 import AuditLog from "./Components/Audit_Management/AuditLog.jsx";
+import TrackingOrderReceiving from "./Components/TrackingOrders/TrackingOrderReceiving.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -251,6 +252,10 @@ const App = () => {
           <Route path="/discrepancy_report" element={<DiscrepancyReport />} />
           <Route path="/tensorFlow" element={<TensorFlowExample />} />
           <Route path="/auditLog-logistic" element={<AuditLog />} />
+          <Route
+            path="/trackingOrder/detail/:id"
+            element={<TrackingOrderReceiving />}
+          ></Route>
         </Routes>
       </div>
     </div>

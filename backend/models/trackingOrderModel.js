@@ -5,7 +5,7 @@ const TrackingOrderSchema = mongoose.Schema(
   {
     trackingOrderNumber: {
       type: String,
-      required:true
+      required: true,
     },
     invoiceId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -59,6 +59,15 @@ const TrackingOrderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "GeneralSettings",
     },
+    statusHistory: [
+      {
+        status: { type: String, required: true },
+        date: { type: Date, default: Date.now },
+        details: { type: String },
+        description: { type: String },
+        location: { type: String },
+      },
+    ],
   },
   { timestamps: true }
 );

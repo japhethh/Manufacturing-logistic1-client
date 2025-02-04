@@ -97,7 +97,7 @@ const createInvoice = expressAsyncHandler(async (req, res) => {
         newValue: newInvoice,
       },
       performeBy: userId,
-      role: exist?.role,
+      role: existSupplier?.role,
     });
 
     await newAuditLog.save();
@@ -379,8 +379,10 @@ const deleteInvoice = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const existInvoice = await Invoice.findById(id);
-  if(!existInvoice){
-    return res.status(400).json({success:false, message:"Invoice id not found!"})
+  if (!existInvoice) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invoice id not found!" });
   }
 
   const deletedInvoice = await Invoice.findByIdAndDelete(id);

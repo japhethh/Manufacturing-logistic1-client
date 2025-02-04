@@ -5,6 +5,7 @@ import Invoice from "../models/invoiceVendorModel.js";
 import MaterialModel from "../models/materialModel.js";
 import trackingOrderHistoryModel from "../models/trackingOrderHistoryModel.js";
 import expressAsyncHandler from "express-async-handler";
+import AuditSupplierLog from "../models/auditSupplierModel.js";
 
 const getAllTrackingOrders = asyncHandler(async (req, res) => {
   // const { id } = req.params;
@@ -13,6 +14,12 @@ const getAllTrackingOrders = asyncHandler(async (req, res) => {
     .populate("purchaseOrderId")
     .populate("invoiceId")
     .populate("generalSettings");
+
+  if (!trackingOrders) {
+    return res
+      .status(400)
+      .json({ success: false, message: "No tracking orders found!" });
+  }
 
   res.status(200).json(trackingOrders);
 });
@@ -75,6 +82,15 @@ const updateStatus = asyncHandler(async (req, res) => {
   }
 
   // Update deliveryStatus and set alreadyDispatch to true if it's "Dispatch"
+
+  const existTrackingOrder = await TrackingOrderModel.findById(id);
+
+  if (!existTrackingOrder) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Tracking Order Id not found!" });
+  }
+
   const updatedStatus = await TrackingOrderModel.findByIdAndUpdate(
     id,
     {
@@ -93,6 +109,20 @@ const updateStatus = asyncHandler(async (req, res) => {
     return res.status(400).json({ success: false, message: "Update failed" });
   }
 
+  const newAuditLog = new AuditSupplierLog({
+    eventTypes: deliveryStatus,
+    entityType: "Tracking Order",
+    entityId: id,
+    changes: {
+      oldValue: existTrackingOrder,
+      newValue: updatedStatus,
+    },
+    performeBy: userId,
+    role: supplierExisting.role,
+  });
+
+  await newAuditLog.save();
+
   // Emit socket event and send a success response
   const io = req.app.get("socketio");
   res
@@ -106,14 +136,29 @@ const getSpecificId = asyncHandler(async (req, res) => {
   const { id } = req.params;
   // const { userId } = req.body;
 
-  const trackingOrder = await TrackingOrderModel.findById(id);
+  const trackingOrder = await TrackingOrderModel.findById(id)
+    .populate("generalSettings")
+    .populate("invoiceId")
+    .populate("purchaseOrderId")
+    .populate({
+      path: "invoiceId",
+      populate: {
+        path: "items.product",
+        select: "materialName materialCode image category",
+        populate: {
+          path: "category",
+          select: "category_name",
+        },
+      },
+    });
+
   if (!trackingOrder) {
     return res
       .status(400)
       .json({ success: false, message: "Tracking Order Id not found!" });
   }
 
-  res.status(200).json({ success: true, data: trackingOrder });
+  res.status(200).json(trackingOrder);
 });
 
 const getAllTrackingOrderSupplier = asyncHandler(async (req, res) => {

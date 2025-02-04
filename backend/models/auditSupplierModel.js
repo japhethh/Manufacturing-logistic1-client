@@ -4,7 +4,18 @@ const auditSupplierModel = mongoose.Schema(
   {
     eventTypes: {
       type: String,
-      enum: ["Create", "Update", "Delete", "Approved", "Rejected", "Dispatch"],
+      enum: [
+        "Pending",
+        "Dispatch",
+        "In Transit",
+        "Delivered",
+        "Create",
+        "Update",
+        "Delete",
+        "Approved",
+        "Rejected",
+        "Dispatch",
+      ],
       required: true,
     },
     entityType: {

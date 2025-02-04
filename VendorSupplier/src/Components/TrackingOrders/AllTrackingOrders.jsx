@@ -12,7 +12,13 @@ const AllTrackingOrders = () => {
   const [trackingOrdersData, setTrackingOrdersData] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [detail, setDetail] = useState("");
+  const [date, setDate] = useState(null);
+  const [location, setLocation] = useState("");
   useEffect(() => {
     fetchTrackingOrdersData();
   }, []);
@@ -30,6 +36,32 @@ const AllTrackingOrders = () => {
       toast.error("Error fetching tracking orders data");
     }
   };
+
+  const newSubmit = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/trackingOrders/updateStatus/${selectedOrderId}`,
+        {
+          status,
+          date,
+          details: detail,
+          description,
+          location,
+        },
+        { headers: { token: token } }
+      );
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
+    setModalVisible(false);
+    console.log(status);
+    console.log(description);
+    console.log(detail);
+    console.log(date);
+    console.log(location);
+  };
+
   useEffect(() => {
     let table;
     if (trackingOrdersData.length > 0) {
@@ -91,6 +123,15 @@ const AllTrackingOrders = () => {
             },
           },
           {
+            title: "Update Process",
+            data: null,
+            render: (data) => {
+              return `
+              <button class="text-white bg-green-500 px-2 py-1 rounded-sm" id="updateProcessBtn_${data?._id}">Update</button>
+`;
+            },
+          },
+          {
             title: "Actions",
             data: null,
             render: (data) => {
@@ -136,10 +177,12 @@ const AllTrackingOrders = () => {
         rowCallback: (row, data) => {
           const statusSelect = row.querySelector(`#statusSelect_${data._id}`);
           const detailBtn = row.querySelector(`#detailBtn_${data._id}`);
+          const updateBtn = row.querySelector(`#updateProcessBtn_${data?._id}`);
 
           statusSelect.addEventListener("change", (event) => {
             handleStatusUpdate(data._id, event.target.value);
           });
+          updateBtn.addEventListener("click", () => handleOpenModal(data._id));
 
           detailBtn.addEventListener("click", () => {
             navigate(`/order-details/${data._id}`);
@@ -168,6 +211,18 @@ const AllTrackingOrders = () => {
     }
   };
 
+  const handleOpenModal = (orderId) => {
+    setSelectedOrderId(orderId);
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedOrderId(null);
+    setModalVisible(false);
+  };
+
+  console.log(selectedOrderId);
+
   return (
     <div className="p-5 lg:w-[1260px] bg-gray-200">
       <TrackingOrderItems />
@@ -176,6 +231,93 @@ const AllTrackingOrders = () => {
           <thead className="bg-blue-800 text-white"></thead>
         </table>
       </div>
+
+      {/* Modal for Viewing Order Details */}
+      {modalVisible && selectedOrderId && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div
+            className="bg-white rounded-lg p-5 w-[400px] max-w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-md font-bold mb-4 ">
+              Order Details: {selectedOrderId}
+            </h2>
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+              <div className="">
+                <label className="label">
+                  <strong>Supplier Name:</strong>{" "}
+                </label>
+
+                <select
+                  className="select mb-1 select-bordered w-full"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Dispatch">Dispatch</option>
+                  <option value="In Transit">In Transit</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="label font-semibold" htmlFor="date">
+                  Date
+                </label>
+                <input
+                  className="block w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  type="date"
+                  id="date"
+                  value={date || ""}
+                  onChange={(e) => setDate(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <label htmlFor="description" className="label font-semibold">
+              Details
+            </label>
+            <input
+              type="text"
+              className="input block input-bordered w-full"
+              onChange={(e) => setDetail(e.target.value)}
+            />
+            <label htmlFor="description" className="label font-semibold">
+              Description
+            </label>
+            <input
+              type="text"
+              className="input block input-bordered w-full"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <div>
+              <label htmlFor="description" className="label font-semibold">
+                Location
+              </label>
+              <input
+                type="text"
+                className="input block input-bordered w-full"
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+
+            <div className="flex justify-end items-center gap-2">
+              <button
+                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={newSubmit}
+              >
+                Save
+              </button>
+              <button
+                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={handleCloseModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

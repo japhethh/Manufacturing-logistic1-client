@@ -100,6 +100,16 @@ const TrackOrder = () => {
       data: trackOrdersData,
       columns: [
         {
+          title: "Tracking Number #",
+          data: "trackingOrderNumber",
+          render: (data) =>
+            `${data ? data : `<span class="text-red-500 ">N/A</span>`}`,
+        },
+        {
+          title: "Track ID",
+          data: "_id",
+        },
+        {
           title: "Created At",
           data: "createdAt",
           render: (data) => new Date(data).toLocaleDateString(),

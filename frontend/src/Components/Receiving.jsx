@@ -254,11 +254,16 @@ const Receiving = () => {
       ],
       order: [[4, "desc"]],
       rowCallback: (row, data) => {
+        const detailBtn = row.querySelector(`#detailBtn_${data?._id}`);
         const qcBtn = row.querySelector(`#qcBtn_${data?._id}`);
 
         qcBtn.addEventListener("click", () => {
           // Navigate to Quality Control page with the invoiceId
           navigate(`/quality-control/${data.invoiceId._id}`);
+        });
+
+        detailBtn.addEventListener("click", () => {
+          navigate(`/trackingOrder/detail/${data._id}`);
         });
 
         // Super Admin is Here

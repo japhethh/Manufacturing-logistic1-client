@@ -336,7 +336,7 @@ const CreatePurchaseOrder = () => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label
                   htmlFor={`discount-${index}`}
                   className="block text-base font-medium text-[#07074D]"
@@ -352,7 +352,7 @@ const CreatePurchaseOrder = () => {
                   }
                   className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
                 />
-              </div>
+              </div> */}
 
               {/* Remove Button */}
               <div className="md:col-span-4 text-right">
