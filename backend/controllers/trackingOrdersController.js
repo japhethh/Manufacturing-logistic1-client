@@ -26,7 +26,8 @@ const getAllTrackingOrders = asyncHandler(async (req, res) => {
 
 const updateStatus = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { userId, deliveryStatus } = req.body;
+  const { userId, deliveryStatus, date, detail, description, location } =
+    req.body;
 
   // Check if the supplier exists
   const supplierExisting = await supplierModel.findById(userId);
@@ -108,6 +109,16 @@ const updateStatus = asyncHandler(async (req, res) => {
   if (!updatedStatus) {
     return res.status(400).json({ success: false, message: "Update failed" });
   }
+
+  updatedStatus.statusHistory.push({
+    status: deliveryStatus,
+    date,
+    details: detail,
+    description,
+    location,
+  });
+
+  await updatedStatus.save();
 
   const newAuditLog = new AuditSupplierLog({
     eventTypes: deliveryStatus,

@@ -43,7 +43,7 @@ const AllTrackingOrders = () => {
       const response = await axios.put(
         `${apiURL}/api/trackingOrders/updateStatus/${selectedOrderId}`,
         {
-          status,
+          deliveryStatus: status,
           date,
           details: detail,
           description,
@@ -51,15 +51,11 @@ const AllTrackingOrders = () => {
         },
         { headers: { token: token } }
       );
+      toast.success(`Status updated to ${status}!`);
     } catch (error) {
       console.log(error?.response.data.message);
     }
     setModalVisible(false);
-    console.log(status);
-    console.log(description);
-    console.log(detail);
-    console.log(date);
-    console.log(location);
   };
 
   useEffect(() => {
@@ -304,6 +300,7 @@ const AllTrackingOrders = () => {
             <div className="flex justify-end items-center gap-2">
               <button
                 className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+                type="submit"
                 onClick={newSubmit}
               >
                 Save
