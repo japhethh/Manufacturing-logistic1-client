@@ -211,7 +211,7 @@ const TrackingOrderReceiving = () => {
         <h1 className="flex justify-center items-center gap-1">
           <AiOutlineShop /> Hothome
         </h1>
-        <button className="flex justify-center items-center gap-1 bg-orange-600 text-white text-xs px-2 py-1">
+        <button className="flex justify-center items-center gap-1 bg-blue-600 text-white text-xs px-2 py-1">
           <MdMessage /> Chat
         </button>
         <button className="flex justify-center items-center gap-1 bg-white border text-gray-700  text-xs px-2 py-1 hover:opacity-50">
@@ -232,7 +232,7 @@ const TrackingOrderReceiving = () => {
               </div>
               <div className="md:w-[80%] w-[70%] flex flex-col gap-1">
                 <h1 className="text-sm font-medium ">
-                  <span className="text-orange-600 border border-orange-600 px-2 py-1 text-xs">
+                  <span className="text-green-600 border border-green-600 px-2 py-1 text-xs">
                     Pre-Order
                   </span>{" "}
                   {item?.name}
@@ -244,7 +244,7 @@ const TrackingOrderReceiving = () => {
               </div>
               <div className="md:w-[10%] w-[20%] flex justify-center items-center">
                 <p>
-                  <span className="text-orange-700 text-medium">
+                  <span className="text-green-700 text-medium">
                     ₱{item?.totalPrice}{" "}
                   </span>
                 </p>
@@ -263,7 +263,7 @@ const TrackingOrderReceiving = () => {
           </div>
           <div className="w-2/5 flex justify-end border border-gray-100 p-2">
             <div className="flex justify-center items-center">
-              <h1 className="text-orange-600 text-semibold text-lg">
+              <h1 className="text-green-600 text-semibold text-lg">
                 ₱{data?.totalAmount}
               </h1>
             </div>
