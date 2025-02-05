@@ -118,6 +118,35 @@ const Receiving = () => {
       data: trackOrdersData,
       columns: [
         {
+          title: "Actions",
+          data: null,
+          render: (data) => {
+            return `
+              <div class="flex justify-center font-bold">
+                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
+                  data._id
+                }">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="qcBtn_${
+                  data._id
+                }">
+                  <i class="fas fa-check-circle"></i> Quality Control
+                </button>
+                ${
+                  isSuperAdmin
+                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data._id}">
+                  <i class="fas fa-trash-alt"></i>
+                </button>`
+                    : ""
+                }
+                
+              </div>
+
+            `;
+          },
+        },
+        {
           title: "Tracking Number #",
           data: "trackingOrderNumber",
           render: (data) =>
@@ -221,35 +250,6 @@ const Receiving = () => {
         {
           title: "Ratings",
           data: "supplier.rating",
-        },
-        {
-          title: "Actions",
-          data: null,
-          render: (data) => {
-            return `
-              <div class="flex justify-center font-bold">
-                <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
-                  data._id
-                }">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button class="bg-green-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="qcBtn_${
-                  data._id
-                }">
-                  <i class="fas fa-check-circle"></i> Quality Control
-                </button>
-                ${
-                  isSuperAdmin
-                    ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data._id}">
-                  <i class="fas fa-trash-alt"></i>
-                </button>`
-                    : ""
-                }
-                
-              </div>
-
-            `;
-          },
         },
       ],
       order: [[4, "desc"]],

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { apiURL } from "../../context/Store";
 import Store from "../../context/Store";
-
+import { Link } from "react-router-dom";
 const TrackingOrderReceiving = () => {
   const { id } = useParams();
   const { token } = Store();
@@ -38,7 +38,7 @@ const TrackingOrderReceiving = () => {
         <div className="breadcrumbs text-sm">
           <ul>
             <li>
-              <a>
+              <Link to="/">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -53,10 +53,10 @@ const TrackingOrderReceiving = () => {
                   ></path>
                 </svg>
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a>
+              <Link to="/receiving">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -70,26 +70,8 @@ const TrackingOrderReceiving = () => {
                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                   ></path>
                 </svg>
-                Documents
-              </a>
-            </li>
-            <li>
-              <span className="inline-flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4 stroke-current"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  ></path>
-                </svg>
-                Add Document
-              </span>
+                Tracking Orders
+              </Link>
             </li>
           </ul>
         </div>
@@ -99,8 +81,8 @@ const TrackingOrderReceiving = () => {
         px-4"
         >
           <h1 className="uppercase">
-            Order Id: 241223K4n9sWF |
-            <span className="text-orange-500"> Order Completed</span>
+            Order Id: {data?._id} |
+            <span className="text-blue-500"> {data?.deliveryStatus}</span>
           </h1>
         </div>
       </div>
@@ -111,7 +93,7 @@ const TrackingOrderReceiving = () => {
           <h1 className="font-semibold text-lg">Delivery Address</h1>
 
           <div className="flex flex-col text-sm text-gray-600">
-            <p>Flass Express</p>
+            <p>Express</p>
             <p>P61188PHUTNDB</p>
           </div>
         </div>
@@ -136,86 +118,90 @@ const TrackingOrderReceiving = () => {
             </p>
           </div>
           <div className="w-4/6 border  border-l-gray-300 border-t-0 border-b-0 border-r-0 p-3">
-            <div className="flex flex-row gap-2 text-sm">
-              <h1 className="font-medium text-gray-800 px-2 w-[25%]">
-                12/26/2024 10:38
-              </h1>
-              <div className="flex flex-col gap-2 w-[75%] mb-2">
-                <h1 className="text-green-700 font-semibold text-md">
-                  Delivered
-                </h1>
-                <h1 className="text-green-600 font-normal ">
-                  Parcel has been delivered
-                </h1>
-                <h1 className="text-green-600 font-normal">
-                  Recipient: Adrey Locaylocay.
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-row gap-2 text-sm ">
-              <h1 className="font-medium text-gray-800 px-2 w-[25%]">
-                12/26/2024 10:38
-              </h1>
-              <div className="flex flex-col gap-2 w-[75%] mb-2">
-                <h1 className="text-gray-700 font-semibold text-md">
-                  In transit
-                </h1>
-                <h1 className="text-gray-600 font-normal ">
-                  Parcel is out for delivery. Rider: Jose Mari De Castro
-                  Magalang Mobile Number: 09850059629
-                </h1>
-                <h1 className="text-gray-600 font-normal"></h1>
-              </div>
-            </div>
-            <div className="flex flex-row gap-2 text-sm">
-              <h1 className="font-medium text-gray-800 px-2 w-[25%]">
-                12/26/2024 10:38
-              </h1>
-              <div className="flex flex-col gap-2 w-[75%] mb-2">
-                <h1 className="text-gray-600 font-normal ">
-                  Your parcel has arrived at the delivery hub : Quezon
-                  City,PAA_SP
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-row gap-2 text-sm">
-              <h1 className="font-medium text-gray-800 px-2 w-[25%]">
-                12/26/2024 10:38
-              </h1>
-              <div className="flex flex-col gap-2 w-[75%] mb-2">
-                <h1 className="text-gray-600 font-normal ">
-                  Parcel has departed from sorting facility : Santa Maria,16
-                  PN8-HUB_Bulacan
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-row gap-2 text-sm">
-              <h1 className="font-medium text-gray-800 px-2 w-[25%]">
-                12/26/2024 10:38
-              </h1>
-              <div className="flex flex-col gap-2 w-[75%] mb-2">
-                <h1 className="text-gray-700 font-semibold text-md">
-                  Delivered
-                </h1>
-                <h1 className="text-gray-600 font-normal ">
-                  Parcel has been delivered
-                </h1>
-                <h1 className="text-gray-600 font-normal">
-                  {" "}
-                  Recipient: Adrey Locaylocay.
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-row gap-2 text-sm">
-              <h1 className="font-medium text-gray-800 px-2 w-[25%]">
-                12/26/2024 10:38
-              </h1>
-              <div className="flex flex-col gap-2 w-[75%] mb-2">
-                <h1 className="text-gray-700 font-semibold text-md">
-                  Order placed
-                </h1>
-                <h1 className="text-gray-600 font-normal ">Order is placed</h1>
-              </div>
+            <div className="relative">
+              {data?.statusHistory
+                ?.slice()
+                .reverse()
+                .map((item, index) => {
+                  const isLatest = index === 0;
+                  const textColor = isLatest
+                    ? "text-green-700"
+                    : "text-gray-600";
+
+                  return (
+                    <div
+                      key={index}
+                      className="flex flex-row gap-4 items-start mb-4 relative"
+                    >
+                      {/* Timeline Indicator */}
+                      <div className="flex flex-col items-center">
+                        <div
+                          className={`w-5 h-5 rounded-full ${
+                            isLatest ? "bg-green-500" : "bg-gray-400"
+                          } flex items-center justify-center`}
+                        >
+                          {isLatest ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-3 w-3 text-white"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          ) : null}
+                        </div>
+                        {/* Line between points */}
+                        {index !== data?.statusHistory?.length - 1 && (
+                          <div
+                            className={`w-[2px] h-full ${
+                              isLatest ? "bg-green-500" : "bg-gray-400"
+                            }`}
+                          />
+                        )}
+                      </div>
+
+                      {/* Status Data */}
+                      <div className="flex md:flex-row flex-col  w-full text-sm">
+                        <h1 className={`font-medium px-2 w-[25%] ${textColor}`}>
+                          {new Date(item?.date).toLocaleDateString()}
+                        </h1>
+                        <div className="flex flex-col gap-2 w-[75%] mb-2">
+                          <h1 className={`font-semibold text-md ${textColor}`}>
+                            {item?.status}
+                          </h1>
+                          <h1
+                            className={`font-normal ${
+                              isLatest ? "text-green-600" : "text-gray-500"
+                            }`}
+                          >
+                            {item?.details}
+                          </h1>
+                          <h1
+                            className={`font-normal ${
+                              isLatest ? "text-green-600" : "text-gray-500"
+                            }`}
+                          >
+                            {item?.description}
+                          </h1>
+                          <h1
+                            className={`font-normal ${
+                              isLatest ? "text-green-600" : "text-gray-500"
+                            }`}
+                          >
+                            {item?.location}
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>

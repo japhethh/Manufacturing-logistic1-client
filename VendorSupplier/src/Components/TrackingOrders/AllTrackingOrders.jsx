@@ -52,6 +52,7 @@ const AllTrackingOrders = () => {
         { headers: { token: token } }
       );
       toast.success(`Status updated to ${status}!`);
+      fetchTrackingOrdersData();
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -64,6 +65,15 @@ const AllTrackingOrders = () => {
       table = new DataTable("#myTable", {
         data: trackingOrdersData,
         columns: [
+          {
+            title: "Update Process",
+            data: null,
+            render: (data) => {
+              return `
+              <button class=" btn btn-primary text-white" id="updateProcessBtn_${data?._id}">Update</button>
+`;
+            },
+          },
           {
             title: "Tracking Number #",
             data: "trackingOrderNumber",
@@ -118,15 +128,7 @@ const AllTrackingOrders = () => {
               return `<span class="${statusClass} inline-block px-2 py-1 rounded">${data}</span>`;
             },
           },
-          {
-            title: "Update Process",
-            data: null,
-            render: (data) => {
-              return `
-              <button class="text-white bg-green-500 px-2 py-1 rounded-sm" id="updateProcessBtn_${data?._id}">Update</button>
-`;
-            },
-          },
+
           {
             title: "Actions",
             data: null,
