@@ -1,5 +1,5 @@
 import VendorProfile from "../models/vendorProfileModel.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // Update Profile
@@ -17,7 +17,9 @@ export const updateProfile = async (req, res) => {
     );
     res.json({ vendor, message: "Profile updated successfully!" });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while updating the profile" });
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the profile" });
   }
 };
 
@@ -29,7 +31,8 @@ export const updatePassword = async (req, res) => {
 
     // Check if current password matches
     const match = await bcrypt.compare(currentPassword, vendor.password);
-    if (!match) return res.status(400).json({ error: "Current password is incorrect" });
+    if (!match)
+      return res.status(400).json({ error: "Current password is incorrect" });
 
     // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -39,7 +42,9 @@ export const updatePassword = async (req, res) => {
 
     res.json({ message: "Password updated successfully!" });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while updating the password" });
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the password" });
   }
 };
 
@@ -49,6 +54,8 @@ export const getVendorProfile = async (req, res) => {
     const vendor = await VendorProfile.findById(req.params.id);
     res.json(vendor);
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while fetching the profile" });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the profile" });
   }
 };

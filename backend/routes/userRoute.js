@@ -11,6 +11,7 @@ import {
   getSearch,
   updateUserPassword,
   testingGetAllUsersEncrypt,
+  testingLogin,
 } from "../controllers/userController.js";
 import { authMiddleware, authorize, protectMid } from "../middleware/Auth.js";
 
@@ -42,7 +43,13 @@ userRouter.get("/getEdit/:id", getEdit);
 userRouter.get("/userSearch", getSearch);
 userRouter.put("/updatePassword/:id", updateUserPassword);
 userRouter.get("/testingGetAllUsersEncrypt", testingGetAllUsersEncrypt);
+userRouter.post("/testingMultiLogin", testingLogin);
 
-userRouter.get("/testingMiddleware", protectMid, authorize("admin"), getAllUsers);
+userRouter.get(
+  "/testingMiddleware",
+  protectMid,
+  authorize("admin"),
+  getAllUsers
+);
 
 export default userRouter;

@@ -7,6 +7,7 @@ import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
 import generalSettingsModel from "../models/generalSettingsModel.js";
 import { encryptArray } from "../testing/cryptoTesting.js";
+import { useState } from "react";
 
 // Register
 const registerUser = async (req, res) => {
@@ -247,9 +248,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     res.json({ success: true, token: createToken(user._id) });
   } else {
-    res
-      .status(404)
-      .json({ success: false, msg: "Invalid Email or Password" });
+    res.status(404).json({ success: false, msg: "Invalid Email or Password" });
   }
 });
 
@@ -270,6 +269,43 @@ const testingGetAllUsersEncrypt = asyncHandler(async (req, res) => {
   res.status(200).json(encrypted || []);
 });
 
+const testingLogin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  console.log(email);
+  console.log(password);
+
+  const logistic1 = "http://localhost:4000/api/user/login";
+  const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
+
+  try {
+    const response = await axios.post(logistic1, { email, password });
+
+    return res.status(200).json({
+      msg: "Login successful with Logistic 1",
+      token: response.data.token,
+      portal: "Logistic 1",
+    });
+  } catch (error) {
+    console.log("Logistic 1 failed:", error.response?.data?.msg);
+  }
+
+  try {
+    const response = await axios.post(logistic2, { email, password });
+
+    return res.status(200).json({
+      msg: "Login successful with Logistic 2",
+      token: response.data.token,
+      portal: "Logistic 2",
+    });
+  } catch (error) {
+    console.log("Logistic 1 failed:", error.response?.data?.msg);
+  }
+
+  // If both fail
+  return res.status(401).json({ msg: "Invalid credentials for both systems." });
+});
+
 export {
   getUser,
   registerUser,
@@ -282,4 +318,5 @@ export {
   getSearch,
   updateUserPassword,
   testingGetAllUsersEncrypt,
+  testingLogin,
 };
