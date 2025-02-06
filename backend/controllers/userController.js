@@ -278,6 +278,7 @@ const testingLogin = asyncHandler(async (req, res) => {
   const logistic1 =
     "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
   const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
+  
 
   try {
     const response = await axios.post(logistic1, { email, password });

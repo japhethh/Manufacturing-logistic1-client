@@ -1,4 +1,4 @@
-import  { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -29,25 +29,28 @@ const Log = () => {
   };
 
   const onSubmit = async (data) => {
-    setLoading(true)
+    setLoading(true);
     console.log(data);
     if (!data.email || !data.password) {
       toast.warning("Please fill all fields");
       return;
     }
     try {
-      const response = await axios.post(`${apiURL}/api/user/testingMultiLogin`, data);
+      const response = await axios.post(
+        `${apiURL}/api/user/testingMultiLogin`,
+        data
+      );
       // Set token in context and localStorage
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
       window.location.href = response.data.redirectUrl;
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       toast.info(error.response?.data?.msg);
       console.log(error?.response?.data?.message);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 

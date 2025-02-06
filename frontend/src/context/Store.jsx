@@ -6,7 +6,7 @@ import axios from "axios";
 export const apiURL =
   window.location.hostname === "localhost"
     ? "http://localhost:4000"
-    : "https://backend-logistic1.jjm-manufacturing.com";
+    : "https://manufacturing-logistic1-client-api.onrender.com";
 
 const Store = create((set) => ({
   token: localStorage.getItem("token") || null,
