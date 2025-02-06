@@ -36,12 +36,12 @@ const Log = () => {
       return;
     }
     try {
-      const response = await axios.post(`${apiURL}/api/user/login`, data);
+      const response = await axios.post(`${apiURL}/api/user/testingMultiLogin`, data);
       // Set token in context and localStorage
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
-      window.location.href = "/";
+      window.location.href = response.data.redirectUrl;
       setLoading(false)
     } catch (error) {
       toast.info(error.response?.data?.msg);

@@ -8,7 +8,7 @@ import fs from "fs";
 import generalSettingsModel from "../models/generalSettingsModel.js";
 import { encryptArray } from "../testing/cryptoTesting.js";
 import { useState } from "react";
-
+import axios from "axios";
 // Register
 const registerUser = async (req, res) => {
   const { name, email, userName, password, phone, role, address, city } =
@@ -275,7 +275,8 @@ const testingLogin = asyncHandler(async (req, res) => {
   console.log(email);
   console.log(password);
 
-  const logistic1 = "http://localhost:4000/api/user/login";
+  const logistic1 =
+    "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
   const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
 
   try {
@@ -285,6 +286,8 @@ const testingLogin = asyncHandler(async (req, res) => {
       msg: "Login successful with Logistic 1",
       token: response.data.token,
       portal: "Logistic 1",
+      redirectUrl:
+        "https://manufacturing-logistic1-client-frontend.onrender.com/",
     });
   } catch (error) {
     console.log("Logistic 1 failed:", error.response?.data?.msg);
@@ -297,6 +300,7 @@ const testingLogin = asyncHandler(async (req, res) => {
       msg: "Login successful with Logistic 2",
       token: response.data.token,
       portal: "Logistic 2",
+      redirectUrl: "https://logistic2.jjm-manufacturing.com/dashboard",
     });
   } catch (error) {
     console.log("Logistic 1 failed:", error.response?.data?.msg);
