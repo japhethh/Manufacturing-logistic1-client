@@ -278,7 +278,6 @@ const testingLogin = asyncHandler(async (req, res) => {
   const logistic1 =
     "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
   const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
-  
 
   try {
     const response = await axios.post(logistic1, { email, password });
@@ -301,7 +300,7 @@ const testingLogin = asyncHandler(async (req, res) => {
       msg: "Login successful with Logistic 2",
       token: response.data.token,
       portal: "Logistic 2",
-      redirectUrl: "https://logistic2.jjm-manufacturing.com/",
+      redirectUrl: "https://logistic2.jjm-manufacturing.com/MainUser",
     });
   } catch (error) {
     console.log("Logistic 1 failed:", error.response?.data?.msg);
