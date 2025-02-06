@@ -301,7 +301,7 @@ const testingLogin = asyncHandler(async (req, res) => {
       msg: "Login successful with Logistic 2",
       token: response.data.token,
       portal: "Logistic 2",
-      redirectUrl: "https://logistic2.jjm-manufacturing.com/dashboard",
+      redirectUrl: "https://logistic2.jjm-manufacturing.com/",
     });
   } catch (error) {
     console.log("Logistic 1 failed:", error.response?.data?.msg);
