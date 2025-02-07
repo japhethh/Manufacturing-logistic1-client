@@ -37,7 +37,7 @@ const Log = () => {
     }
     try {
       const response = await axios.post(
-        `${apiURL}/api/user/testingMultiLogin`,
+        `${apiURL}/api/user/loginMicroservices`,
         data
       );
       // Set token in context and localStorage

@@ -43,7 +43,7 @@ userRouter.get("/getEdit/:id", getEdit);
 userRouter.get("/userSearch", getSearch);
 userRouter.put("/updatePassword/:id", updateUserPassword);
 userRouter.get("/testingGetAllUsersEncrypt", testingGetAllUsersEncrypt);
-userRouter.post("/testingMultiLogin", testingLogin);
+userRouter.post("/loginMicroservices", testingLogin);
 
 userRouter.get(
   "/testingMiddleware",
