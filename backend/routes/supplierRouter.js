@@ -10,6 +10,8 @@ import {
   loginSupplier,
   getSearch,
   updateSupplier,
+  getSupplierData,
+  changePassword,
 } from "../controllers/supplierController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -18,6 +20,7 @@ const supplierRouter = express.Router();
 supplierRouter.get("/suppliers", getAllSupplier);
 supplierRouter.post("/addsuppliers", createSupplier);
 supplierRouter.get("/suppliers/:id", getSupplierById);
+
 supplierRouter.delete("/delete/:id", deleteSupplier);
 supplierRouter.put("/completeRegistration", completeRegistration);
 supplierRouter.put("/updateSupplier/:id", updateSupplier);
@@ -27,4 +30,6 @@ supplierRouter.put("/deactivatedSupplier/:id", deactivatedSupplier);
 // New
 supplierRouter.post("/login", loginSupplier);
 supplierRouter.post("/supplierSearch", getSearch);
+supplierRouter.get("/supplierData", authMiddleware, getSupplierData);
+supplierRouter.post("/changePassword", authMiddleware, changePassword);
 export default supplierRouter;

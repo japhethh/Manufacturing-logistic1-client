@@ -275,19 +275,27 @@ const testingLogin = asyncHandler(async (req, res) => {
   console.log(email);
   console.log(password);
 
-  const logistic1 =
-    "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
+  // const logistic1 =
+  //   "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
+
+  const logistic1 = "http://localhost:4000/api/user/login";
   const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
 
   try {
     const response = await axios.post(logistic1, { email, password });
 
+    if (!response) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect Password" });
+    }
     return res.status(200).json({
       msg: "Login successful with Logistic 1",
       token: response.data.token,
       portal: "Logistic 1",
-      redirectUrl:
-        "https://manufacturing-logistic1-client-frontend.onrender.com/",
+      // redirectUrl:
+      //   "https://manufacturing-logistic1-client-frontend.onrender.com/",
+      redirectUrl: "http://localhost:5173",
     });
   } catch (error) {
     console.log("Logistic 1 failed:", error.response?.data?.msg);
@@ -295,6 +303,12 @@ const testingLogin = asyncHandler(async (req, res) => {
 
   try {
     const response = await axios.post(logistic2, { email, password });
+
+    if (!response) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect Password" });
+    }
 
     return res.status(200).json({
       msg: "Login successful with Logistic 2",

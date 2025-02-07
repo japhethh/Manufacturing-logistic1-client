@@ -320,6 +320,58 @@ const getSearch = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
+const getSupplierData = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const existSupplier = await supplierModel.findById(userId);
+
+  if (!existSupplier) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Supplier Id not found!" });
+  }
+
+  res.status(200).json(existSupplier);
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword, userId } = req.body;
+
+  // Validate inputs
+  if (!currentPassword || !newPassword || !userId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields are required." });
+  }
+
+  // Check if the supplier exists
+  const existSupplier = await supplierModel.findById(userId);
+  if (!existSupplier) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Supplier not found!" });
+  }
+
+  // Compare current password
+  const isMatch = await existSupplier.matchPassword(currentPassword);
+  if (!isMatch) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Incorrect current password." });
+  }
+
+  // Hash the new password
+  const salt = await bcryptjs.genSalt(10);
+  existSupplier.password = await bcryptjs.hash(newPassword, salt);
+
+  // Save the updated supplier
+  await existSupplier.save();
+
+  res
+    .status(200)
+    .json({ success: true, message: "Password changed successfully." });
+});
+
 export {
   getAllSupplier,
   getSupplierById,
@@ -331,4 +383,6 @@ export {
   deactivatedSupplier,
   loginSupplier,
   getSearch,
+  getSupplierData,
+  changePassword,
 };

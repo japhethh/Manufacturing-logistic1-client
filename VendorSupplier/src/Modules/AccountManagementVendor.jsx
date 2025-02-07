@@ -1,128 +1,187 @@
-import { useState } from "react";
-import { FiUser, FiMail, FiLock, FiTrash2 } from "react-icons/fi";
-import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { useState, useEffect } from "react";
+import { apiURL } from "../context/verifyStore";
+import verifyStore from "../context/verifyStore";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const AccountManagementVendor = () => {
-  const [username, setUsername] = useState("vendor_user");
-  const [email, setEmail] = useState("vendor@example.com");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [userRole, setUserRole] = useState("Standard User");
-  const [feedbackMessage, setFeedbackMessage] = useState("");
+export default function AccountManagement() {
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [supplierData, setSupplierData] = useState(null);
+  const [passwords, setPasswords] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
-  const handlePasswordChange = (e) => {
+  const { token } = verifyStore();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/api/supplier/supplierData`, {
+        headers: { token },
+      });
+      setSupplierData(response?.data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Error fetching data");
+    }
+  };
+
+  const handleChange = (e) => {
+    setPasswords({
+      ...passwords,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newPassword !== confirmPassword) {
-      setFeedbackMessage("New passwords do not match!");
+
+    console.log(passwords.confirmPassword);
+    console.log(passwords.newPassword);
+
+    if (passwords.newPassword !== passwords.confirmPassword) {
+      toast.error("New password and confirmation do not match");
       return;
     }
-    if (newPassword.length < 6) {
-      setFeedbackMessage("New password must be at least 6 characters long!");
-      return;
+
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/supplier/changePassword`,
+        {
+          currentPassword: passwords.currentPassword,
+          newPassword: passwords.newPassword,
+        },
+        { headers: { token: token } }
+      );
+
+      toast.success(response?.data?.message || "Password changed successfully");
+      setPasswords({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+      setShowPasswordForm(false);
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Failed to change password"
+      );
     }
-    setFeedbackMessage("Password changed successfully!");
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Account Management</h1>
-      {feedbackMessage && (
-        <div className="alert alert-info mb-4 p-4 bg-blue-100 text-blue-700 rounded-lg shadow-md">
-          {feedbackMessage}
+    <div className="p-8 bg-gray-100 min-h-screen">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <h1 className="text-2xl font-bold mb-6 text-blue-800">
+          Account Management
+        </h1>
+
+        {/* Vendor Information Section */}
+        <div className="bg-white p-6 rounded-2xl shadow-md mb-8">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Account Details
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <p>
+              <strong>Company:</strong> {supplierData?.supplierName}
+            </p>
+            <p>
+              <strong>Contact Person:</strong> {supplierData?.contactPerson}
+            </p>
+            <p>
+              <strong>Email:</strong> {supplierData?.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {supplierData?.contactPhone}
+            </p>
+            <p>
+              <strong>Street:</strong> {supplierData?.address?.street}
+            </p>
+            <p>
+              <strong>City:</strong> {supplierData?.address?.city}
+            </p>
+            <p>
+              <strong>State:</strong> {supplierData?.address?.state}
+            </p>
+            <p>
+              <strong>Zip Code:</strong> {supplierData?.address?.zipCode}
+            </p>
+            <p>
+              <strong>Country:</strong> {supplierData?.address?.country}
+            </p>
+            <p>
+              <strong>Status:</strong> {supplierData?.status}
+            </p>
+          </div>
         </div>
-      )}
-      <div className="mb-6 bg-white shadow-lg p-6 border border-gray-200 rounded-xl">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Account Details</h2>
-        <div className="mb-4 flex items-center gap-2">
-          <FiUser className="text-gray-500" />
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="input input-bordered w-full bg-gray-50"
-            placeholder="Enter your username"
-          />
-        </div>
-        <div className="mb-4 flex items-center gap-2">
-          <FiMail className="text-gray-500" />
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="input input-bordered w-full bg-gray-50"
-            placeholder="Enter your email"
-          />
-        </div>
-        <div className="mb-4 flex items-center gap-2">
-          <MdOutlineAdminPanelSettings className="text-gray-500" />
-          <select
-            value={userRole}
-            onChange={(e) => setUserRole(e.target.value)}
-            className="select select-bordered w-full bg-gray-50"
+
+        {/* Account Actions */}
+        <div className="bg-white p-6 rounded-2xl shadow-md">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Account Actions
+          </h2>
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 mb-4"
+            onClick={() => setShowPasswordForm(!showPasswordForm)}
           >
-            <option>Standard User</option>
-            <option>Admin</option>
-            <option>Viewer</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="mb-6 bg-white shadow-lg p-6 border border-gray-200 rounded-xl">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Change Password</h2>
-        <form onSubmit={handlePasswordChange} className="space-y-4">
-          <div className="flex items-center gap-2">
-            <FiLock className="text-gray-500" />
-            <input
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="input input-bordered w-full bg-gray-50"
-              placeholder="Enter your current password"
-              required
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <FiLock className="text-gray-500" />
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="input input-bordered w-full bg-gray-50"
-              placeholder="Enter a new password"
-              required
-            />
-          </div>
-          <p className="text-sm text-gray-500">At least 6 characters long</p>
-          <div className="flex items-center gap-2">
-            <FiLock className="text-gray-500" />
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="input input-bordered w-full bg-gray-50"
-              placeholder="Confirm your new password"
-              required
-            />
-          </div>
-          <button type="submit" className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            Change Password
+            {showPasswordForm ? "Cancel Password Change" : "Change Password"}
           </button>
-        </form>
-      </div>
 
-      <div className="mb-6 bg-white shadow-lg p-6 border border-gray-200 rounded-xl">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Account Actions</h2>
-        <button className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700">
-          <FiTrash2 /> Delete Account
-        </button>
-        <p className="text-sm text-red-500 mt-2">Note: This action cannot be undone.</p>
+          {/* Password Form */}
+          {showPasswordForm && (
+            <form onSubmit={handleSubmit} className="mt-4">
+              <div className="mb-4">
+                <label className="block text-gray-700">Current Password</label>
+                <input
+                  type="password"
+                  name="currentPassword"
+                  value={passwords.currentPassword}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="Enter your current password"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">New Password</label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={passwords.newPassword}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="Enter a new password"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={passwords.confirmPassword}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="Confirm your new password"
+                  required
+                />
+              </div>
+              <button
+                className="bg-green-600 text-white px-4 py-2 rounded-xl shadow hover:bg-green-700"
+                type="submit"
+              >
+                Save Changes
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );
-};
-
-export default AccountManagementVendor;
+}

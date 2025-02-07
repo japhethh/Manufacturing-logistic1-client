@@ -47,6 +47,7 @@ import TrackingOrdersPending from "./Components/TrackingOrders/TrackingOrdersPen
 import TrackingOrdersDelired from "./Components/TrackingOrders/TrackingOrdersDelivered.jsx";
 import TrackingOrdersDelivered from "./Components/TrackingOrders/TrackingOrdersDelivered.jsx";
 import ProfileVendor from "./Components/ProfileVendor/ProfileVendor.jsx";
+import AuditLogVendor from "./Components/AuditLog/AuditLogVendor.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -233,6 +234,7 @@ const App = () => {
               element={<OrderDetailPage />}
             />
             <Route path="/ProfileVendor" element={<ProfileVendor />} />
+            <Route path="/AuditLogs" element={<AuditLogVendor />} />
           </Routes>
         </div>
       </div>
