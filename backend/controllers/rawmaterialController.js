@@ -170,6 +170,12 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Raw material not found!" });
   }
 
+  if (existRawmaterial?.requestStatus === "Approved") {
+    return res
+      .status(400)
+      .json({ success: false, message: "This request is already approved!" });
+  }
+
   const newAuditLog = new AuditLog({
     eventTypes: status,
     entityType: "RawmaterialRequest",
@@ -183,6 +189,7 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
   });
 
   await newAuditLog.save();
+
   const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
     approvedBy: userId,
     requestStatus: status,

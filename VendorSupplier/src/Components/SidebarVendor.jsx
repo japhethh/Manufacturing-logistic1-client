@@ -16,6 +16,7 @@ import { MdSpatialTracking } from "react-icons/md";
 import { BsClipboardCheckFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { AiFillProduct } from "react-icons/ai";
+import { AiOutlineAudit } from "react-icons/ai";
 
 const SidebarVendor = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -66,10 +67,15 @@ const SidebarVendor = () => {
       label: "Communication",
       to: "/communicationvendor",
     },
+    // {
+    //   icon: <FaUserCog className="text-2xl" />,
+    //   label: "Account Management",
+    //   to: "/accountmanagementvendor",
+    // },
     {
-      icon: <FaUserCog className="text-2xl" />,
-      label: "Account Management",
-      to: "/accountmanagementvendor",
+      icon: <AiOutlineAudit className="text-2xl" />,
+      label: "auditLogs",
+      to: "/auditLogs",
     },
   ];
 
@@ -143,7 +149,7 @@ const SidebarVendor = () => {
         {/* Profile Link at the Bottom */}
         <div className="mt-auto border-t pt-4">
           <NavLink
-            to="/ProfileVendor"
+            to="/accountmanagementvendor"
             className={({ isActive }) =>
               `flex items-center px-4 py-3 rounded-md transition duration-200 
               ${

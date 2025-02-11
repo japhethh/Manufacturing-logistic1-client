@@ -92,7 +92,7 @@ tensorflowDf.post(
       }
 
       // Log the calculated next month and year (for debugging)
-      console.log(`Next Month: ${nextMonth}, Next Year: ${nextYear}`);
+      console.log(`Next Month: ${nextMonth}, Next Year: ${nextYear}`);  
 
       // Validate request body - here, we won't need month/year from the body anymore
       // const { month, year } = req.body; // This part is now removed

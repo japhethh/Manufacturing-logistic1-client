@@ -39,9 +39,9 @@ const RawMaterialRequest = () => {
       data: requests,
       columns: [
         {
-          title:"Raw Material Number #",
+          title: "Raw Material Number #",
           data: "_id",
-          render: (data) => `${data ? data : `<span>${data}</span>`}` 
+          render: (data) => `${data ? data : `<span>${data}</span>`}`,
         },
         {
           title: "Reference",
@@ -95,6 +95,7 @@ const RawMaterialRequest = () => {
               Rejected: "bg-red-200 text-red-800",
               Pending: "bg-gray-200 text-gray-800",
             };
+
             return `
               <div class="flex justify-center">
                 <button class="py-1 px-2 rounded-full ${
@@ -110,22 +111,36 @@ const RawMaterialRequest = () => {
           title: "Action",
           data: null,
           render: (data) => {
+            const requestStatus = data?.requestStatus;
+            const isProcessed =
+              requestStatus === "Approved" || requestStatus === "Rejected";
+
             return `
               <div class="py-2 px-4 flex gap-2">
                 ${
                   userData?.role === "admin" || userData?.role === "superAdmin"
                     ? `
                       <button
-                        class="bg-blue-500 hover:bg-blue-600 duration-150 font-semibold text-white px-4 py-2 rounded"
-                        id="approveBtn_${data._id}"
+                        class="px-3 py-1 text-sm font-medium rounded ${
+                          isProcessed
+                            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }"
+                        id="approveBtn_${data._id}" 
+                        ${isProcessed ? "disabled" : ""}
                       >
-                        Approve
+                        ${requestStatus === "Approved" ? "Approved" : "Approve"}
                       </button>
                       <button
-                        class="bg-red-500 hover:bg-red-600 duration-150 font-semibold text-white px-4 py-2 rounded"
+                        class="px-3 py-1 text-sm font-medium rounded ${
+                          isProcessed
+                            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                            : "bg-red-500 text-white hover:bg-red-600"
+                        }"
                         id="rejectBtn_${data._id}"
+                        ${isProcessed ? "disabled" : ""}
                       >
-                        Reject
+                        ${requestStatus === "Rejected" ? "Rejected" : "Reject"}
                       </button>
                     `
                     : ""
@@ -134,13 +149,14 @@ const RawMaterialRequest = () => {
                   userData?.role === "superAdmin"
                     ? `
                       <button
-                        class="bg-green-500 font-semibold text-white px-4 py-2 rounded"
-                        id="createPOBtn_${data._id}"
+                        class="font-semibold text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
+                        id="createPOBtn  _${data._id}"
+                        ${isProcessed ? "" : ""}
                       >
                         Create PO
                       </button>
                       <button
-                        class="bg-white-500 border border-red-500 font-semibold text-red-500 px-4 py-2 rounded"
+                        class="bg-white border border-red-500 font-semibold text-red-500 px-4 py-2 rounded hover:bg-red-100"
                         id="deleteBtn_${data._id}"
                       >
                         Delete
@@ -202,6 +218,7 @@ const RawMaterialRequest = () => {
     setDataId(id);
     setApproveModalOpen(true);
   };
+
   const confirmApprove = async () => {
     try {
       await axios.put(
@@ -215,7 +232,7 @@ const RawMaterialRequest = () => {
       setApproveModalOpen(false);
       toast.success("Raw Material Request Approved.");
     } catch (error) {
-      toast.error("Failed to delete request.");
+      toast.error(error?.response.data.message);
     } finally {
       setModalOpen(false);
     }

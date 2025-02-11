@@ -17,7 +17,7 @@ const AuditLogVendor = () => {
   const fetchAuditLog = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${apiURL}/api/auditLogisticLog`, {
+      const response = await axios.get(`${apiURL}/api/auditVendorLog`, {
         headers: { token: token },
       });
 
@@ -38,7 +38,8 @@ const AuditLogVendor = () => {
         {
           title: "Timestamp",
           data: "createdAt",
-          render: (data) => `${data ? data : "N/A"}`,
+          render: (data) =>
+            `${data ? new Date(data).toLocaleDateString() : "N/A"}`,
         },
         {
           title: "Actor",
@@ -53,6 +54,11 @@ const AuditLogVendor = () => {
         {
           title: "Entity Type",
           data: "entityType",
+          render: (data) => `${data ? data : "N/A"}`,
+        },
+        {
+          title: "Supplier Name",
+          data: "performeBy.supplierName",
           render: (data) => `${data ? data : "N/A"}`,
         },
       ],

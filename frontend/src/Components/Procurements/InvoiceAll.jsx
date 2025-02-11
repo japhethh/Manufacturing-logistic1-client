@@ -35,6 +35,8 @@ const InvoiceAll = () => {
       setLoading(false);
     } catch (error) {
       console.log(error?.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -280,6 +282,14 @@ const InvoiceAll = () => {
       table.destroy();
     };
   }, [invoiceData]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full w-full">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="p-5">

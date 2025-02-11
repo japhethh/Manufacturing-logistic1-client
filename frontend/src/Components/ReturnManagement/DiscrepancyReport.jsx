@@ -13,6 +13,7 @@ const DiscrepancyReport = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [modalType, setModalType] = useState("");
+  const [loading, setLoading] = useState(false);
   const [editCategory, setEditCategory] = useState({
     category_name: "",
     category_code: "",
@@ -24,14 +25,18 @@ const DiscrepancyReport = () => {
   const isSuperAdmin = userData?.role === "superAdmin";
 
   const fetchDiscrepancyReport = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${apiURL}/api/defect/vendor`, {
         headers: { token: token },
       });
       setDiscrepancyData(response.data);
       console.log(response.data);
+      setLoading(false);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error fetching data");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,6 +122,14 @@ const DiscrepancyReport = () => {
       toast.error(error?.response?.data?.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full w-full">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-base-200 h-auto w-full p-5">

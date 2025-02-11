@@ -56,6 +56,7 @@ import discrepancyTest from "./Ai/testing/discripancyTest.js";
 import discrepancyDetectionFinalRouter from "./Ai/DiscrepancyDetection/discrepancyDetectionRouter.js";
 import trackingOrderHistoryRouter from "./routes/trackingOrderHistoryRouter.js";
 import auditLogisticRouter from "./routes/auditLogisticRouter.js";
+import auditVendorRouter from "./routes/auditVendorRouter.js";
 
 const port = process.env.PORT || 4000;
 
@@ -133,6 +134,7 @@ app.use("/api/discrepancyDetectionFinal", discrepancyDetectionFinalRouter);
 app.use("/api/trackingOrdersHistory", trackingOrderHistoryRouter);
 app.use("/api/auditLogisticLog", auditLogisticRouter);
 app.use("/api/vendorProfile", vendorProfileRouter);
+app.use("/api/auditVendorLog", auditVendorRouter);
 
 // Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);

@@ -12,7 +12,12 @@ const getAllAuditLogLogistic = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "User Id not found!" });
   }
 
-  const auditLog = await AuditSupplierLog.find({});
+  const auditLog = await AuditSupplierLog.find({ performeBy: userId }).populate(
+    {
+      path: "performeBy",
+      select: "supplierName",
+    }
+  );
   if (!auditLog) {
     return res
       .status(404)
