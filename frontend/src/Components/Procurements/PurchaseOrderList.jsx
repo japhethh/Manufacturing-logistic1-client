@@ -54,22 +54,22 @@ const PurchaseOrderList = () => {
 
             switch (orderStatus) {
               case "Pending":
-                statusClass = "bg-blue-100 text-blue-800"; // Light blue for Pending
+                statusClass = "bg-blue-100 text-blue-800 font-Roboto"; // Light blue for Pending
                 break;
               case "Approved":
-                statusClass = "bg-green-100 text-green-800"; // Light green for Approved
+                statusClass = "bg-green-100 text-green-800 font-Roboto"; // Light green for Approved
                 break;
               case "In Process":
-                statusClass = "bg-yellow-100 text-yellow-800"; // Light yellow for In Process
+                statusClass = "bg-yellow-100 text-yellow-800 font-Roboto"; // Light yellow for In Process
                 break;
               case "Completed":
-                statusClass = "bg-[#6241FF] text-white"; // Light orange for Shipped
+                statusClass = "bg-[#6241FF] text-white font-Roboto"; // Light orange for Shipped
                 break;
               case "Delivered":
-                statusClass = "bg-gray-100 text-gray-800"; // Light gray for Delivered
+                statusClass = "bg-gray-100 text-gray-800 font-Roboto"; // Light gray for Delivered
                 break;
               default:
-                statusClass = "bg-gray-200 text-gray-800"; // Default for unknown status
+                statusClass = "bg-gray-200 text-gray-800 font-Roboto"; // Default for unknown status
                 break;
             }
 
@@ -85,25 +85,25 @@ const PurchaseOrderList = () => {
 
             switch (orderStatus) {
               case "Pending":
-                statusClass = "bg-blue-100 text-blue-800"; // Light blue for Pending
+                statusClass = "bg-blue-100 text-blue-800 font-Roboto"; // Light blue for Pending
                 break;
               case "On process":
-                statusClass = "bg-orange-200 text-orange-800";
+                statusClass = "bg-orange-200 text-orange-800 font-Roboto";
                 break;
               case "Approved":
-                statusClass = "bg-green-100 text-green-800"; // Light green for Approved
+                statusClass = "bg-green-100 text-green-800 font-Roboto"; // Light green for Approved
                 break;
               case "Rejected":
-                statusClass = "bg-red-100 text-yellow-800"; // Light yellow for In Process
+                statusClass = "bg-red-100 text-yellow-800 font-Roboto"; // Light yellow for In Process
                 break;
               case "Shipped":
-                statusClass = "bg-orange-100 text-orange-800"; // Light orange for Shipped
+                statusClass = "bg-orange-100 text-orange-800 font-Roboto"; // Light orange for Shipped
                 break;
               case "Delivered":
-                statusClass = "bg-gray-100 text-gray-800"; // Light gray for Delivered
+                statusClass = "bg-gray-100 text-gray-800 font-Roboto"; // Light gray for Delivered
                 break;
               default:
-                statusClass = "bg-gray-200 text-gray-800"; // Default for unknown status
+                statusClass = "bg-gray-200 text-gray-800 font-Roboto"; // Default for unknown status
                 break;
             }
 
@@ -114,7 +114,7 @@ const PurchaseOrderList = () => {
           title: "Pdf",
           data: null,
           render: (data) =>
-            `<a class="text-blue-500 italic hover:text-blue-700 duration-100 underline" href="${
+            `<a class="text-blue-500 italic hover:text-blue-700 font-Roboto duration-100 underline" href="${
               data?.pdfURL ? data?.pdfURL : "N/A"
             }" target="_blank">Download PDF</a>`,
         },
@@ -129,7 +129,7 @@ const PurchaseOrderList = () => {
                 (userData?.role === "admin") | (userData?.role === "superAdmin")
                   ? ` <button
               id="detailsBtn_${data?._id}"
-              class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 duration-150 transition text-sm"
+              class=" bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 duration-150 transition text-sm font-Roboto"
               onclick="window.location.href='/purchase_orders/view_po/${data._id}'"
             >
               <span class="inline text-lg"><i class="fa fa-eye text-sm"></i></span>
@@ -139,7 +139,7 @@ const PurchaseOrderList = () => {
              ${
                userData?.role === "superAdmin"
                  ? `<button
-                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 duration-150 transition text-sm"
+                  class="bg-red-500 text-white font-Roboto px-3 py-1 rounded hover:bg-red-600 duration-150 transition text-sm"
                   id="deleteBtn_${data?._id}"
                 >
                   <span class="inline text-lg"><i class="fa fa-trash text-sm"></i></span>
@@ -214,9 +214,9 @@ const PurchaseOrderList = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Purchase Orders</h1>
+        <h1 className="text-3xl font-bold font-Roboto">Purchase Orders</h1>
         <button
-          className="bg-blue-600 hover:bg-blue-700 duration-150 text-white font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[135px] md:w-[220px] lg:w-[220px]"
+          className="bg-blue-600 hover:bg-blue-700 duration-150 text-white font-Roboto font-semibold text-xs md:text-md lg:text-base px-4 py-2 rounded-md w-[135px] md:w-[220px] lg:w-[220px]"
           onClick={() => navigate("/createpurchaseorder")}
         >
           + Create Purchase Order
@@ -354,14 +354,14 @@ const PurchaseOrderList = () => {
         </table> */}
 
         <table className="table display" id="myTable">
-          <thead className="bg-blue-800 text-white"></thead>
+          <thead className="bg-blue-800 text-white font-Roboto"></thead>
         </table>
       </div>
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold">Confirm Deletion</h3>
+            <h3 className="text-lg font-semibold font-Roboto">Confirm Deletion</h3>
             <p>Are you sure you want to delete this purchase order?</p>
             <div className="mt-4 flex justify-end space-x-2">
               <button
@@ -371,7 +371,7 @@ const PurchaseOrderList = () => {
                 Cancel
               </button>
               <button
-                className="bg-red-600 hover:bg-red-700 duration-150 text-white px-4 py-2 rounded"
+                className="bg-red-600 hover:bg-red-700 duration-150 text-white font-Roboto px-4 py-2 rounded"
                 onClick={deletePurchaseOrder}
               >
                 Delete
