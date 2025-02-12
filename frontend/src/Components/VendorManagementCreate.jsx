@@ -42,49 +42,49 @@ const VendorManagementCreate = () => {
           title: "Supplier Code",
           data: "supplierCode",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "First Name",
           data: "firstName",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Last Name",
           data: "lastName",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Supplier Name",
           data: "supplierName",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Email",
           data: "email",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Contact Phone",
           data: "contactPhone",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Rating",
           data: "rating",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Status",
           data: "status",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Updated At",
@@ -102,7 +102,7 @@ const VendorManagementCreate = () => {
             <button
                 id="viewBtn_${
                   row._id
-                }" class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
+                }" class="bg-blue-700 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer"
                 aria-label="View Supplier"
               >
                 <i class="fas fa-eye"></i>
@@ -112,7 +112,7 @@ const VendorManagementCreate = () => {
                 ? `
               <button
                 id="updateBtn_${row._id}"
-                class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
+                class="bg-blue-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer"
                 aria-label="Edit Supplier"
               >
                               <i class="fas fa-edit"></i>
@@ -120,7 +120,7 @@ const VendorManagementCreate = () => {
               </button>
               <button
                 id="deleteBtn_${row._id}"
-                class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer"
+                class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer"
                 aria-label="Delete Supplier"
               >
                 <i class="fas fa-trash-alt"></i>
@@ -244,7 +244,7 @@ const VendorManagementCreate = () => {
     return (
       <div className="h-screen w-full flex justify-center items-center">
         <div>
-          <h1 className="text-black font-bold text-5xl">Loading</h1>
+          <h1 className="text-black font-bold text-5xl font-Roboto">Loading</h1>
         </div>
       </div>
     );
@@ -300,24 +300,28 @@ const VendorManagementCreate = () => {
         {showModal && modalType === "delete" && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-lg p-5 w-1/3">
-              <h3 className="text-lg font-bold">Vendor</h3>
-              <p className="py-4">
+              <h3 className="text-lg font-bold font-Roboto">Vendor</h3>
+              <p className="py-4 font-Roboto">
                 Are you sure you want to{" "}
-                <span className="text-red-500 font-bold">delete</span> the
-                category{" "}
-                <span className="font-bold">{selectedData?.supplierName}</span>?
-                This action cannot be undone and will permanently remove the
+                <span className="text-red-500 font-Roboto font-bold">
+                  delete
+                </span>{" "}
+                the category{" "}
+                <span className="font-bold font-Roboto">
+                  {selectedData?.supplierName}
+                </span>
+                ? This action cannot be undone and will permanently remove the
                 category from the system.
               </p>
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => handleDelete(selectedData._id)}
-                  className="btn btn-error btn-md text-white"
+                  className="btn btn-error btn-md text-white font-Roboto"
                 >
                   Confirm
                 </button>
                 <button
-                  className="btn btn-outline btn-error btn-md text-white"
+                  className="btn btn-outline btn-error btn-md text-white font-Roboto"
                   onClick={() => {
                     setSelectedData(null); // Reset selectedData on cancel
                     setShowModal(false); // Close modal
@@ -332,14 +336,15 @@ const VendorManagementCreate = () => {
         {showModal && modalType === "edit" && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-lg p-5 w-4/6">
-              <h3>Vendor Edit</h3>
+              <h3 className="font-Roboto">Vendor Edit</h3>
               <div>
                 <form onSubmit={onSubmit}>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {/* Supplier Code */}
                     <div>
                       <label className="block mb-2">
-                        Supplier Code <span className="text-red-500">*</span>
+                        Supplier Code{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -358,7 +363,8 @@ const VendorManagementCreate = () => {
                     {/* Supplier Name */}
                     <div>
                       <label className="block mb-2">
-                        Supplier Name <span className="text-red-500">*</span>
+                        Supplier Name{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -377,7 +383,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Contact Person <span className="text-red-500">*</span>
+                        Contact Person{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -396,7 +403,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Contact Email <span className="text-red-500">*</span>
+                        Contact Email{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -414,7 +422,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Contact Phone <span className="text-red-500">*</span>
+                        Contact Phone{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -432,7 +441,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Gender <span className="text-red-500">*</span>
+                        Gender{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -448,7 +458,7 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        City <span className="text-red-500">*</span>
+                        City <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -466,7 +476,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Country <span className="text-red-500">*</span>
+                        Country{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -484,7 +495,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Address <span className="text-red-500">*</span>
+                        Address{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -502,7 +514,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Payment Term <span className="text-red-500">*</span>
+                        Payment Term{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -520,7 +533,8 @@ const VendorManagementCreate = () => {
                     {/* Contact Person */}
                     <div>
                       <label className="block mb-2">
-                        Company Website <span className="text-red-500">*</span>
+                        Company Website{" "}
+                        <span className="text-red-500 font-Roboto">*</span>
                       </label>
                       <input
                         type="text"
@@ -541,12 +555,12 @@ const VendorManagementCreate = () => {
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => handleEdit(selectedData._id)}
-                  className="btn btn-info btn-md text-white"
+                  className="btn btn-info btn-md text-white font-Roboto"
                 >
                   Confirm
                 </button>
                 <button
-                  className="btn btn-outline btn-error btn-md text-white"
+                  className="btn btn-outline btn-error btn-md text-white font-Roboto"
                   onClick={() => {
                     setSelectedData(null); // Reset selectedData on cancel
                     setShowModal(false); // Close modal
@@ -571,13 +585,13 @@ const VendorManagementCreate = () => {
               <div>
                 <h2
                   id="supplier-modal-title"
-                  className="text-2xl font-bold mb-6 text-gray-900"
+                  className="text-2xl font-bold mb-6 text-gray-900 font-Roboto"
                 >
                   Supplier Information
                 </h2>
                 {/* Supplier Name and Code */}
                 <div className="mb-6 border-b border-gray-200 pb-4">
-                  <p className="text-lg font-medium text-gray-800">
+                  <p className="text-lg font-medium text-gray-800 font-Roboto">
                     Supplier Name:{" "}
                     <span className="text-gray-600 font-normal">
                       {selectedData?.supplierName || "Not Provided"}
@@ -596,20 +610,26 @@ const VendorManagementCreate = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Contact Information */}
                 <div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 font-Roboto">
                     Contact Information
                   </h3>
                   <div className="space-y-2">
                     <p className="text-gray-800">
-                      <span className="font-medium">Contact Person:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Contact Person:
+                      </span>{" "}
                       {selectedData?.contactPerson || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Contact Email:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Contact Email:
+                      </span>{" "}
                       {selectedData?.email || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Contact Phone:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Contact Phone:
+                      </span>{" "}
                       {selectedData?.contactPhone || "N/A"}
                     </p>
                   </div>
@@ -617,28 +637,28 @@ const VendorManagementCreate = () => {
 
                 {/* Address */}
                 <div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 font-Roboto">
                     Address
                   </h3>
                   <div className="space-y-2">
                     <p className="text-gray-800">
-                      <span className="font-medium">Street:</span>{" "}
+                      <span className="font-medium font-Roboto">Street:</span>{" "}
                       {selectedData?.address?.street || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">City:</span>{" "}
+                      <span className="font-medium font-Roboto">City:</span>{" "}
                       {selectedData?.address?.city || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">State:</span>{" "}
+                      <span className="font-medium font-Roboto">State:</span>{" "}
                       {selectedData?.address?.state || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Country:</span>{" "}
+                      <span className="font-medium font-Roboto">Country:</span>{" "}
                       {selectedData?.address?.country || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Zip Code:</span>{" "}
+                      <span className="font-medium font-Roboto">Zip Code:</span>{" "}
                       {selectedData?.address?.zipCode || "N/A"}
                     </p>
                   </div>
@@ -646,24 +666,28 @@ const VendorManagementCreate = () => {
 
                 {/* Additional Information */}
                 <div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 font-Roboto">
                     Additional Information
                   </h3>
                   <div className="space-y-2">
                     <p className="text-gray-800">
-                      <span className="font-medium">Company Website:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Company Website:
+                      </span>{" "}
                       {selectedData?.companyWebsite || "Not Provided"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Payment Terms:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Payment Terms:
+                      </span>{" "}
                       {selectedData?.paymentTerms || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Rating:</span>{" "}
+                      <span className="font-medium font-Roboto">Rating:</span>{" "}
                       {selectedData?.rating || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Status:</span>{" "}
+                      <span className="font-medium font-Roboto">Status:</span>{" "}
                       {selectedData?.status || "N/A"}
                     </p>
                   </div>
@@ -671,24 +695,28 @@ const VendorManagementCreate = () => {
 
                 {/* Account Information */}
                 <div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 font-Roboto">
                     Account Information
                   </h3>
                   <div className="space-y-2">
                     <p className="text-gray-800">
-                      <span className="font-medium">Email:</span>{" "}
+                      <span className="font-medium font-Roboto">Email:</span>{" "}
                       {selectedData?.contactEmail || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">First Name:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        First Name:
+                      </span>{" "}
                       {selectedData?.firstName || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Last Name:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Last Name:
+                      </span>{" "}
                       {selectedData?.lastName || "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Gender:</span>{" "}
+                      <span className="font-medium font-Roboto">Gender:</span>{" "}
                       {selectedData?.gender || "N/A"}
                     </p>
                   </div>
@@ -696,18 +724,22 @@ const VendorManagementCreate = () => {
 
                 {/* Timestamps */}
                 <div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 font-Roboto">
                     Timestamps
                   </h3>
                   <div className="space-y-2">
                     <p className="text-gray-800">
-                      <span className="font-medium">Created At:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Created At:
+                      </span>{" "}
                       {selectedData?.createdAt
                         ? new Date(selectedData.createdAt).toLocaleString()
                         : "N/A"}
                     </p>
                     <p className="text-gray-800">
-                      <span className="font-medium">Updated At:</span>{" "}
+                      <span className="font-medium font-Roboto">
+                        Updated At:
+                      </span>{" "}
                       {selectedData?.updatedAt
                         ? new Date(selectedData.updatedAt).toLocaleString()
                         : "N/A"}
@@ -719,7 +751,7 @@ const VendorManagementCreate = () => {
               {/* Action Buttons */}
               <div className="flex justify-end gap-4 mt-6">
                 <button
-                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg shadow-md transition-all"
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-Roboto rounded-lg shadow-md transition-all"
                   onClick={() => {
                     setSelectedData(null);
                     setShowModal(false);
