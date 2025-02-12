@@ -71,7 +71,7 @@ const Sidebar = () => {
         aria-label="Dashboard Logo"
       >
         <img src={vendor} alt="Dashboard logo" className="w-16 rounded-full" />
-        {!isCollapsed && <p className="text-xl font-bold">Dashboard</p>}
+        {!isCollapsed && <p className="text-xl font-bold font-Roboto">Dashboard</p>}
       </div>
 
       {/* Sidebar scrollable content */}
@@ -96,7 +96,7 @@ const Sidebar = () => {
               }`}
             />
             {!isCollapsed && (
-              <p className="text-base font-semibold">Dashboard</p>
+              <p className="text-base font-semibold font-Roboto">Dashboard</p>
             )}
           </div>
         </Link>
@@ -113,7 +113,7 @@ const Sidebar = () => {
               }`}
             />
             {!isCollapsed && (
-              <p className="text-base font-semibold">Messages</p>
+              <p className="text-base font-semibold font-Roboto">Messages</p>
             )}
           </div>
         </Link>
@@ -386,7 +386,7 @@ const Sidebar = () => {
         {/* APPS SECTION */}
         <div className="mb-2 ">
           <p
-            className={`text-gray-500 mt-3 font-semibold text-base ${
+            className={`text-gray-500 mt-3 font-semibold font-Roboto text-base ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -417,7 +417,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">
+                  <span className="text-base font-semibold font-Roboto">
                     Purchase Requisitions
                   </span>
                 )}
@@ -447,7 +447,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">
+                  <span className="text-base font-semibold font-Roboto">
                     Vendor Management
                   </span>
                 )}
@@ -468,7 +468,7 @@ const Sidebar = () => {
                     }`}
                   />
                   {!isCollapsed && (
-                    <span className="text-base font-semibold mr-auto">
+                    <span className="text-base font-semibold mr-auto font-Roboto">
                       Purchase Orders
                     </span>
                   )}
@@ -487,7 +487,7 @@ const Sidebar = () => {
               }`
                       }
                     >
-                      <span className="text-base">Purchase Order List</span>
+                      <span className="text-base font-Roboto">Purchase Order List</span>
                     </NavLink>
                   </li>
                   {/* CREATE PURCHASE ORDERS */}
@@ -503,7 +503,7 @@ const Sidebar = () => {
               }`
                       }
                     >
-                      <span className="text-base">Create Purchase Order</span>
+                      <span className="text-base font-Roboto">Create Purchase Order</span>
                     </NavLink>
                   </li>
                   {/* TRACK ORDERS */}
@@ -519,7 +519,7 @@ const Sidebar = () => {
               }`
                       }
                     >
-                      <span className="text-base">Track Orders</span>
+                      <span className="text-base font-Roboto">Track Orders</span>
                     </NavLink>
                   </li>
                 </ul>
@@ -549,7 +549,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">Invoice</span>
+                  <span className="text-base font-semibold font-Roboto">Invoice</span>
                 )}
               </NavLink>
             </li>
@@ -576,7 +576,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">Payment</span>
+                  <span className="text-base font-semibold font-Roboto">Payment</span>
                 )}
               </NavLink>
             </li>
@@ -585,7 +585,7 @@ const Sidebar = () => {
             <div>
               {/* ACCOUNT MANAGEMENT */}
               <p
-                className={`text-gray-500 font-semibold text-base ${
+                className={`text-gray-500 font-semibold font-Roboto text-base ${
                   isCollapsed ? "hidden" : ""
                 }`}
               >
@@ -602,7 +602,7 @@ const Sidebar = () => {
                         }`}
                       />
                       {!isCollapsed && (
-                        <span className="ml-2 text-base font-semibold mr-auto">
+                        <span className="ml-2 text-base font-semibold font-Roboto mr-auto">
                           User Management
                         </span>
                       )}
@@ -617,7 +617,7 @@ const Sidebar = () => {
                               : "text-black"
                           }
                         >
-                          <p className="text-base">View All Accounts</p>
+                          <p className="text-base font-Roboto">View All Accounts</p>
                         </NavLink>
                       </li>
 
@@ -630,7 +630,7 @@ const Sidebar = () => {
                               : "text-black"
                           }
                         >
-                          <p className="text-base">Account Request</p>
+                          <p className="text-base font-Roboto">Account Request</p>
                         </NavLink>
                       </li>
                     </ul>
@@ -653,7 +653,7 @@ const Sidebar = () => {
                         }`}
                       />
                       {!isCollapsed && (
-                        <span className="ml-2 text-base font-semibold mr-auto">
+                        <span className="ml-2 text-base font-semibold font-Roboto mr-auto">
                           Settings
                         </span>
                       )}
@@ -669,7 +669,7 @@ const Sidebar = () => {
                           }
                         >
                           <LuSettings2 className="inline" />{" "}
-                          <p className="text-base">System Settings</p>
+                          <p className="text-base font-Roboto">System Settings</p>
                         </NavLink>
                       </li>
                     </ul>
@@ -681,7 +681,7 @@ const Sidebar = () => {
 
           {/* RETURN MANAGEMENT */}
           <p
-            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
+            className={`text-gray-500 mt-3 font-semibold font-Roboto text-base mr-auto ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -711,7 +711,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">
+                  <span className="text-base font-semibold font-Roboto">
                     Discrepancy Reports
                   </span>
                 )}
@@ -721,7 +721,7 @@ const Sidebar = () => {
 
           {/* AUDIT MANAGEMENT */}
           <p
-            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
+            className={`text-gray-500 mt-3 font-semibold font-Roboto text-base mr-auto ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -751,7 +751,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">Audit Logs</span>
+                  <span className="text-base font-semibold font-Roboto">Audit Logs</span>
                 )}
               </NavLink>
             </li>
@@ -779,7 +779,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">
+                  <span className="text-base font-semibold font-Roboto">
                     Return Authorization
                   </span>
                 )}
@@ -788,7 +788,7 @@ const Sidebar = () => {
           </ul>
           {/* WAREHOUSE */}
           <p
-            className={`text-gray-500 mt-3 font-semibold text-base mr-auto ${
+            className={`text-gray-500 mt-3 font-semibold font-Roboto text-base mr-auto ${
               isCollapsed ? "hidden" : ""
             }`}
           >
@@ -818,7 +818,7 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold">Warehouse</span>
+                  <span className="text-base font-semibold font-Roboto">Warehouse</span>
                 )}
               </NavLink>
             </li>
