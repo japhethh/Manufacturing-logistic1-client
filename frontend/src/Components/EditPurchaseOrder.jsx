@@ -209,37 +209,37 @@ const EditPurchaseOrder = () => {
         <ul>
           <li>
             <NavLink to="/purchase_orders/view_po/:id">
-              <a>Edit Purchase Order</a>
+              <a className="font-Roboto">Edit Purchase Order</a>
             </NavLink>
           </li>
           <li className="text-blue-600">
-            <a>Edit</a>
+            <a className="font-Roboto">Edit</a>
           </li>
         </ul>
       </div>
       <div className="container mx-auto px-6 py-8 bg-white rounded-lg shadow-md">
         {/* Form Header */}
         <div className="flex flex-wrap justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-[#07074D]">
+          <h1 className="text-3xl font-bold text-[#07074D] font-Roboto">
             Edit Purchase Order
           </h1>
           <div className="space-x-4">
             <button
-              className="rounded-lg bg-red-500 text-white py-2 px-6 font-medium hover:bg-red-600 transition"
+              className="rounded-lg bg-red-500 text-white font-Roboto py-2 px-6 font-medium hover:bg-red-600 transition"
               onClick={handleReset}
               type="button"
             >
               Cancel
             </button>
             <button
-              className="rounded-lg bg-yellow-500 text-white py-2 px-6 font-medium hover:bg-yellow-600 transition"
+              className="rounded-lg bg-yellow-500 text-white font-Roboto py-2 px-6 font-medium hover:bg-yellow-600 transition"
               onClick={handleReset}
               type="button"
             >
               Reset
             </button>
             <button
-              className="rounded-lg bg-green-500 text-white py-2 px-6 font-medium hover:bg-green-600 transition"
+              className="rounded-lg bg-green-500 text-white font-Roboto py-2 px-6 font-medium hover:bg-green-600 transition"
               onClick={handleSubmit}
               type="button"
             >
@@ -255,7 +255,7 @@ const EditPurchaseOrder = () => {
             <div>
               <label
                 htmlFor="supplier"
-                className="block text-base font-semibold text-[#07074D] mb-2"
+                className="block text-base font-semibold text-[#07074D] mb-2 font-Roboto"
               >
                 Vendor Selection
               </label>
@@ -265,7 +265,7 @@ const EditPurchaseOrder = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, supplier: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                 required
               >
                 <option value="">Select Supplier</option>
@@ -281,7 +281,7 @@ const EditPurchaseOrder = () => {
             <div>
               <label
                 htmlFor="orderDate"
-                className="block text-base font-semibold text-[#07074D] mb-2"
+                className="block text-base font-semibold text-[#07074D] mb-2 font-Roboto"
               >
                 Order Date
               </label>
@@ -299,7 +299,7 @@ const EditPurchaseOrder = () => {
                     orderDate: new Date(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -307,13 +307,13 @@ const EditPurchaseOrder = () => {
 
           {/* Item Entry Section */}
           <div className="mb-6">
-            <label className="block text-base font-semibold text-[#07074D] mb-3">
+            <label className="block text-base font-semibold text-[#07074D] mb-3 font-Roboto">
               Item Selection and Quantity Entry
             </label>
             {formData.items.map((item, index) => (
               <div key={index} className="flex flex-wrap gap-4 mb-4">
                 <div className="flex-1">
-                  <label className="block text-sm text-gray-700 mb-1">
+                  <label className="block text-sm text-gray-700 font-Roboto mb-1">
                     Item Name
                   </label>
                   <input
@@ -323,12 +323,12 @@ const EditPurchaseOrder = () => {
                     onChange={(e) =>
                       handleInputChange(index, "name", e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                     required
                   />
                 </div>
                 <div className="w-24">
-                  <label className="block text-sm text-gray-700 mb-1">
+                  <label className="block text-sm text-gray-700 font-Roboto mb-1">
                     Quantity
                   </label>
                   <input
@@ -338,13 +338,13 @@ const EditPurchaseOrder = () => {
                     onChange={(e) =>
                       handleInputChange(index, "quantity", e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                     min="1"
                     required
                   />
                 </div>
                 <div className="w-32">
-                  <label className="block text-sm text-gray-700 mb-1">
+                  <label className="block text-sm text-gray-700 mb-1 font-Roboto">
                     Price
                   </label>
                   <input
@@ -354,13 +354,13 @@ const EditPurchaseOrder = () => {
                     onChange={(e) =>
                       handleInputChange(index, "price", e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                     min="0"
                     required
                   />
                 </div>
                 <div className="w-32">
-                  <label className="block text-sm text-gray-700 mb-1">
+                  <label className="block text-sm text-gray-700 font-Roboto mb-1">
                     Discount (%)
                   </label>
                   <input
@@ -370,7 +370,7 @@ const EditPurchaseOrder = () => {
                     onChange={(e) =>
                       handleInputChange(index, "discount", e.target.value)
                     }
-                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 py-2 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                     min="0"
                     max="100"
                   />
@@ -378,7 +378,7 @@ const EditPurchaseOrder = () => {
                 <button
                   type="button"
                   onClick={() => handleRemoveItem(index)}
-                  className="rounded-lg bg-red-500 text-white py-2 px-4 hover:bg-red-600 transition"
+                  className="rounded-lg bg-red-500 text-white font-Roboto py-2 px-4 hover:bg-red-600 transition"
                 >
                   Remove
                 </button>
@@ -387,7 +387,7 @@ const EditPurchaseOrder = () => {
             <button
               type="button"
               onClick={handleAddItem}
-              className="rounded-lg bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition"
+              className="rounded-lg bg-blue-500 text-white font-Roboto py-2 px-4 hover:bg-blue-600 transition"
             >
               Add Item
             </button>
@@ -398,7 +398,7 @@ const EditPurchaseOrder = () => {
             <div>
               <label
                 htmlFor="notes"
-                className="block text-base font-semibold text-[#07074D] mb-2"
+                className="block text-base font-semibold text-[#07074D] font-Roboto mb-2"
               >
                 Notes
               </label>
@@ -408,14 +408,14 @@ const EditPurchaseOrder = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, notes: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                 rows="4"
               ></textarea>
             </div>
             <div>
               <label
                 htmlFor="paymentTerm"
-                className="block text-base font-semibold text-[#07074D] mb-2"
+                className="block text-base font-semibold text-[#07074D] font-Roboto mb-2"
               >
                 Payment Term
               </label>
@@ -426,7 +426,7 @@ const EditPurchaseOrder = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, paymentTerm: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full rounded-lg border border-gray-300 py-3 px-4 text-base text-gray-700 font-Roboto outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -434,14 +434,14 @@ const EditPurchaseOrder = () => {
 
           {/* Summary */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#07074D]">Summary</h2>
-            <p className="text-base text-gray-700">
+            <h2 className="text-2xl font-bold text-[#07074D] font-Roboto">Summary</h2>
+            <p className="text-base text-gray-700 font-Roboto">
               Subtotal: ${subtotal.toFixed(2)}
             </p>
-            <p className="text-base text-gray-700">
+            <p className="text-base text-gray-700 font-Roboto">
               Tax: ${taxAmount.toFixed(2)}
             </p>
-            <p className="text-lg font-semibold text-[#07074D]">
+            <p className="text-lg font-semibold text-[#07074D] font-Roboto">
               Total: ${total.toFixed(2)}
             </p>
           </div>
