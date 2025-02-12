@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         'Fredericka-the-Great': ["'Fredericka the Great'"],
         'Open-Sans': ["'Open Sans'"],
+        'Roboto': ["'Roboto'"],
       },
       daisyui: {
         themes: ["light"],
