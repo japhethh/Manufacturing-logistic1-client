@@ -212,8 +212,8 @@ const ViewPurchaseOrder = () => {
     navigate(`/purchase_orders/manage_po/${id}`);
   };
 
-  if (loading) return <div className="text-center py-4">Loading...</div>;
-  if (error) return <div className="text-red-500 text-center">{error}</div>;
+  if (loading) return <div className="text-center py-4 font-Roboto">Loading...</div>;
+  if (error) return <div className="text-red-500 text-center font-Roboto">{error}</div>;
 
   return (
     <>
@@ -221,11 +221,11 @@ const ViewPurchaseOrder = () => {
         <ul>
           <li>
             <NavLink to="/purchaseorderlist">
-              <a>Purchase Order List</a>
+              <a className="font-Roboto">Purchase Order List</a>
             </NavLink>
           </li>
           <li className="text-blue-600">
-            <a>View Purchase Order</a>
+            <a className="font-Roboto">View Purchase Order</a>
           </li>
         </ul>
       </div>
@@ -233,19 +233,19 @@ const ViewPurchaseOrder = () => {
         <div className="flex flex-wrap gap-4 mb-6 justify-center sm:justify-start">
           <button
             onClick={generatePDF}
-            className="px-4 py-2 font-semibold bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600"
+            className="px-4 py-2 font-semibold bg-blue-500 text-white font-Roboto rounded-lg shadow hover:bg-blue-600"
           >
             Generate PDF
           </button>
           <button
             onClick={handlePrint}
-            className="px-4 py-2 font-semibold bg-green-500 text-white rounded-lg shadow hover:bg-green-600"
+            className="px-4 py-2 font-semibold bg-green-500 text-white font-Roboto rounded-lg shadow hover:bg-green-600"
           >
             Print
           </button>
           <button
             onClick={handleEdit}
-            className="px-4 py-2 font-semibold bg-emerald-500 text-white rounded-lg shadow hover:bg-emerald-600"
+            className="px-4 py-2 font-semibold bg-emerald-500 text-white font-Roboto rounded-lg shadow hover:bg-emerald-600"
           >
             Edit
           </button>
@@ -260,8 +260,8 @@ const ViewPurchaseOrder = () => {
               >
                 <div>
                   <h1 className="text-2xl font-bold">{item.companyName}</h1>
-                  <p className="text-sm text-gray-600">{item.companyEmail}</p>
-                  <p className="text-sm text-gray-600">{item.companyAddress}</p>
+                  <p className="text-sm font-Roboto text-gray-600">{item.companyEmail}</p>
+                  <p className="text-sm font-Roboto text-gray-600">{item.companyAddress}</p>
                 </div>
                 <div>
                   <img width={130} src={item.logo} alt="Company Logo" />
@@ -271,20 +271,20 @@ const ViewPurchaseOrder = () => {
 
             <div className="flex flex-wrap gap-4 justify-between mb-6">
               <div className="flex-1">
-                <h1 className="text-lg font-semibold">Vendor</h1>
+                <h1 className="text-lg font-semibold font-Roboto">Vendor</h1>
                 <p className="text-sm">{purchaseOrder.supplier.supplierName}</p>
-                <p className="text-sm">
+                <p className="text-sm font-Roboto">
                   {purchaseOrder.supplier.address.street}
                 </p>
-                <p className="text-sm">{purchaseOrder.supplier.contactPhone}</p>
-                <p className="text-sm">{purchaseOrder.supplier.contactEmail}</p>
+                <p className="text-sm font-Roboto">{purchaseOrder.supplier.contactPhone}</p>
+                <p className="text-sm font-Roboto">{purchaseOrder.supplier.contactEmail}</p>
               </div>
 
               <div className="flex-1 text-right">
-                <h1 className="text-lg font-semibold">
+                <h1 className="text-lg font-semibold font-Roboto">
                   Order #{purchaseOrder.purchaseOrderNumber}
                 </h1>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 font-Roboto">
                   Order Date:{" "}
                   {new Date(purchaseOrder.orderDate).toLocaleDateString()}
                 </p>
@@ -293,7 +293,7 @@ const ViewPurchaseOrder = () => {
 
             <div className="overflow-x-auto mb-6">
               <table className="table-auto w-full text-left border-collapse">
-                <thead className="bg-gray-700 text-white">
+                <thead className="bg-gray-700 text-white font-Roboto">
                   <tr>
                     <th className="px-4 py-2">#</th>
                     <th className="px-4 py-2">Name</th>
@@ -309,12 +309,12 @@ const ViewPurchaseOrder = () => {
                       key={item._id}
                       className="border-b hover:bg-gray-100 transition"
                     >
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2">{item.name}</td>
-                      <td className="px-4 py-2">{item.quantity}</td>
-                      <td className="px-4 py-2">₱{item.price.toFixed(2)}</td>
-                      <td className="px-4 py-2">{item.discount}%</td>
-                      <td className="px-4 py-2">
+                      <td className="px-4 py-2 font-Roboto">{index + 1}</td>
+                      <td className="px-4 py-2 font-Roboto">{item.name}</td>
+                      <td className="px-4 py-2 font-Roboto">{item.quantity}</td>
+                      <td className="px-4 py-2 font-Roboto">₱{item.price.toFixed(2)}</td>
+                      <td className="px-4 py-2 font-Roboto">{item.discount}%</td>
+                      <td className="px-4 py-2 font-Roboto">
                         ₱{item.totalPrice.toFixed(2)}
                       </td>
                     </tr>
@@ -325,11 +325,11 @@ const ViewPurchaseOrder = () => {
 
             <div className="flex flex-wrap gap-4">
               <div className="flex-1">
-                <h1 className="font-semibold text-md">Notes</h1>
-                <p className="text-sm text-gray-700">{purchaseOrder.notes}</p>
+                <h1 className="font-semibold text-md font-Roboto">Notes</h1>
+                <p className="text-sm text-gray-700 font-Roboto">{purchaseOrder.notes}</p>
               </div>
               <div className="flex-1 text-right">
-                <h1 className="font-semibold text-md">Status</h1>
+                <h1 className="font-semibold text-md font-Roboto">Status</h1>
                 <button
                   className={`px-4 py-2 rounded-lg shadow text-white ${
                     purchaseOrder.approvalStatus === "Approved"
