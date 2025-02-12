@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         'Fredericka-the-Great': ["'Fredericka the Great'"],
+        'Open-Sans': ["'Open Sans'"],
       },
       daisyui: {
         themes: ["light"],
