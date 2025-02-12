@@ -211,7 +211,7 @@ const CreatePurchaseOrder = () => {
   const { subtotal, taxAmount, total } = calculateSummary();
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 font-Roboto">
       <form>
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold text-[#07074D]">
