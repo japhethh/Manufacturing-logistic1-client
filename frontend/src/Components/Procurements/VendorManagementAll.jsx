@@ -55,7 +55,9 @@ const VendorManagementAll = () => {
           title: "Category ID",
           data: "_id",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Company Name",
@@ -66,43 +68,57 @@ const VendorManagementAll = () => {
           title: "Code",
           data: "supplierCode",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Person",
           data: "contactPerson",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Email",
           data: "contactEmail",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Phone",
           data: "contactPhone",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Address",
           data: "address.street",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Payment Term",
           data: "paymentTerms",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
         {
           title: "Ratings",
           data: "rating",
           render: (data) =>
-            `${data ? data : `<div class="text-red-500">N/A</div>`}`,
+            `${
+              data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`
+            }`,
         },
 
         // { title: "Category Name", data: "category_name" },
@@ -115,7 +131,7 @@ const VendorManagementAll = () => {
             ${
               userData?.role === "superAdmin"
                 ? `
-              <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
+              <button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
               <i class="fas fa-trash-alt"></i>
               </button>`
                 : ""
@@ -158,38 +174,38 @@ const VendorManagementAll = () => {
           title: "Category",
           data: "category",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Code",
           data: "materialCode",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Unit",
           data: "unit",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Price Per Unit",
           data: "pricePerUnit",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
 
         {
           title: "Material Item",
           data: "materialName",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Quantity",
           data: "available",
           render: (data) =>
-            data ? data : `<div class="text-red-500">N/A</div>`,
+            data ? data : `<div class="text-red-500 font-Roboto">N/A</div>`,
         },
         {
           title: "Vendor",
@@ -202,17 +218,17 @@ const VendorManagementAll = () => {
           data: null,
           render: (data, type, row) => `
           <div class="flex justify-center">
-          <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
+          <button class="bg-blue-700 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="detailBtn_${
             row._id
           }"> <i class="fas fa-eye"></i>
             </button>
           ${
             userData?.role === "superAdmin"
-              ? ` <button class="bg-blue-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
+              ? ` <button class="bg-blue-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="updateBtn_${row._id}">
               <i class="fas fa-edit"></i>
             </button>
             
-            <button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
+            <button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${row._id}">
               <i class="fas fa-trash-alt"></i>
             </button>`
               : ""
@@ -283,7 +299,9 @@ const VendorManagementAll = () => {
         <div className="p-5 shadow-md overflow-x-scroll w-full">
           {/* Vendors */}
           <div className="divider mb-5"></div>
-          <h1 className="font-bold text-2xl py-2">Vendor Management</h1>
+          <h1 className="font-bold text-2xl py-2 font-Roboto">
+            Vendor Management
+          </h1>
           <table id="myTable" className="display w-full ">
             <thead className="text-white bg-blue-800"></thead>
           </table>
@@ -292,7 +310,9 @@ const VendorManagementAll = () => {
         <div className="p-5 shadow-md overflow-x-scroll w-full">
           {/* Vendor Create */}
           <div className="divider mb-5"></div>
-          <h1 className="font-bold text-2xl py-2">Vendors Products</h1>
+          <h1 className="font-bold text-2xl py-2 font-Roboto">
+            Vendors Products
+          </h1>
           <table id="myTable1" className="display w-full">
             <thead className="text-white bg-blue-800"></thead>
           </table>
@@ -303,24 +323,26 @@ const VendorManagementAll = () => {
       {showModal && modalType === "delete" && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-5 w-1/3">
-            <h3 className="text-lg font-bold">Vendor</h3>
-            <p className="py-4">
+            <h3 className="text-lg font-bold font-Roboto">Vendor</h3>
+            <p className="py-4 font-Roboto">
               Are you sure you want to{" "}
-              <span className="text-red-500 font-bold">delete</span> the
-              category{" "}
-              <span className="font-bold">{selectedData?.materialName}</span>?
-              This action cannot be undone and will permanently remove the
+              <span className="text-red-500 font-bold font-Roboto">delete</span>{" "}
+              the category{" "}
+              <span className="font-bold font-Roboto">
+                {selectedData?.materialName}
+              </span>
+              ? This action cannot be undone and will permanently remove the
               category from the system.
             </p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => handleDelete(selectedData._id)}
-                className="btn btn-error btn-md text-white"
+                className="btn btn-error btn-md text-white font-Roboto"
               >
                 Confirm
               </button>
               <button
-                className="btn btn-outline btn-error btn-md text-white"
+                className="btn btn-outline btn-error btn-md text-white font-Roboto"
                 onClick={() => {
                   setSelectedData(null); // Reset selectedData on cancel
                   setShowModal(false); // Close modal
@@ -346,62 +368,62 @@ const VendorManagementAll = () => {
             </div>
             <div className="py-4 grid grid-cols-2">
               <div className="font-semibold">
-                <div className="border border-1 py-2 px-2 font-bold text-md">
+                <div className="border border-1 py-2 px-2 font-bold font-Roboto text-md">
                   <h1>Vendor Name</h1>
                 </div>
-                <div className="border border-1 py-2 px-2 font-bold text-md">
+                <div className="border border-1 py-2 px-2 font-bold font-Roboto text-md">
                   <h1>Vendor Code</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Material CODE</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Material Name</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Category</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Price</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Quantity</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Alert Quantity</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Tax</h1>
                 </div>
-                <div className="border border-1 py-2 px-2">
+                <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Note</h1>
                 </div>
               </div>
 
               <div>
                 <div className="border border-1 py-2 px-2 text-md">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.supplier?.supplierName
                       ? selectedData?.supplier?.supplierName
                       : "N/A"}
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2 text-md">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.supplier?.supplierCode
                       ? selectedData?.supplier?.supplierCode
                       : "N/A"}
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.materialCode
                       ? selectedData?.materialCode
                       : "N/A"}
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {" "}
                     {selectedData?.materialName
                       ? selectedData?.materialName
@@ -409,34 +431,34 @@ const VendorManagementAll = () => {
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.category ? selectedData?.category : "N/A"}
                   </h1>{" "}
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.pricePerUnit
                       ? selectedData?.pricePerUnit
                       : "N/A"}
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2 ">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.available ? selectedData?.available : "N/A"}
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.alertQuantity
                       ? selectedData?.alertQuantity
                       : "N/A"}
                   </h1>
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>{selectedData?.tax ? selectedData?.tax : "N/A"}</h1>
+                  <h1 className="font-Roboto">{selectedData?.tax ? selectedData?.tax : "N/A"}</h1>
                 </div>
                 <div className="border border-1 py-2 px-2">
-                  <h1>
+                  <h1 className="font-Roboto">
                     {selectedData?.description
                       ? selectedData?.description
                       : "N/A"}
@@ -446,7 +468,7 @@ const VendorManagementAll = () => {
             </div>
             <div className="flex justify-end">
               <button
-                className="btn btn-info btn-md text-white "
+                className="btn btn-info btn-md text-white font-Roboto"
                 onClick={() => {
                   setSelectedData(null), setShowModal(false);
                 }}
