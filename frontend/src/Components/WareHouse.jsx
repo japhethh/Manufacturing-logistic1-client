@@ -4,6 +4,7 @@ import "datatables.net-dt/js/dataTables.dataTables";
 import "datatables.net-dt/css/dataTables.dataTables.css";
 import "tailwindcss/tailwind.css";
 import { NavLink } from "react-router-dom";
+import { FaBox, FaTruck, FaChartBar, FaInbox } from "react-icons/fa";
 
 const SmallBusinessWarehouse = () => {
   useEffect(() => {
@@ -20,32 +21,55 @@ const SmallBusinessWarehouse = () => {
 
       {/* CARDS NAVIGATION BUTTONS */}
       <div className="flex flex-wrap justify-center sm:justify-between mb-12 gap-6">
+        {/* Order Fulfillment */}
         <NavLink to="/fulfillorders" className="w-full sm:w-auto">
-          <div className="bg-blue-600 hover:bg-blue-700 text-white font-Roboto rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+          <div className="bg-gradient-to-br from-blue-400 to-blue-600 text-white font-[Roboto] rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center relative">
+            <FaBox
+              className="absolute top-4 left-4 text-white opacity-80"
+              size={24}
+            />
             <span className="text-xl font-bold">Order Fulfillment</span>
             <p className="text-sm mt-2 text-center">
               Manage picking, packing, and shipping operations
             </p>
           </div>
         </NavLink>
+
+        {/* Shipping & Dispatch */}
         <NavLink to="/dispatches" className="w-full sm:w-auto">
-          <div className="bg-green-600 hover:bg-green-700 text-white font-Roboto rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+          <div className="bg-gradient-to-br from-green-400 to-green-600 text-white font-[Roboto] rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center relative">
+            <FaTruck
+              className="absolute top-4 left-4 text-white opacity-80"
+              size={24}
+            />
             <span className="text-xl font-bold">Shipping & Dispatch</span>
             <p className="text-sm mt-2 text-center">
               Track outgoing shipments and manage dispatch schedules
             </p>
           </div>
         </NavLink>
+
+        {/* Reporting & Analytics */}
         <NavLink to="/report" className="w-full sm:w-auto">
-          <div className="bg-purple-600 hover:bg-purple-700 text-white font-Roboto rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+          <div className="bg-gradient-to-br from-purple-400 to-purple-600 text-white font-[Roboto] rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center relative">
+            <FaChartBar
+              className="absolute top-4 left-4 text-white opacity-80"
+              size={24}
+            />
             <span className="text-xl font-bold">Reporting & Analytics</span>
             <p className="text-sm mt-2 text-center">
               Generate reports and analyze warehouse data
             </p>
           </div>
         </NavLink>
+
+        {/* Receiving */}
         <NavLink to="/receiving" className="w-full sm:w-auto">
-          <div className="bg-amber-500 hover:bg-amber-700 text-white font-Roboto rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center">
+          <div className="bg-gradient-to-br from-amber-400 to-amber-600 text-white font-[Roboto] rounded-xl shadow-xl transition-transform transform hover:scale-105 p-6 flex flex-col items-center justify-center relative">
+            <FaInbox
+              className="absolute top-4 left-4 text-white opacity-80"
+              size={24}
+            />
             <span className="text-xl font-bold">Receiving</span>
             <p className="text-sm mt-2 text-center">
               Generate Receiving and analyze warehouse data
