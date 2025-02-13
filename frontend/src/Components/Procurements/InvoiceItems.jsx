@@ -74,12 +74,12 @@ const InvoiceItems = () => {
         <NavLink to="/invoice/all" className="w-full" aria-label="All Invoice">
           <div className="card bg-gradient-to-br from-blue-100 to blue-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-blue-800 font-bold text-lg sm:text-xl">
+              <h2 className="text-blue-800 font-Roboto font-bold text-lg sm:text-xl">
                 All Invoice
               </h2>
               <AiOutlineForm className="text-4xl sm:text-5xl text-blue-500 transition-transform transform hover:scale-110" />
             </div>
-            <span className="badge bg-gradient-to-r from-blue-300 to-blue-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+            <span className="badge bg-gradient-to-r from-blue-300 to-blue-500 text-white font-Roboto rounded-full px-3 py-1 text-xs font-semibold">
               {allResult}
             </span>
           </div>
@@ -92,12 +92,12 @@ const InvoiceItems = () => {
         >
           <div className="card bg-gradient-to-br from-cyan-100 to-cyan-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-cyan-800 font-bold text-lg sm:text-xl">
+              <h2 className="text-cyan-800 font-bold text-lg sm:text-xl font-Roboto">
                 Pending Invoice
               </h2>
               <AiOutlineForm className="text-4xl sm:text-5xl text-cyan-500 transition-transform transform hover:scale-110" />
             </div>
-            <span className="badge bg-gradient-to-r from-cyan-300 to-cyan-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+            <span className="badge bg-gradient-to-r from-cyan-300 to-cyan-500 text-white font-Roboto rounded-full px-3 py-1 text-xs font-semibold">
               {pendingResult}
             </span>
           </div>
@@ -110,12 +110,12 @@ const InvoiceItems = () => {
         >
           <div className="card bg-gradient-to-br from-green-100 to-green-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-green-800 font-bold text-lg sm:text-xl">
+              <h2 className="text-green-800 font-bold text-lg sm:text-xl font-Roboto">
                 Complete Invoice
               </h2>
               <FiPackage className="text-4xl sm:text-5xl text-green-500 transition-transform transform hover:scale-110" />
             </div>
-            <span className="badge bg-gradient-to-r from-green-300 to-green-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
+            <span className="badge bg-gradient-to-r from-green-300 to-green-500 text-white font-Roboto rounded-full px-3 py-1 text-xs font-semibold">
               {approveResult}
             </span>
           </div>

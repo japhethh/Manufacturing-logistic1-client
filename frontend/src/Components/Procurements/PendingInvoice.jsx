@@ -100,14 +100,14 @@ const PendingInvoice = () => {
 
             switch (data) {
               case "Approved":
-                statusClass = "bg-green-100 text-green-800"; // Light green background for approved
+                statusClass = "bg-green-100 text-green-800 font-Roboto"; // Light green background for approved
                 break;
               case "Rejected":
-                statusClass = "bg-red-100 text-red-800"; // Light red background for rejected
+                statusClass = "bg-red-100 text-red-800 font-Roboto"; // Light red background for rejected
                 break;
               case "Pending":
               default:
-                statusClass = "bg-blue-100 text-blue-800"; // Light blue background for pending
+                statusClass = "bg-blue-100 text-blue-800 font-Roboto"; // Light blue background for pending
                 break;
             }
 
@@ -126,10 +126,10 @@ const PendingInvoice = () => {
           data: null,
           render: (data) => {
             return `
-              <button class="bg-green-500 hover:bg-green-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn" id="approveBtn_${data?._id}">
+              <button class="bg-green-500 hover:bg-green-600 duration-150 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer approveBtn" id="approveBtn_${data?._id}">
                 Approve
               </button>
-              <button class="bg-red-500 hover:bg-red-600 duration-150 text-xs text-white px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
+              <button class="bg-red-500 hover:bg-red-600 duration-150 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer rejectBtn" id="rejectBtn_${data?._id}">
                 Reject
               </button>
             `;
