@@ -114,7 +114,7 @@ const SidebarVendor = () => {
               }`}
             />
             {isSidebarOpen && (
-              <h2 className="text-xl font-bold text-gray-800">
+              <h2 className="text-xl font-bold text-gray-800 font-Roboto">
                 Vendor Management
               </h2>
             )}
@@ -131,8 +131,8 @@ const SidebarVendor = () => {
                   `flex items-center px-4 py-3 rounded-md transition duration-200 
                   ${
                     isActive
-                      ? "bg-blue-100 text-blue-700"
-                      : "text-gray-800 hover:bg-gray-100 hover:text-blue-700"
+                      ? "bg-blue-100 text-blue-700 font-Roboto"
+                      : "text-gray-800 font-Roboto hover:bg-gray-100 hover:text-blue-700"
                   }`
                 }
                 aria-label={item.label}
@@ -154,14 +154,14 @@ const SidebarVendor = () => {
               `flex items-center px-4 py-3 rounded-md transition duration-200 
               ${
                 isActive
-                  ? "bg-blue-100 text-blue-700"
-                  : "text-gray-800 hover:bg-gray-100 hover:text-blue-700"
+                  ? "bg-blue-100 text-blue-700 font-Roboto"
+                  : "text-gray-800 font-Roboto hover:bg-gray-100 hover:text-blue-700"
               }`
             }
           >
             <CgProfile className="mr-3 text-2xl" />
             {isSidebarOpen && (
-              <span className="text-lg font-medium">Profile</span>
+              <span className="text-lg font-medium font-Roboto">Profile</span>
             )}
           </NavLink>
         </div>
