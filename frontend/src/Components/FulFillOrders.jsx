@@ -51,13 +51,12 @@ const FulFillOrders = () => {
               Warehouse Management
             </NavLink>
           </li>
-          <li className="text-gray-500">/</li>
-          <li className="text-gray-700">Order Fulfillment</li>
+          <li className="text-gray-700 font-Roboto">Order Fulfillment</li>
         </ul>
       </nav>
 
       {/* Title */}
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 font-Roboto">
         Order Fulfillment
       </h1>
 
@@ -99,20 +98,20 @@ const FulFillOrders = () => {
             key={index}
             className="bg-white p-6 shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300"
           >
-            <h2 className="font-semibold text-lg mb-2 text-gray-800">
+            <h2 className="font-semibold text-lg mb-2 text-gray-800 font-Roboto">
               {step.title}
             </h2>
-            <p className="text-sm text-gray-600">{step.description}</p>
+            <p className="text-sm text-gray-600 font-Roboto">{step.description}</p>
           </div>
         ))}
       </div>
 
       {/* Order Status Table */}
-      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
+      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800 font-Roboto">
         Order Status Overview
       </h2>
       <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
-        <table id="orderTable" className="table-auto w-full text-sm text-left">
+        <table id="orderTable" className="table-auto w-full text-sm text-left font-Roboto">
           <thead className="bg-blue-500 text-white">
             <tr>
               <th className="px-4 py-2">ID</th>
