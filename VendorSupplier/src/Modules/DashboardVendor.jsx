@@ -67,13 +67,21 @@ const DashboardVendor = () => {
       value: `${currency[0]} ${yearData?.totalRevenue}`,
       color: "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white",
     },
-    { title: "Active Contracts", value: "30", color: "bg-gradient-to-r from-green-400 to-green-600 text-white" },
+    {
+      title: "Active Contracts",
+      value: "30",
+      color: "bg-gradient-to-r from-green-400 to-green-600 text-white",
+    },
     {
       title: "Inventory Status",
       value: "20 Items Low",
       color: "bg-gradient-to-r from-red-400 to-red-600 text-white",
     },
-    { title: "Payments Due", value: "₱5000", color: "bg-gradient-to-r from-purple-400 to-purple-600 text-white" },
+    {
+      title: "Payments Due",
+      value: "₱5000",
+      color: "bg-gradient-to-r from-purple-400 to-purple-600 text-white",
+    },
   ];
 
   return (
@@ -85,10 +93,14 @@ const DashboardVendor = () => {
 
       {/* Loading & Error Handling */}
       {loading && (
-        <div className="text-center text-gray-600 text-lg font-Roboto">Loading data...</div>
+        <div className="text-center text-gray-600 text-lg font-Roboto">
+          Loading data...
+        </div>
       )}
       {error && (
-        <div className="text-center text-red-600 font-semibold font-Roboto">{error}</div>
+        <div className="text-center text-red-600 font-semibold font-Roboto">
+          {error}
+        </div>
       )}
 
       {/* Cards Section */}
@@ -147,7 +159,9 @@ const DashboardVendor = () => {
 };
 
 const Card = ({ title, value, color }) => (
-  <div className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl ${color}`}>
+  <div
+    className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl ${color}`}
+  >
     <h2 className="text-2xl font-semibold text-white font-Roboto">{title}</h2>
     <p className="text-4xl font-bold font-Roboto">{value}</p>
   </div>
