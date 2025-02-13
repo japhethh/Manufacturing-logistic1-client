@@ -37,7 +37,9 @@ const CreateProduct = () => {
           aria-label="Category"
         >
           <div className="card bg-gradient-to-l from-cyan-50 to-cyan-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-cyan-800 font-bold text-lg">Category</h2>
+            <h2 className="text-cyan-800 font-bold text-xl font-Roboto">
+              Category
+            </h2>
             <MdCategory className="text-4xl text-cyan-700 self-end" />
           </div>
         </NavLink>
@@ -48,7 +50,9 @@ const CreateProduct = () => {
           aria-label="Create Product"
         >
           <div className="card bg-gradient-to-l from-blue-50 to-blue-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-blue-800 font-bold text-lg">Create Product</h2>
+            <h2 className="text-blue-800 font-bold text-xl font-Roboto">
+              Create Product
+            </h2>
             <IoIosCreate className="text-4xl text-blue-700 self-end" />
           </div>
         </NavLink>
@@ -59,7 +63,9 @@ const CreateProduct = () => {
           aria-label="All Products"
         >
           <div className="card bg-gradient-to-l from-purple-50 to-purple-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-purple-800 font-bold text-lg">All Products</h2>
+            <h2 className="text-purple-800 font-bold text-xl font-Roboto">
+              All Products
+            </h2>
             <MdBallot className="text-4xl text-purple-700 self-end" />
           </div>
         </NavLink>
@@ -70,7 +76,7 @@ const CreateProduct = () => {
           aria-label="Print Barcode"
         >
           <div className="card bg-gradient-to-l from-fuchsia-50 to-fuchsia-100 shadow-md rounded-lg p-5 h-32 flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-            <h2 className="text-fuchsia-800 font-bold text-lg">
+            <h2 className="text-fuchsia-800 font-bold text-xl font-Roboto">
               Print Barcode
             </h2>
             <FaPrint className="text-4xl text-fuchsia-700 self-end" />
