@@ -60,20 +60,20 @@ const DashboardVendor = () => {
     {
       title: "Total Sales (This Year)",
       value: `${currency[0]} ${yearData?.totalSales}`,
-      color: "text-blue-600",
+      color: "bg-gradient-to-r from-blue-400 to-blue-600 text-white",
     },
     {
       title: "Total Revenue (This Year)",
       value: `${currency[0]} ${yearData?.totalRevenue}`,
-      color: "text-yellow-600",
+      color: "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white",
     },
-    { title: "Active Contracts", value: "30", color: "text-green-600" },
+    { title: "Active Contracts", value: "30", color: "bg-gradient-to-r from-green-400 to-green-600 text-white" },
     {
       title: "Inventory Status",
       value: "20 Items Low",
-      color: "text-red-600",
+      color: "bg-gradient-to-r from-red-400 to-red-600 text-white",
     },
-    { title: "Payments Due", value: "₱5000", color: "text-purple-600" },
+    { title: "Payments Due", value: "₱5000", color: "bg-gradient-to-r from-purple-400 to-purple-600 text-white" },
   ];
 
   return (
@@ -147,9 +147,9 @@ const DashboardVendor = () => {
 };
 
 const Card = ({ title, value, color }) => (
-  <div className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
-    <h2 className="text-2xl font-semibold text-gray-800 font-Roboto">{title}</h2>
-    <p className={`text-4xl font-bold font-Roboto ${color}`}>{value}</p>
+  <div className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl ${color}`}>
+    <h2 className="text-2xl font-semibold text-white font-Roboto">{title}</h2>
+    <p className="text-4xl font-bold font-Roboto">{value}</p>
   </div>
 );
 
