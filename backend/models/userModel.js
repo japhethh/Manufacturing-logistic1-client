@@ -13,6 +13,9 @@ const userSchema = mongoose.Schema(
     address: { type: String },
     city: { type: String },
     image: { type: String },
+    age: { type: Number },
+    condition: { type: String },
+    verified: { type: String },
     role: {
       type: String,
       enum: [
