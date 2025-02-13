@@ -14,6 +14,7 @@ import {
   Factory,
   Clipboard,
 } from "lucide-react";
+import { IoClose } from "react-icons/io5";
 
 const Avatar3D = ({ name, isOnline, className }) => {
   // Generate consistent colors based on name
@@ -287,7 +288,7 @@ const ChatUI = () => {
       >
         <div className="p-4 border-b">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-semibold text-xl">Factory Chat</h2>
+            <h2 className="font-semibold text-xl font-Roboto">Factory Chat</h2>
             <div className="flex gap-2">
               <IconButton icon={Factory} className="text-blue-500" />
               <IconButton icon={Plus} />
@@ -310,7 +311,7 @@ const ChatUI = () => {
                   <label className="input  input-bordered flex items-center gap-2">
                     <input
                       type="text"
-                      className="grow"
+                      className="grow font-Roboto"
                       placeholder="Search..."
                       value={searchTerm}
                       onChange={handleSearch}
@@ -335,7 +336,7 @@ const ChatUI = () => {
                     onClick={() => setSearchTerm("")}
                     className="font-bold text-xl btn"
                   >
-                    x
+                    <IoClose />
                   </button>
                 </div>
               </div>
@@ -368,7 +369,7 @@ const ChatUI = () => {
                         </li>
                       ))
                     ) : (
-                      <li>No materials found.</li>
+                      <li className="font-Roboto">No materials found.</li>
                     )}
                   </ul>
                 )}
@@ -470,7 +471,7 @@ const ChatUI = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-center items-center w-full h-screen text-2xl font-bold ">
+        <div className="flex justify-center items-center w-full h-screen text-2xl font-bold font-Roboto">
           Selected Data
         </div>
       )}

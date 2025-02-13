@@ -53,11 +53,14 @@ const PaymentAllList = () => {
             title: "External Reference Number",
             data: "external_reference_number",
           },
-          { 
-            title: "Amount", 
-            data: "amount", 
-            render: (data) => `₱${parseFloat(data).toLocaleString("en-PH", { minimumFractionDigits: 2 })}` 
-          },          
+          {
+            title: "Amount",
+            data: "amount",
+            render: (data) =>
+              `₱${parseFloat(data).toLocaleString("en-PH", {
+                minimumFractionDigits: 2,
+              })}`,
+          },
           { title: "Description", data: "description" },
           { title: "Currency", data: "currency" },
           {
@@ -133,14 +136,18 @@ const PaymentAllList = () => {
   }, [paymentData]);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-semibold text-center mb-4">Payment List</h1>
-      <table
-        id="paymentTable"
-        className="min-w-full display w-full border-collapse text-sm cursor-pointer"
-      >
-        {/* DataTable will populate rows here */}
-      </table>
+    <div className="max-w-6xl mx-auto py-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-semibold text-center mb-4 font-Roboto">
+        Payment List
+      </h1>
+      <div className="overflow-auto">
+        <table
+          id="paymentTable"
+          className="min-w-full display w-full border-collapse text-sm cursor-pointer"
+        >
+          {/* DataTable will populate rows here */}
+        </table>
+      </div>
     </div>
   );
 };

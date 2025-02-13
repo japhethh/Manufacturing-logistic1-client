@@ -103,7 +103,7 @@ const TrackOrder = () => {
           title: "Tracking Number #",
           data: "trackingOrderNumber",
           render: (data) =>
-            `${data ? data : `<span class="text-red-500 ">N/A</span>`}`,
+            `${data ? data : `<span class="text-red-500 font-Roboto">N/A</span>`}`,
         },
         {
           title: "Track ID",
@@ -151,14 +151,14 @@ const TrackOrder = () => {
 
             switch (data) {
               case "In Transit":
-                statusClass = "bg-green-100 text-green-800"; // Light green background for approved
+                statusClass = "bg-green-100 font-Roboto text-green-800"; // Light green background for approved
                 break;
               case "Delivered":
-                statusClass = "bg-red-100 text-red-800"; // Light red background for rejected
+                statusClass = "bg-red-100 font-Roboto text-red-800"; // Light red background for rejected
                 break;
               case "Pending":
               default:
-                statusClass = "bg-blue-100 text-blue-800"; // Light blue background for pending
+                statusClass = "bg-blue-100 font-Roboto text-blue-800"; // Light blue background for pending
                 break;
             }
 
@@ -177,7 +177,7 @@ const TrackOrder = () => {
             `${
               data?.invoiceId.paymentDetails.paymentMethod
                 ? data?.invoiceId.paymentDetails?.paymentMethod
-                : `<h1 class="text-red-500 font-semibold">N/A</h1>`
+                : `<h1 class="text-red-500 font-Roboto font-semibold">N/A</h1>`
             }`,
         },
         { title: "Contact Email", data: "supplier.email" },
@@ -189,7 +189,7 @@ const TrackOrder = () => {
             `${
               data?.purchaseOrderId?.paymentTerm
                 ? data?.purchaseOrderId?.paymentTerm
-                : `<h1 class="text-red-500 font-semibold">N/A</h1>`
+                : `<h1 class="text-red-500 font-Roboto font-semibold">N/A</h1>`
             }`,
         },
         { title: "Ratings", data: "supplier.rating" },

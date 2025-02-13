@@ -56,24 +56,24 @@ const Dispatches = () => {
       <div className="breadcrumbs text-sm mb-6">
         <ul className="flex space-x-2">
           <li>
-            <NavLink to="/warehouse" className="text-blue-600">
+            <NavLink to="/warehouse" className="text-blue-600 font-Roboto">
               Warehouse
             </NavLink>
           </li>
           <li>
-            <span>Shipping & Dispatch</span>
+            <span className="font-Roboto">Shipping & Dispatch</span>
           </li>
         </ul>
       </div>
 
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
+      <h1 className="text-3xl font-semibold text-gray-800 font-Roboto mb-6 text-center">
         Dispatches Overview
       </h1>
 
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table
           id="dispatchTable"
-          className="table-auto w-full text-sm text-gray-700 border-collapse"
+          className="table-auto w-full text-sm text-gray-700 font-Roboto border-collapse"
         >
           <thead className="bg-blue-500 text-white">
             <tr>

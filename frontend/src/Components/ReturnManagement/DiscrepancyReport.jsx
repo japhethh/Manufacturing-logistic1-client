@@ -137,11 +137,11 @@ const DiscrepancyReport = () => {
         <ul>
           <li>
             <NavLink to="/" className="text-blue-600">
-              <a>Dashboard</a>
+              <a className="font-Roboto">Dashboard</a>
             </NavLink>
           </li>
           <li>
-            <a>Documents</a>
+            <a className="font-Roboto">Documents</a>
           </li>
         </ul>
       </div>
@@ -167,22 +167,22 @@ const DiscrepancyReport = () => {
         {showModal && modalType === "delete" && selectedData && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-lg p-5 w-11/12 sm:w-1/3">
-              <h3 className="text-lg font-bold">Adjustment</h3>
-              <p className="py-4">
+              <h3 className="text-lg font-bold font-Roboto">Adjustment</h3>
+              <p className="py-4 font-Roboto">
                 Are you sure you want to{" "}
-                <span className="text-red-500 font-bold">delete</span> the
+                <span className="text-red-500 font-bold font-Roboto">delete</span> the
                 category{" "}
-                <span className="font-bold">{selectedData?.defectCode}</span>?
+                <span className="font-bold font-Roboto">{selectedData?.defectCode}</span>?
               </p>
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => handleDelete(selectedData._id)}
-                  className="btn btn-error btn-md text-white"
+                  className="btn btn-error btn-md text-white font-Roboto"
                 >
                   Confirm
                 </button>
                 <button
-                  className="btn btn-outline btn-error btn-md text-white"
+                  className="btn btn-outline btn-error btn-md text-white font-Roboto"
                   onClick={() => {
                     setSelectedData(null);
                     setShowModal(false);
@@ -200,56 +200,68 @@ const DiscrepancyReport = () => {
           modalType === "detail" &&
           selectedData &&
           fetchAdjustment && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white rounded-lg p-5 w-11/12 sm:w-1/2 lg:w-1/3">
-                <div className="grid grid-cols-2 gap-4">
-                  {selectedData?.images.map((item, index) => (
-                    <div key={index}>
-                      <img
-                        className="w-32 cursor-pointer"
-                        onClick={() => handleImage(item)}
-                        src={item}
-                        alt="Images"
-                      />
-                    </div>
-                  ))}
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+            <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg overflow-hidden">
+              {/* Image Grid */}
+              <div className="grid grid-cols-2 gap-3 overflow-auto max-h-60 mb-4 p-2">
+                {selectedData?.images.map((item, index) => (
+                  <div key={index} className="flex justify-center">
+                    <img
+                      className="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75 transition"
+                      onClick={() => handleImage(item)}
+                      src={item}
+                      alt="Defect Image"
+                    />
+                  </div>
+                ))}
+              </div>
+          
+              {/* Title */}
+              <h1 className="text-2xl font-semibold py-2 font-Roboto text-gray-800">
+                Details
+              </h1>
+          
+              {/* Details Section */}
+              <div className="space-y-3">
+                <div className="flex border rounded-lg overflow-hidden">
+                  <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
+                    Reference
+                  </div>
+                  <div className="w-1/2 p-2">{selectedData?.defectCode}</div>
                 </div>
-                <h1 className="text-2xl font-semibold py-1">Details</h1>
-                <div className="flex flex-col space-y-2">
-                  <div className="flex">
-                    <div className="w-1/2 border-2 p-2">Reference</div>
-                    <div className="w-1/2 border-2 p-2">
-                      {selectedData?.defectCode}
-                    </div>
+          
+                <div className="flex border rounded-lg overflow-hidden">
+                  <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
+                    Defect Description
                   </div>
-                  <div className="flex">
-                    <div className="w-1/2 border-2 p-2">Defect Description</div>
-                    <div className="w-1/2 border-2 p-2">
-                      {selectedData?.defectDescription}
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div className="w-1/2 border-2 p-2">Severity</div>
-                    <div className="w-1/2 border-2 p-2">
-                      {selectedData?.severity}
-                    </div>
-                  </div>
+                  <div className="w-1/2 p-2">{selectedData?.defectDescription}</div>
                 </div>
-                <div className="flex justify-end py-3">
-                  <button
-                    className="btn btn-info btn-md text-white "
-                    onClick={() => {
-                      setSelectedData(null);
-                      setShowModal(false);
-                      setFetchAdjustment(null);
-                      setSelectImage(null);
-                    }}
-                  >
-                    Close
-                  </button>
+          
+                <div className="flex border rounded-lg overflow-hidden">
+                  <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
+                    Severity
+                  </div>
+                  <div className="w-1/2 p-2">{selectedData?.severity}</div>
                 </div>
               </div>
+          
+              {/* Button Section */}
+              <div className="flex justify-end mt-4">
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-Roboto hover:opacity-80 transition"
+                  onClick={() => {
+                    setSelectedData(null);
+                    setShowModal(false);
+                    setFetchAdjustment(null);
+                    setSelectImage(null);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
             </div>
+          </div>
+          
           )}
 
         {/* Full-Screen Image Modal */}

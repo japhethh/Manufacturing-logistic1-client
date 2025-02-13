@@ -214,7 +214,7 @@ const CreatePurchaseOrder = () => {
     <div className="container mx-auto px-4 py-6">
       <form>
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-[#07074D]">
+          <h1 className="text-2xl font-semibold font-Roboto text-[#07074D]">
             Create Purchase Order
           </h1>
         </div>
@@ -224,17 +224,20 @@ const CreatePurchaseOrder = () => {
           <div>
             <label
               htmlFor="supplier"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-[#07074D] font-Roboto"
             >
-              Vendor Selection <span className="text-red-500">*</span>
+              Vendor Selection{" "}
+              <span className="text-red-500 font-Roboto">*</span>
             </label>
             <select
               id="supplier"
               value={formData.supplier}
               onChange={(e) => handleSupplierChange(e.target.value)}
-              className="w-full rounded-md border border-[#e0e0e0] py-3 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-3 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
             >
-              <option value="">Select Supplier</option>
+              <option value="" className="font-Roboto">
+                Select Supplier
+              </option>
               {suppliers.map((supplier) => (
                 <option key={supplier._id} value={supplier._id}>
                   {supplier.supplierName}
@@ -247,9 +250,9 @@ const CreatePurchaseOrder = () => {
           <div>
             <label
               htmlFor="orderDate"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-[#07074D] font-Roboto"
             >
-              Order Date <span className="text-red-500">*</span>
+              Order Date <span className="text-red-500 font-Roboto">*</span>
             </label>
             <input
               type="date"
@@ -265,14 +268,16 @@ const CreatePurchaseOrder = () => {
                   orderDate: new Date(e.target.value),
                 })
               }
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
             />
           </div>
         </div>
 
         {/* Items Section */}
         <div className="mt-6">
-          <h2 className="text-lg font-semibold text-[#07074D] mb-4">Items</h2>
+          <h2 className="text-lg font-semibold text-[#07074D] mb-4 font-Roboto">
+            Items
+          </h2>
           {formData.items.map((item, index) => (
             <div
               key={index}
@@ -281,17 +286,19 @@ const CreatePurchaseOrder = () => {
               <div>
                 <label
                   htmlFor={`material-${index}`}
-                  className="block text-base font-medium text-[#07074D]"
+                  className="block text-base font-medium text-[#07074D] font-Roboto"
                 >
-                  Material <span className="text-red-500">*</span>
+                  Material <span className="text-red-500 font-Roboto">*</span>
                 </label>
                 <select
                   id={`material-${index}`}
                   value={item.name}
                   onChange={(e) => handleMaterialChange(index, e.target.value)}
-                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
                 >
-                  <option value="">Select Item</option>
+                  <option value="" className="font-Roboto">
+                    Select Item
+                  </option>
                   {selectedMaterials.map((material, index) => (
                     <option key={index} value={material.materialName}>
                       {material.materialName}
@@ -303,9 +310,9 @@ const CreatePurchaseOrder = () => {
               <div>
                 <label
                   htmlFor={`quantity-${index}`}
-                  className="block text-base font-medium text-[#07074D]"
+                  className="block text-base font-medium text-[#07074D] font-Roboto"
                 >
-                  Quantity <span className="text-red-500">*</span>
+                  Quantity <span className="text-red-500 font-Roboto">*</span>
                 </label>
                 <input
                   type="number"
@@ -314,16 +321,16 @@ const CreatePurchaseOrder = () => {
                   onChange={(e) =>
                     handleInputChange(index, "quantity", e.target.value)
                   }
-                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor={`price-${index}`}
-                  className="block text-base font-medium text-[#07074D]"
+                  className="block text-base font-medium text-[#07074D] font-Roboto"
                 >
-                  Price <span className="text-red-500">*</span>
+                  Price <span className="text-red-500 font-Roboto">*</span>
                 </label>
                 <input
                   type="number"
@@ -332,7 +339,7 @@ const CreatePurchaseOrder = () => {
                   onChange={(e) =>
                     handleInputChange(index, "price", e.target.value)
                   }
-                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+                  className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
                 />
               </div>
 
@@ -359,7 +366,7 @@ const CreatePurchaseOrder = () => {
                 <button
                   type="button"
                   onClick={() => handleRemoveItem(index)}
-                  className="rounded-md bg-red-500 text-white py-2 px-4 text-base font-semibold hover:bg-red-600 transition-all duration-300 shadow-md transform hover:scale-105"
+                  className="rounded-md bg-red-500 text-white font-Roboto py-2 px-4 text-base font-semibold hover:bg-red-600 transition-all duration-300 shadow-md transform hover:scale-105"
                 >
                   Remove Item
                 </button>
@@ -372,7 +379,7 @@ const CreatePurchaseOrder = () => {
             <button
               type="button"
               onClick={handleAddItem}
-              className="rounded-md bg-green-500 text-white py-2 px-4 text-base font-semibold hover:bg-green-600 transition-all duration-300 shadow-md transform hover:scale-105"
+              className="rounded-md bg-green-500 text-white font-Roboto py-2 px-4 text-base font-semibold hover:bg-green-600 transition-all duration-300 shadow-md transform hover:scale-105"
             >
               + Add Another Item
             </button>
@@ -385,9 +392,9 @@ const CreatePurchaseOrder = () => {
           <div>
             <label
               htmlFor="category"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-[#07074D] font-Roboto"
             >
-              Category <span className="text-red-500">*</span>
+              Category <span className="text-red-500 font-Roboto">*</span>
             </label>
             <select
               id="category"
@@ -395,12 +402,18 @@ const CreatePurchaseOrder = () => {
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
               }
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
               required
             >
-              <option value="">Select Category</option>
-              <option value="Capital Expenditures">Capital Expenditures</option>
-              <option value="Operational Expenses">Operational Expenses</option>
+              <option value="" className="font-Roboto">
+                Select Category
+              </option>
+              <option value="Capital Expenditures" className="font-Roboto">
+                Capital Expenditures
+              </option>
+              <option value="Operational Expenses" className="font-Roboto">
+                Operational Expenses
+              </option>
             </select>
           </div>
 
@@ -410,7 +423,7 @@ const CreatePurchaseOrder = () => {
               htmlFor="paymentTerm"
               className="block text-base font-medium text-[#07074D]"
             >
-              Payment Term <span className="text-red-500">*</span>
+              Payment Term <span className="text-red-500 font-Roboto">*</span>
             </label>
             <input
               type="text"
@@ -419,7 +432,7 @@ const CreatePurchaseOrder = () => {
               onChange={(e) =>
                 setFormData({ ...formData, paymentTerm: e.target.value })
               }
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
             />
           </div>
 
@@ -427,23 +440,31 @@ const CreatePurchaseOrder = () => {
           <div>
             <label
               htmlFor="paymentTerm"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-[#07074D] font-Roboto"
             >
-              Payment Term <span className="text-red-500">*</span>
+              Payment Term <span className="text-red-500 font-Roboto">*</span>
             </label>
             <select
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
               onChange={(e) =>
                 setFormData({ ...formData, paymentMethod: e.target.value })
               }
             >
-              <option value="" disabled selected>
+              <option value="" disabled selected className="font-Roboto">
                 Select option
               </option>
-              <option value="Credit Card">Credit Card</option>
-              <option value="Cash on Delivery">Cash on Delivery</option>
-              <option value="GCash">GCash</option>
-              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Credit Card" className="font-Roboto">
+                Credit Card
+              </option>
+              <option value="Cash on Delivery" className="font-Roboto">
+                Cash on Delivery
+              </option>
+              <option value="GCash" className="font-Roboto">
+                GCash
+              </option>
+              <option value="Bank Transfer" className="font-Roboto">
+                Bank Transfer
+              </option>
             </select>
           </div>
         </div>
@@ -453,9 +474,9 @@ const CreatePurchaseOrder = () => {
           <div className="md:col-span-2">
             <label
               htmlFor="notes"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-[#07074D] font-Roboto"
             >
-              Notes <span className="text-red-500">*</span>
+              Notes <span className="text-red-500 font-Roboto">*</span>
             </label>
             <textarea
               id="notes"
@@ -463,7 +484,7 @@ const CreatePurchaseOrder = () => {
               onChange={(e) =>
                 setFormData({ ...formData, notes: e.target.value })
               }
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
               rows={3}
             />
           </div>
@@ -472,9 +493,9 @@ const CreatePurchaseOrder = () => {
           <div className="md:col-span-2">
             <label
               htmlFor="reason"
-              className="block text-base font-medium text-[#07074D]"
+              className="block text-base font-medium text-[#07074D] font-Roboto"
             >
-              Reason <span className="text-red-500">*</span>
+              Reason <span className="text-red-500 font-Roboto">*</span>
             </label>
             <textarea
               id="reason"
@@ -482,7 +503,7 @@ const CreatePurchaseOrder = () => {
               onChange={(e) =>
                 setFormData({ ...formData, reason: e.target.value })
               }
-              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] outline-none"
+              className="w-full rounded-md border border-[#e0e0e0] py-2 px-4 text-base font-medium text-[#6B7280] font-Roboto outline-none"
               rows={3}
             />
           </div>
@@ -490,10 +511,12 @@ const CreatePurchaseOrder = () => {
 
         {/* Total Summary */}
         <div className="md:col-span-2 mt-6 bg-gray-100 p-4 rounded-md">
-          <h3 className="text-lg font-semibold text-[#07074D] mb-4">Summary</h3>
-          <p>Subtotal: ₱{subtotal.toFixed(2)}</p>
-          <p>Tax: ₱{taxAmount.toFixed(2)}</p>
-          <p className="font-bold">Total: ₱{total.toFixed(2)}</p>
+          <h3 className="text-lg font-semibold text-[#07074D] font-Roboto mb-4">
+            Summary
+          </h3>
+          <p className="font-Roboto">Subtotal: ₱{subtotal.toFixed(2)}</p>
+          <p className="font-Roboto">Tax: ₱{taxAmount.toFixed(2)}</p>
+          <p className="font-bold font-Roboto">Total: ₱{total.toFixed(2)}</p>
         </div>
 
         {/* Submit and Reset Buttons */}
@@ -501,7 +524,7 @@ const CreatePurchaseOrder = () => {
           <button
             type="button"
             onClick={handleReset}
-            className="px-6 py-2 rounded-md bg-gray-300 text-[#07074D] hover:bg-gray-400"
+            className="px-6 py-2 rounded-md bg-gray-300 text-[#07074D] font-Roboto hover:bg-gray-400"
           >
             Reset
           </button>
@@ -509,7 +532,7 @@ const CreatePurchaseOrder = () => {
             type="button"
             onClick={handleSubmit}
             disabled={loadingSubmit}
-            className="px-6 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+            className="px-6 py-2 rounded-md bg-blue-500 text-white font-Roboto hover:bg-blue-600"
           >
             {loadingSubmit ? "Submitting..." : "Submit"}
           </button>

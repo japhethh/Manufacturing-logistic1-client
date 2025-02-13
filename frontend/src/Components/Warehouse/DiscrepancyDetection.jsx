@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DataTable from "datatables.net-dt";
 import axios from "axios";
 import { apiURL } from "../../context/Store";
+import { NavLink } from "react-router-dom";
 const DiscrepancyDetection = () => {
   const [discrepancyData, setDiscrepancyData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -79,12 +80,24 @@ const DiscrepancyDetection = () => {
   }, [discrepancyData]);
   return (
     <div className="px-10 rounded-full">
+       <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
+              <ul>
+                <li>
+                  <NavLink to="/receiving" className="text-blue-600 font-Roboto">
+                    Receiving
+                  </NavLink>
+                </li>
+                <li>
+                  <a className="font-Roboto">Discrepancy Detection</a>
+                </li>
+              </ul>
+            </div>
       <div className="p-5 shadow-md overflow-x-scroll w-full">
         {/* Vendor Create */}
         <div className="divider mb-5"></div>
-        <h1 className="font-bold text-2xl py-2">Discrepancy Detections ℹ️</h1>
+        <h1 className="font-bold text-2xl py-2 font-Roboto">Discrepancy Detections ℹ️</h1>
 
-        <table id="myTable" className="display w-full">
+        <table id="myTable" className="display w-full font-Roboto">
           <thead className="text-white bg-blue-800">
             <tr className="text-xs"></tr>
           </thead>

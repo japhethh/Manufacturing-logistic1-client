@@ -58,68 +58,68 @@ const Report = () => {
       <div className="breadcrumbs text-sm mb-6">
         <ul className="flex space-x-2">
           <li>
-            <NavLink to="/warehouse" className="text-blue-600">
+            <NavLink to="/warehouse" className="text-blue-600 font-Roboto">
               Warehouse
             </NavLink>
           </li>
           <li>
-            <span>Reporting & Analytics</span>
+            <span className="font-Roboto">Reporting & Analytics</span>
           </li>
         </ul>
       </div>
 
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
+      <h1 className="text-3xl font-semibold text-gray-800 font-Roboto mb-6 text-center">
         Monthly Report Summary
       </h1>
 
       {/* Summary Stats */}
       <div className="grid gap-6 mb-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">Total Orders</h2>
-          <p className="text-3xl font-bold text-gray-900">
+          <h2 className="text-xl font-semibold text-gray-700 font-Roboto">Total Orders</h2>
+          <p className="text-3xl font-bold text-gray-900 font-Roboto">
             {summary.totalOrders}
           </p>
         </div>
 
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-700 font-Roboto">
             Dispatched Orders
           </h2>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-3xl font-bold text-gray-900 font-Roboto">
             {summary.dispatchedOrders}
           </p>
         </div>
 
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-700 font-Roboto">
             Pending Orders
           </h2>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-3xl font-bold text-gray-900 font-Roboto">
             {summary.pendingOrders}
           </p>
         </div>
 
         <div className="p-6 bg-white shadow-lg rounded-lg text-center border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-700 font-Roboto">
             Delivery Success Rate
           </h2>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-3xl font-bold text-gray-900 font-Roboto">
             {summary.deliverySuccessRate}
           </p>
         </div>
       </div>
 
       {/* Detailed Report */}
-      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
+      <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800 font-Roboto">
         Detailed Report
       </h2>
 
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table
           id="reportTable"
-          className="table-auto w-full text-sm text-gray-700 border-collapse"
+          className="table-auto w-full text-sm text-gray-700 font-Roboto border-collapse"
         >
-          <thead className="bg-blue-500 text-white">
+          <thead className="bg-blue-500 text-white font-Roboto">
             <tr>
               <th className="px-6 py-3 text-left">Order ID</th>
               <th className="px-6 py-3 text-left">Customer</th>
@@ -140,9 +140,9 @@ const Report = () => {
                 <td className="px-6 py-3">{report.deliveryDate}</td>
                 <td className="px-6 py-3">
                   {report.success ? (
-                    <span className="text-green-500">Yes</span>
+                    <span className="text-green-500 font-Roboto">Yes</span>
                   ) : (
-                    <span className="text-red-500">No</span>
+                    <span className="text-red-500 font-Roboto">No</span>
                   )}
                 </td>
               </tr>
