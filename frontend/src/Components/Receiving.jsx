@@ -284,16 +284,16 @@ const Receiving = () => {
   }, [trackOrdersData]);
 
   return (
-    <div className="p-3 w-[80%] ">
+    <div className="p-3 w-full sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[1200px] mx-auto">
       <div className="breadcrumbs text-sm mb-4 shadow-md bg-white p-4">
         <ul>
           <li>
-            <NavLink to="/warehouse" className="text-blue-600">
+            <NavLink to="/warehouse" className="text-blue-600 font-Roboto">
               Warehouse
             </NavLink>
           </li>
           <li>
-            <a>Receiving</a>
+            <a className="font-Roboto">Receiving</a>
           </li>
         </ul>
       </div>
@@ -306,27 +306,30 @@ const Receiving = () => {
         >
           <div className="card bg-gradient-to-br from-yellow-50 to-yellow-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl ">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-yellow-800 font-bold text-lg">
+              <h2 className="text-yellow-800 font-bold text-lg font-Roboto">
                 Discrepancy Detection
               </h2>
               <AiOutlineForm className="text-4xl text-yellow-500" />
             </div>
-            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs">
+            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs font-Roboto">
               5
             </span>
           </div>
         </NavLink>
       </div>
-      <h1 className="text-3xl font-extrabold my-8 text-center drop-shadow-lg">
+      <h1 className="text-3xl font-extrabold font-Roboto my-8 text-center drop-shadow-lg">
         Receiving in Warehouse Management
       </h1>
 
       <div className="overflow-x-auto">
         <table
           id="myTable"
-          className="min-w-full table-xs display nowrap w-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg text-black shadow-lg"
-        ></table>
+          className="min-w-full table-auto display nowrap w-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg text-black font-Roboto shadow-lg"
+        >
+          {/* Table Content Here */}
+        </table>
       </div>
+
       {showModal && <div className="modal">{/* Modal Content Here */}</div>}
     </div>
   );
