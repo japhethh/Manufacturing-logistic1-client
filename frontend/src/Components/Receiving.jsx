@@ -306,12 +306,12 @@ const Receiving = () => {
         >
           <div className="card bg-gradient-to-br from-yellow-50 to-yellow-100 shadow-lg rounded-lg p-6 text-center transition-all hover:shadow-xl ">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-yellow-800 font-bold text-lg font-Roboto">
+              <h2 className="text-yellow-800 font-bold text-xl font-Roboto">
                 Discrepancy Detection
               </h2>
               <AiOutlineForm className="text-4xl text-yellow-500" />
             </div>
-            <span className="badge bg-yellow-200 text-yellow-800 rounded-full px-2 py-1 text-xs font-Roboto">
+            <span className="badge bg-yellow-200 text-yellow-900 font-bold rounded-full px-2 py-1 text-xs font-Roboto">
               5
             </span>
           </div>
