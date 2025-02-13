@@ -169,14 +169,14 @@ const InvoiceAll = () => {
             let statusClass = "";
             switch (data) {
               case "Approved":
-                statusClass = "bg-green-100 text-green-800";
+                statusClass = "bg-green-100 font-Roboto text-green-800";
                 break;
               case "Rejected":
-                statusClass = "bg-red-100 text-red-800";
+                statusClass = "bg-red-100 font-Roboto text-red-800";
                 break;
               case "Pending":
               default:
-                statusClass = "bg-blue-100 text-blue-800";
+                statusClass = "bg-blue-100 font-Roboto text-blue-800";
                 break;
             }
             return `<span class="${statusClass} inline-block px-2 py-1 rounded">${data}</span>`;
@@ -316,7 +316,7 @@ const InvoiceAll = () => {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
               ></path>
             </svg>
-            <p className="text-white mt-2">Loading...</p>
+            <p className="text-white font-Roboto mt-2">Loading...</p>
           </div>
         </div>
       )}
@@ -329,7 +329,7 @@ const InvoiceAll = () => {
       {showModal && modalType === "payform" && selectedData && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
           <div className="bg-white rounded-xl shadow-lg p-6 w-4/6 max-w-md">
-            <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
+            <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800 font-Roboto">
               Payment Details
             </h2>
             <form
@@ -337,7 +337,7 @@ const InvoiceAll = () => {
               className="space-y-4"
             >
               <div className="flex flex-col">
-                <label htmlFor="description" className="mb-1 text-gray-700">
+                <label htmlFor="description" className="mb-1 text-gray-700 font-Roboto">
                   Description
                 </label>
                 <input
@@ -350,7 +350,7 @@ const InvoiceAll = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="totalAmount" className="mb-1 text-gray-700">
+                <label htmlFor="totalAmount" className="mb-1 text-gray-700 font-Roboto">
                   Total Amount
                 </label>
                 <input
@@ -363,7 +363,7 @@ const InvoiceAll = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="payment" className="mb-1 text-gray-700">
+                <label htmlFor="payment" className="mb-1 text-gray-700 font-Roboto">
                   Payment
                 </label>
                 <select
@@ -375,9 +375,9 @@ const InvoiceAll = () => {
                   <option value={selectedData.status}>
                     {selectedData.status}
                   </option>
-                  <option value="">Select Option</option>
-                  <option value="Paid">Paid</option>
-                  <option value="Unpaid">Unpaid</option>
+                  <option value="" className="font-Roboto">Select Option</option>
+                  <option value="Paid" className="font-Roboto">Paid</option>
+                  <option value="Unpaid" className="font-Roboto">Unpaid</option>
                 </select>
                 {errors.phone && (
                   <span className="text-red-500 text-sm">
@@ -390,13 +390,13 @@ const InvoiceAll = () => {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2"
+                  className="bg-gray-300 text-gray-700 font-Roboto px-4 py-2 rounded-md mr-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  className="bg-blue-500 text-white font-Roboto px-4 py-2 rounded-md"
                 >
                   Pay Now
                 </button>
