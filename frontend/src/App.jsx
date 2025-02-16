@@ -62,6 +62,7 @@ import DiscrepancyDetection from "./Components/Warehouse/DiscrepancyDetection.js
 import AuditLog from "./Components/Audit_Management/AuditLog.jsx";
 import TrackingOrderReceiving from "./Components/TrackingOrders/TrackingOrderReceiving.jsx";
 import Bidding from "./Components/Bidding/Bidding.jsx";
+import Category from "./Components/Category/Category.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -104,7 +105,7 @@ const App = () => {
       setToken(null);
     };
 
-    verifyToken();
+    // verifyToken();
     if (!userData) {
       fetchUserData();
     }
@@ -257,10 +258,7 @@ const App = () => {
             path="/trackingOrder/detail/:id"
             element={<TrackingOrderReceiving />}
           ></Route>
-          <Route
-            path="/bidding-category"
-            element={<Bidding />}
-          ></Route>
+          <Route path="/bidding-category" element={<Category />}></Route>
         </Routes>
       </div>
     </div>
