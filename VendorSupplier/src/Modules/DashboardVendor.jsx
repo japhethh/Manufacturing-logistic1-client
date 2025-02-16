@@ -60,35 +60,47 @@ const DashboardVendor = () => {
     {
       title: "Total Sales (This Year)",
       value: `${currency[0]} ${yearData?.totalSales}`,
-      color: "text-blue-600",
+      color: "bg-gradient-to-r from-blue-400 to-blue-600 text-white",
     },
     {
       title: "Total Revenue (This Year)",
       value: `${currency[0]} ${yearData?.totalRevenue}`,
-      color: "text-yellow-600",
+      color: "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white",
     },
-    { title: "Active Contracts", value: "30", color: "text-green-600" },
+    {
+      title: "Active Contracts",
+      value: "30",
+      color: "bg-gradient-to-r from-green-400 to-green-600 text-white",
+    },
     {
       title: "Inventory Status",
       value: "20 Items Low",
-      color: "text-red-600",
+      color: "bg-gradient-to-r from-red-400 to-red-600 text-white",
     },
-    { title: "Payments Due", value: "₱5000", color: "text-purple-600" },
+    {
+      title: "Payments Due",
+      value: "₱5000",
+      color: "bg-gradient-to-r from-purple-400 to-purple-600 text-white",
+    },
   ];
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen w-full">
       {/* Header */}
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 font-Roboto">
         Vendor Supplier Dashboard
       </h1>
 
       {/* Loading & Error Handling */}
       {loading && (
-        <div className="text-center text-gray-600 text-lg">Loading data...</div>
+        <div className="text-center text-gray-600 text-lg font-Roboto">
+          Loading data...
+        </div>
       )}
       {error && (
-        <div className="text-center text-red-600 font-semibold">{error}</div>
+        <div className="text-center text-red-600 font-semibold font-Roboto">
+          {error}
+        </div>
       )}
 
       {/* Cards Section */}
@@ -108,7 +120,7 @@ const DashboardVendor = () => {
       {/* Line Chart for Sales and Revenue */}
       {!loading && !error && (
         <div className="mt-10 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-5">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-5 font-Roboto">
             Monthly Sales and Revenue
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -137,7 +149,7 @@ const DashboardVendor = () => {
       {/* Actions */}
       {!loading && !error && (
         <div className="mt-10 text-center">
-          <button className="bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-500 transition duration-200">
+          <button className="bg-blue-600 text-white font-Roboto px-8 py-3 rounded-lg shadow hover:bg-blue-500 transition duration-200">
             Add New Vendor
           </button>
         </div>
@@ -147,9 +159,11 @@ const DashboardVendor = () => {
 };
 
 const Card = ({ title, value, color }) => (
-  <div className="bg-white p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl">
-    <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
-    <p className={`text-4xl font-bold ${color}`}>{value}</p>
+  <div
+    className={`p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-xl ${color}`}
+  >
+    <h2 className="text-2xl font-semibold text-white font-Roboto">{title}</h2>
+    <p className="text-4xl font-bold font-Roboto">{value}</p>
   </div>
 );
 

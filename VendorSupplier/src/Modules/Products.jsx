@@ -98,7 +98,7 @@ const Products = () => {
 
   return (
     <div className="p-8 w-full  mx-auto bg-white/80 backdrop-blur-lg shadow-2xl rounded-3xl">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6 tracking-wide">
+      <h2 className="text-3xl font-bold text-center text-gray-800 font-Roboto mb-6 tracking-wide">
         Create Product
       </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,7 +106,7 @@ const Products = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Product Name */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Product Name
             </label>
             <input
@@ -118,7 +118,7 @@ const Products = () => {
               placeholder="Enter product name"
             />
             {errors.materialName && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 font-Roboto text-sm">
                 {errors.materialName.message}
               </span>
             )}
@@ -126,7 +126,7 @@ const Products = () => {
 
           {/* Category Dropdown */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Category
             </label>
             <select
@@ -140,7 +140,7 @@ const Products = () => {
               ))}
             </select>
             {errors.category && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 text-sm font-Roboto">
                 {errors.category.message}
               </span>
             )}
@@ -148,7 +148,7 @@ const Products = () => {
 
           {/* Cost */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Cost
             </label>
             <input
@@ -158,7 +158,7 @@ const Products = () => {
               placeholder="Enter cost"
             />
             {errors.cost && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 text-sm font-Roboto">
                 {errors.cost.message}
               </span>
             )}
@@ -166,7 +166,7 @@ const Products = () => {
 
           {/* Price per Unit */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Price per Unit
             </label>
             <input
@@ -176,7 +176,7 @@ const Products = () => {
               placeholder="Enter price"
             />
             {errors.pricePerUnit && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 text-sm font-Roboto">
                 {errors.pricePerUnit.message}
               </span>
             )}
@@ -184,7 +184,7 @@ const Products = () => {
 
           {/* Quantity */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Quantity
             </label>
             <input
@@ -194,7 +194,7 @@ const Products = () => {
               placeholder="Enter quantity"
             />
             {errors.available && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 text-sm font-Roboto">
                 {errors.available.message}
               </span>
             )}
@@ -202,7 +202,7 @@ const Products = () => {
 
           {/* Alert Quantity */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Alert Quantity
             </label>
             <input
@@ -214,7 +214,7 @@ const Products = () => {
               placeholder="Enter alert quantity"
             />
             {errors.alertQuantity && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 text-sm font-Roboto">
                 {errors.alertQuantity.message}
               </span>
             )}
@@ -222,7 +222,7 @@ const Products = () => {
 
           {/* Tax % */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Tax %
             </label>
             <input
@@ -232,24 +232,24 @@ const Products = () => {
               placeholder="Enter tax percentage"
             />
             {errors.tax && (
-              <span className="text-red-500 text-sm">{errors.tax.message}</span>
+              <span className="text-red-500 text-sm font-Roboto">{errors.tax.message}</span>
             )}
           </div>
 
           {/* Unit */}
           <div>
-            <label className="block text-sm font-semibold text-gray-600">
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
               Unit
             </label>
             <select
               className="mt-2 w-full p-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-400/50 transition shadow-sm"
               {...register("unit", { required: "Unit is required" })}
             >
-              <option value="">Select Option</option>
-              <option value="pcs">Piece</option>
+              <option value="" className="font-Roboto">Select Option</option>
+              <option value="pcs" className="font-Roboto">Piece</option>
             </select>
             {errors.unit && (
-              <span className="text-red-500 text-sm">
+              <span className="text-red-500 text-sm font-Roboto">
                 {errors.unit.message}
               </span>
             )}
@@ -258,7 +258,7 @@ const Products = () => {
 
         {/* Note */}
         <div className="mt-6">
-          <label className="block text-sm font-semibold text-gray-600">
+          <label className="block text-sm font-semibold text-gray-600 font-Roboto">
             Note
           </label>
           <textarea
@@ -270,7 +270,7 @@ const Products = () => {
 
         {/* Image Upload */}
         <div className="mt-6">
-          <label className="block text-sm font-semibold text-gray-600">
+          <label className="block text-sm font-semibold text-gray-600 font-Roboto">
             Product Image
           </label>
           <input
@@ -290,7 +290,7 @@ const Products = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="mt-8 w-full p-4 text-lg font-bold text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl hover:from-blue-600 hover:to-blue-800 transition duration-300 shadow-lg"
+          className="mt-8 w-full p-4 text-lg font-bold text-white font-Roboto bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl hover:from-blue-600 hover:to-blue-800 transition duration-300 shadow-lg"
         >
           Submit
         </button>
