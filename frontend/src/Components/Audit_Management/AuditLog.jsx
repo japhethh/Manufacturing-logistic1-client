@@ -9,7 +9,7 @@ const AuditLog = () => {
   const [auditLogData, setAuditLogData] = useState([]);
   const { token } = Store();
 
-  // Fetching Data
+  // Fetch Audit Log Data
   useEffect(() => {
     fetchAuditLog();
   }, []);
@@ -21,24 +21,33 @@ const AuditLog = () => {
         headers: { token: token },
       });
 
-      setAuditLogData(response?.data);
-      console.log(response.data);
-      setLoading(false);
+      // Sort the data by createdAt in descending order (latest first)
+      const sortedData = response?.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
+      setAuditLogData(sortedData);
+      console.log("Sorted Audit Log:", sortedData);
     } catch (error) {
-      console.log(error?.response?.data?.message);
+      console.log("Error fetching audit log:", error?.response?.data?.message);
     } finally {
       setLoading(false);
     }
   };
 
+  // Initialize DataTable
   useEffect(() => {
+    if (auditLogData.length === 0) return;
+
     const table = new DataTable("#myTable", {
       data: auditLogData,
+      ordering: false, // Disable sorting from DataTables to keep the correct order
       columns: [
         {
           title: "Timestamp",
           data: "createdAt",
-          render: (data) => `${data ? data : "N/A"}`,
+          render: (data) =>
+            `${data ? new Date(data).toLocaleString() : "N/A"}`, // More accurate timestamp format
         },
         {
           title: "Actor",
@@ -65,7 +74,11 @@ const AuditLog = () => {
 
   return (
     <div className="px-4 py-4">
-      <table id="myTable"></table>
+      {loading ? (
+        <p className="text-center text-blue-500">Loading audit log...</p>
+      ) : (
+        <table id="myTable"></table>
+      )}
     </div>
   );
 };

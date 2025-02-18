@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
@@ -11,7 +11,6 @@ const RawMaterialRequest = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
-
 
   console.log(userData);
   const [requests, setRequests] = useState([]);
@@ -120,7 +119,7 @@ const RawMaterialRequest = () => {
             return `
               <div class="py-2 px-4 flex gap-2">
                 ${
-                  userData?.role === "admin" || userData?.role === "superAdmin"
+                  userData?.role === "admin" || userData?.role === "logistic" || userData?.role === "superAdmin"
                     ? `
                       <button
                         class="px-3 py-1 text-sm font-medium rounded ${
@@ -152,7 +151,7 @@ const RawMaterialRequest = () => {
                     ? `
                       <button
                         class="font-semibold text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
-                        id="createPOBtn  _${data._id}"
+                        id="createPOBtn_${data._id}"
                         ${isProcessed ? "" : ""}
                       >
                         Create PO
@@ -181,8 +180,8 @@ const RawMaterialRequest = () => {
         const approveBtn = row.querySelector(`#approveBtn_${data._id}`);
         const rejectBtn = row.querySelector(`#rejectBtn_${data._id}`);
         // Attach event listeners for buttons
-        approveBtn.addEventListener("click", () => openApproveModel(data._id));
-        rejectBtn.addEventListener("click", () => openRejectModel(data._id));
+        approveBtn.addEventListener("click", () => openApproveModel(data?._id));
+        rejectBtn.addEventListener("click", () => openRejectModel(data?._id));
       },
     });
     return () => {
@@ -195,6 +194,7 @@ const RawMaterialRequest = () => {
       setRequests(response.data);
       console.log(response.data);
     } catch (error) {
+      console.log(error?.response.data.message)
       setError("Error fetching raw material requests.");
     } finally {
       setLoading(false);

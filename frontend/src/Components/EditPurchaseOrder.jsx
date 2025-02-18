@@ -192,6 +192,7 @@ const EditPurchaseOrder = () => {
           },
         }
       );
+
       NotificationService.success(response.data.message);
       handleReset(); // Reset the form after successful submission
       navigate(`/purchase_orders/view_po/${response.data.data}`); // Navigate to the purchase order view
@@ -434,7 +435,9 @@ const EditPurchaseOrder = () => {
 
           {/* Summary */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#07074D] font-Roboto">Summary</h2>
+            <h2 className="text-2xl font-bold text-[#07074D] font-Roboto">
+              Summary
+            </h2>
             <p className="text-base text-gray-700 font-Roboto">
               Subtotal: ${subtotal.toFixed(2)}
             </p>

@@ -9,6 +9,12 @@ import generalSettingsModel from "../models/generalSettingsModel.js";
 import { encryptArray } from "../testing/cryptoTesting.js";
 import { useState } from "react";
 import axios from "axios";
+import expressAsyncHandler from "express-async-handler";
+import { testingRequestAccount } from "../middleware/Auth.js";
+
+import "dotenv/config";
+import generateServiceToken from "../middleware/gatewayGenerator.js";
+
 // Register
 const registerUser = async (req, res) => {
   const { name, email, userName, password, phone, role, address, city } =
@@ -88,6 +94,30 @@ const getSpecificUser = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(404).json({ success: false, message: "User not found" });
   }
+
+  res.status(200).json(user);
+});
+
+const getSpecificUsers = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const serviceToken = generateServiceToken();
+
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );  
+
+  const accountData = response.data;
+
+  const user = accountData.find((a) => a._id === userId);
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User id not found!" });
+  }
+  console.log(user);
 
   res.status(200).json(user);
 });
@@ -243,13 +273,39 @@ const deleteUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await userModel.findOne({ email });
+  const serviceToken = generateServiceToken();
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({ success: true, token: createToken(user._id) });
-  } else {
-    res.status(404).json({ success: false, msg: "Invalid Email or Password" });
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    {
+      headers: { Authorization: `Bearer ${serviceToken}` },
+    }
+  );
+
+  const accountData = response.data;
+
+  // console.log(accountData);
+
+  // const user = await userModel.findOne({ email });
+  const user = accountData.find((a) => a.email === email);
+
+  console.log(user);
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    return res
+      .status(401)
+      .json({ success: false, msg: "Invalid Email or Password" });
   }
+
+  // Generate JWT token if password is correct
+  res.status(200).json({ success: true, token: createToken(user._id), user });
+
+  // if (user && (await user.matchPassword(password))) {
+  //   res.json({ success: true, token: createToken(user._id) });
+  // } else {
+  //   res.status(404).json({ success: false, msg: "Invalid Email or Password" });
+  // }
 });
 
 const createToken = (id) => {
@@ -324,6 +380,21 @@ const testingLogin = asyncHandler(async (req, res) => {
   return res.status(401).json({ msg: "Invalid credentials for both systems." });
 });
 
+const getAccountRequest = expressAsyncHandler(async (req, res) => {
+  const serviceToken = generateServiceToken();
+  console.log(process.env.API_GATEWAY_URL);
+
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    {
+      headers: { Authorization: `Bearer ${serviceToken}` },
+    }
+  );
+
+  const accountData = response.data;
+  res.status(200).json(accountData);
+});
+
 export {
   getUser,
   registerUser,
@@ -337,4 +408,6 @@ export {
   updateUserPassword,
   testingGetAllUsersEncrypt,
   testingLogin,
+  getAccountRequest,
+  getSpecificUsers,
 };

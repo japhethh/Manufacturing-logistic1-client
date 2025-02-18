@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import supplierModel from "../models/supplierModel.js";
+import generateServiceToken from "./gatewayGenerator.js";
+import axios from "axios";
+// import "dotenv/config";
+import expressAsyncHandler from "express-async-handler";
 
 const authMiddleware = async (req, res, next) => {
   const { token } = req.headers;
@@ -87,7 +91,21 @@ const verifyToken = async (req, res, next) => {
 
     // Attach user information to the request after validation
 
-    const user = await userModel.findById(decoded.id);
+    const serviceToken = generateServiceToken();
+
+    const response = await axios.get(
+      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+      {
+        headers: { Authorization: `Bearer ${serviceToken}` },
+      }
+    );
+
+    const accountData = response.data;
+
+    const user = accountData.find((a) => a._id === decoded.id);
+
+    // const user = await userModel.findById(decoded.id);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -117,7 +135,6 @@ const vendorVerifyToken = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-
     res.status(200).json({ success: true, valid: true, decoded });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
@@ -128,6 +145,22 @@ const vendorVerifyToken = async (req, res) => {
   }
 };
 
+const testingRequestAccount = expressAsyncHandler(async (req, res) => {
+  const serviceToken = generateServiceToken();
+
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+
+    {
+      headers: { Authorization: `Bearer ${serviceToken}` },
+    }
+  );
+
+  const accountData = response.data;
+
+  return accountData;
+});
+
 export {
   authMiddleware,
   authorizeRoles,
@@ -135,4 +168,5 @@ export {
   protectMid,
   verifyToken,
   vendorVerifyToken,
+  testingRequestAccount,
 };

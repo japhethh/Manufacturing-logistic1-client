@@ -1,6 +1,5 @@
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
 import asyncHandler from "express-async-handler";
-// import rawmaterialModel from "../models/rawmaterialModel.js";
 import generatedAndUploadPdf from "../utils/generateAndUploadPdf.js";
 import financeApprovalModel from "../models/financeApprovalModel.js";
 import axios from "axios";
@@ -11,8 +10,11 @@ import expressAsyncHandler from "express-async-handler";
 import supplierModel from "../models/supplierModel.js";
 import AuditLog from "../models/auditLogisiticModel.js";
 import userModel from "../models/userModel.js";
+import "dotenv/config";
+import generateServiceToken from "../middleware/gatewayGenerator.js";
+
 // Create Purchase Order Controller
-const createPurchaseOrder = async (req, res) => {
+const createPurchaseOrder = expressAsyncHandler(async (req, res) => {
   try {
     const {
       supplier,
@@ -24,7 +26,7 @@ const createPurchaseOrder = async (req, res) => {
       notes,
       paymentTerm,
       approvalStatus,
-      userId, 
+      userId,
       reason,
       paymentDetails,
     } = req.body;
@@ -43,13 +45,29 @@ const createPurchaseOrder = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
+    const serviceToken = generateServiceToken();
 
-    const userExist = await userModel.findById(userId);
+    const response = await axios.get(
+      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+      { headers: { Authorization: `Bearer ${serviceToken}` } }
+    );
+
+    const accountData = response.data;
+
+    const userExist = accountData.find((a) => a._id === userId);
+
     if (!userExist) {
       return res
         .status(400)
         .json({ success: false, message: "User id not found!" });
     }
+
+    // const userExist = await userModel.findById(userId);
+    // if (!userExist) {
+    //   return res
+    //     .status(400)
+    //     .json({ success: false, message: "User id not found!" });
+    // }
 
     const generalSetting = await generalSettingsModel.find();
     if (!generalSetting) {
@@ -142,35 +160,38 @@ const createPurchaseOrder = async (req, res) => {
 
     console.log(financeApproval);
 
-    // Raffy tanga
-    const generateServiceToken = () => {
+    const generateServiceTokens = () => {
       const payload = { service: "Logistics 1" };
       return jwt.sign(payload, process.env.GATEWAY_JWT_SECRET, {
         expiresIn: "1h",
       });
     };
 
+    // -----------------------------------------------
     // FINANCE ------------------->
     // Axios
 
-    const postRequest = async () => {
-      const raffy = generateServiceToken();
-      const response = await axios.post(
-        `https://manufacturing-api-gateway.onrender.com/logistics/request-budget`,
-        financeApproval,
-        { headers: { Authorization: `Bearer ${raffy}` } }
-      );
 
-      console.log(response.data);
-    };
 
-    postRequest();
+    // =========================================================
+    // const postRequest = async () => {
+    //   const raffy = generateServiceTokens();
+    //   const response = await axios.post(
+    //     `https://manufacturing-api-gateway.onrender.com/logistics/request-budget`,
+    //     financeApproval,
+    //     { headers: { Authorization: `Bearer ${raffy}` } }
+    //   );
+
+    //   console.log(response.data);
+    // };
+
+    // postRequest();
 
     res.status(201).json(newPurchaseOrder);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-};
+});
 
 // Get all purchase orders
 const getAllPurchaseOrder = asyncHandler(async (req, res) => {
@@ -234,12 +255,31 @@ const updatePurchaseOrder = asyncHandler(async (req, res) => {
     const { userId } = req.body;
     const updateData = req.body;
 
-    const userExist = await userModel.findById(userId);
+
+    const serviceToken = generateServiceToken();
+
+    const response = await axios.get(
+      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+      { headers: { Authorization: `Bearer ${serviceToken}` } }
+    );
+
+    const accountData = response.data;
+
+    const userExist = accountData.find((a) => a._id === userId);
+
     if (!userExist) {
       return res
         .status(400)
         .json({ success: false, message: "User id not found!" });
     }
+    console.log(userExist);
+
+    // const userExist = await userModel.findById(userId);
+    // if (!userExist) {
+    //   return res
+    //     .status(400)
+    //     .json({ success: false, message: "User id not found!" });
+    // }
 
     const purchaseOrderId = await purchaseOrderModel.findById(id);
 

@@ -105,7 +105,7 @@ const App = () => {
       setToken(null);
     };
 
-    // verifyToken();
+    verifyToken();
     if (!userData) {
       fetchUserData();
     }

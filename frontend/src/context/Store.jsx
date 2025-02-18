@@ -30,9 +30,11 @@ const Store = create((set) => ({
           token: token,
         },
       });
+      console.log(response.data);
       set({ userData: response.data, loading: false, error: null });
     } catch (err) {
       set({ error: "Failed to fetch user data", loading: false });
+      console.log(err?.response.data.message);
     }
   },
   fetchAllUsers: async () => {

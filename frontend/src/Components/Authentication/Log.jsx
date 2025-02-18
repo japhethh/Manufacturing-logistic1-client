@@ -149,7 +149,7 @@ const Log = () => {
         {/* "Logistic 1" Text */}
         <div className="text-center max-lg:hidden md:text-left mt-8 md:mt-0">
           <p className="text-6xl sm:text-7xl md:text-8xl font-bold text-white">
-            Logistic 1
+            Logistic
           </p>
           <p className="text-white/70 mt-4 text-base sm:text-lg font-medium">
             Sign in to access your account and manage your preferences.

@@ -40,6 +40,7 @@ const auditLogisticSchema = mongoose.Schema(
         "superAdmin",
         "Supplier",
         "Logistic",
+        "logistic",
         "Quality Control",
         "Finance",
       ],

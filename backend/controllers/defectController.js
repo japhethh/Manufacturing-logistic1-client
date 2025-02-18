@@ -1,16 +1,32 @@
 import asyncHandler from "express-async-handler";
 import DefectModel from "../models/DefectModel.js";
 import userModel from "../models/userModel.js";
-
+import generateServiceToken from "../middleware/gatewayGenerator.js";
+import axios from "axios";
 // GET ALL DEFECT
 const getAllDefect = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
-  // Check if the user exists
-  const exists = await userModel.findById(userId);
-  if (!exists) {
-    return res.status(400).json({ success: false, message: "User not found!" });
+  const serviceToken = generateServiceToken();
+
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
+
+  if (!userExist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User id not found!" });
   }
+  // const exists = await userModel.findById(userId);
+  // if (!exists) {
+  //   return res.status(400).json({ success: false, message: "User not found!" });
+  // }
 
   // Find all defect records and populate nested fields
   const getAll = await DefectModel.find().populate({
