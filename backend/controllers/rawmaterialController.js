@@ -6,6 +6,8 @@ import asyncHandler from "express-async-handler";
 import userModel from "../models/userModel.js";
 import { ensureShape } from "@tensorflow/tfjs";
 import AuditLog from "../models/auditLogisiticModel.js";
+import generateServiceToken from "../middleware/gatewayGenerator.js";
+import axios from "axios";
 
 const requested = asyncHandler(async (req, res) => {
   try {
@@ -16,6 +18,12 @@ const requested = asyncHandler(async (req, res) => {
         model: "Supplier", // Ensure you reference the correct model name
       },
     });
+
+    if (!request) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Material not found" });
+    }
     // .populate("material.materialId");
     res.status(200).json(request);
   } catch (err) {
@@ -156,11 +164,28 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Required to fill all!" });
   }
 
-  const exist = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
+
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const exist = accountData.find((a) => a._id === userId);
 
   if (!exist) {
-    return res.status(404).json({ success: false, message: "User not found!" });
+    return res
+      .status(400)
+      .json({ success: false, message: "User id not found!" });
   }
+
+  // const exist = await userModel.findById(userId);
+
+  // if (!exist) {
+  //   return res.status(404).json({ success: false, message: "User not found!" });
+  // }
 
   const existRawmaterial = await rawmaterialModel.findById(id);
 
@@ -221,17 +246,33 @@ const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "Required to fill all!" });
   }
 
-  const exist = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
 
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const exist = accountData.find((a) => a._id === userId);
+
+  if (!exist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User id not found!" });
+  }
+  // const exist = await userModel.findById(userId);
+
+  // if (!exist) {
+  //   return res.status(404).json({ success: false, message: "User not found!" });
+  // }
   const existRawmaterial = await rawmaterialModel.findById(id);
 
   if (!existRawmaterial) {
     return res
       .status(404)
       .json({ success: false, message: "Raw material not found!" });
-  }
-  if (!exist) {
-    return res.status(404).json({ success: false, message: "User not found!" });
   }
 
   const newAuditLog = new AuditLog({

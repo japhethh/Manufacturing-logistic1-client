@@ -8,33 +8,41 @@ import { toast } from "react-toastify";
 
 const RawMaterialRequest = () => {
   const { fetchUserData, userData } = Store();
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
-  console.log(userData);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+
   const [deleteRequestId, setDeleteRequestId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [dataId, setDataId] = useState("");
-  // Pagination and sorting states
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({
-    key: "requestDate",
-    direction: "ascending",
-  });
+
+  useEffect(() => {
+    fetchUserData();
+    fetchRequests();
+  }, []);
+
+  const fetchRequests = async () => {
+    setLoading(true); // Make sure loading is set to true before making the request.
+    try {
+      const response = await axios.get(`${apiURL}/api/rawmaterial/request`);
+      setRequests(response.data);
+      console.log(response.data);
+      setLoading(false); // Make sure loading is set to false once data is fetched.
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Error fetching data");
+      setError("Error fetching raw material requests.");
+      setLoading(false); // Make sure loading is set to false even if an error occurs.
+    }
+  };
+
   const navigate = useNavigate();
   const { apiURL, token } = useContext(UserContext);
   console.log(dataId);
-  useEffect(() => {
-    fetchRequests();
-  }, []);
+
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: requests,
@@ -114,12 +122,14 @@ const RawMaterialRequest = () => {
           render: (data) => {
             const requestStatus = data?.requestStatus;
             const isProcessed =
-              requestStatus === "Approved" || requestStatus === "Rejected";
-
+              requestStatus === "Approved" ||
+              requestStatus === "Rejected"  
             return `
               <div class="py-2 px-4 flex gap-2">
                 ${
-                  userData?.role === "admin" || userData?.role === "logistic" || userData?.role === "superAdmin"
+                  userData?.role === "admin" ||
+                  userData?.role === "logistic" ||
+                  userData?.role === "superAdmin"
                     ? `
                       <button
                         class="px-3 py-1 text-sm font-medium rounded ${
@@ -169,7 +179,7 @@ const RawMaterialRequest = () => {
           },
         },
       ],
-      order: [[0, "desc"]],
+      order: [[1, "desc"]],
       rowCallback: (row, data) => {
         if (userData?.role === "superAdmin") {
           const createPOBtn = row.querySelector(`#createPOBtn_${data._id}`);
@@ -179,27 +189,23 @@ const RawMaterialRequest = () => {
         }
         const approveBtn = row.querySelector(`#approveBtn_${data._id}`);
         const rejectBtn = row.querySelector(`#rejectBtn_${data._id}`);
-        // Attach event listeners for buttons
-        approveBtn.addEventListener("click", () => openApproveModel(data?._id));
-        rejectBtn.addEventListener("click", () => openRejectModel(data?._id));
+
+        if (approveBtn) {
+          approveBtn.addEventListener("click", () =>
+            openApproveModel(data?._id)
+          );
+        }
+
+        if (rejectBtn) {
+          rejectBtn.addEventListener("click", () => openRejectModel(data?._id));
+        }
       },
     });
     return () => {
       table.destroy();
     };
   }, [requests]);
-  const fetchRequests = async () => {
-    try {
-      const response = await axios.get(`${apiURL}/api/rawmaterial/request`);
-      setRequests(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error?.response.data.message)
-      setError("Error fetching raw material requests.");
-    } finally {
-      setLoading(false);
-    }
-  };
+
   const openDeleteModal = (id) => {
     setDeleteRequestId(id);
     setModalOpen(true);
@@ -227,7 +233,7 @@ const RawMaterialRequest = () => {
         `${apiURL}/api/rawmaterial/approveStatus/${dataId}`,
         { status: "Approved" },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { token: token },
         }
       );
       fetchRequests();
@@ -249,7 +255,7 @@ const RawMaterialRequest = () => {
         `${apiURL}/api/rawmaterial/rejectStatus/${dataId}`,
         { status: "Rejected" },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { token: token },
         }
       );
       fetchRequests();
@@ -261,20 +267,7 @@ const RawMaterialRequest = () => {
       setModalOpen(false);
     }
   };
-  const handleStatusChange = async (requestId, newStatus) => {
-    try {
-      const response = await axios.put(
-        `${apiURL}/api/rawmaterial/updateStatus/${requestId}`,
-        { requestStatus: newStatus }
-      );
-      if (response.data.success) {
-        fetchRequests();
-        toast.success("Request status updated successfully.");
-      }
-    } catch (error) {
-      toast.error("Error updating request status.");
-    }
-  };
+
   const handleEdit = (request) => {
     const requestData = {
       supplier: request.supplier,
@@ -291,46 +284,10 @@ const RawMaterialRequest = () => {
     };
     navigate(`/purchase-order/edit`, { state: { requestData } });
   };
-  // Sorting functionality
-  const sortedRequests = () => {
-    let sorted = [...requests];
-    if (sortConfig !== null) {
-      sorted.sort((a, b) => {
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
-        return sortConfig.direction === "ascending"
-          ? aValue < bValue
-            ? -1
-            : 1
-          : aValue > bValue
-          ? -1
-          : 1;
-      });
-    }
-    return sorted;
-  };
-  const requestSort = (key) => {
-    const direction =
-      sortConfig.key === key && sortConfig.direction === "ascending"
-        ? "descending"
-        : "ascending";
-    setSortConfig({ key, direction });
-  };
-  // Filter by search term
-  const filteredRequests = sortedRequests().filter((request) =>
-    request.requestedBy.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  // Pagination logic
-  const indexOfLastRequest = currentPage * itemsPerPage;
-  const indexOfFirstRequest = indexOfLastRequest - itemsPerPage;
-  const currentRequests = filteredRequests.slice(
-    indexOfFirstRequest,
-    indexOfLastRequest
-  );
-  const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
+
   return (
     <div className="p-6">
-      {loading && (
+      {/* {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
           <div className="flex flex-col items-center">
             <svg
@@ -356,7 +313,7 @@ const RawMaterialRequest = () => {
             <p className="text-white mt-2">Loading...</p>
           </div>
         </div>
-      )}
+      )} */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-gray-800">
           Raw Material Requests

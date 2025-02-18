@@ -8,7 +8,7 @@ import {
   approvePurchaseRequisition,
   rejectPurchaseRequisition,
 } from "../controllers/rawmaterialController.js";
-import { protectMid } from "../middleware/Auth.js";
+import { authMiddleware, protectMid } from "../middleware/Auth.js";
 const rawmaterialRouter = express.Router();
 
 rawmaterialRouter.get("/request", requested);
@@ -18,12 +18,12 @@ rawmaterialRouter.put("/updateStatus/:id", updateStatus);
 rawmaterialRouter.post("/request", newRequested);
 rawmaterialRouter.put(
   "/approveStatus/:id",
-  protectMid,
+  authMiddleware,
   approvePurchaseRequisition
 );
 rawmaterialRouter.put(
   "/rejectStatus/:id",
-  protectMid,
+  authMiddleware,
   rejectPurchaseRequisition
 );
 
