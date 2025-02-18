@@ -42,4 +42,18 @@ const getAllAuditLogLogistic = expressAsyncHandler(async (req, res) => {
   res.status(200).json(auditLog);
 });
 
-export { getAllAuditLogLogistic };
+const deleteAuditLogLogistic = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const deleted = await AuditLog.findByIdAndUpdate(id);
+
+  if (!deleted) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Audit id not found!" });
+  }
+
+  res.status(200).json({ success: false, message: "Deleted Successfully!" });
+});
+
+export { getAllAuditLogLogistic, deleteAuditLogLogistic };
