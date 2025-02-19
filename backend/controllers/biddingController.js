@@ -2,6 +2,8 @@
 import userModel from "../models/userModel.js";
 import expressAsyncHandler from "express-async-handler";
 import categoryBiddingModel from "../models/categoryBiddingModel.js";
+import generateServiceToken from "../middleware/gatewayGenerator.js";
+import axios from "axios";
 
 // const createdBidding = expressAsyncHandler(async (req, res) => {
 //   try {
@@ -145,13 +147,31 @@ import categoryBiddingModel from "../models/categoryBiddingModel.js";
 const createCategoryBidding = expressAsyncHandler(async (req, res) => {
   const { userId, category } = req.body;
 
-  const existUser = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
 
-  if (!existUser) {
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
+
+  if (!userExist) {
     return res
-      .status(404)
+      .status(400)
       .json({ success: false, message: "User id not found!" });
   }
+  console.log(userExist);
+
+  // const existUser = await userModel.findById(userId);
+
+  // if (!existUser) {
+  //   return res
+  //     .status(404)
+  //     .json({ success: false, message: "User id not found!" });
+  // }
 
   const newCategory = new categoryBiddingModel({
     category,
@@ -190,13 +210,30 @@ const getAllCategoryBidding = expressAsyncHandler(async (req, res) => {
 const getAllCategoryBiddings = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
 
-  const existUser = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
 
-  if (!existUser) {
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
+
+  if (!userExist) {
     return res
       .status(400)
       .json({ success: false, message: "User id not found!" });
   }
+
+  // const existUser = await userModel.findById(userId);
+
+  // if (!existUser) {
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, message: "User id not found!" });
+  // }
 
   const getData = await categoryBiddingModel.find();
 
@@ -217,13 +254,30 @@ const updateCategoryBidding = expressAsyncHandler(async (req, res) => {
     return res.status(400).json({ success: false, message: "Input Required!" });
   }
 
-  const existUser = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
 
-  if (!existUser) {
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
+
+  if (!userExist) {
     return res
       .status(400)
       .json({ success: false, message: "User id not found!" });
   }
+
+  // const existUser = await userModel.findById(userId);
+
+  // if (!existUser) {
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, message: "User id not found!" });
+  // }
 
   const updated = await categoryBiddingModel.findByIdAndUpdate(_id, req.body, {
     new: true,
@@ -242,13 +296,30 @@ const deleteCategoryBidding = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
   const { _id } = req.params;
 
-  const existUser = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
 
-  if (!existUser) {
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
+
+  if (!userExist) {
     return res
       .status(400)
       .json({ success: false, message: "User id not found!" });
   }
+
+  // const existUser = await userModel.findById(userId);
+
+  // if (!existUser) {
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, message: "User id not found!" });
+  // }
 
   const deleted = await categoryBiddingModel.findByIdAndDelete(_id);
 

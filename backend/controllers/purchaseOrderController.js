@@ -324,13 +324,31 @@ const deletePurchaseOrder = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { userId } = req.body;
 
-  const userExist = await userModel.findById(userId);
+  const serviceToken = generateServiceToken();
+
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
 
   if (!userExist) {
     return res
       .status(400)
       .json({ success: false, message: "User id not found!" });
   }
+  console.log(userExist);
+
+  // const userExist = await userModel.findById(userId);
+
+  // if (!userExist) {
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, message: "User id not found!" });
+  // }
 
   const purchaseOrderId = await purchaseOrderModel.findById(id);
 

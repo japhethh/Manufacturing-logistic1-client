@@ -259,6 +259,7 @@ const App = () => {
             element={<TrackingOrderReceiving />}
           ></Route>
           <Route path="/bidding-category" element={<Category />}></Route>
+          <Route path="/bidding" element={<Bidding />}></Route>
         </Routes>
       </div>
     </div>

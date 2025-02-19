@@ -37,24 +37,22 @@ const Category = () => {
   };
 
   useEffect(() => {
-    if (data.length > 0) {
-      let table = new DataTable("#myTable", {
-        destroy: true, // Prevent reinitialization issues
-        data: data,
-        columns: [
-          { title: "#", data: "_id", render: (data) => data || "N/A" },
-          {
-            title: "Category",
-            data: "category",
-            render: (data) => data || "N/A",
-          },
-        ],
-      });
+    let table = new DataTable("#myTable", {
+      destroy: true, // Prevent reinitialization issues
+      data: data,
+      columns: [
+        { title: "#", data: "_id", render: (data) => data || "N/A" },
+        {
+          title: "Category",
+          data: "category",
+          render: (data) => data || "N/A",
+        },
+      ],
+    });
 
-      return () => {
-        table.destroy();
-      };
-    }
+    return () => {
+      table.destroy();
+    };
   }, [data]);
 
   const handleSubmit = async () => {
@@ -90,7 +88,7 @@ const Category = () => {
   return (
     <div className="p-4">
       <BiddingItems />
-      <div className="flex md:flex-row flex-col gap-4">
+      <div className="flex md:flex-row flex-col gap-4 my-4">
         <div className="shadow-md p-3 h-full">
           <h1 className="font-semibold text-lg">Category List</h1>
           <label htmlFor="category" className="label">

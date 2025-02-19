@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const materialSchema = mongoose.Schema({
   materialName: {
     type: String,
@@ -40,6 +39,7 @@ const materialSchema = mongoose.Schema({
   image: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
   material_id: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
+  averageDeliveryTime: { type: Number },
 });
 
 // materialSchema.pre("save", async function (next) {

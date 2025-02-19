@@ -398,6 +398,9 @@ const VendorManagementAll = () => {
                 <div className="border border-1 font-Roboto py-2 px-2">
                   <h1>Note</h1>
                 </div>
+                <div className="border border-1 font-Roboto py-2 px-2">
+                  <h1>Average Delivery Time</h1>
+                </div>
               </div>
 
               <div>
@@ -461,8 +464,15 @@ const VendorManagementAll = () => {
                 </div>
                 <div className="border border-1 py-2 px-2">
                   <h1 className="font-Roboto">
-                    {selectedData?.description
-                      ? selectedData?.description
+                    {selectedData?.note
+                      ? selectedData?.note
+                      : "N/A"}
+                  </h1>
+                </div>
+                <div className="border border-1 py-2 px-2">
+                  <h1 className="font-Roboto">
+                    {selectedData?.averageDeliveryTime
+                      ? selectedData?.averageDeliveryTime
                       : "N/A"}
                   </h1>
                 </div>

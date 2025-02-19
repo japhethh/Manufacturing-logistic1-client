@@ -61,6 +61,7 @@ const EditProducts = () => {
       setValue("material_id", materialOnly.material_id);
       setValue("pricePerUnit", materialOnly.pricePerUnit);
       setValue("unit", materialOnly.unit);
+      setValue("averageDeliveryTime", materialOnly.averageDeliveryTime);
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -95,6 +96,7 @@ const EditProducts = () => {
     formData.append("tax", data.tax);
     formData.append("unit", data.unit);
     formData.append("note", data.note);
+    formData.append("averageDeliveryTime", data.averageDeliveryTime);
     if (productImage) {
       formData.append("image", productImage);
     }
@@ -306,6 +308,25 @@ const EditProducts = () => {
               {errors.unit && (
                 <span className="text-red-500 text-sm">
                   {errors.unit.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-600 font-Roboto">
+                Average Delivery Time
+              </label>
+              <input
+                type="number"
+                {...register("averageDeliveryTime", {
+                  required: "Average Delivery Time is required",
+                })}
+                className="mt-2 w-full p-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-400/50 transition shadow-sm"
+                placeholder="Enter Average Delivery Time"
+              />
+              {errors.averageDeliveryTime && (
+                <span className="text-red-500 text-sm font-Roboto">
+                  {errors.averageDeliveryTime.message}
                 </span>
               )}
             </div>

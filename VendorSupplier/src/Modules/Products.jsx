@@ -46,7 +46,7 @@ const Products = () => {
 
   const onSubmit = async (data) => {
     console.log({ ...data, productImage });
-    console.log(data);
+    console.log(data.averageDeliveryTime);
     const formData = new FormData();
     // Append the form data values
     formData.append("materialName", data.materialName);
@@ -60,6 +60,7 @@ const Products = () => {
     formData.append("tax", data.tax);
     formData.append("unit", data.unit);
     formData.append("note", data.note);
+    formData.append("averageDeliveryTime", data.averageDeliveryTime);
     if (productImage) {
       formData.append("image", productImage);
     }
@@ -232,7 +233,9 @@ const Products = () => {
               placeholder="Enter tax percentage"
             />
             {errors.tax && (
-              <span className="text-red-500 text-sm font-Roboto">{errors.tax.message}</span>
+              <span className="text-red-500 text-sm font-Roboto">
+                {errors.tax.message}
+              </span>
             )}
           </div>
 
@@ -245,12 +248,33 @@ const Products = () => {
               className="mt-2 w-full p-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-400/50 transition shadow-sm"
               {...register("unit", { required: "Unit is required" })}
             >
-              <option value="" className="font-Roboto">Select Option</option>
-              <option value="pcs" className="font-Roboto">Piece</option>
+              <option value="" className="font-Roboto">
+                Select Option
+              </option>
+              <option value="pcs" className="font-Roboto">
+                Piece
+              </option>
             </select>
             {errors.unit && (
               <span className="text-red-500 text-sm font-Roboto">
                 {errors.unit.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 font-Roboto">
+              Average Delivery Time
+            </label>
+            <input
+              type="number"
+              {...register("averageDeliveryTime", { required: "Average Delivery Time is required" })}
+              className="mt-2 w-full p-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-400/50 transition shadow-sm"
+              placeholder="Enter Average Delivery Time"
+            />
+            {errors.averageDeliveryTime && (
+              <span className="text-red-500 text-sm font-Roboto">
+                {errors.averageDeliveryTime.message}
               </span>
             )}
           </div>
@@ -262,7 +286,7 @@ const Products = () => {
             Note
           </label>
           <textarea
-            {...register("description")}
+            {...register("note")}
             className="mt-2 w-full p-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-400/50 transition shadow-sm"
             placeholder="Enter additional notes"
           ></textarea>
