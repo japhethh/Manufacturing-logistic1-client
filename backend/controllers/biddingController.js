@@ -4,63 +4,149 @@ import expressAsyncHandler from "express-async-handler";
 import categoryBiddingModel from "../models/categoryBiddingModel.js";
 import generateServiceToken from "../middleware/gatewayGenerator.js";
 import axios from "axios";
+import biddingModel from "../models/biddingModel.js";
+import Counter from "../models/Counter.js";
+import cloudinary from "../utils/cloudinary.js";
+import fs from "fs";
 
-// const createdBidding = expressAsyncHandler(async (req, res) => {
-//   try {
-//     const {
-//       userId,
-//       name,
-//       category,
-//       description,
-//       regularPrice,
-//       startBiddingAmount,
-//       biddingEndDateTime,
-//       productImage,
-//     } = req.body;
+const createdBidding = expressAsyncHandler(async (req, res) => {
+  console.log(req.body);
+  try {
+    const {
+      userId,
+      name,
+      category,
+      quantityRequired,
+      unit,
+      description,
+      regularPrice,
+      startBiddingPrice,
+      biddingEndDate,
+      productImage,
+    } = req.body;
 
-//     const existUser = await userModel.findById(userId);
-//     if (!existUser) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "User Id not found!" });
-//     }
+    const serviceToken = generateServiceToken();
+    const response = await axios.get(
+      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
 
-//     const addNewBidding = new biddingModel({
-//       name,
-//       category,
-//       description,
-//       regularPrice,
-//       startBiddingAmount,
-//       biddingEndDateTime,
-//       productImage,
-//     });
+      { headers: { Authorization: `Bearer ${serviceToken}` } }
+    );
 
-//     if (!addNewBidding) {
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Bidding not found!" });
-//     }
+    const accountData = response.data;
 
-//     await biddingModel.save();
+    const userExist = accountData.find((a) => a._id === userId);
 
-//     res
-//       .status(201)
-//       .json({ success: true, message: "Created Bidding Successfully!" });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    if (!userExist) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User id not found!" });
+    }
+    console.log(userExist);
 
-// const getAllBidding = expressAsyncHandler(async (req, res) => {
-//   const existUser = await userModel.find({});
-//   if (!existUser) {
-//     return res
-//       .status(404)
-//       .json({ success: false, message: "User Id not found!" });
-//   }
+    let image = "";
 
-//   res.status(200).json(existUser);
-// });
+    const counter = await Counter.findByIdAndUpdate(
+      {
+        _id: "biddingNumber",
+      },
+      { $inc: { sequence_value: 1 } },
+      { new: true, upsert: true }
+    );
+
+    const biddingNumber = counter.sequence_value.toString().padStart(3, "0");
+    const reference = `Bd-${biddingNumber}`;
+
+    if (req.file) {
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: "BiddingImages",
+        });
+
+        if (req.file.path) {
+          fs.unlinkSync(req.file.path);
+        }
+
+        image = result.secure_url;
+      } catch (error) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Image upload failed", error });
+      }
+    }
+    // const existUser = await userModel.findById(userId);
+    // if (!existUser) {
+    //   return res
+    //     .status(404)
+    //     .json({ success: false, message: "User Id not found!" });
+    // }
+
+    const addNewBidding = new biddingModel({
+      biddingNumber: reference,
+      name,
+      category,
+      description,
+      quantityRequired,
+      unit,
+      regularPrice,
+      startBiddingPrice,
+      biddingEndDate,
+      productImage: image,
+      requestedBy: userId,
+    });
+
+    if (!addNewBidding) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Bidding not found!" });
+    }
+
+    await addNewBidding.save();
+
+    res
+      .status(201)
+      .json({ success: true, message: "Created Bidding Successfully!" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+const getAllBidding = expressAsyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  // const existUser = await userModel.find({});
+  // if (!existUser) {
+  //   return res
+  //     .status(404)
+  //     .json({ success: false, message: "User Id not found!" });
+  // }
+
+  const serviceToken = generateServiceToken();
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+
+    { headers: { Authorization: `Bearer ${serviceToken}` } }
+  );
+
+  const accountData = response.data;
+
+  const userExist = accountData.find((a) => a._id === userId);
+
+  if (!userExist) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User id not found!" });
+  }
+  console.log(userExist);
+
+  const product = await biddingModel.find({});
+  if (!product) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Bidding not found!" });
+  }
+
+
+  res.status(200).json(product);
+});
 
 // const getSpecificId = expressAsyncHandler(async (req, res) => {
 //   const { userId } = req.body;
@@ -85,38 +171,33 @@ import axios from "axios";
 //   res.status(200).json(existBidding);
 // });
 
-// // Delete Bidding
-// const deleteBidding = expressAsyncHandler(async (req, res) => {
-//   const { id } = req.params;
-//   const { userId } = req.body;
+// Delete Bidding
+const deleteBidding = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
 
-//   const existUser = await userModel.findById(userId);
-//   if (!existUser) {
-//     return res
-//       .status(404)
-//       .json({ success: false, message: "User id not found!" });
-//   }
 
-//   const existBidding = await biddingModel.findById(id);
 
-//   if (!existBidding) {
-//     return res
-//       .status(404)
-//       .json({ success: false, message: "Bidding Id not found!" });
-//   }
+  const existBidding = await biddingModel.findById(id);
 
-//   const deletedBidding = await biddingModel.findByIdAndDelete(id);
+  if (!existBidding) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Bidding Id not found!" });
+  }
 
-//   if (!deletedBidding) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "Bidding id not found!" });
-//   }
+  const deletedBidding = await biddingModel.findByIdAndDelete(id);
 
-//   res
-//     .status(200)
-//     .json({ success: true, message: "Deleted Bidding!", data: deletedBidding });
-// });
+  if (!deletedBidding) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Bidding id not found!" });
+  }
+
+  res
+    .status(200)
+    .json({ success: true, message: "Deleted Bidding!", data: deletedBidding });
+});
 
 // const updateBidding = expressAsyncHandler(async (req, res) => {
 //   const { userId } = req.body;
@@ -333,10 +414,10 @@ const deleteCategoryBidding = expressAsyncHandler(async (req, res) => {
 });
 
 export {
-  // getAllBidding,
-  // createdBidding,
+  getAllBidding,
+  createdBidding,
   // getSpecificId,
-  // deleteBidding,
+  deleteBidding,
   // updateBidding,
   // Category
   createCategoryBidding,

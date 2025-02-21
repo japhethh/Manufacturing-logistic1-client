@@ -127,7 +127,6 @@ const VendorManagementAll = () => {
           data: null,
           render: (data) => {
             return `
-
             ${
               userData?.role === "superAdmin"
                 ? `
