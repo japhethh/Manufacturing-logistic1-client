@@ -16,7 +16,7 @@ const GCashPaymentForm = () => {
     setSuccessMessage(null);
 
     try {
-      const response = await axios.post('http://localhost:4000/api/payment/payment-link', {
+      const response = await axios.post('http://localhost:7681/api/payment/payment-link', {
         amount,
         description,
         remarks,

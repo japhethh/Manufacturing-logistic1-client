@@ -16,7 +16,7 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const ENDPOINT =
     window.location.hostname === "localhost"
-      ? "http://localhost:4000"
+      ? "http://localhost:7681"
       : "https://backend-logistic1.jjm-manufacturing.com";
 
   useEffect(() => {

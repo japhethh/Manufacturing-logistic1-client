@@ -59,7 +59,7 @@ import auditLogisticRouter from "./routes/auditLogisticRouter.js";
 import auditVendorRouter from "./routes/auditVendorRouter.js";
 import biddingRouter from "./routes/biddingRouter.js";
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 7681;
 
 const app = express();
 app.use(ExpressMongoSanitize());
@@ -150,6 +150,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:4000",
+      "http://localhost:7681",
       "http://localhost:5173",
       "http://localhost:5174",
       "https://manufacturing-logistic1-client-vendor.onrender.com",
