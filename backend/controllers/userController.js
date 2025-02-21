@@ -106,7 +106,7 @@ const getSpecificUsers = asyncHandler(async (req, res) => {
   const response = await axios.get(
     `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
     { headers: { Authorization: `Bearer ${serviceToken}` } }
-  );  
+  );
 
   const accountData = response.data;
 
@@ -289,7 +289,6 @@ const loginUser = asyncHandler(async (req, res) => {
   // const user = await userModel.findOne({ email });
   const user = accountData.find((a) => a.email === email);
 
-  console.log(user);
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
@@ -298,14 +297,14 @@ const loginUser = asyncHandler(async (req, res) => {
       .json({ success: false, msg: "Invalid Email or Password" });
   }
 
-  // Generate JWT token if password is correct
-  res.status(200).json({ success: true, token: createToken(user._id), user });
-
-  // if (user && (await user.matchPassword(password))) {
-  //   res.json({ success: true, token: createToken(user._id) });
-  // } else {
-  //   res.status(404).json({ success: false, msg: "Invalid Email or Password" });
-  // }
+  if (user?.LogisticLevel === 1) {
+    // Generate JWT token if password is correct
+    res.status(200).json({ success: true, token: createToken(user._id), user });
+  }
+  if (user?.LogisticLevel === 2) {
+    // Generate JWT token if password is correct
+    res.status(200).json({ success: true, token: createToken(user._id), user });
+  }
 });
 
 const createToken = (id) => {
@@ -325,59 +324,128 @@ const testingGetAllUsersEncrypt = asyncHandler(async (req, res) => {
   res.status(200).json(encrypted || []);
 });
 
+// const testingLogin = asyncHandler(async (req, res) => {
+//   const { email, password } = req.body;
+
+//   console.log(email);
+//   console.log(password);
+
+//   // const logistic1 =
+//   //   "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
+
+//   // const logistic1 = "http://localhost:4000/api/user/login";
+//   const logistic1 =
+//     "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
+//   const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
+
+//   try {
+//     const response = await axios.post(logistic1, { email, password });
+
+//     if (!response) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Incorrect Password" });
+//     }
+//     return res.status(200).json({
+//       msg: "Login successful with Logistic 1",
+//       token: response.data.token,
+//       portal: "Logistic 1",
+//       // redirectUrl:
+//       //   "https://manufacturing-logistic1-client-frontend.onrender.com/",
+//       redirectUrl: "http://localhost:5173",
+//     });
+//   } catch (error) {
+//     console.log("Logistic 1 failed:", error.response?.data?.msg);
+//   }
+
+//   try {
+//     const response = await axios.post(logistic2, { email, password });
+//     console.log("Mali account mo napunta na siya dito")
+//     if (!response) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Incorrect Password" });
+//     }
+
+//     return res.status(200).json({
+//       msg: "Login successful with Logistic 2",
+//       token: response.data.token,
+//       portal: "Logistic 2",
+//       redirectUrl: "https://logistic2.jjm-manufacturing.com",
+//     });
+//   } catch (error) {
+//     console.log("Logistic 1 failed:", error.response?.data?.msg);
+//   }
+
+//   // If both fail
+//   return res.status(401).json({ msg: "Invalid credentials for both systems." });
+// });
+
+
 const testingLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  console.log(email);
-  console.log(password);
-
-  // const logistic1 =
-  //   "https://manufacturing-logistic1-client-api.onrender.com/api/user/login";
-
-  const logistic1 = "http://localhost:4000/api/user/login";
-  const logistic2 = "https://logistic2.jjm-manufacturing.com/login";
-
-  try {
-    const response = await axios.post(logistic1, { email, password });
-
-    if (!response) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Incorrect Password" });
+  // Fetch all user accounts from the Admin system
+  const serviceToken = generateServiceToken();
+  const response = await axios.get(
+    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    {
+      headers: { Authorization: `Bearer ${serviceToken}` },
     }
-    return res.status(200).json({
-      msg: "Login successful with Logistic 1",
-      token: response.data.token,
-      portal: "Logistic 1",
-      // redirectUrl:
-      //   "https://manufacturing-logistic1-client-frontend.onrender.com/",
-      redirectUrl: "http://localhost:5173",
-    });
-  } catch (error) {
-    console.log("Logistic 1 failed:", error.response?.data?.msg);
+  );
+
+  const accountData = response.data;
+  const user = accountData.find((a) => a.email === email);
+
+  // Check if user exists
+  if (!user) {
+    return res.status(401).json({ success: false, msg: "Invalid Email" });
   }
 
-  try {
-    const response = await axios.post(logistic2, { email, password });
-
-    if (!response) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Incorrect Password" });
-    }
-
-    return res.status(200).json({
-      msg: "Login successful with Logistic 2",
-      token: response.data.token,
-      portal: "Logistic 2",
-      redirectUrl: "https://logistic2.jjm-manufacturing.com",
-    });
-  } catch (error) {
-    console.log("Logistic 1 failed:", error.response?.data?.msg);
+  // Validate password
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(401).json({ success: false, msg: "Invalid Password" });
   }
 
-  // If both fail
-  return res.status(401).json({ msg: "Invalid credentials for both systems." });
+  // Define endpoints based on LogisticLevel
+  const logisticEndpoints = {
+    1: "https://manufacturing-logistic1-client-api.onrender.com/api/user/login",
+    2: "https://logistic2.jjm-manufacturing.com/login",
+  };
+
+  const redirectUrls = {
+    1: "http://localhost:5173", // Change to production URL
+    2: "https://logistic2.jjm-manufacturing.com",
+  };
+
+  const portalNames = {
+    1: "Logistic 1",
+    2: "Logistic 2",
+  };
+
+  // Check if user has a valid LogisticLevel (1 or 2)
+  if (![1, 2].includes(user?.LogisticLevel)) {
+    return res.status(400).json({ success: false, msg: "Invalid Logistic Level" });
+  }
+
+  // Send request to the corresponding logistic system
+  try {
+    const logisticResponse = await axios.post(logisticEndpoints[user.LogisticLevel], { email, password });
+
+    return res.status(200).json({
+      msg: `Login successful with ${portalNames[user.LogisticLevel]}`,
+      token: logisticResponse.data.token,
+      portal: portalNames[user.LogisticLevel],
+      redirectUrl: redirectUrls[user.LogisticLevel],
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: `Error logging into ${portalNames[user.LogisticLevel]}`,
+      error: error.response?.data?.msg || "Internal Server Error",
+    });
+  }
 });
 
 const getAccountRequest = expressAsyncHandler(async (req, res) => {
