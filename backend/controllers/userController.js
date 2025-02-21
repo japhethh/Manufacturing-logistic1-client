@@ -415,7 +415,7 @@ const testingLogin = asyncHandler(async (req, res) => {
   };
 
   const redirectUrls = {
-    1: "https://manufacturing-logistic1-client-api.onrender.com", // Change to production URL
+    1: "https://manufacturing-logistic1-client-frontend.onrender.com", // Change to production URL
     2: "https://logistic2.jjm-manufacturing.com",
   };
 
