@@ -240,33 +240,48 @@ const Login = () => {
                 filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="flex items-center gap-6 mb-6 p-4 bg-gray-50 rounded-lg hover:shadow-md transition duration-200"
+                    className="relative flex items-center gap-6 p-5 bg-gray-50 rounded-lg shadow transition duration-300 hover:shadow-xl"
                   >
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-20 h-20 object-cover rounded-lg shadow-md"
+                      className="w-24 h-24 object-cover rounded-lg shadow-md"
                     />
                     <div className="flex flex-col flex-1">
-                      <div>
-                        <h1 className="flex text-sm rounded-full px-2 bg-orange-500 text-white">
-                          <FcExpired className="text-lg" />
-                          {product.date}
-                        </h1>
-                      </div>
-                      <h1 className="text-xl font-bold text-gray-900 mt-2">
+                      {/* Expiration Date */}
+                      <span className="flex items-center gap-1 text-sm bg-orange-500 text-white px-3 py-1 rounded-full w-fit">
+                        <FcExpired className="text-lg" />
+                        {product.date}
+                      </span>
+
+                      {/* Product Name */}
+                      <h1 className="text-lg font-semibold text-gray-900 mt-2">
                         {product.name}
                       </h1>
-                      <span className="text-sm text-gray-600">
-                        Category: {product.category}
+
+                      {/* Category */}
+                      <span className="text-xs text-gray-700 font-medium bg-gray-200 px-2 py-1 rounded-md w-fit">
+                        {product.category}
                       </span>
-                      <p className="text-sm text-gray-500 mt-1">
+
+                      {/* Description */}
+                      <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {product.description}
                       </p>
-                      {/* View Button - Opens Drawer */}
-                      <details className="dropdown">
-                        <summary className="btn m-2 text-white font-bold font-Roboto bg-blue-500 hover:bg-blue-600 duration-200">View</summary>
-                        <ul className="menu dropdown-content bg-base-100 border rounded-box z-[1] w-52 p-2 shadow">
+
+                      {/* DaisyUI Dropdown */}
+                      <div className="dropdown mt-3">
+                        <div
+                          tabIndex={0}
+                          role="button"
+                          className="btn w-24 bg-blue-500 text-white font-bold hover:bg-blue-600"
+                        >
+                          View
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="dropdown-content z-[1] menu shadow bg-white border rounded-lg w-44 p-2"
+                        >
                           <li>
                             <a>Item 1</a>
                           </li>
@@ -274,12 +289,12 @@ const Login = () => {
                             <a>Item 2</a>
                           </li>
                         </ul>
-                      </details>
+                      </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500">
+                <p className="text-gray-500 text-center">
                   No products found in this category.
                 </p>
               )}
