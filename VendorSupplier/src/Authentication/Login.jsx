@@ -266,7 +266,7 @@ const Login = () => {
                       {/* View Button - Opens Drawer */}
                       <details className="dropdown">
                         <summary className="btn m-2 text-white font-bold font-Roboto bg-blue-500 hover:bg-blue-600 duration-200">View</summary>
-                        <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                        <ul className="menu dropdown-content bg-base-100 border rounded-box z-[1] w-52 p-2 shadow">
                           <li>
                             <a>Item 1</a>
                           </li>
