@@ -106,228 +106,226 @@ const Login = () => {
       : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-56 w-full">
-      {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center">
-        <div className="navbar bg-base-100">
-          <div className="navbar-start">
-            <a className="btn btn-ghost text-xl">
-              <NavLink to="/login" className="text-xl font-bold text-blue-600">
-                Vendor Portal
-              </NavLink>
-            </a>
-          </div>
-          <div className="navbar-end">
-            {/* Button to Open Modal */}
-            <button
-              className="btn btn-primary"
-              onClick={() => document.getElementById("login_modal").showModal()}
-            >
-              Login
-            </button>
-          </div>
+    <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-56 w-full relative">
+    {/* Navbar */}
+    <nav className="absolute top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center z-10">
+      <div className="navbar bg-base-100">
+        <div className="navbar-start">
+          <a className="btn btn-ghost text-xl">
+            <NavLink to="/login" className="text-xl font-bold text-blue-600 hover:text-blue-700 transition duration-200">
+              Vendor Portal
+            </NavLink>
+          </a>
         </div>
-      </nav>
-
-      {/* Background Image */}
-      <img
-        src={vendor}
-        alt="Background"
-        className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
-        style={{ zIndex: -1 }}
-      />
-
-      {/* Login Modal */}
-      <dialog id="login_modal" className="modal">
-        <div className="modal-box w-full max-w-md">
-          <h1 className="mb-6 text-3xl font-bold text-center text-gray-900">
-            LOGIN
-          </h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Email Field */}
-            <div className="mb-5">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Email Address
-              </label>
-              <input
-                type="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-xs text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-
-            {/* Password Field */}
-            <div className="mb-5 relative">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                {...register("password")}
-              />
-              <span
-                onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
-              {errors.password && (
-                <p className="text-xs text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg"
-            >
-              Login
-            </button>
-          </form>
-
-          {/* Close Button */}
-          <div className="modal-action">
-            <button
-              className="btn"
-              onClick={() => document.getElementById("login_modal").close()}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </dialog>
-
-      <div className="flex w-full px-6 py-8 gap-6">
-        {/* Categories Sidebar */}
-        <div className="w-1/4 h-96 bg-white shadow-lg rounded-lg p-4">
-          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
-            Categories
-          </h2>
-          <ul className="space-y-2">
-            {categories.map((category, index) => (
-              <li
-                key={index}
-                className={`cursor-pointer transition duration-200 ${
-                  selectedCategory === category
-                    ? "text-blue-600 font-bold"
-                    : "text-gray-700 hover:text-blue-600"
-                }`}
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Product Display */}
-        <div className="w-3/4 bg-white shadow-lg rounded-lg p-6 ">
-          <div className="overflow-auto h-96">
-            <div className="grid grid-cols-2">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product) => (
-                  <div
-                    key={product.id}
-                    className="flex items-center gap-6 mb-6"
-                  >
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-20  h-20 object-cover rounded-lg shadow-md"
-                    />
-                    <div className="flex flex-col">
-                      <div>
-                        <h1 className="flex text-sm rounded-full px-2 bg-orange-500 text-white ">
-                          <FcExpired className="text-lg" />
-
-                          {product.date}
-                        </h1>
-                      </div>
-                      <h1 className="text-xl font-bold text-gray-900 mt-2">
-                        {product.name}
-                      </h1>
-                      <span className="text-sm text-gray-600">
-                        Category: {product.category}
-                      </span>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {product.description}
-                      </p>
-                      {/* View Button - Opens Drawer */}
-                      <button
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition duration-200"
-                        onClick={() => setSelectedProduct(product)}
-                      >
-                        <FaEye className="inline-block mr-2" />
-                        View
-                      </button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500">
-                  No products found in this category.
-                </p>
-              )}
-            </div>
-          </div>
+        <div className="navbar-end">
+          {/* Button to Open Modal */}
+          <button
+            className="btn btn-primary hover:bg-blue-700 transition duration-200"
+            onClick={() => document.getElementById("login_modal").showModal()}
+          >
+            Login
+          </button>
         </div>
       </div>
-      {/* Drawer Component */}
-      <div className={`drawer ${selectedProduct ? "drawer-open" : ""}`}>
-        <input
-          type="checkbox"
-          id="my-drawer"
-          className="drawer-toggle"
-          checked={!!selectedProduct}
-          onChange={() => setSelectedProduct(null)}
-        />
-        <div className="drawer-side">
-          <label
-            htmlFor="my-drawer"
-            className="drawer-overlay"
-            onClick={() => setSelectedProduct(null)}
-          ></label>
-          <div className="p-6 w-80 bg-white shadow-lg min-h-full">
-            {selectedProduct && (
-              <>
-                <h2 className="text-xl font-bold text-gray-800 border-b pb-2">
-                  {selectedProduct.name}
-                </h2>
-
-                <img
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  className="w-full h-48 object-cover rounded-lg shadow-md my-4"
-                />
-
-                <p className="text-gray-700">
-                  <strong>Category:</strong> {selectedProduct.category}
-                </p>
-                <p className="text-gray-700">
-                  <strong>Description:</strong> {selectedProduct.description}
-                </p>
-                <p className="text-gray-700">
-                  <strong>Available Since:</strong> {selectedProduct.date}
-                </p>
-
-                <button
-                  className="btn mt-4 w-full bg-red-500 hover:bg-red-600 text-white"
-                  onClick={() => setSelectedProduct(null)}
+    </nav>
+  
+    {/* Background Image */}
+    <img
+      src={vendor}
+      alt="Background"
+      className="absolute inset-0 w-full h-full object-cover brightness-[0.5]"
+      style={{ zIndex: -1 }}
+    />
+  
+    {/* Login Modal */}
+    <dialog id="login_modal" className="modal">
+      <div className="modal-box w-full max-w-md bg-white rounded-lg shadow-xl">
+        <h1 className="mb-6 text-3xl font-bold text-center text-gray-900">
+          LOGIN
+        </h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Email Field */}
+          <div className="mb-5">
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              type="email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+            )}
+          </div>
+  
+          {/* Password Field */}
+          <div className="mb-5 relative">
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("password")}
+            />
+            <span
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+            {errors.password && (
+              <p className="text-xs text-red-500 mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+  
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Login
+          </button>
+        </form>
+  
+        {/* Close Button */}
+        <div className="modal-action mt-4">
+          <button
+            className="btn btn-ghost hover:bg-gray-100 transition duration-200"
+            onClick={() => document.getElementById("login_modal").close()}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </dialog>
+  
+    {/* Main Content */}
+    <div className="flex w-full px-6 py-8 gap-6 z-10">
+      {/* Categories Sidebar */}
+      <div className="w-1/4 h-96 bg-white shadow-lg rounded-lg p-4">
+        <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
+          Categories
+        </h2>
+        <ul className="space-y-2">
+          {categories.map((category, index) => (
+            <li
+              key={index}
+              className={`cursor-pointer transition duration-200 ${
+                selectedCategory === category
+                  ? "text-blue-600 font-bold"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </li>
+          ))}
+        </ul>
+      </div>
+  
+      {/* Product Display */}
+      <div className="w-3/4 bg-white shadow-lg rounded-lg p-6">
+        <div className="overflow-auto h-96">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex items-center gap-6 mb-6 p-4 bg-gray-50 rounded-lg hover:shadow-md transition duration-200"
                 >
-                  Close
-                </button>
-              </>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-20 h-20 object-cover rounded-lg shadow-md"
+                  />
+                  <div className="flex flex-col flex-1">
+                    <div>
+                      <h1 className="flex text-sm rounded-full px-2 bg-orange-500 text-white">
+                        <FcExpired className="text-lg" />
+                        {product.date}
+                      </h1>
+                    </div>
+                    <h1 className="text-xl font-bold text-gray-900 mt-2">
+                      {product.name}
+                    </h1>
+                    <span className="text-sm text-gray-600">
+                      Category: {product.category}
+                    </span>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {product.description}
+                    </p>
+                    {/* View Button - Opens Drawer */}
+                    <button
+                      className="mt-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition duration-200"
+                      onClick={() => setSelectedProduct(product)}
+                    >
+                      <FaEye className="inline-block mr-2" />
+                      View
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">
+                No products found in this category.
+              </p>
             )}
           </div>
         </div>
       </div>
     </div>
+  
+    {/* Drawer Component */}
+    <div className={`drawer ${selectedProduct ? "drawer-open" : ""}`}>
+      <input
+        type="checkbox"
+        id="my-drawer"
+        className="drawer-toggle"
+        checked={!!selectedProduct}
+        onChange={() => setSelectedProduct(null)}
+      />
+      <div className="drawer-side">
+        <label
+          htmlFor="my-drawer"
+          className="drawer-overlay"
+          onClick={() => setSelectedProduct(null)}
+        ></label>
+        <div className="p-6 w-80 bg-white shadow-lg min-h-full">
+          {selectedProduct && (
+            <>
+              <h2 className="text-xl font-bold text-gray-800 border-b pb-2">
+                {selectedProduct.name}
+              </h2>
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="w-full h-48 object-cover rounded-lg shadow-md my-4"
+              />
+              <p className="text-gray-700">
+                <strong>Category:</strong> {selectedProduct.category}
+              </p>
+              <p className="text-gray-700">
+                <strong>Description:</strong> {selectedProduct.description}
+              </p>
+              <p className="text-gray-700">
+                <strong>Available Since:</strong> {selectedProduct.date}
+              </p>
+              <button
+                className="btn mt-4 w-full bg-red-500 hover:bg-red-600 text-white transition duration-200"
+                onClick={() => setSelectedProduct(null)}
+              >
+                Close
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
   );
 };
 
