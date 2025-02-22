@@ -283,10 +283,10 @@ const Login = () => {
                           className="dropdown-content z-[1] menu shadow bg-white border rounded-lg w-44 p-2"
                         >
                           <li>
-                            <a>Item 1</a>
+                            <a>Button Bid</a>
                           </li>
                           <li>
-                            <a>Item 2</a>
+                            <a>Details</a>
                           </li>
                         </ul>
                       </div>
