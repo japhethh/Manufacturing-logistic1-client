@@ -252,7 +252,7 @@ const Receiving = () => {
           data: "supplier.rating",
         },
       ],
-      order: [[4, "desc"]],
+      order: [[6, "desc"]],
       rowCallback: (row, data) => {
         const detailBtn = row.querySelector(`#detailBtn_${data?._id}`);
         const qcBtn = row.querySelector(`#qcBtn_${data?._id}`);

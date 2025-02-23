@@ -283,9 +283,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const accountData = response.data;
 
-  // console.log(accountData);
-
-  // const user = await userModel.findOne({ email });
   const user = accountData.find((a) => a.email === email);
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -409,7 +406,7 @@ const testingLogin = asyncHandler(async (req, res) => {
   // Define endpoints based on LogisticLevel
   const logisticEndpoints = {
     1: "https://backend-logistic1.jjm-manufacturing.com/api/user/login",
-    2: "https://logistic2.jjm-manufacturing.com/login",
+    2: "https://backend-logistic2.jjm-manufacturing.com/api/auth/login",
   };
   // const logisticEndpoints = {
   //   1: "https://manufacturing-logistic1-client-api.onrender.com/api/user/login",

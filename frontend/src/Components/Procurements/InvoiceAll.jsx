@@ -337,7 +337,10 @@ const InvoiceAll = () => {
               className="space-y-4"
             >
               <div className="flex flex-col">
-                <label htmlFor="description" className="mb-1 text-gray-700 font-Roboto">
+                <label
+                  htmlFor="description"
+                  className="mb-1 text-gray-700 font-Roboto"
+                >
                   Description
                 </label>
                 <input
@@ -350,7 +353,10 @@ const InvoiceAll = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="totalAmount" className="mb-1 text-gray-700 font-Roboto">
+                <label
+                  htmlFor="totalAmount"
+                  className="mb-1 text-gray-700 font-Roboto"
+                >
                   Total Amount
                 </label>
                 <input
@@ -363,7 +369,10 @@ const InvoiceAll = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="payment" className="mb-1 text-gray-700 font-Roboto">
+                <label
+                  htmlFor="payment"
+                  className="mb-1 text-gray-700 font-Roboto"
+                >
                   Payment
                 </label>
                 <select
@@ -375,9 +384,15 @@ const InvoiceAll = () => {
                   <option value={selectedData.status}>
                     {selectedData.status}
                   </option>
-                  <option value="" className="font-Roboto">Select Option</option>
-                  <option value="Paid" className="font-Roboto">Paid</option>
-                  <option value="Unpaid" className="font-Roboto">Unpaid</option>
+                  <option value="" className="font-Roboto">
+                    Select Option
+                  </option>
+                  <option value="Paid" className="font-Roboto">
+                    Paid
+                  </option>
+                  <option value="Unpaid" className="font-Roboto">
+                    Unpaid
+                  </option>
                 </select>
                 {errors.phone && (
                   <span className="text-red-500 text-sm">

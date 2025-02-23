@@ -125,7 +125,7 @@ const PendingOrdersVendor = () => {
           render: (data) => `
             <div class="flex space-x-2">
               <button id="approveBtn_${data._id}" class="btn btn-primary btn-sm">Approve</button>
-              <button id="rejectBtn_${data._id}" class="btn btn-error btn-sm">Reject</button>
+              <button id="rejectBtn_${data._id}" class="btn btn-error text-white btn-sm">Reject</button>
               <button id="viewBtn_${data._id}" class="btn btn-secondary btn-sm">View</button>
             </div>
           `,
