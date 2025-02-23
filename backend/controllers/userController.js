@@ -405,18 +405,26 @@ const testingLogin = asyncHandler(async (req, res) => {
 
   // Define endpoints based on LogisticLevel
   const logisticEndpoints = {
-    1: "https://backend-logistic1.jjm-manufacturing.com/api/user/login",
+    1: "http://localhost:7681/api/user/login",
     2: "https://backend-logistic2.jjm-manufacturing.com/api/auth/login",
   };
+  // const logisticEndpoints = {
+  //   1: "https://backend-logistic1.jjm-manufacturing.com/api/user/login",
+  //   2: "https://backend-logistic2.jjm-manufacturing.com/api/auth/login",
+  // };
   // const logisticEndpoints = {
   //   1: "https://manufacturing-logistic1-client-api.onrender.com/api/user/login",
   //   2: "https://logistic2.jjm-manufacturing.com/login",
   // };
 
   const redirectUrls = {
-    1: "https://logistic1.jjm-manufacturing.com", // Change to production URL
+    1: "http://localhost:5173", // Change to production URL
     2: "https://logistic2.jjm-manufacturing.com",
   };
+  // const redirectUrls = {
+  //   1: "https://logistic1.jjm-manufacturing.com", // Change to production URL
+  //   2: "https://logistic2.jjm-manufacturing.com",
+  // };
 
   const portalNames = {
     1: "Logistic 1",

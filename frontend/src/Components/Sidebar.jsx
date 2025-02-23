@@ -48,6 +48,8 @@ const Sidebar = () => {
 
   const { userData } = Store();
 
+  console.log(userData);
+
   return (
     <div
       className={`lg:flex md:flex hidden flex-col h-screen bg-white text-black py-4 border-r-2 sticky top-0 transition-all duration-300 ease-in-out ${
@@ -72,7 +74,9 @@ const Sidebar = () => {
         aria-label="Dashboard Logo"
       >
         <img src={vendor} alt="Dashboard logo" className="w-16 rounded-full" />
-        {!isCollapsed && <p className="text-xl font-bold font-Roboto">Dashboard</p>}
+        {!isCollapsed && (
+          <p className="text-xl font-bold font-Roboto">Dashboard</p>
+        )}
       </div>
 
       {/* Sidebar scrollable content */}
@@ -515,7 +519,9 @@ const Sidebar = () => {
               }`
                       }
                     >
-                      <span className="text-base font-Roboto">Purchase Order List</span>
+                      <span className="text-base font-Roboto">
+                        Purchase Order List
+                      </span>
                     </NavLink>
                   </li>
                   {/* CREATE PURCHASE ORDERS */}
@@ -531,7 +537,9 @@ const Sidebar = () => {
               }`
                       }
                     >
-                      <span className="text-base font-Roboto">Create Purchase Order</span>
+                      <span className="text-base font-Roboto">
+                        Create Purchase Order
+                      </span>
                     </NavLink>
                   </li>
                   {/* TRACK ORDERS */}
@@ -547,7 +555,9 @@ const Sidebar = () => {
               }`
                       }
                     >
-                      <span className="text-base font-Roboto">Track Orders</span>
+                      <span className="text-base font-Roboto">
+                        Track Orders
+                      </span>
                     </NavLink>
                   </li>
                 </ul>
@@ -577,7 +587,9 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold font-Roboto">Invoice</span>
+                  <span className="text-base font-semibold font-Roboto">
+                    Invoice
+                  </span>
                 )}
               </NavLink>
             </li>
@@ -605,7 +617,9 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold font-Roboto">Payment</span>
+                  <span className="text-base font-semibold font-Roboto">
+                    Payment
+                  </span>
                 )}
               </NavLink>
             </li>
@@ -646,7 +660,9 @@ const Sidebar = () => {
                               : "text-black"
                           }
                         >
-                          <p className="text-base font-Roboto">View All Accounts</p>
+                          <p className="text-base font-Roboto">
+                            View All Accounts
+                          </p>
                         </NavLink>
                       </li>
 
@@ -659,7 +675,9 @@ const Sidebar = () => {
                               : "text-black"
                           }
                         >
-                          <p className="text-base font-Roboto">Account Request</p>
+                          <p className="text-base font-Roboto">
+                            Account Request
+                          </p>
                         </NavLink>
                       </li>
                     </ul>
@@ -698,7 +716,9 @@ const Sidebar = () => {
                           }
                         >
                           <LuSettings2 className="inline" />{" "}
-                          <p className="text-base font-Roboto">System Settings</p>
+                          <p className="text-base font-Roboto">
+                            System Settings
+                          </p>
                         </NavLink>
                       </li>
                     </ul>
@@ -746,44 +766,6 @@ const Sidebar = () => {
                 )}
               </NavLink>
             </li>
-          </ul>
-
-          {/* AUDIT MANAGEMENT */}
-          <p
-            className={`text-gray-500 mt-3 font-semibold font-Roboto text-base mr-auto ${
-              isCollapsed ? "hidden" : ""
-            }`}
-          >
-            Audit Management
-          </p>
-          <ul className="w-full menu rounded-box">
-            {/* DISCREPANCY REPORT SECTION */}
-            <li
-              className={`menu-item transition-all duration-300 ${
-                isCollapsed ? "hidden" : ""
-              }`}
-            >
-              <NavLink
-                to="/auditLog-logistic"
-                className={({ isActive }) =>
-                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
-        ${
-          isActive
-            ? "text-base-200 bg-blue-500 font-bold"
-            : "text-black hover:bg-gray-100"
-        }`
-                }
-              >
-                <AiOutlineAudit
-                  className={`transition-all duration-300 ${
-                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
-                  }`}
-                />
-                {!isCollapsed && (
-                  <span className="text-base font-semibold font-Roboto">Audit Logs</span>
-                )}
-              </NavLink>
-            </li>
 
             {/*  RETURN AUTHORIZATION SECTION */}
             <li
@@ -795,11 +777,11 @@ const Sidebar = () => {
                 to="vendormanagement"
                 className={({ isActive }) =>
                   `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
-        ${
-          isActive
-            ? "text-base-200 bg-blue-500 font-bold"
-            : "text-black hover:bg-gray-100"
-        }`
+          ${
+            isActive
+              ? "text-base-200 bg-blue-500 font-bold"
+              : "text-black hover:bg-gray-100"
+          }`
                 }
               >
                 <IoMdReturnLeft
@@ -815,6 +797,54 @@ const Sidebar = () => {
               </NavLink>
             </li>
           </ul>
+
+          {/* AUDIT MANAGEMENT */}
+
+          {userData?.role === "superAdmin" ? (
+            <div>
+              <p
+                className={`text-gray-500 mt-3 font-semibold font-Roboto text-base mr-auto ${
+                  isCollapsed ? "hidden" : ""
+                }`}
+              >
+                Audit Management
+              </p>
+              <ul className="w-full menu rounded-box">
+                {/* DISCREPANCY REPORT SECTION */}
+                <li
+                  className={`menu-item transition-all duration-300 ${
+                    isCollapsed ? "hidden" : ""
+                  }`}
+                >
+                  <NavLink
+                    to="/auditLog-logistic"
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+          ${
+            isActive
+              ? "text-base-200 bg-blue-500 font-bold"
+              : "text-black hover:bg-gray-100"
+          }`
+                    }
+                  >
+                    <AiOutlineAudit
+                      className={`transition-all duration-300 ${
+                        isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                      }`}
+                    />
+                    {!isCollapsed && (
+                      <span className="text-base font-semibold font-Roboto">
+                        Audit Logs
+                      </span>
+                    )}
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            ""
+          )}
+
           {/* WAREHOUSE */}
           <p
             className={`text-gray-500 mt-3 font-semibold font-Roboto text-base mr-auto ${
@@ -847,7 +877,9 @@ const Sidebar = () => {
                   }`}
                 />
                 {!isCollapsed && (
-                  <span className="text-base font-semibold font-Roboto">Warehouse</span>
+                  <span className="text-base font-semibold font-Roboto">
+                    Warehouse
+                  </span>
                 )}
               </NavLink>
             </li>
