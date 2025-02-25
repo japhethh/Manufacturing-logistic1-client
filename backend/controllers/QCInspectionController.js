@@ -10,6 +10,7 @@ import inventoryRecordModel from "../models/inventoryRecordModel.js";
 import Invoice from "../models/invoiceVendorModel.js";
 import generateServiceToken from "../middleware/gatewayGenerator.js";
 import axios from "axios";
+
 const qcCreate = expressAsyncHandler(async (req, res) => {
   try {
     const { inspector, status, discrepancies, invoiceId, userId } = req.body;

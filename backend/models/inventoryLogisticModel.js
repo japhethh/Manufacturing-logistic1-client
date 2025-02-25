@@ -7,6 +7,7 @@ const InventorySchema = new mongoose.Schema(
     category: { type: String, required: true },
     warehouseLocation: { type: String, required: true },
     totalStock: { type: Number, default: 0 },
+    inspector: { type: String },
     reservedStock: { type: Number, default: 0 },
     availableStock: { type: Number, default: 0 },
     unit: { type: String, required: true },
