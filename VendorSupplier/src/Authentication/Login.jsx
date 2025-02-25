@@ -18,7 +18,7 @@ const schema = z.object({
 });
 
 const Login = () => {
-  const { setToken } = useContext(VendorUserContext);
+  const { token, setToken } = useContext(VendorUserContext); // Add token from context
   const navigate = useNavigate();
   const {
     register,
@@ -46,6 +46,7 @@ const Login = () => {
       const response = await axios.post(`${apiURL}/api/supplier/login`, data);
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
+      setToken(response.data.token); // Update token in context
       navigate("/dashboardvendor");
       document.getElementById("login_modal").close(); // Close modal on success
       window.location.reload();
@@ -54,6 +55,22 @@ const Login = () => {
       toast.error(error.response?.data?.message || "Login failed", {
         position: "top-center",
       });
+    }
+  };
+
+  const handlePlaceBid = () => {
+    if (!token) {
+      // If user is not logged in, show login modal
+      document.getElementById("login_modal").showModal();
+      toast.info("Please login to place a bid.", {
+        position: "top-center",
+      });
+    } else {
+      // If user is logged in, allow them to place a bid
+      toast.success("You can now place a bid!", {
+        position: "top-center",
+      });
+      // Add your bid placement logic here
     }
   };
 
@@ -173,29 +190,29 @@ const Login = () => {
             </div>
 
             {/* Password Field */}
-            <div class="mb-5 relative">
+            <div className="mb-5 relative">
               <label
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium text-gray-700"
               >
                 Password
               </label>
-              <div class="relative">
+              <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   {...register("password")}
                 />
                 <span
                   onClick={togglePasswordVisibility}
-                  class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700"
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
               {errors.password && (
-                <p class="text-xs text-red-500 mt-1">
+                <p className="text-xs text-red-500 mt-1">
                   {errors.password.message}
                 </p>
               )}
@@ -204,16 +221,16 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
             >
               Login
             </button>
           </form>
 
           {/* Close Button */}
-          <div class="modal-action mt-4">
+          <div className="modal-action mt-4">
             <button
-              class="btn btn-ghost hover:bg-gray-100 transition duration-200"
+              className="btn btn-ghost hover:bg-gray-100 transition duration-200"
               onClick={() => document.getElementById("login_modal").close()}
             >
               Close
@@ -281,7 +298,6 @@ const Login = () => {
                       </p>
 
                       {/* DaisyUI Dropdown */}
-                      {/* You can open the modal using document.getElementById('ID').showModal() method */}
                       <button
                         className="btn bg-blue-500 text-white font-bold font-Roboto hover:bg-blue-600 mt-5"
                         onClick={() =>
@@ -292,7 +308,7 @@ const Login = () => {
                       </button>
                       <dialog id="my_modal_3" className="modal">
                         <div className="modal-box bg-white rounded-xl shadow-lg p-6 relative">
-                          {/* Close Button (Moved above the image) */}
+                          {/* Close Button */}
                           <form method="dialog">
                             <button className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-gray-600 hover:bg-gray-200 z-10">
                               <IoClose className="text-2xl" />
@@ -311,12 +327,12 @@ const Login = () => {
                           {/* Product Details */}
                           <div className="mt-4 text-gray-800">
                             <h3 className="text-2xl font-semibold text-gray-900">
-                              Sample Prod 23
+                              {product.name}
                             </h3>
                             <p className="text-sm text-gray-500">
                               Category:{" "}
                               <span className="text-blue-500 font-medium">
-                                Category 102
+                                {product.category}
                               </span>
                             </p>
 
@@ -330,7 +346,7 @@ const Login = () => {
                               <p className="text-gray-700">
                                 <strong>Until:</strong>{" "}
                                 <span className="text-red-500 font-medium">
-                                  Nov 28, 2020 - 03:00 PM
+                                  {product.date}
                                 </span>
                               </p>
                               <p className="text-gray-700">
@@ -343,12 +359,15 @@ const Login = () => {
 
                             {/* Description */}
                             <p className="text-gray-500 italic mt-3">
-                              Sample Only
+                              {product.description}
                             </p>
                           </div>
 
                           {/* Bid Button */}
-                          <button className="btn btn-primary w-full mt-5 py-3 text-lg font-semibold rounded-lg shadow-md transition-all hover:bg-blue-600">
+                          <button
+                            className="btn btn-primary w-full mt-5 py-3 text-lg font-semibold rounded-lg shadow-md transition-all hover:bg-blue-600"
+                            onClick={handlePlaceBid}
+                          >
                             Place a Bid
                           </button>
                         </div>
@@ -362,53 +381,6 @@ const Login = () => {
                 </p>
               )}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Drawer Component */}
-      <div className={`drawer ${selectedProduct ? "drawer-open" : ""}`}>
-        <input
-          type="checkbox"
-          id="my-drawer"
-          className="drawer-toggle"
-          checked={!!selectedProduct}
-          onChange={() => setSelectedProduct(null)}
-        />
-        <div className="drawer-side">
-          <label
-            htmlFor="my-drawer"
-            className="drawer-overlay"
-            onClick={() => setSelectedProduct(null)}
-          ></label>
-          <div className="p-6 w-80 bg-white shadow-lg min-h-full">
-            {selectedProduct && (
-              <>
-                <h2 className="text-xl font-bold text-gray-800 border-b pb-2">
-                  {selectedProduct.name}
-                </h2>
-                <img
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  className="w-full h-48 object-cover rounded-lg shadow-md my-4"
-                />
-                <p className="text-gray-700">
-                  <strong>Category:</strong> {selectedProduct.category}
-                </p>
-                <p className="text-gray-700">
-                  <strong>Description:</strong> {selectedProduct.description}
-                </p>
-                <p className="text-gray-700">
-                  <strong>Available Since:</strong> {selectedProduct.date}
-                </p>
-                <button
-                  className="btn mt-4 w-full bg-red-500 hover:bg-red-600 text-white transition duration-200"
-                  onClick={() => setSelectedProduct(null)}
-                >
-                  Close
-                </button>
-              </>
-            )}
           </div>
         </div>
       </div>
