@@ -278,6 +278,7 @@ const Login = () => {
                       <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {product.description}
                       </p>
+                      
                       {/* DaisyUI Dropdown */}
                       {/* You can open the modal using document.getElementById('ID').showModal() method */}
                       <button
