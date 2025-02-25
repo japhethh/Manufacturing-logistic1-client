@@ -266,43 +266,77 @@ const Login = () => {
                         <FcExpired className="text-lg" />
                         {product.date}
                       </span>
-
                       {/* Product Name */}
                       <h1 className="text-lg font-semibold text-gray-900 mt-2">
                         {product.name}
                       </h1>
-
                       {/* Category */}
                       <span className="text-xs text-gray-700 font-medium bg-gray-200 px-2 py-1 rounded-md w-fit">
                         {product.category}
                       </span>
-
                       {/* Description */}
                       <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {product.description}
                       </p>
-
                       {/* DaisyUI Dropdown */}
-                      <div className="dropdown mt-3">
-                        <div
-                          tabIndex={0}
-                          role="button"
-                          className="btn w-24 bg-blue-500 text-white font-bold hover:bg-blue-600"
-                        >
-                          View
+                      {/* You can open the modal using document.getElementById('ID').showModal() method */}
+                      <button
+                        className="btn"
+                        onClick={() =>
+                          document.getElementById("my_modal_3").showModal()
+                        }
+                      >
+                        View
+                      </button>
+
+                      <dialog id="my_modal_3" className="modal">
+                        <div className="modal-box">
+                          <form method="dialog">
+                            {/* Close button */}
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                              ✕
+                            </button>
+                          </form>
+
+                          {/* Product Image */}
+                          <img
+                            src="https://via.placeholder.com/300" // Replace with your product image URL
+                            alt="Product"
+                            className="w-full rounded-lg mb-4"
+                          />
+
+                          {/* Product Details */}
+                          <h3 className="text-lg font-bold">Sample Prod 23</h3>
+                          <p className="text-gray-600">
+                            <strong>Category:</strong>{" "}
+                            <span className="text-blue-500">Category 102</span>
+                          </p>
+                          <p className="text-gray-600">
+                            <strong>Starting Amount:</strong>{" "}
+                            <span className="text-blue-500">₱1,800.00</span>
+                          </p>
+                          <p className="text-gray-600">
+                            <strong>Until:</strong>{" "}
+                            <span className="text-blue-500">
+                              Nov 28, 2020 - 03:00 PM
+                            </span>
+                          </p>
+                          <p className="text-gray-600">
+                            <strong>Highest Bid:</strong>{" "}
+                            <span className="text-blue-500">₱1,800.00</span>
+                          </p>
+
+                          {/* Description */}
+                          <p className="text-gray-500 italic mt-2">
+                            Sample Only
+                          </p>
+
+                          {/* Bid Button */}
+                          <button className="btn btn-primary w-full mt-4">
+                            Bid
+                          </button>
                         </div>
-                        <ul
-                          tabIndex={0}
-                          className="dropdown-content z-[1] menu shadow bg-white border rounded-lg w-44 p-2"
-                        >
-                          <li>
-                            <a>Button Bid</a>
-                          </li>
-                          <li>
-                            <a>Details</a>
-                          </li>
-                        </ul>
-                      </div>
+                      </dialog>
                     </div>
                   </div>
                 ))
