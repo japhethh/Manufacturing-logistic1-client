@@ -143,17 +143,24 @@ const Login = () => {
       {/* Login Modal */}
       <dialog id="login_modal" className="modal">
         <div className="modal-box w-full max-w-md bg-white rounded-lg shadow-xl">
-          <h1 className="mb-6 text-3xl font-bold text-center text-gray-900">
-            LOGIN
+          <h1 className="mb-2 text-3xl font-bold text-center text-gray-900">
+            Welcome Back
           </h1>
+          <p className="mb-6 text-center text-gray-600">
+            Please login to your account
+          </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Email Field */}
             <div className="mb-5">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
                 Email Address
               </label>
               <input
                 type="email"
+                id="email"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 {...register("email")}
               />
@@ -165,23 +172,29 @@ const Login = () => {
             </div>
 
             {/* Password Field */}
-            <div className="mb-5 relative">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
+            <div class="mb-5 relative">
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                {...register("password")}
-              />
-              <span
-                onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
+              <div class="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  {...register("password")}
+                />
+                <span
+                  onClick={togglePasswordVisibility}
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
               {errors.password && (
-                <p className="text-xs text-red-500 mt-1">
+                <p class="text-xs text-red-500 mt-1">
                   {errors.password.message}
                 </p>
               )}
@@ -190,16 +203,16 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
+              class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
             >
               Login
             </button>
           </form>
 
           {/* Close Button */}
-          <div className="modal-action mt-4">
+          <div class="modal-action mt-4">
             <button
-              className="btn btn-ghost hover:bg-gray-100 transition duration-200"
+              class="btn btn-ghost hover:bg-gray-100 transition duration-200"
               onClick={() => document.getElementById("login_modal").close()}
             >
               Close
