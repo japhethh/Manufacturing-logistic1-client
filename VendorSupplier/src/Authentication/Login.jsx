@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash, FaBars, FaTimes } from "react-icons/fa";
 import vendor from "../assets/vendorLogin.jpg";
 import { FcExpired } from "react-icons/fc";
+import { IoClose } from "react-icons/io5";
 
 const schema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
@@ -82,7 +83,7 @@ const Login = () => {
       category: "Laptop",
       description: "Powerful Dell Laptop",
       image:
-        "https://i.dell.com/sites/csimages/App-Merchandizing_Images/all/inspiron-14-7000-laptop-black.png",
+        "https://images.idgesg.net/images/article/2021/05/dell-inspiron-15_angled_left_black-100887800-orig.jpeg",
       date: "3 Feb 2025, 8:30 AM",
     },
     {
@@ -91,7 +92,7 @@ const Login = () => {
       category: "Mobile Phone",
       description: "Latest Samsung Mobile",
       image:
-        "https://images.samsung.com/is/image/samsung/p6pim/levant/2202/gallery/levant-galaxy-s22-ultra-s908-412842-sm-s908ezwgmea-thumb-530338599?$320_320_PNG$",
+        "https://www.dxomark.com/wp-content/uploads/medias/post-182255/Samsung-Galaxy-S25_featured-image-packshot-review.jpg",
       date: "5 Feb 2025, 2:15 PM",
     },
   ];
@@ -289,52 +290,66 @@ const Login = () => {
                       >
                         View
                       </button>
-
                       <dialog id="my_modal_3" className="modal">
-                        <div className="modal-box">
+                        <div className="modal-box bg-white rounded-xl shadow-lg p-6 relative">
+                          {/* Close Button (Moved above the image) */}
                           <form method="dialog">
-                            {/* Close button */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                              ✕
+                            <button className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-gray-600 hover:bg-gray-200 z-10">
+                              <IoClose className="text-2xl" />
                             </button>
                           </form>
 
                           {/* Product Image */}
-                          <img
-                            src="https://via.placeholder.com/300" // Replace with your product image URL
-                            alt="Product"
-                            className="w-full rounded-lg mb-4"
-                          />
+                          <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden shadow-md">
+                            <img
+                              src={product.image}
+                              alt="Product"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
 
                           {/* Product Details */}
-                          <h3 className="text-lg font-bold">Sample Prod 23</h3>
-                          <p className="text-gray-600">
-                            <strong>Category:</strong>{" "}
-                            <span className="text-blue-500">Category 102</span>
-                          </p>
-                          <p className="text-gray-600">
-                            <strong>Starting Amount:</strong>{" "}
-                            <span className="text-blue-500">₱1,800.00</span>
-                          </p>
-                          <p className="text-gray-600">
-                            <strong>Until:</strong>{" "}
-                            <span className="text-blue-500">
-                              Nov 28, 2020 - 03:00 PM
-                            </span>
-                          </p>
-                          <p className="text-gray-600">
-                            <strong>Highest Bid:</strong>{" "}
-                            <span className="text-blue-500">₱1,800.00</span>
-                          </p>
+                          <div className="mt-4 text-gray-800">
+                            <h3 className="text-2xl font-semibold text-gray-900">
+                              Sample Prod 23
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              Category:{" "}
+                              <span className="text-blue-500 font-medium">
+                                Category 102
+                              </span>
+                            </p>
 
-                          {/* Description */}
-                          <p className="text-gray-500 italic mt-2">
-                            Sample Only
-                          </p>
+                            <div className="mt-3 space-y-2">
+                              <p className="text-gray-700">
+                                <strong>Starting Amount:</strong>{" "}
+                                <span className="text-blue-600 font-semibold">
+                                  ₱1,800.00
+                                </span>
+                              </p>
+                              <p className="text-gray-700">
+                                <strong>Until:</strong>{" "}
+                                <span className="text-red-500 font-medium">
+                                  Nov 28, 2020 - 03:00 PM
+                                </span>
+                              </p>
+                              <p className="text-gray-700">
+                                <strong>Highest Bid:</strong>{" "}
+                                <span className="text-green-500 font-semibold">
+                                  ₱1,800.00
+                                </span>
+                              </p>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-gray-500 italic mt-3">
+                              Sample Only
+                            </p>
+                          </div>
 
                           {/* Bid Button */}
-                          <button className="btn btn-primary w-full mt-4">
-                            Bid
+                          <button className="btn btn-primary w-full mt-5 py-3 text-lg font-semibold rounded-lg shadow-md transition-all hover:bg-blue-600">
+                            Place a Bid
                           </button>
                         </div>
                       </dialog>
