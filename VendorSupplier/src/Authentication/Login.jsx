@@ -278,11 +278,11 @@ const Login = () => {
                       <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {product.description}
                       </p>
-                      
+
                       {/* DaisyUI Dropdown */}
                       {/* You can open the modal using document.getElementById('ID').showModal() method */}
                       <button
-                        className="btn"
+                        className="btn bg-blue-500 text-white font-bold font-Roboto hover:bg-blue-600 mt-5"
                         onClick={() =>
                           document.getElementById("my_modal_3").showModal()
                         }
