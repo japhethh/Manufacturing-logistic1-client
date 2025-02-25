@@ -137,6 +137,11 @@ const InvoiceAll = () => {
           render: (data) => new Date(data).toLocaleDateString(),
         },
         {
+          title: "ID",
+          data: "_id",
+          render: (data) => `${data ? data : "N/A"}`,
+        },
+        {
           title: "Due Date",
           data: "dueDate",
           render: (data) => new Date(data).toLocaleDateString(),

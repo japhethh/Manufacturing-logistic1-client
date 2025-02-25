@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { apiURL } from "../../context/Store";
 import { useNavigate } from "react-router-dom";
-
+import Store from "../../context/Store";
 const QCInspection = () => {
   const { invoiceId } = useParams();
   const [inspectionData, setInspectionData] = useState({
@@ -19,6 +19,7 @@ const QCInspection = () => {
     numberCode: "",
     images: [], // To hold multiple images
   });
+  const { token } = Store();
 
   // Navigate
   const navigate = useNavigate();
@@ -50,7 +51,8 @@ const QCInspection = () => {
         {
           ...inspectionData,
           invoiceId,
-        }
+        },
+        { headers: { token: token } }
       );
       toast.success("QC inspection recorded successfully!");
 
