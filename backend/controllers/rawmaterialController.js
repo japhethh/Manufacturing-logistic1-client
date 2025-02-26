@@ -34,14 +34,23 @@ const requested = asyncHandler(async (req, res) => {
 const fetchPurchaseOrder = asyncHandler(async (req, res) => {});
 
 const newRequested = asyncHandler(async (req, res) => {
-  const { requestedBy, material, quantity, priority, unit, notes } = req.body;
+  const {
+    requestedBy,
+    material,
+    quantity,
+    priority,
+    unit,
+    notes,
+    department,
+    approvalId,
+  } = req.body;
 
   // Check for required fields
-  if (!requestedBy || !material || !notes) {
+  if (!requestedBy || !material || !notes || !department || !approvalId) {
     return res.status(400).json({
       success: false,
       message:
-        "All fields (requestedBy, material, quantity, unit, notes) are required.",
+        "All fields (requestedBy, material, quantity, unit, notes, department, approvalId) are required.",
     });
   }
 
@@ -65,6 +74,8 @@ const newRequested = asyncHandler(async (req, res) => {
     priority,
     unit,
     notes,
+    department,
+    approvalId,
   });
 
   try {
