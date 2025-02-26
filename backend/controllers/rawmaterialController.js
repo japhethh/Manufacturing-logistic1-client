@@ -192,12 +192,6 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "User id not found!" });
   }
 
-  // const exist = await userModel.findById(userId);
-
-  // if (!exist) {
-  //   return res.status(404).json({ success: false, message: "User not found!" });
-  // }
-
   const existRawmaterial = await rawmaterialModel.findById(id);
 
   if (!existRawmaterial) {
@@ -230,12 +224,16 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
     approvedBy: userId,
     requestStatus: status,
   });
-
+  
+  
   if (!updatedStatus) {
     return res
       .status(404)
       .json({ success: false, message: "Raw material not found!" });
   }
+
+
+  // APIENDPOINT NG CORE 1
 
   res.status(200).json({
     success: true,
@@ -299,6 +297,7 @@ const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
   });
 
   await newAuditLog.save();
+  
   const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
     approvedBy: userId,
     requestStatus: status,
