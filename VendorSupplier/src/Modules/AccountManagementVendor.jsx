@@ -90,6 +90,9 @@ export default function AccountManagement() {
               <strong>Company:</strong> {supplierData?.supplierName}
             </p>
             <p>
+              <strong>Id:</strong> {supplierData?._id}
+            </p>
+            <p>
               <strong>Contact Person:</strong> {supplierData?.contactPerson}
             </p>
             <p>
@@ -97,9 +100,6 @@ export default function AccountManagement() {
             </p>
             <p>
               <strong>Phone:</strong> {supplierData?.contactPhone}
-            </p>
-            <p>
-              <strong>Street:</strong> {supplierData?.address?.street}
             </p>
             <p>
               <strong>City:</strong> {supplierData?.address?.city}

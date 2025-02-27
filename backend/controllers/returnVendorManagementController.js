@@ -3,16 +3,16 @@ import ReturnRequestModel from "../models/ReturnModel.js";
 import supplierModel from "../models/supplierModel.js";
 
 const getAllReturnRequest = expressAsyncHandler(async (req, res) => {
-  const { supplierId } = req.body;
+  const { userId } = req.body;
 
-  const existSupplier = await supplierModel.findById(supplierId);
+  const existSupplier = await supplierModel.findById(userId);
+
   if (!existSupplier) {
     return res
       .status(400)
-      .json({ success: false, message: "Supplier not found!" });
+      .json({ success: false, message: "Supplier id not found!" });
   }
-
-  const returnRequest = await ReturnRequestModel.find({ supplierId })
+  const returnRequest = await ReturnRequestModel.find({ supplierId: userId })
     .populate("purchaseOrderId")
     .populate("reportedBy", "name email")
     .populate("returnShipmentId")

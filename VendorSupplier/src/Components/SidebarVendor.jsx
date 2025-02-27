@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import vendor from "../assets/vendor.png";
+import { TbTruckReturn } from "react-icons/tb";
+
 import {
   FaTachometerAlt,
   FaBoxOpen,
@@ -66,6 +68,11 @@ const SidebarVendor = () => {
       icon: <FaComments className="text-2xl" />,
       label: "Communication",
       to: "/communicationvendor",
+    },
+    {
+      icon: <TbTruckReturn className="text-2xl" />,
+      label: "Return Request",
+      to: "/returnRequest",
     },
     // {
     //   icon: <FaUserCog className="text-2xl" />,

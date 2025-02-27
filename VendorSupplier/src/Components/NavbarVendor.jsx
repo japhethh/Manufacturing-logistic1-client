@@ -150,7 +150,7 @@ const NavbarVendor = () => {
   return (
     <div className="navbar sticky top-0 z-50 bg-white px-5 shadow-md transition-all duration-300">
       {/* MOBILE SIDEBAR ICON */}
-      <div className="navbar-start block md:hidden lg:hidden w-32">
+      <div className="navbar-start block  lg:hidden w-32">
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
@@ -208,9 +208,9 @@ const NavbarVendor = () => {
       {/* REST OF NAVBAR CONTENT */}
       <div className="flex justify-between w-full">
         <div className="navbar-center">
-          <span className="text-black font-bold text-2xl hover:text-blue-700 transition-colors duration-200">
+          {/* <span className="text-black font-bold text-2xl hover:text-blue-700 transition-colors duration-200">
             Vendor Supplier
-          </span>
+          </span> */}
         </div>
 
         {/* NOTIFICATION DROPDOWN & USER PROFILE */}
@@ -228,7 +228,7 @@ const NavbarVendor = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  class="w-6 h-6 text-black"
+                  className="w-6 h-6 text-black"
                 >
                   <path
                     strokeLinecap="round"
