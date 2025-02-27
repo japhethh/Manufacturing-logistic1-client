@@ -64,6 +64,7 @@ import TrackingOrderReceiving from "./Components/TrackingOrders/TrackingOrderRec
 import Bidding from "./Components/Bidding/Bidding.jsx";
 import Category from "./Components/Category/Category.jsx";
 import BiddingProduct from "./Components/Bidding/BiddingProduct.jsx";
+import ReturnRequest from "./Components/ReturnManagement/ReturnRequest.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -253,6 +254,7 @@ const App = () => {
 
           {/* Return management */}
           <Route path="/discrepancy_report" element={<DiscrepancyReport />} />
+          <Route path="/return-requests" element={<ReturnRequest />} />
           <Route path="/tensorFlow" element={<TensorFlowExample />} />
           <Route path="/auditLog-logistic" element={<AuditLog />} />
           <Route

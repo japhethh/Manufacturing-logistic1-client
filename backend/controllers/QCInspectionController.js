@@ -236,8 +236,9 @@ const defectCreate = expressAsyncHandler(async (req, res) => {
       }
     );
 
-    const returnRequestNumber = returnCounter.sequence_value.toString().padStart(3, "0");
-
+    const returnRequestNumber = returnCounter.sequence_value
+      .toString()
+      .padStart(3, "0");
 
     const returnReference = `R-${returnRequestNumber}`;
 
