@@ -77,6 +77,7 @@ const QCInspection = () => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              token: token,
             },
           }
         );

@@ -21,5 +21,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 QCInspectionRouter.post("/qc-inspections", authMiddleware, qcCreate);
-QCInspectionRouter.post("/defects", upload.array("images", 10), defectCreate);
+QCInspectionRouter.post(
+  "/defects",
+  upload.array("images", 10),
+  authMiddleware,
+  defectCreate
+);
 export default QCInspectionRouter;

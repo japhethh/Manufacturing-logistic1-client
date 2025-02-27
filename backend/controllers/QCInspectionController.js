@@ -10,6 +10,7 @@ import inventoryRecordModel from "../models/inventoryRecordModel.js";
 import Invoice from "../models/invoiceVendorModel.js";
 import generateServiceToken from "../middleware/gatewayGenerator.js";
 import axios from "axios";
+import ReturnRequestModel from "../models/ReturnModel.js";
 
 const qcCreate = expressAsyncHandler(async (req, res) => {
   try {
@@ -168,8 +169,14 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
 // Create Defect
 const defectCreate = expressAsyncHandler(async (req, res) => {
   try {
-    const { defectDescription, invoiceId, inspector, inspectionId, severity } =
-      req.body;
+    const {
+      defectDescription,
+      invoiceId,
+      inspector,
+      inspectionId,
+      severity,
+      userId,
+    } = req.body;
 
     // Generate defect code
     const counter = await Counter.findByIdAndUpdate(
@@ -205,6 +212,53 @@ const defectCreate = expressAsyncHandler(async (req, res) => {
     });
 
     const savedDefect = await defect.save();
+
+    let returnRequest = null;
+
+    const existInvoice = await Invoice.findById(invoiceId);
+
+    if (!existInvoice) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invoice id not found!" });
+    }
+
+    const returnCounter = await Counter.findByIdAndUpdate(
+      {
+        _id: "returnRequestNumber",
+      },
+      {
+        $inc: { sequence_value: 1 },
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+
+    const returnRequestNumber = returnCounter.sequence_value.toString().padStart(3, "0");
+
+
+    const returnReference = `R-${returnRequestNumber}`;
+
+    // 🔹 Auto-create a return request for **Major or Critical** defects
+    if (severity === "Major" || severity === "Critical") {
+      returnRequest = new ReturnRequestModel({
+        returnRequestNumber: returnReference,
+        purchaseOrderId: existInvoice?.purchaseOrder, // Assuming invoice links to PO
+        supplierId: existInvoice?.vendor, // Get supplier ID dynamically
+        reportedBy: userId,
+        reason: `Defect detected: ${defectDescription}`,
+        notes: "Auto-generated return request due to defect severity",
+        attachments: uploadedImages,
+        status: "Pending",
+      });
+
+      await returnRequest.save();
+      // 🔹 Link defect to return request
+      // defect.returnRequest = returnRequest._id;
+      await defect.save();
+    }
 
     res.status(201).json({
       message: "Defect reported successfully!",

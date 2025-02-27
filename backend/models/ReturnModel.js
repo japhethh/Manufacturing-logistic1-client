@@ -1,42 +1,30 @@
-// ReturnModel.js
-const mongoose = require("mongoose");
 import mongoose from "mongoose";
 
-const ReturnSchema = new mongoose.Schema({
-  productName: {
-    type: String,
-    required: true,
+const ReturnRequestSchema = new mongoose.Schema(
+  {
+    returnRequestNumber: { type: String, required: true, unique: true }, // Unique return number
+    purchaseOrderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PurchaseOrder",
+    },
+    supplierId: { type: mongoose.Schema.Types.ObjectId, ref: "Supplier" },
+    defects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Defect" }], // Links to Defect Model
+    reason: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected", "Returned"],
+      default: "Pending",
+    },
+    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Approval required before shipping
+    returnShipmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ReturnShipment",
+    }, // Links to shipment details
+    attachments: [{ type: String }],
+    notes: { type: String },
   },
-  returnReason: {
-    type: String,
-    required: true,
-  },
-  customerId: {
-    type: String,
-    required: true,
-  },
-  returnDate: {
-    type: Date,
-    default: Date.now,
-  },
-  status: {
-    type: String,
-    enum: ["Pending", "Processed", "Completed"],
-    default: "Pending",
-  },
-  defectId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Defect", // Reference to the Defect model
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
-const ReturnModel = mongoose.model("Return", ReturnSchema);
-export default ReturnModel;
+const ReturnRequestModel = mongoose.model("ReturnRequest", ReturnRequestSchema);
+export default ReturnRequestModel;
