@@ -242,15 +242,34 @@ const defectCreate = expressAsyncHandler(async (req, res) => {
 
     const returnReference = `R-${returnRequestNumber}`;
 
+    const serviceToken = generateServiceToken();
+
+    const response = await axios.get(
+      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+      { headers: { Authorization: `Bearer ${serviceToken}` } }
+    );
+
+    const accountData = response.data;
+
+    const userExist = accountData.find((a) => a._id === userId);
+
+    if (!userExist) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User id not found!" });
+    }
+
     // 🔹 Auto-create a return request for **Major or Critical** defects
     if (severity === "Major" || severity === "Critical") {
       returnRequest = new ReturnRequestModel({
+        defects: defect?._id,
         returnRequestNumber: returnReference,
         purchaseOrderId: existInvoice?.purchaseOrder, // Assuming invoice links to PO
         supplierId: existInvoice?.vendor, // Get supplier ID dynamically
-        reportedBy: userId,
-        reason: `Defect detected: ${defectDescription}`,
+        reportedBy: userExist,
+        reason: `${defectDescription}`,
         notes: "Auto-generated return request due to defect severity",
+        severity,
         attachments: uploadedImages,
         status: "Pending",
       });
@@ -260,6 +279,8 @@ const defectCreate = expressAsyncHandler(async (req, res) => {
       // defect.returnRequest = returnRequest._id;
       await defect.save();
     }
+
+    // NEEDED TO PUT A NOTIFICATION HERE ---------------------------------->
 
     res.status(201).json({
       message: "Defect reported successfully!",

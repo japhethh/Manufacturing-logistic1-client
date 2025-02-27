@@ -7,15 +7,20 @@ const ReturnRequestSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "PurchaseOrder",
     },
+    severity: {
+      type: String,
+      enum: ["Minor", "Major", "Critical"],
+      required: true,
+    },
     supplierId: { type: mongoose.Schema.Types.ObjectId, ref: "Supplier" },
-    defects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Defect" }], // Links to Defect Model
+    defects: { type: mongoose.Schema.Types.ObjectId, ref: "Defect" },
     reason: { type: String, required: true },
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected", "Returned"],
       default: "Pending",
     },
-    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Approval required before shipping
+    reportedBy: mongoose.Schema.Types.Mixed,
     returnShipmentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ReturnShipment",
