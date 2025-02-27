@@ -36,6 +36,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [loginSource, setLoginSource] = useState("navbar"); // Track where login was initiated
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -47,8 +48,16 @@ const Login = () => {
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
       setToken(response.data.token); // Update token in context
-      navigate("/dashboardvendor");
-      document.getElementById("login_modal").close(); // Close modal on success
+
+      // Redirect based on login source
+      if (loginSource === "navbar") {
+        navigate("/dashboardvendor");
+      } else {
+        document.getElementById("login_modal").close(); // Close modal on success
+      }
+
+      // Reset login source after successful login
+      setLoginSource("navbar"); // Reset to default
       window.location.reload();
     } catch (error) {
       reset();
@@ -60,7 +69,8 @@ const Login = () => {
 
   const handlePlaceBid = () => {
     if (!token) {
-      // If user is not logged in, show login modal
+      // If user is not logged in, show login modal and set login source to "placeBid"
+      setLoginSource("placeBid");
       document.getElementById("login_modal").showModal();
       toast.info("Please login to place a bid.", {
         position: "top-center",
@@ -142,7 +152,10 @@ const Login = () => {
             {/* Button to Open Modal */}
             <button
               className="btn btn-primary hover:bg-blue-700 transition duration-200"
-              onClick={() => document.getElementById("login_modal").showModal()}
+              onClick={() => {
+                setLoginSource("navbar"); // Set login source to navbar
+                document.getElementById("login_modal").showModal();
+              }}
             >
               Login
             </button>
