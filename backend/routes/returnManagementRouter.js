@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllReturnRequest } from "../controllers/getAllReturnRequest.js";
+import { getAllReturnRequest } from "../controllers/returnRequestController.js";
 
 const returnManagementRouter = express.Router();
 
