@@ -59,6 +59,7 @@ import auditLogisticRouter from "./routes/auditLogisticRouter.js";
 import auditVendorRouter from "./routes/auditVendorRouter.js";
 import biddingRouter from "./routes/biddingRouter.js";
 import inventoryLogisticRouter from "./routes/inventoryLogisticRouter.js";
+import returnManagementRouter from "./routes/returnManagementRouter.js";
 
 const port = process.env.PORT || 7681;
 
@@ -139,9 +140,8 @@ app.use("/api/vendorProfile", vendorProfileRouter);
 app.use("/api/auditVendorLog", auditVendorRouter);
 app.use("/api/bidding", biddingRouter);
 app.use("/api/inventory", inventoryLogisticRouter);
-
-// Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);
+app.use("/api/returnManagement", returnManagementRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
