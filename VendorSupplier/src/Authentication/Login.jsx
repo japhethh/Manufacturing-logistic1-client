@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { VendorUserContext } from "../context/VendorUserContext";
 import { useContext, useState, useEffect } from "react";
-import { FaEye, FaEyeSlash, FaBars, FaTimes } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import vendor from "../assets/vendorLogin.jpg";
 import { FcExpired } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
@@ -34,34 +34,46 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [loginSource, setLoginSource] = useState("navbar");
   const [biddingData, setBiddingData] = useState([]); // State to store bidding data
   const [loading, setLoading] = useState(true); // Loading state
 
   // Fetch bidding data from the backend
   useEffect(() => {
     const fetchBiddingData = async () => {
+      if (!token) {
+        // Redirect to login if token is missing
+        toast.info("Please login to view bidding data.");
+        navigate("/login");
+        setLoading(false); // Stop loading
+        return;
+      }
+
       try {
+        console.log("Fetching bidding data with token:", token); // Debugging log
         const response = await axios.get(`${apiURL}/api/bidding`, {
           headers: { token: token }, // Include token for authorization
         });
+        console.log("Bidding data fetched:", response.data); // Debugging log
         setBiddingData(response.data); // Update state with fetched data
         setLoading(false); // Set loading to false
       } catch (error) {
-        console.error("Error fetching bidding data:", error);
-        toast.error("Failed to fetch bidding data");
-        setLoading(false);
+        console.error("Error fetching bidding data:", error); // Debugging log
+        if (error.response?.status === 401) {
+          toast.error("Session expired. Please login again.");
+          localStorage.removeItem("token"); // Clear invalid token
+          setToken(null); // Clear token in context
+          navigate("/login"); // Redirect to login
+        } else {
+          toast.error("Failed to fetch bidding data. Please try again later.");
+        }
+        setLoading(false); // Stop loading
       }
     };
 
     fetchBiddingData();
-  }, [token]); // Add token as a dependency
+  }, [token, navigate, setToken]); // Add token, navigate, and setToken as dependencies
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const onSubmit = async (data) => {
     try {
@@ -69,17 +81,7 @@ const Login = () => {
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
       setToken(response.data.token); // Update token in context
-
-      // Redirect based on login source
-      if (loginSource === "navbar") {
-        navigate("/dashboardvendor");
-      } else {
-        document.getElementById("login_modal").close(); // Close modal on success
-      }
-
-      // Reset login source after successful login
-      setLoginSource("navbar"); // Reset to default
-      window.location.reload();
+      navigate("/dashboardvendor"); // Redirect to dashboard after login
     } catch (error) {
       reset();
       toast.error(error.response?.data?.message || "Login failed", {
@@ -90,7 +92,6 @@ const Login = () => {
 
   const handlePlaceBid = () => {
     if (!token) {
-      setLoginSource("placeBid");
       document.getElementById("login_modal").showModal();
       toast.info("Please login to place a bid.", {
         position: "top-center",
@@ -114,7 +115,6 @@ const Login = () => {
   ];
 
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Filter products based on the selected category
   const filteredProducts =
@@ -132,22 +132,17 @@ const Login = () => {
       <nav className="absolute top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center z-10">
         <div className="navbar bg-base-100">
           <div className="navbar-start">
-            <a className="btn btn-ghost text-xl">
-              <NavLink
-                to="/login"
-                className="text-xl font-bold text-blue-600 hover:text-blue-700 transition duration-200"
-              >
-                Vendor Portal
-              </NavLink>
-            </a>
+            <NavLink
+              to="/login"
+              className="text-xl font-bold text-blue-600 hover:text-blue-700 transition duration-200"
+            >
+              Vendor Portal
+            </NavLink>
           </div>
           <div className="navbar-end">
             <button
               className="btn btn-primary hover:bg-blue-700 transition duration-200"
-              onClick={() => {
-                setLoginSource("navbar");
-                document.getElementById("login_modal").showModal();
-              }}
+              onClick={() => document.getElementById("login_modal").showModal()}
             >
               Login
             </button>
@@ -272,18 +267,18 @@ const Login = () => {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div
-                    key={product._id} // Use _id from the backend
+                    key={product._id}
                     className="relative flex items-center gap-6 p-5 bg-gray-50 rounded-lg shadow transition duration-300 hover:shadow-xl"
                   >
                     <img
-                      src={product.productImage} // Use productImage from the backend
+                      src={product.productImage}
                       alt={product.name}
                       className="w-24 h-24 object-cover rounded-lg shadow-md"
                     />
                     <div className="flex flex-col flex-1">
                       <span className="flex items-center gap-1 text-sm bg-orange-500 text-white px-3 py-1 rounded-full w-fit">
                         <FcExpired className="text-lg" />
-                        {new Date(product.biddingEndDate).toLocaleString()} // Format date
+                        {new Date(product.biddingEndDate).toLocaleString()}
                       </span>
                       <h1 className="text-lg font-semibold text-gray-900 mt-2">
                         {product.name}
@@ -298,7 +293,9 @@ const Login = () => {
                       <button
                         className="btn bg-blue-500 text-white font-bold font-Roboto hover:bg-blue-600 mt-5"
                         onClick={() =>
-                          document.getElementById(`my_modal_${product._id}`).showModal()
+                          document
+                            .getElementById(`my_modal_${product._id}`)
+                            .showModal()
                         }
                       >
                         View
@@ -340,13 +337,22 @@ const Login = () => {
                               <p className="text-gray-700">
                                 <strong>Until:</strong>{" "}
                                 <span className="text-red-500 font-medium">
-                                  {new Date(product.biddingEndDate).toLocaleString()}
+                                  {new Date(
+                                    product.biddingEndDate
+                                  ).toLocaleString()}
                                 </span>
                               </p>
                               <p className="text-gray-700">
                                 <strong>Highest Bid:</strong>{" "}
                                 <span className="text-green-500 font-semibold">
-                                  ₱{product.bids.length > 0 ? Math.max(...product.bids.map(bid => bid.bidAmount)) : "No bids yet"}
+                                  ₱
+                                  {product.bids.length > 0
+                                    ? Math.max(
+                                        ...product.bids.map(
+                                          (bid) => bid.bidAmount
+                                        )
+                                      )
+                                    : "No bids yet"}
                                 </span>
                               </p>
                             </div>
