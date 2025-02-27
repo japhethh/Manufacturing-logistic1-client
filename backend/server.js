@@ -58,6 +58,7 @@ import trackingOrderHistoryRouter from "./routes/trackingOrderHistoryRouter.js";
 import auditLogisticRouter from "./routes/auditLogisticRouter.js";
 import auditVendorRouter from "./routes/auditVendorRouter.js";
 import biddingRouter from "./routes/biddingRouter.js";
+import inventoryLogisticRouter from "./routes/inventoryLogisticRouter.js";
 
 const port = process.env.PORT || 7681;
 
@@ -137,6 +138,7 @@ app.use("/api/auditLogisticLog", auditLogisticRouter);
 app.use("/api/vendorProfile", vendorProfileRouter);
 app.use("/api/auditVendorLog", auditVendorRouter);
 app.use("/api/bidding", biddingRouter);
+app.use("/api/inventory", inventoryLogisticRouter);
 
 // Testing Site
 app.use("/api/discrepanciesTest", discrepancyTest);

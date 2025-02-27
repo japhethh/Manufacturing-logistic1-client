@@ -17,9 +17,19 @@ const DefectSchema = new mongoose.Schema(
       required: true,
     },
     actionTaken: { type: String },
+    inspector: { type: String },
     resolved: { type: Boolean, default: false },
     images: [{ type: String }],
-    status: { type: String, enum: ["Pending", "Resolved", "Closed"] },
+    status: {
+      type: String,
+      enum: ["Pending", "Resolved", "Closed"],
+      default: "Pending",
+    },
+    returnRequest: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ReturnRequest",
+      default: null,
+    },
   },
   {
     timestamps: true, // Adds `createdAt` and `updatedAt` timestamps

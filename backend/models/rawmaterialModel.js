@@ -22,6 +22,8 @@ const rawmaterialSchema = mongoose.Schema({
   approvalDate: {
     type: Date,
   },
+  department: { type: String, required: true },
+  approvalId: { type: String },
   material: [
     {
       materialName: String,

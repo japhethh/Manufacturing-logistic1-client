@@ -3,10 +3,10 @@ import mongoose from 'mongoose';
 
 const InventoryTransactionSchema = new mongoose.Schema({
   product: { type: mongoose.Schema.Types.ObjectId, ref: 'Material', required: true },
-  transactionType: { type: String, enum: ['IN', 'OUT'], required: true }, // 'IN' for received, 'OUT' for used or sold
+  transactionType: { type: String, enum: ['IN', 'OUT'], required: true }, 
   quantity: { type: Number, required: true },
   date: { type: Date, default: Date.now },
-  reference: { type: mongoose.Schema.Types.ObjectId, refPath: 'onModel' }, // reference to QC or Order
+  reference: { type: mongoose.Schema.Types.ObjectId, refPath: 'onModel' },
   onModel: { type: String, enum: ['PurchaseOrder', 'QualityControl'] },
 });
 

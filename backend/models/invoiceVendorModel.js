@@ -5,23 +5,22 @@ const invoiceVendorSchema = new mongoose.Schema(
   {
     invoiceNumber: {
       type: String,
-      unique: true, // Ensure invoice numbers are unique
+      unique: true,
     },
     purchaseOrder: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "PurchaseOrder", // Reference to the associated purchase order
-      // required: true,
+      ref: "PurchaseOrder",
     },
     vendor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Supplier", // Reference to the vendor/supplier
+      ref: "Supplier",
       required: true,
     },
     items: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Material", // Reference to the product
+          ref: "Material",
           required: true,
         },
         productName: {
@@ -38,21 +37,17 @@ const invoiceVendorSchema = new mongoose.Schema(
         },
         totalPrice: {
           type: Number,
-          required: false, // Calculated as quantity * unitPrice
+          required: false,
         },
         name: { type: String, required: true },
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
         price: { type: Number, required: true },
         discount: { type: Number },
-        // totalPrice: {
-        //   type: Number,
-        //   required: true,
-        // },
       },
     ],
     totalAmount: {
       type: Number,
-      required: true, // Total amount for the invoice
+      required: true,
     },
     paymentDetails: {
       paymentMethod: {
@@ -100,11 +95,9 @@ const invoiceVendorSchema = new mongoose.Schema(
     tax: {
       taxRate: {
         type: Number,
-        // required: true,
       },
       taxAmount: {
         type: Number,
-        // required: true,
       },
     },
     notes: {
@@ -115,12 +108,12 @@ const invoiceVendorSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Pending", "Paid", "Unpaid", "Cancelled"],
-      default: "Unpaid", // Default status when created
+      default: "Unpaid",
     },
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Rejected"],
-      default: "Pending", // Default status when created
+      default: "Pending",
     },
     description: {
       type: String,
@@ -128,7 +121,6 @@ const invoiceVendorSchema = new mongoose.Schema(
     },
     discount: { type: Number },
     shippingCharges: { type: Number },
-    // logisticCustomer:{type:String, required:true}
   },
   { timestamps: true }
 );

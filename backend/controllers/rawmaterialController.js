@@ -34,14 +34,23 @@ const requested = asyncHandler(async (req, res) => {
 const fetchPurchaseOrder = asyncHandler(async (req, res) => {});
 
 const newRequested = asyncHandler(async (req, res) => {
-  const { requestedBy, material, quantity, priority, unit, notes } = req.body;
+  const {
+    requestedBy,
+    material,
+    quantity,
+    priority,
+    unit,
+    notes,
+    department,
+    approvalId,
+  } = req.body;
 
   // Check for required fields
-  if (!requestedBy || !material || !notes) {
+  if (!requestedBy || !material || !notes || !department || !approvalId) {
     return res.status(400).json({
       success: false,
       message:
-        "All fields (requestedBy, material, quantity, unit, notes) are required.",
+        "All fields (requestedBy, material, quantity, unit, notes, department, approvalId) are required.",
     });
   }
 
@@ -65,6 +74,8 @@ const newRequested = asyncHandler(async (req, res) => {
     priority,
     unit,
     notes,
+    department,
+    approvalId,
   });
 
   try {
@@ -181,12 +192,6 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
       .json({ success: false, message: "User id not found!" });
   }
 
-  // const exist = await userModel.findById(userId);
-
-  // if (!exist) {
-  //   return res.status(404).json({ success: false, message: "User not found!" });
-  // }
-
   const existRawmaterial = await rawmaterialModel.findById(id);
 
   if (!existRawmaterial) {
@@ -219,12 +224,16 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
     approvedBy: userId,
     requestStatus: status,
   });
-
+  
+  
   if (!updatedStatus) {
     return res
       .status(404)
       .json({ success: false, message: "Raw material not found!" });
   }
+
+
+  // APIENDPOINT NG CORE 1
 
   res.status(200).json({
     success: true,
@@ -288,6 +297,7 @@ const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
   });
 
   await newAuditLog.save();
+  
   const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
     approvedBy: userId,
     requestStatus: status,

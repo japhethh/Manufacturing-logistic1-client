@@ -18,6 +18,9 @@ const RawMaterialRequest = () => {
   const [approveModalOpen, setApproveModalOpen] = useState(false);
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [dataId, setDataId] = useState("");
+  const navigate = useNavigate();
+  const { apiURL, token } = useContext(UserContext);
+  console.log(dataId);
 
   useEffect(() => {
     fetchUserData();
@@ -38,10 +41,6 @@ const RawMaterialRequest = () => {
       setLoading(false); // Make sure loading is set to false even if an error occurs.
     }
   };
-
-  const navigate = useNavigate();
-  const { apiURL, token } = useContext(UserContext);
-  console.log(dataId);
 
   useEffect(() => {
     const table = new DataTable("#myTable", {
@@ -122,8 +121,7 @@ const RawMaterialRequest = () => {
           render: (data) => {
             const requestStatus = data?.requestStatus;
             const isProcessed =
-              requestStatus === "Approved" ||
-              requestStatus === "Rejected"  
+              requestStatus === "Approved" || requestStatus === "Rejected";
             return `
               <div class="py-2 px-4 flex gap-2">
                 ${
@@ -239,9 +237,9 @@ const RawMaterialRequest = () => {
       fetchRequests();
       setApproveModalOpen(false);
       toast.success("Raw Material Request Approved.");
+      window.location.reload();
     } catch (error) {
       toast.error(error?.response.data.message);
-    } finally {
       setModalOpen(false);
     }
   };
@@ -261,9 +259,9 @@ const RawMaterialRequest = () => {
       fetchRequests();
       setRejectModalOpen(false);
       toast.success("Raw Material Request Rejected.");
+      window.location.reload();
     } catch (error) {
       toast.error("Failed to delete request.");
-    } finally {
       setModalOpen(false);
     }
   };

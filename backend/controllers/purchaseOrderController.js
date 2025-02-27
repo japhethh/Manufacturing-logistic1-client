@@ -171,8 +171,6 @@ const createPurchaseOrder = expressAsyncHandler(async (req, res) => {
     // FINANCE ------------------->
     // Axios
 
-
-
     // =========================================================
     // const postRequest = async () => {
     //   const raffy = generateServiceTokens();
@@ -254,7 +252,6 @@ const updatePurchaseOrder = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { userId } = req.body;
     const updateData = req.body;
-
 
     const serviceToken = generateServiceToken();
 
