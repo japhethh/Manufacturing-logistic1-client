@@ -6,7 +6,7 @@ import { apiURL } from "../context/verifyStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { VendorUserContext } from "../context/VendorUserContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FaEye, FaEyeSlash, FaBars, FaTimes } from "react-icons/fa";
 import vendor from "../assets/vendorLogin.jpg";
 import { FcExpired } from "react-icons/fc";
@@ -18,7 +18,7 @@ const schema = z.object({
 });
 
 const Login = () => {
-  const { token, setToken } = useContext(VendorUserContext); // Add token from context
+  const { token, setToken } = useContext(VendorUserContext);
   const navigate = useNavigate();
   const {
     register,
@@ -36,7 +36,28 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [loginSource, setLoginSource] = useState("navbar"); // Track where login was initiated
+  const [loginSource, setLoginSource] = useState("navbar");
+  const [biddingData, setBiddingData] = useState([]); // State to store bidding data
+  const [loading, setLoading] = useState(true); // Loading state
+
+  // Fetch bidding data from the backend
+  useEffect(() => {
+    const fetchBiddingData = async () => {
+      try {
+        const response = await axios.get(`${apiURL}/api/bidding`, {
+          headers: { token: token }, // Include token for authorization
+        });
+        setBiddingData(response.data); // Update state with fetched data
+        setLoading(false); // Set loading to false
+      } catch (error) {
+        console.error("Error fetching bidding data:", error);
+        toast.error("Failed to fetch bidding data");
+        setLoading(false);
+      }
+    };
+
+    fetchBiddingData();
+  }, [token]); // Add token as a dependency
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -69,14 +90,12 @@ const Login = () => {
 
   const handlePlaceBid = () => {
     if (!token) {
-      // If user is not logged in, show login modal and set login source to "placeBid"
       setLoginSource("placeBid");
       document.getElementById("login_modal").showModal();
       toast.info("Please login to place a bid.", {
         position: "top-center",
       });
     } else {
-      // If user is logged in, allow them to place a bid
       toast.success("You can now place a bid!", {
         position: "top-center",
       });
@@ -94,44 +113,18 @@ const Login = () => {
     "Sample Category",
   ];
 
-  const products = [
-    {
-      id: 1,
-      name: "Sample Prod 23",
-      category: "Category 102",
-      description: "Sample Only",
-      image:
-        "https://i5.walmartimages.com/seo/HP-Stream-14-Laptop-Intel-Celeron-N4000-4GB-SDRAM-32GB-eMMC-Office-365-1-yr-Royal-Blue_4f941fe6-0cf3-42af-a06c-7532138492fc_2.cb8e85270e731cb1ef85d431e49f0bf2.jpeg",
-      date: "1 Feb 2025, 10:10 PM",
-    },
-    {
-      id: 2,
-      name: "Dell Inspiron",
-      category: "Laptop",
-      description: "Powerful Dell Laptop",
-      image:
-        "https://images.idgesg.net/images/article/2021/05/dell-inspiron-15_angled_left_black-100887800-orig.jpeg",
-      date: "3 Feb 2025, 8:30 AM",
-    },
-    {
-      id: 3,
-      name: "Samsung Galaxy S23",
-      category: "Mobile Phone",
-      description: "Latest Samsung Mobile",
-      image:
-        "https://www.dxomark.com/wp-content/uploads/medias/post-182255/Samsung-Galaxy-S25_featured-image-packshot-review.jpg",
-      date: "5 Feb 2025, 2:15 PM",
-    },
-  ];
-
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Filter products based on the selected category
   const filteredProducts =
     selectedCategory === "All"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+      ? biddingData
+      : biddingData.filter((product) => product.category === selectedCategory);
+
+  if (loading) {
+    return <div className="text-center py-10">Loading...</div>; // Display loading state
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-56 w-full relative">
@@ -149,11 +142,10 @@ const Login = () => {
             </a>
           </div>
           <div className="navbar-end">
-            {/* Button to Open Modal */}
             <button
               className="btn btn-primary hover:bg-blue-700 transition duration-200"
               onClick={() => {
-                setLoginSource("navbar"); // Set login source to navbar
+                setLoginSource("navbar");
                 document.getElementById("login_modal").showModal();
               }}
             >
@@ -181,7 +173,6 @@ const Login = () => {
             Please login to your account
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Email Field */}
             <div className="mb-5">
               <label
                 htmlFor="email"
@@ -202,7 +193,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Password Field */}
             <div className="mb-5 relative">
               <label
                 htmlFor="password"
@@ -231,7 +221,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-200"
@@ -240,7 +229,6 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Close Button */}
           <div className="modal-action mt-4">
             <button
               className="btn btn-ghost hover:bg-gray-100 transition duration-200"
@@ -252,7 +240,8 @@ const Login = () => {
         </div>
       </dialog>
 
-      {/* Main Content */}
+      {/* MAIN CONTENT */}
+      {/* PLACE BIDDING */}
       <div className="flex w-full px-6 py-8 gap-6 z-10">
         {/* Categories Sidebar */}
         <div className="w-1/4 h-96 bg-white shadow-lg rounded-lg p-4">
@@ -283,61 +272,53 @@ const Login = () => {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div
-                    key={product.id}
+                    key={product._id} // Use _id from the backend
                     className="relative flex items-center gap-6 p-5 bg-gray-50 rounded-lg shadow transition duration-300 hover:shadow-xl"
                   >
                     <img
-                      src={product.image}
+                      src={product.productImage} // Use productImage from the backend
                       alt={product.name}
                       className="w-24 h-24 object-cover rounded-lg shadow-md"
                     />
                     <div className="flex flex-col flex-1">
-                      {/* Expiration Date */}
                       <span className="flex items-center gap-1 text-sm bg-orange-500 text-white px-3 py-1 rounded-full w-fit">
                         <FcExpired className="text-lg" />
-                        {product.date}
+                        {new Date(product.biddingEndDate).toLocaleString()} // Format date
                       </span>
-                      {/* Product Name */}
                       <h1 className="text-lg font-semibold text-gray-900 mt-2">
                         {product.name}
                       </h1>
-                      {/* Category */}
                       <span className="text-xs text-gray-700 font-medium bg-gray-200 px-2 py-1 rounded-md w-fit">
                         {product.category}
                       </span>
-                      {/* Description */}
                       <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {product.description}
                       </p>
 
-                      {/* DaisyUI Dropdown */}
                       <button
                         className="btn bg-blue-500 text-white font-bold font-Roboto hover:bg-blue-600 mt-5"
                         onClick={() =>
-                          document.getElementById("my_modal_3").showModal()
+                          document.getElementById(`my_modal_${product._id}`).showModal()
                         }
                       >
                         View
                       </button>
-                      <dialog id="my_modal_3" className="modal">
+                      <dialog id={`my_modal_${product._id}`} className="modal">
                         <div className="modal-box bg-white rounded-xl shadow-lg p-6 relative">
-                          {/* Close Button */}
                           <form method="dialog">
                             <button className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-gray-600 hover:bg-gray-200 z-10">
                               <IoClose className="text-2xl" />
                             </button>
                           </form>
 
-                          {/* Product Image */}
                           <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden shadow-md">
                             <img
-                              src={product.image}
+                              src={product.productImage}
                               alt="Product"
                               className="w-full h-full object-cover"
                             />
                           </div>
 
-                          {/* Product Details */}
                           <div className="mt-4 text-gray-800">
                             <h3 className="text-2xl font-semibold text-gray-900">
                               {product.name}
@@ -353,30 +334,28 @@ const Login = () => {
                               <p className="text-gray-700">
                                 <strong>Starting Amount:</strong>{" "}
                                 <span className="text-blue-600 font-semibold">
-                                  ₱1,800.00
+                                  ₱{product.startBiddingPrice}
                                 </span>
                               </p>
                               <p className="text-gray-700">
                                 <strong>Until:</strong>{" "}
                                 <span className="text-red-500 font-medium">
-                                  {product.date}
+                                  {new Date(product.biddingEndDate).toLocaleString()}
                                 </span>
                               </p>
                               <p className="text-gray-700">
                                 <strong>Highest Bid:</strong>{" "}
                                 <span className="text-green-500 font-semibold">
-                                  ₱1,800.00
+                                  ₱{product.bids.length > 0 ? Math.max(...product.bids.map(bid => bid.bidAmount)) : "No bids yet"}
                                 </span>
                               </p>
                             </div>
 
-                            {/* Description */}
                             <p className="text-gray-500 italic mt-3">
                               {product.description}
                             </p>
                           </div>
 
-                          {/* Bid Button */}
                           <button
                             className="btn btn-primary w-full mt-5 py-3 text-lg font-semibold rounded-lg shadow-md transition-all hover:bg-blue-600"
                             onClick={handlePlaceBid}
