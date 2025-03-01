@@ -35,43 +35,32 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [biddingData, setBiddingData] = useState([]); // State to store bidding data
+  const [categories, setCategories] = useState([]); // State to store categories
   const [loading, setLoading] = useState(true); // Loading state
+  const [selectedCategory, setSelectedCategory] = useState("All"); // Selected category for filtering
 
-  // Fetch bidding data from the backend
+  // Fetch bidding data and categories from the backend
   useEffect(() => {
-    const fetchBiddingData = async () => {
-      if (!token) {
-        // Redirect to login if token is missing
-        toast.info("Please login to view bidding data.");
-        navigate("/login");
-        setLoading(false); // Stop loading
-        return;
-      }
-
+    const fetchData = async () => {
       try {
-        console.log("Fetching bidding data with token:", token); // Debugging log
-        const response = await axios.get(`${apiURL}/api/bidding`, {
-          headers: { token: token }, // Include token for authorization
-        });
-        console.log("Bidding data fetched:", response.data); // Debugging log
-        setBiddingData(response.data); // Update state with fetched data
+        // Fetch bidding data
+        const biddingResponse = await axios.get(`${apiURL}/api/bidding`);
+        setBiddingData(biddingResponse.data);
+  
+        // Fetch categories
+        const categoryResponse = await axios.get(`${apiURL}/api/bidding/category`);
+        setCategories(["All", ...categoryResponse.data.map((cat) => cat.category)]);
+  
         setLoading(false); // Set loading to false
       } catch (error) {
-        console.error("Error fetching bidding data:", error); // Debugging log
-        if (error.response?.status === 401) {
-          toast.error("Session expired. Please login again.");
-          localStorage.removeItem("token"); // Clear invalid token
-          setToken(null); // Clear token in context
-          navigate("/login"); // Redirect to login
-        } else {
-          toast.error("Failed to fetch bidding data. Please try again later.");
-        }
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch data. Please try again later.");
         setLoading(false); // Stop loading
       }
     };
-
-    fetchBiddingData();
-  }, [token, navigate, setToken]); // Add token, navigate, and setToken as dependencies
+  
+    fetchData();
+  }, []); // Fetch data on component mount
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -103,18 +92,6 @@ const Login = () => {
       // Add your bid placement logic here
     }
   };
-
-  const categories = [
-    "All",
-    "Appliances",
-    "Category 102",
-    "Desktop Computers",
-    "Laptop",
-    "Mobile Phone",
-    "Sample Category",
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Filter products based on the selected category
   const filteredProducts =
