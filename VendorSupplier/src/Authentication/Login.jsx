@@ -46,11 +46,16 @@ const Login = () => {
         // Fetch bidding data
         const biddingResponse = await axios.get(`${apiURL}/api/bidding`);
         setBiddingData(biddingResponse.data);
-  
+
         // Fetch categories
-        const categoryResponse = await axios.get(`${apiURL}/api/bidding/category`);
-        setCategories(["All", ...categoryResponse.data.map((cat) => cat.category)]);
-  
+        const categoryResponse = await axios.get(
+          `${apiURL}/api/bidding/category`
+        );
+        setCategories([
+          "All",
+          ...categoryResponse.data.map((cat) => cat.category),
+        ]);
+
         setLoading(false); // Set loading to false
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -58,7 +63,7 @@ const Login = () => {
         setLoading(false); // Stop loading
       }
     };
-  
+
     fetchData();
   }, []); // Fetch data on component mount
 
