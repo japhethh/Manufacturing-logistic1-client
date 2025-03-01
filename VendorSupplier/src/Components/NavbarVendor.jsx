@@ -22,6 +22,10 @@ import io from "socket.io-client";
 import NotificationItem from "../Components/Notification/NotificationItem.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { TbTruckReturn } from "react-icons/tb";
+import { AiOutlineAudit } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+
 import { toast } from "react-toastify";
 
 const NavbarVendor = () => {
@@ -135,8 +139,23 @@ const NavbarVendor = () => {
       to: "/communicationvendor",
     },
     {
+      icon: <TbTruckReturn className="text-2xl" />,
+      label: "Return Request",
+      to: "/returnRequest",
+    },
+    {
+      icon: <AiOutlineAudit className="text-2xl" />,
+      label: "Audit Logs",
+      to: "/returnRequest",
+    },
+    {
       icon: <FaUserCog className="text-2xl" />,
       label: "Account Management",
+      to: "/accountmanagementvendor",
+    },
+    {
+      icon: <CgProfile className="text-2xl" />,
+      label: "Profile",
       to: "/accountmanagementvendor",
     },
   ];
@@ -224,11 +243,10 @@ const NavbarVendor = () => {
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-6 w-6 text-black"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  className="w-6 h-6 text-black"
                 >
                   <path
                     strokeLinecap="round"

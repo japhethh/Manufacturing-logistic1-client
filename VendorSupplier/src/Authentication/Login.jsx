@@ -35,43 +35,37 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [biddingData, setBiddingData] = useState([]); // State to store bidding data
+  const [categories, setCategories] = useState([]); // State to store categories
   const [loading, setLoading] = useState(true); // Loading state
+  const [selectedCategory, setSelectedCategory] = useState("All"); // Selected category for filtering
 
-  // Fetch bidding data from the backend
+  // Fetch bidding data and categories from the backend
   useEffect(() => {
-    const fetchBiddingData = async () => {
-      if (!token) {
-        // Redirect to login if token is missing
-        toast.info("Please login to view bidding data.");
-        navigate("/login");
-        setLoading(false); // Stop loading
-        return;
-      }
-
+    const fetchData = async () => {
       try {
-        console.log("Fetching bidding data with token:", token); // Debugging log
-        const response = await axios.get(`${apiURL}/api/bidding`, {
-          headers: { token: token }, // Include token for authorization
-        });
-        console.log("Bidding data fetched:", response.data); // Debugging log
-        setBiddingData(response.data); // Update state with fetched data
+        // Fetch bidding data
+        const biddingResponse = await axios.get(`${apiURL}/api/bidding`);
+        setBiddingData(biddingResponse.data);
+
+        // Fetch categories
+        const categoryResponse = await axios.get(
+          `${apiURL}/api/bidding/category`
+        );
+        setCategories([
+          "All",
+          ...categoryResponse.data.map((cat) => cat.category),
+        ]);
+
         setLoading(false); // Set loading to false
       } catch (error) {
-        console.error("Error fetching bidding data:", error); // Debugging log
-        if (error.response?.status === 401) {
-          toast.error("Session expired. Please login again.");
-          localStorage.removeItem("token"); // Clear invalid token
-          setToken(null); // Clear token in context
-          navigate("/login"); // Redirect to login
-        } else {
-          toast.error("Failed to fetch bidding data. Please try again later.");
-        }
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch data. Please try again later.");
         setLoading(false); // Stop loading
       }
     };
 
-    fetchBiddingData();
-  }, [token, navigate, setToken]); // Add token, navigate, and setToken as dependencies
+    fetchData();
+  }, []); // Fetch data on component mount
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -103,18 +97,6 @@ const Login = () => {
       // Add your bid placement logic here
     }
   };
-
-  const categories = [
-    "All",
-    "Appliances",
-    "Category 102",
-    "Desktop Computers",
-    "Laptop",
-    "Mobile Phone",
-    "Sample Category",
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Filter products based on the selected category
   const filteredProducts =
@@ -239,15 +221,15 @@ const Login = () => {
       {/* PLACE BIDDING */}
       <div className="flex w-full px-6 py-8 gap-6 z-10">
         {/* Categories Sidebar */}
-        <div className="w-1/4 h-96 bg-white shadow-lg rounded-lg p-4">
-          <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
+        <div className="w-1/4 h-96 bg-white shadow-lg rounded-xl p-6 transition-all hover:shadow-xl">
+          <h2 className="text-xl font-bold text-gray-900 border-b pb-3 mb-4">
             Categories
           </h2>
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {categories.map((category, index) => (
               <li
                 key={index}
-                className={`cursor-pointer transition duration-200 ${
+                className={`cursor-pointer transition duration-200 ease-in-out transform hover:translate-x-2 ${
                   selectedCategory === category
                     ? "text-blue-600 font-bold"
                     : "text-gray-700 hover:text-blue-600"
@@ -261,29 +243,29 @@ const Login = () => {
         </div>
 
         {/* Product Display */}
-        <div className="w-3/4 bg-white shadow-lg rounded-lg p-6">
+        <div className="w-3/4 bg-white shadow-lg rounded-xl p-6 transition-all hover:shadow-xl">
           <div className="overflow-auto h-96">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <div
                     key={product._id}
-                    className="relative flex items-center gap-6 p-5 bg-gray-50 rounded-lg shadow transition duration-300 hover:shadow-xl"
+                    className="relative flex flex-col items-start gap-4 p-6 bg-gray-50 rounded-xl shadow transition duration-300 hover:shadow-xl"
                   >
                     <img
                       src={product.productImage}
                       alt={product.name}
-                      className="w-24 h-24 object-cover rounded-lg shadow-md"
+                      className="w-full h-48 object-cover rounded-lg shadow-md"
                     />
-                    <div className="flex flex-col flex-1">
-                      <span className="flex items-center gap-1 text-sm bg-orange-500 text-white px-3 py-1 rounded-full w-fit">
+                    <div className="flex flex-col w-full">
+                      <span className="flex items-center gap-2 text-sm bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-1 rounded-full w-fit">
                         <FcExpired className="text-lg" />
                         {new Date(product.biddingEndDate).toLocaleString()}
                       </span>
-                      <h1 className="text-lg font-semibold text-gray-900 mt-2">
+                      <h1 className="text-xl font-bold text-gray-900 mt-3">
                         {product.name}
                       </h1>
-                      <span className="text-xs text-gray-700 font-medium bg-gray-200 px-2 py-1 rounded-md w-fit">
+                      <span className="text-xs text-gray-700 font-medium bg-gray-200 px-2 py-1 rounded-md w-fit mt-2">
                         {product.category}
                       </span>
                       <p className="text-sm text-gray-600 mt-2 line-clamp-2">
@@ -291,79 +273,81 @@ const Login = () => {
                       </p>
 
                       <button
-                        className="btn bg-blue-500 text-white font-bold font-Roboto hover:bg-blue-600 mt-5"
+                        className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 mt-5 w-full py-2 rounded-lg transition-all transform hover:scale-105"
                         onClick={() =>
                           document
                             .getElementById(`my_modal_${product._id}`)
                             .showModal()
                         }
                       >
-                        View
+                        View Details
                       </button>
                       <dialog id={`my_modal_${product._id}`} className="modal">
-                        <div className="modal-box bg-white rounded-xl shadow-lg p-6 relative">
+                        <div className="modal-box bg-white rounded-xl shadow-lg p-8 relative max-w-3xl">
                           <form method="dialog">
                             <button className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-gray-600 hover:bg-gray-200 z-10">
                               <IoClose className="text-2xl" />
                             </button>
                           </form>
 
-                          <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden shadow-md">
-                            <img
-                              src={product.productImage}
-                              alt="Product"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-
-                          <div className="mt-4 text-gray-800">
-                            <h3 className="text-2xl font-semibold text-gray-900">
-                              {product.name}
-                            </h3>
-                            <p className="text-sm text-gray-500">
-                              Category:{" "}
-                              <span className="text-blue-500 font-medium">
-                                {product.category}
-                              </span>
-                            </p>
-
-                            <div className="mt-3 space-y-2">
-                              <p className="text-gray-700">
-                                <strong>Starting Amount:</strong>{" "}
-                                <span className="text-blue-600 font-semibold">
-                                  ₱{product.startBiddingPrice}
-                                </span>
-                              </p>
-                              <p className="text-gray-700">
-                                <strong>Until:</strong>{" "}
-                                <span className="text-red-500 font-medium">
-                                  {new Date(
-                                    product.biddingEndDate
-                                  ).toLocaleString()}
-                                </span>
-                              </p>
-                              <p className="text-gray-700">
-                                <strong>Highest Bid:</strong>{" "}
-                                <span className="text-green-500 font-semibold">
-                                  ₱
-                                  {product.bids.length > 0
-                                    ? Math.max(
-                                        ...product.bids.map(
-                                          (bid) => bid.bidAmount
-                                        )
-                                      )
-                                    : "No bids yet"}
-                                </span>
-                              </p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden shadow-md">
+                              <img
+                                src={product.productImage}
+                                alt="Product"
+                                className="w-full h-full object-cover"
+                              />
                             </div>
 
-                            <p className="text-gray-500 italic mt-3">
-                              {product.description}
-                            </p>
+                            <div className="mt-4 text-gray-800">
+                              <h3 className="text-3xl font-bold text-gray-900">
+                                {product.name}
+                              </h3>
+                              <p className="text-sm text-gray-500 mt-2">
+                                Category:{" "}
+                                <span className="text-blue-500 font-medium">
+                                  {product.category}
+                                </span>
+                              </p>
+
+                              <div className="mt-4 space-y-3">
+                                <p className="text-gray-700">
+                                  <strong>Starting Amount:</strong>{" "}
+                                  <span className="text-blue-600 font-semibold">
+                                    ₱{product.startBiddingPrice}
+                                  </span>
+                                </p>
+                                <p className="text-gray-700">
+                                  <strong>Until:</strong>{" "}
+                                  <span className="text-red-500 font-medium">
+                                    {new Date(
+                                      product.biddingEndDate
+                                    ).toLocaleString()}
+                                  </span>
+                                </p>
+                                <p className="text-gray-700">
+                                  <strong>Highest Bid:</strong>{" "}
+                                  <span className="text-green-500 font-semibold">
+                                    ₱
+                                    {product.bids.length > 0
+                                      ? Math.max(
+                                          ...product.bids.map(
+                                            (bid) => bid.bidAmount
+                                          )
+                                        )
+                                      : "No bids yet"}
+                                  </span>
+                                </p>
+                              </div>
+
+                              <p className="text-gray-500 italic mt-4">
+                                {product.description}
+                              </p>
+                            </div>
                           </div>
 
                           <button
-                            className="btn btn-primary w-full mt-5 py-3 text-lg font-semibold rounded-lg shadow-md transition-all hover:bg-blue-600"
+                            className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 w-full mt-6 py-3 text-lg rounded-lg shadow-md transition-all transform hover:scale-105"
                             onClick={handlePlaceBid}
                           >
                             Place a Bid
@@ -374,7 +358,7 @@ const Login = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500 text-center">
+                <p className="text-gray-500 text-center col-span-full py-10">
                   No products found in this category.
                 </p>
               )}

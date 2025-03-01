@@ -111,41 +111,25 @@ const createdBidding = expressAsyncHandler(async (req, res) => {
 });
 
 const getAllBidding = expressAsyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  // const existUser = await userModel.find({});
-  // if (!existUser) {
-  //   return res
-  //     .status(404)
-  //     .json({ success: false, message: "User Id not found!" });
-  // }
+  try {
+    // Fetch all bidding products from the database
+    const products = await biddingModel.find({});
 
-  const serviceToken = generateServiceToken();
-  const response = await axios.get(
-    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    // Check if products exist
+    if (!products || products.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No bidding products found!" });
+    }
 
-    { headers: { Authorization: `Bearer ${serviceToken}` } }
-  );
-
-  const accountData = response.data;
-
-  const userExist = accountData.find((a) => a._id === userId);
-
-  if (!userExist) {
-    return res
-      .status(400)
-      .json({ success: false, message: "User id not found!" });
+    // Return the products
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching bidding data:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch bidding data" });
   }
-  console.log(userExist);
-
-  const product = await biddingModel.find({});
-  if (!product) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Bidding not found!" });
-  }
-
-
-  res.status(200).json(product);
 });
 
 // const getSpecificId = expressAsyncHandler(async (req, res) => {
@@ -289,42 +273,25 @@ const getAllCategoryBidding = expressAsyncHandler(async (req, res) => {
 });
 
 const getAllCategoryBiddings = expressAsyncHandler(async (req, res) => {
-  const { userId } = req.body;
+  try {
+    // Fetch all categories from the database
+    const categories = await categoryBiddingModel.find({});
 
-  const serviceToken = generateServiceToken();
+    // Check if categories exist
+    if (!categories || categories.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No categories found!" });
+    }
 
-  const response = await axios.get(
-    `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
-    { headers: { Authorization: `Bearer ${serviceToken}` } }
-  );
-
-  const accountData = response.data;
-
-  const userExist = accountData.find((a) => a._id === userId);
-
-  if (!userExist) {
-    return res
-      .status(400)
-      .json({ success: false, message: "User id not found!" });
+    // Return the categories
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch categories" });
   }
-
-  // const existUser = await userModel.findById(userId);
-
-  // if (!existUser) {
-  //   return res
-  //     .status(400)
-  //     .json({ success: false, message: "User id not found!" });
-  // }
-
-  const getData = await categoryBiddingModel.find();
-
-  if (!getData) {
-    return res
-      .status(400)
-      .json({ success: false, message: "User id not found!" });
-  }
-
-  res.status(200).json(getData);
 });
 
 const updateCategoryBidding = expressAsyncHandler(async (req, res) => {
