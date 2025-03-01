@@ -419,7 +419,7 @@ const testingLogin = asyncHandler(async (req, res) => {
 
   const redirectUrls = {
     1: "http://localhost:5173", // Change to production URL
-    2: "https://logistic2.jjm-manufacturing.com",
+    2: "https://logistic2.jjm-manufacturing.com/MainUser",
   };
   // const redirectUrls = {
   //   1: "https://logistic1.jjm-manufacturing.com", // Change to production URL

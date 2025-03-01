@@ -3,6 +3,8 @@ import DataTable from "datatables.net-dt";
 import axios from "axios";
 import { apiURL } from "../../context/verifyStore";
 import Store from "../../context/verifyStore";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 const ReturnRequest = () => {
   const [returnRequestData, setReturnRequestData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,6 +14,7 @@ const ReturnRequest = () => {
   const [selectImage, setSelectImage] = useState(null);
   const [modalType, setModalType] = useState("");
   const [showImageModal, setShowImageModal] = useState(false); // New state for image modal
+  const [status, setStatus] = useState("");
 
   const { token } = Store();
 
@@ -30,6 +33,20 @@ const ReturnRequest = () => {
       setReturnRequestData(response?.data);
     } catch (error) {
       console.log(error?.response?.data.message);
+    }
+  };
+
+  const updateStatus = async (nameStatus) => {
+    try {
+      const response = await axios.put(
+        `${apiURL}/api/vendor_return/${selectedData?._id}`,
+        { status: nameStatus },
+        { headers: { token: token } }
+      );
+      fetchReturnRequest();
+      toast.success(response.data.message);
+    } catch (error) {
+      console.log(error?.response.data.message);
     }
   };
 
@@ -115,6 +132,14 @@ const ReturnRequest = () => {
 
   return (
     <div className="p-3">
+      <div className="breadcrumbs text-sm">
+        <ul>
+          <li>
+            <Link to="/dashboardvendor">Dashboard</Link>
+          </li>
+          <li>Return Request</li>
+        </ul>
+      </div>
       <h1 className="font-semibold text-4xl text-gray-800">Return Request</h1>
       <table id="myTable"></table>
 
@@ -170,8 +195,30 @@ const ReturnRequest = () => {
               </div>
 
               <div className="flex gap-3 justify-center mt-4">
-                <button className="btn btn-primary text-white ">Approve</button>
-                <button className="btn btn-error text-white ">Reject</button>
+                <button
+                  className="btn btn-primary text-white"
+                  onClick={() => {
+                    updateStatus("Approved");
+                    setSelectedData(null);
+                    setShowModal(false);
+                    setFetchAdjustment(null);
+                    setSelectImage(null);
+                  }}
+                >
+                  Approve
+                </button>
+                <button
+                  className="btn btn-error text-white"
+                  onClick={() => {
+                    updateStatus("Rejected");
+                    setSelectedData(null);
+                    setShowModal(false);
+                    setFetchAdjustment(null);
+                    setSelectImage(null);
+                  }}
+                >
+                  Reject
+                </button>
               </div>
               {/* Button Section */}
               <div className="flex justify-end mt-4">
@@ -197,7 +244,7 @@ const ReturnRequest = () => {
             className="max-w-full max-h-full"
             src={selectImage}
             alt="Full View"
-            onClick={() => setShowImageModal(false)} // Close the modal when clicking on the image
+            onClick={() => setShowImageModal(false)}
           />
         </div>
       )}

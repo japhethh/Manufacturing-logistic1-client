@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ReturnRequestSchema = new mongoose.Schema(
   {
-    returnRequestNumber: { type: String, required: true, unique: true }, // Unique return number
+    returnRequestNumber: { type: String, required: true, unique: true }, 
     purchaseOrderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "PurchaseOrder",

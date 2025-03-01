@@ -99,6 +99,10 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
       });
 
       await newInventoryRecord.save();
+
+      const sendLogistic2 = await axios.post("https://backend-logistic2.jjm-manufacturing.com/api/inventoryrecords",newInventoryRecord)
+
+      console.log(sendLogistic2)
     }
 
     res.status(201).json({
@@ -275,9 +279,11 @@ const defectCreate = expressAsyncHandler(async (req, res) => {
       });
 
       await returnRequest.save();
+
+      await defect.save();
+
       // 🔹 Link defect to return request
       // defect.returnRequest = returnRequest._id;
-      await defect.save();
     }
 
     // NEEDED TO PUT A NOTIFICATION HERE ---------------------------------->
