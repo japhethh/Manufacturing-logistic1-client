@@ -411,7 +411,6 @@ const updateStatusFinance = expressAsyncHandler(async (req, res) => {
   }
 
   const theSupplier = exist.supplier;
-  // console.log(theSupplier)
 
   const existSupplier = await supplierModel.findById(theSupplier);
 

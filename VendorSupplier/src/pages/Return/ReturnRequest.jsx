@@ -14,7 +14,6 @@ const ReturnRequest = () => {
   const [selectImage, setSelectImage] = useState(null);
   const [modalType, setModalType] = useState("");
   const [showImageModal, setShowImageModal] = useState(false); // New state for image modal
-  const [status, setStatus] = useState("");
 
   const { token } = Store();
 
@@ -83,6 +82,8 @@ const ReturnRequest = () => {
               Approved: "bg-blue-200 text-blue-800",
               Rejected: "bg-red-200 text-red-800",
               Pending: "bg-gray-200 text-gray-800",
+              Refund: "bg-yellow-200 text-yellow-800",
+              Re_Order: "bg-green-200 text-green-800",
             };
 
             return `

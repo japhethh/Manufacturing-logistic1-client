@@ -304,7 +304,7 @@ const NavbarVendor = () => {
               {/* Profile */}
               <li>
                 <NavLink
-                  to="/profile"
+                  to="/accountmanagementvendor"
                   className="hover:bg-gray-200 hover:text-blue-500 font-semibold flex items-center gap-2 transition-colors duration-200"
                 >
                   <FaUser className="text-xl" />

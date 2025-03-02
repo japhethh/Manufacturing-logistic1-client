@@ -17,7 +17,7 @@ const ReturnRequestSchema = new mongoose.Schema(
     reason: { type: String, required: true },
     status: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected", "Returned"],
+      enum: ["Pending", "Approved", "Rejected", "Returned","Refund","Re_Order"],
       default: "Pending",
     },
     reportedBy: mongoose.Schema.Types.Mixed,
