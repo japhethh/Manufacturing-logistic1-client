@@ -27,4 +27,6 @@ const getAllAuditLogLogistic = expressAsyncHandler(async (req, res) => {
   res.status(200).json(auditLog);
 });
 
+
+
 export { getAllAuditLogLogistic };

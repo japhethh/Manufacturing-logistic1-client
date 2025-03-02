@@ -4,6 +4,7 @@ import supplierModel from "../models/supplierModel.js";
 import axios from "axios";
 import generateServiceToken from "../middleware/gatewayGenerator.js";
 import purchaseOrderModel from "../models/purchaseOrderModel.js";
+import AuditSupplierLog from "../models/auditSupplierModel.js";
 
 const getAllReturnRequest = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -94,6 +95,23 @@ const updateReturnRequest = expressAsyncHandler(async (req, res) => {
     }
 
     existSupplier.purchaseOrders.push(existPurchaseOrder._id);
+
+    await existSupplier.save()
+
+    // Audit
+    const newAuditLog = new AuditSupplierLog({
+      eventTypes: "Create",
+      entityType: "PurchaseOrder",
+      entityId: existPurchaseOrder.id,
+      changes: {
+        oldValue: null,
+        newValue: existPurchaseOrder,
+      },
+      performeBy: userId,
+      role: existSupplier?.role,
+    });
+
+    await newAuditLog.save();
   }
 
   res.status(200).json({

@@ -5,4 +5,5 @@ const auditVendorRouter = express.Router();
 
 auditVendorRouter.get("/", authMiddleware, getAllAuditLogLogistic);
 
+
 export default auditVendorRouter;
