@@ -225,11 +225,11 @@ const Login = () => {
           <h2 className="text-xl font-bold text-gray-900 border-b pb-3 mb-4">
             Categories
           </h2>
-          <ul className="space-y-3">
+          <ul className="space-y-3 h-72 overflow-y-auto overflow-x-hidden">
             {categories.map((category, index) => (
               <li
                 key={index}
-                className={`cursor-pointer transition duration-200 ease-in-out transform hover:translate-x-2 ${
+                className={`cursor-pointer transition duration-200 ease-in-out transform hover:translate-x-2 whitespace-nowrap ${
                   selectedCategory === category
                     ? "text-blue-600 font-bold"
                     : "text-gray-700 hover:text-blue-600"
