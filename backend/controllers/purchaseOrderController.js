@@ -166,24 +166,24 @@ const createPurchaseOrder = expressAsyncHandler(async (req, res) => {
         expiresIn: "1h",
       });
     };
-
+  
     // -----------------------------------------------
     // FINANCE ------------------->
     // Axios
 
     // =========================================================
-    // const postRequest = async () => {
-    //   const raffy = generateServiceTokens();
-    //   const response = await axios.post(
-    //     `https://manufacturing-api-gateway.onrender.com/logistics/request-budget`,
-    //     financeApproval,
-    //     { headers: { Authorization: `Bearer ${raffy}` } }
-    //   );
+    const postRequest = async () => {
+      const raffy = generateServiceTokens();
+      const response = await axios.post(
+        `https://gateway.jjm-manufacturing.com/finance/budget-request`,
+        financeApproval,
+        { headers: { Authorization: `Bearer ${raffy}` } }
+      );
 
-    //   console.log(response.data);
-    // };
+      console.log(response.data);
+    };
 
-    // postRequest();
+    postRequest();
 
     res.status(201).json(newPurchaseOrder);
   } catch (error) {

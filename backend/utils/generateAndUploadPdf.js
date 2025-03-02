@@ -95,8 +95,8 @@ const generateAndUploadPdf = async (purchaseOrder) => {
                 `${index + 1}`,
                 item.name,
                 item.quantity,
-                `$${item.price.toFixed(2)}`,
-                `$${item.totalPrice.toFixed(2)}`,
+                `${item.price.toFixed(2)}`,
+                `${item.totalPrice.toFixed(2)}`,
               ]),
             ],
           },
@@ -105,12 +105,12 @@ const generateAndUploadPdf = async (purchaseOrder) => {
 
         // Tax and Total Amount
         {
-          text: `Tax: $${purchaseOrder.tax.toFixed(2)}`,
+          text: `Tax: {purchaseOrder.tax.toFixed(2)}`,
           alignment: "right",
           margin: [0, 0, 0, 5],
         },
         {
-          text: `Total Amount: $${purchaseOrder.totalAmount.toFixed(2)}`,
+          text: `Total Amount: ${purchaseOrder.totalAmount.toFixed(2)}`,
           alignment: "right",
           margin: [0, 0, 0, 20],
         },
