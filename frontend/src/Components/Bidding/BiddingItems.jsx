@@ -1,47 +1,37 @@
 import { NavLink } from "react-router-dom";
+import { FaList, FaPlus, FaBoxOpen } from "react-icons/fa";
 
 const BiddingItems = () => {
   return (
-    <div>
-      <div className="flex flex-row gap-2 ">
+    <div className="p-6">
+      <div className="flex flex-col sm:flex-row gap-6">
+        {/* Category Card */}
         <NavLink to="/bidding-category" className="w-full" aria-label="All Invoice">
-          <div className="card bg-gradient-to-br from-blue-100 to blue-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-blue-800 font-bold text-lg sm:text-xl">
-                Category
-              </h2>
+          <div className="bg-gradient-to-br from-blue-300 to-blue-500 border border-blue-400 shadow-xl rounded-xl p-8 transition-all transform hover:scale-110 hover:shadow-2xl cursor-pointer">
+            <div className="flex items-center">
+              <FaList className="text-white text-3xl mr-4 drop-shadow-md transition-all" />
+              <h2 className="text-white font-bold text-2xl">Category</h2>
             </div>
-            <span className="badge bg-gradient-to-r from-blue-300 to-blue-500 text-white rounded-full px-3 py-1 text-xs font-semibold"></span>
           </div>
         </NavLink>
 
-        <NavLink
-          to="/bidding"
-          className="w-full"
-          aria-label="Pending Invoice"
-        >
-          <div className="card bg-gradient-to-br from-cyan-100 to-cyan-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-cyan-800 font-bold text-lg sm:text-xl">
-                Bid Create
-              </h2>
+        {/* Bid Create Card */}
+        <NavLink to="/bidding" className="w-full" aria-label="Pending Invoice">
+          <div className="bg-gradient-to-br from-cyan-300 to-cyan-500 border border-cyan-400 shadow-xl rounded-xl p-8 transition-all transform hover:scale-110 hover:shadow-2xl cursor-pointer">
+            <div className="flex items-center">
+              <FaPlus className="text-white text-3xl mr-4 drop-shadow-md transition-all" />
+              <h2 className="text-white font-bold text-2xl">Bid Create</h2>
             </div>
-            <span className="badge bg-gradient-to-r from-cyan-300 to-cyan-500 text-white rounded-full px-3 py-1 text-xs font-semibold"></span>
           </div>
         </NavLink>
 
-        <NavLink
-          to="/bidding-products"
-          className="w-full"
-          aria-label="Complete Invoice"
-        >
-          <div className="card bg-gradient-to-br from-green-100 to-green-50 shadow-xl rounded-lg p-6 text-center transition-all transform hover:scale-105 hover:shadow-2xl hover:cursor-pointer">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-green-800 font-bold text-lg sm:text-xl">
-                Products
-              </h2>
+        {/* Products Card */}
+        <NavLink to="/bidding-products" className="w-full" aria-label="Complete Invoice">
+          <div className="bg-gradient-to-br from-green-300 to-green-500 border border-green-400 shadow-xl rounded-xl p-8 transition-all transform hover:scale-110 hover:shadow-2xl cursor-pointer">
+            <div className="flex items-center">
+              <FaBoxOpen className="text-white text-3xl mr-4 drop-shadow-md transition-all" />
+              <h2 className="text-white font-bold text-2xl">Products</h2>
             </div>
-            <span className="badge bg-gradient-to-r from-green-300 to-green-500 text-white rounded-full px-3 py-1 text-xs font-semibold"></span>
           </div>
         </NavLink>
       </div>
