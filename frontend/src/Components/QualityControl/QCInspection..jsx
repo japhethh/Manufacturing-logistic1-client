@@ -54,6 +54,8 @@ const QCInspection = () => {
         },
         { headers: { token: token } }
       );
+
+      // { headers: {  token: token, Authorization: `Bearer ${storedToken}` }, }
       toast.success("QC inspection recorded successfully!");
 
       // Step 2: If there are defects, submit them
