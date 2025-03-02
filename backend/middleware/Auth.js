@@ -161,6 +161,23 @@ const testingRequestAccount = expressAsyncHandler(async (req, res) => {
   return accountData;
 });
 
+export const serviceVerifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token2 = authHeader && authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+
+  if (!token2) {
+      return res.status(401).json({ message: "Unauthorized access" });
+  }
+
+  jwt.verify(token2, process.env.SERVICE_JWT_SECRET, (err, decoded) => {
+      if (err) {
+          return res.status(403).json({ message: "Invalid or expired token" });
+      }
+      req.user = decoded; // Store decoded user data
+      next();
+  });
+};
+
 export {
   authMiddleware,
   authorizeRoles,

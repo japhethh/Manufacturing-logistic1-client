@@ -18,22 +18,22 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
 
     const warehouseLocation = "Warehouse A - Shelf B3";
 
-    const serviceToken = generateServiceToken();
+    // const serviceToken = generateServiceToken();
 
-    const response = await axios.get(
-      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
-      { headers: { Authorization: `Bearer ${serviceToken}` } }
-    );
+    // const response = await axios.get(
+    //   `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+    //   { headers: { Authorization: `Bearer ${serviceToken}` } }
+    // );
 
-    const accountData = response.data;
+    // const accountData = response.data;
 
-    const userExist = accountData.find((a) => a._id === userId);
+    // const userExist = accountData.find((a) => a._id === userId);
 
-    if (!userExist) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User id not found!" });
-    }
+    // if (!userExist) {
+    //   return res
+    //     .status(400)
+    //     .json({ success: false, message: "User id not found!" });
+    // }
     // Fetch Invoice and Populate Supplier & Items
     const getInvoice = await Invoice.findById(invoiceId)
       .populate("items.product") // Get product details
@@ -83,26 +83,29 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
         invoiceId,
         productId: item.productId.toString(),
         productName: item.productName,
-        supplierId: getInvoice.vendor._id.toString(), // Extracted from populated supplier
-        supplierName: getInvoice.vendor.supplierName, // Extracted from populated supplier
+        supplierId: getInvoice.vendor._id.toString(),
+        supplierName: getInvoice.vendor.supplierName,
         quantityReceived: item.quantity,
         unit: item.unit || "pcs",
-        batchNumber: batchCode, // Example batch number (can be changed)
-        expiryDate: null, // You can modify this logic based on your needs
-        warehouseLocation: warehouseLocation, // Required field, should be passed in request
+        batchNumber: batchCode,
+        expiryDate: null,
+        warehouseLocation: warehouseLocation,
         inspector,
         qcStatus: "Pending",
         receivedDate: new Date(),
         status: "Pending Manual Review",
         remarks: "Awaiting approval",
-        loggedBy: userExist?.name, // Ensure this is sent in request
+        loggedBy: "Unknown",
       });
 
       await newInventoryRecord.save();
 
-      const sendLogistic2 = await axios.post("https://backend-logistic2.jjm-manufacturing.com/api/inventoryrecords",newInventoryRecord)
+      const sendLogistic2 = await axios.post(
+        "https://backend-logistic2.jjm-manufacturing.com/api/inventoryrecords",
+        newInventoryRecord
+      );
 
-      console.log(sendLogistic2)
+      console.log(sendLogistic2);
     }
 
     res.status(201).json({
