@@ -160,8 +160,6 @@ const deleteBidding = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   const { userId } = req.body;
 
-
-
   const existBidding = await biddingModel.findById(id);
 
   if (!existBidding) {

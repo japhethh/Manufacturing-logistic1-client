@@ -114,7 +114,7 @@ const Category = () => {
           </div>
         </div>
 
-        <div className="w-full">
+        <div className="w-full shadow-lg p-2">
           <table id="myTable" />
         </div>
       </div>
