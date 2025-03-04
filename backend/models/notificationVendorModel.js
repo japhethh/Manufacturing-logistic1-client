@@ -14,6 +14,7 @@ const notificationVendorSchema = mongoose.Schema(
       ref: "PurchaseOrder",
     },
     invoiceId: { type: mongoose.Schema.Types.ObjectId, ref: "Invoice" },
+    supplierWinner: { type: mongoose.Schema.Types.ObjectId, ref: "Supplier" },
     message: {
       type: String,
     },
@@ -34,6 +35,7 @@ const notificationVendorSchema = mongoose.Schema(
         "quality_check_failed", // Quality check failed
         "awaiting_payment", // Payment is pending
         "message", // General message
+        "awarded",
       ],
       required: true,
     },

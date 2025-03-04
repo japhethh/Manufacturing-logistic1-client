@@ -8,6 +8,8 @@ import {
   createCategoryBidding,
   updateCategoryBidding,
   deleteCategoryBidding,
+  updateBidding,
+  selectBiddingWinner,
 } from "../controllers/biddingController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -41,5 +43,12 @@ biddingRouter.delete("/:id", authMiddleware, deleteBidding);
 biddingRouter.post("/category", authMiddleware, createCategoryBidding);
 biddingRouter.put("/category/:id", authMiddleware, updateCategoryBidding);
 biddingRouter.delete("/category/:id", authMiddleware, deleteCategoryBidding);
+
+biddingRouter.put("/bidding-product/:id", authMiddleware, updateBidding);
+biddingRouter.post(
+  "/bidding-selectBiddingWinner",
+  authMiddleware,
+  selectBiddingWinner
+);
 
 export default biddingRouter;
