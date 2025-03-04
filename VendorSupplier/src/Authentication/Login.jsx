@@ -258,7 +258,7 @@ const Login = () => {
                       className="w-full h-48 object-cover rounded-lg shadow-md"
                     />
                     <div className="flex flex-col w-full">
-                      <span className="flex items-center gap-2 text-sm bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-1 rounded-full w-fit">
+                      <span className="flex items-center gap-2 text-xs font-medium font-Roboto bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full w-fit">
                         <FcExpired className="text-lg" />
                         {new Date(product.biddingEndDate).toLocaleString()}
                       </span>
