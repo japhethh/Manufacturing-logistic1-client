@@ -11,9 +11,10 @@ const BiddingProduct = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const { token } = Store();
+  const { token, fetchUserData, userData } = Store();
   useEffect(() => {
     fetchBiddingProduct();
+    fetchUserData();
   }, []);
 
   const fetchBiddingProduct = async () => {
@@ -48,7 +49,11 @@ const BiddingProduct = () => {
       destroy: true,
       data: product,
       columns: [
-        { title: "Bidding Code #", data: "biddingNumber", render: (data) => data || "N/A" },
+        {
+          title: "Bidding Code #",
+          data: "biddingNumber",
+          render: (data) => data || "N/A",
+        },
         {
           title: "Img",
           data: "productImage",
@@ -73,7 +78,9 @@ const BiddingProduct = () => {
                   data ? data?.regularPrice : "N/A"
                 }</span></h1>
                 <h1>End Date/Time: <span class="font-semibold">${
-                  data ? new Date(data?.biddingEndDate).toLocaleDateString() : "N/A"
+                  data
+                    ? new Date(data?.biddingEndDate).toLocaleDateString()
+                    : "N/A"
                 }</span></h1>
                 <h1>Highest Bid: <span>15,000</span></h1>
                 <h1>Total Bids: <span>1 user/s</span></h1>
@@ -83,33 +90,41 @@ const BiddingProduct = () => {
         },
         // { title: "Id", data: "_id", render: (data) => data || "N/A" },
         {
-          title: "Action",
+          title: `${userData?.role === "superAdmin" ? "Action" : ""}`,
           data: null,
           render: (data) => {
             return `
-              <button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            `;
+            <div>
+            ${
+              userData?.role === "superAdmin"
+                ? `<button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
+            <i class="fas fa-trash-alt"></i>
+              </button>`
+                : ""
+            }
+              </div>
+              `;
           },
         },
       ],
       rowCallback: (row, data) => {
-        const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
-  
-        deleteBtn.addEventListener("click", () => {
-          setSelectedData(data);
-          setModalType("delete"); // Set modal for delete
-          setShowModal(true); // Show the modal
-        });
+        if (userData?.role === "superAdmin") {
+          const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
+
+          deleteBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("delete"); // Set modal for delete
+            setShowModal(true); // Show the modal
+          });
+        }
       },
     });
-  
+
     return () => {
       table.destroy();
     };
   }, [product]);
-  
+
   return (
     <div className="p-4">
       <div className="mb-2">

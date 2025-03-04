@@ -16,6 +16,9 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
   try {
     const { inspector, status, discrepancies, invoiceId, userId } = req.body;
 
+    console.log(inspector);
+    console.log(status);
+    console.log(discrepancies);
     const warehouseLocation = "Warehouse A - Shelf B3";
 
     // const serviceToken = generateServiceToken();
@@ -100,12 +103,14 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
 
       await newInventoryRecord.save();
 
-      const sendLogistic2 = await axios.post(
-        "https://backend-logistic2.jjm-manufacturing.com/api/inventoryrecords",
-        newInventoryRecord
-      );
+      // const serviceToken = generateServiceToken();
+      // const sendLogistic2 = await axios.post(
+      //   `${process.env.API_GATEWAY_URL}/logistic2/receive-inventory-records`,
+      //   newInventoryRecord,
+      //   { headers: { Authorization: `Bearer ${serviceToken}` } }
+      // );
 
-      console.log(sendLogistic2);
+      // console.log(sendLogistic2);
     }
 
     res.status(201).json({

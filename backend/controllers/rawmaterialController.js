@@ -43,6 +43,7 @@ const newRequested = asyncHandler(async (req, res) => {
     notes,
     department,
     approvalId,
+    rawmaterialId,
   } = req.body;
 
   // Check for required fields
@@ -76,12 +77,15 @@ const newRequested = asyncHandler(async (req, res) => {
     notes,
     department,
     approvalId,
+    rawmaterialId,
   });
 
   try {
     const save = await newRequest.save();
 
-    res.status(201).json(save);
+    res
+      .status(201)
+      .json({ success: true, message: "Successfully Created!", data: save });
 
     const io = req.app.get("socket.io");
 
@@ -224,14 +228,12 @@ const approvePurchaseRequisition = asyncHandler(async (req, res) => {
     approvedBy: userId,
     requestStatus: status,
   });
-  
-  
+
   if (!updatedStatus) {
     return res
       .status(404)
       .json({ success: false, message: "Raw material not found!" });
   }
-
 
   // APIENDPOINT NG CORE 1
 
@@ -297,7 +299,7 @@ const rejectPurchaseRequisition = asyncHandler(async (req, res) => {
   });
 
   await newAuditLog.save();
-  
+
   const updatedStatus = await rawmaterialModel.findByIdAndUpdate(id, {
     approvedBy: userId,
     requestStatus: status,

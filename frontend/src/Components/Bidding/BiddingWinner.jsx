@@ -1,101 +1,51 @@
-import { useEffect, useState } from "react";
 import DataTable from "datatables.net-dt";
-import axios from "axios";
-import { apiURL } from "../../context/Store";
-import Store from "../../context/Store";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-const ReturnRequest = () => {
-  const [returnRequestData, setReturnRequestData] = useState([]);
+
+const BiddingWinner = () => {
+  const [biddingWinner, setBiddingWinner] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [selectImage, setSelectImage] = useState(null);
   const [modalType, setModalType] = useState("");
-  const [showImageModal, setShowImageModal] = useState(false); 
+  // const [showImageModal, setShowImageModal] = useState(false);
 
-  const { token } = Store();
-
-  useEffect(() => {
-    fetchReturnRequest();
-  }, []);
-
-  const fetchReturnRequest = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${apiURL}/api/returnManagement`, {
-        headers: { token: token },
-      });
-      setLoading(false);
-      console.log(response?.data);
-      setReturnRequestData(response?.data);
-    } catch (error) {
-      console.log(error?.response?.data.message);
-    }
-  };
-
-  const updateStatus = async (nameStatus) => {
-    try {
-      const response = await axios.put(
-        `${apiURL}/api/returnManagement/${selectedData?._id}`,
-        { status: nameStatus },
-        { headers: { token: token } }
-      );
-      fetchReturnRequest();
-      toast.success(response.data.message);
-    } catch (error) {
-      console.log(error?.response.data.message);
-    }
-  };
-
-  const handleImage = (image) => {
-    setSelectImage(image);
-    setShowImageModal(true); // Show the image modal
-  };
+  const exampleData = [
+    {
+      name: "Test1",
+      age: 20,
+      _id: 1,
+    },
+    {
+      name: "Test2",
+      age: 20,
+      _id: 2,
+    },
+    {
+      name: "Test3",
+      age: 20,
+      _id: 3,
+    },
+    {
+      name: "Test4",
+      age: 20,
+      _id: 4,
+    },
+  ];
 
   useEffect(() => {
     const table = new DataTable("#myTable", {
-      data: returnRequestData,
+      data: exampleData,
       columns: [
         {
-          title: "Return Number #",
-          data: "returnRequestNumber",
-          render: (data) => `${data ? data : "N/A"}`,
+          title: "Name",
+          data: "name",
         },
         {
-          title: "Return Request ID",
-          data: "_id",
-          render: (data) => `${data ? data : "N/A"}`,
-        },
-        {
-          title: "Reason",
-          data: "reason",
-          render: (data) => `${data ? data : "N/A"}`,
-        },
-        {
-          title: "Request Status",
-          data: null,
-          render: (data) => {
-            const status = data?.status;
-            const statusClasses = {
-              Approved: "bg-blue-200 text-blue-800",
-              Rejected: "bg-red-200 text-red-800",
-              Pending: "bg-gray-200 text-gray-800",
-              Refund: "bg-yellow-200 text-yellow-800",
-              Re_Order: "bg-green-200 text-green-800",
-            };
-
-            return `
-              <div class="flex justify-center">
-                <button class="py-1 px-2 rounded-full ${
-                  statusClasses[status] || "bg-gray-200 text-black"
-                }">
-                  ${status || "N/A"}
-                </button>
-              </div>
-            `;
-          },
+          title: "Age",
+          data: "age",
         },
         {
           title: "Action",
@@ -111,7 +61,7 @@ const ReturnRequest = () => {
           </div>`,
         },
       ],
-      order: [[0, "asc"]],
+
       rowCallback: (row, data) => {
         const detailBtn = row.querySelector(`#detailBtn_${data?._id}`);
 
@@ -129,20 +79,26 @@ const ReturnRequest = () => {
     return () => {
       table.destroy();
     };
-  }, [returnRequestData]);
+  }, [exampleData]);
 
   return (
-    <div className="p-3">
+    <div className="p-4">
       <div className="breadcrumbs text-sm">
         <ul>
           <li>
-            <Link to="/dashboardvendor">Dashboard</Link>
+            <Link to="/">Dashboard</Link>
           </li>
-          <li>Return Request</li>
+          <li>
+            <a>Winner List</a>
+          </li>
         </ul>
       </div>
-      <h1 className="font-semibold text-4xl text-gray-800">Return Request</h1>
-      <table id="myTable"></table>
+      <div>
+        <h1 className="font-semibold text-4xl text-gray-800">Winner List</h1>
+      </div>
+      <div>
+        <table id="myTable" className="display"></table>
+      </div>
 
       {showModal &&
         modalType === "detail" &&
@@ -150,20 +106,6 @@ const ReturnRequest = () => {
         fetchAdjustment && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
             <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg overflow-hidden">
-              {/* Image Grid */}
-              <div className="grid grid-cols-2 gap-3 overflow-auto max-h-60 mb-4 p-2">
-                {selectedData?.attachments.map((item, index) => (
-                  <div key={index} className="flex justify-center">
-                    <img
-                      className="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75 transition"
-                      onClick={() => handleImage(item)}
-                      src={item}
-                      alt="Defect Image"
-                    />
-                  </div>
-                ))}
-              </div>
-
               {/* Title */}
               <h1 className="text-2xl font-semibold py-2 font-Roboto text-gray-800">
                 Details
@@ -176,7 +118,9 @@ const ReturnRequest = () => {
                     Reference
                   </div>
                   <div className="w-1/2 p-2">
-                    {selectedData?.returnRequestNumber}
+                    {selectedData?.returnRequestNumber
+                      ? selectedData?.returnRequestNumber
+                      : "N/A"}
                   </div>
                 </div>
 
@@ -184,14 +128,18 @@ const ReturnRequest = () => {
                   <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
                     Defect Description
                   </div>
-                  <div className="w-1/2 p-2">{selectedData?.reason}</div>
+                  <div className="w-1/2 p-2">
+                    {selectedData?.reason ? selectedData?.reason : "N/A"}
+                  </div>
                 </div>
 
                 <div className="flex border rounded-lg overflow-hidden">
                   <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
                     Severity
                   </div>
-                  <div className="w-1/2 p-2">{selectedData?.severity}</div>
+                  <div className="w-1/2 p-2">
+                    {selectedData?.severity ? selectedData?.severity : "N/A"}
+                  </div>
                 </div>
               </div>
 
@@ -199,7 +147,7 @@ const ReturnRequest = () => {
                 <button
                   className="btn btn-primary text-white"
                   onClick={() => {
-                    updateStatus("Re_Order");
+                    // updateStatus("Re_Order");
                     setSelectedData(null);
                     setShowModal(false);
                     setFetchAdjustment(null);
@@ -211,7 +159,7 @@ const ReturnRequest = () => {
                 <button
                   className="btn btn-error text-white"
                   onClick={() => {
-                    updateStatus("Refund");
+                    // updateStatus("Refund");
                     setSelectedData(null);
                     setShowModal(false);
                     setFetchAdjustment(null);
@@ -238,19 +186,8 @@ const ReturnRequest = () => {
             </div>
           </div>
         )}
-
-      {showImageModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90">
-          <img
-            className="max-w-full max-h-full"
-            src={selectImage}
-            alt="Full View"
-            onClick={() => setShowImageModal(false)}
-          />
-        </div>
-      )}
     </div>
   );
 };
 
-export default ReturnRequest;
+export default BiddingWinner;

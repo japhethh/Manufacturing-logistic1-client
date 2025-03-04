@@ -8,14 +8,18 @@ import {
   approvePurchaseRequisition,
   rejectPurchaseRequisition,
 } from "../controllers/rawmaterialController.js";
-import { authMiddleware, protectMid } from "../middleware/Auth.js";
+import {
+  authMiddleware,
+  protectMid,
+  serviceVerifyToken,
+} from "../middleware/Auth.js";
 const rawmaterialRouter = express.Router();
 
 rawmaterialRouter.get("/request", requested);
 rawmaterialRouter.get("/request/:id", getSpecificId);
 rawmaterialRouter.post("/delete/:id", deleteRequest);
 rawmaterialRouter.put("/updateStatus/:id", updateStatus);
-rawmaterialRouter.post("/request", newRequested);
+rawmaterialRouter.post("/request", serviceVerifyToken, newRequested);
 rawmaterialRouter.put(
   "/approveStatus/:id",
   authMiddleware,

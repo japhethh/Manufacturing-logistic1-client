@@ -65,6 +65,7 @@ import Bidding from "./Components/Bidding/Bidding.jsx";
 import Category from "./Components/Category/Category.jsx";
 import BiddingProduct from "./Components/Bidding/BiddingProduct.jsx";
 import ReturnRequest from "./Components/ReturnManagement/ReturnRequest.jsx";
+import BiddingWinner from "./Components/Bidding/BiddingWinner.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -264,6 +265,7 @@ const App = () => {
           <Route path="/bidding-category" element={<Category />}></Route>
           <Route path="/bidding" element={<Bidding />}></Route>
           <Route path="/bidding-products" element={<BiddingProduct />}></Route>
+          <Route path="/biddingWinner" element={<BiddingWinner />}></Route>
         </Routes>
       </div>
     </div>

@@ -44,7 +44,7 @@ const BiddingItems = () => {
         </NavLink>
         {/* Winners Card */}
         <NavLink
-          to="/bidding-products"
+          to="/biddingWinner"
           className="w-full"
           aria-label="Complete Invoice"
         >

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const rawmaterialSchema = mongoose.Schema({
   rawmaterialNumber: { type: String },
+  rawmaterialId: { type: String },
   requestDate: {
     type: Date,
     default: Date.now,
