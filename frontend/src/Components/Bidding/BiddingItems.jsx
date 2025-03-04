@@ -43,7 +43,7 @@ const BiddingItems = () => {
           </div>
         </NavLink>
         {/* Winners Card */}
-        <NavLink
+        {/* <NavLink
           to="/biddingWinner"
           className="w-full"
           aria-label="Complete Invoice"
@@ -54,7 +54,7 @@ const BiddingItems = () => {
               <h2 className="text-white font-bold text-2xl">Winners</h2>
             </div>
           </div>
-        </NavLink>
+        </NavLink> */}
       </div>
     </div>
   );
