@@ -17,7 +17,7 @@ const schema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-const Login = () => {
+const Login = ({ isBiddingLogin = false }) => {
   const { token, setToken } = useContext(VendorUserContext);
   const navigate = useNavigate();
   const {
@@ -75,26 +75,18 @@ const Login = () => {
       toast.success(response.data.message);
       localStorage.setItem("token", response.data.token);
       setToken(response.data.token); // Update token in context
-      navigate("/dashboardvendor"); // Redirect to dashboard after login
+
+      // Conditionally navigate based on the prop
+      if (isBiddingLogin) {
+        navigate("/biddingVendor"); // Navigate to bidding vendor page
+      } else {
+        navigate("/dashboardvendor"); // Default navigation for navbar login
+      }
     } catch (error) {
       reset();
       toast.error(error.response?.data?.message || "Login failed", {
         position: "top-center",
       });
-    }
-  };
-
-  const handlePlaceBid = () => {
-    if (!token) {
-      document.getElementById("login_modal").showModal();
-      toast.info("Please login to place a bid.", {
-        position: "top-center",
-      });
-    } else {
-      toast.success("You can now place a bid!", {
-        position: "top-center",
-      });
-      // Add your bid placement logic here
     }
   };
 
@@ -124,7 +116,9 @@ const Login = () => {
           <div className="navbar-end">
             <button
               className="btn btn-primary hover:bg-blue-700 transition duration-200"
-              onClick={() => document.getElementById("login_modal").showModal()}
+              onClick={() => {
+                document.getElementById("login_modal").showModal();
+              }}
             >
               Login
             </button>
@@ -274,11 +268,11 @@ const Login = () => {
 
                       <button
                         className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 mt-5 w-full py-2 rounded-lg transition-all transform hover:scale-105"
-                        onClick={() =>
+                        onClick={() => {
                           document
                             .getElementById(`my_modal_${product._id}`)
-                            .showModal()
-                        }
+                            .showModal();
+                        }}
                       >
                         View Details
                       </button>
@@ -348,9 +342,13 @@ const Login = () => {
 
                           <button
                             className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 w-full mt-6 py-3 text-lg rounded-lg shadow-md transition-all transform hover:scale-105"
-                            onClick={handlePlaceBid}
+                            onClick={() => {
+                              document
+                                .getElementById("login_modal")
+                                .showModal();
+                            }}
                           >
-                            Place a Bid
+                            Login for place a bid
                           </button>
                         </div>
                       </dialog>
