@@ -381,7 +381,7 @@ const deleteCategoryBidding = expressAsyncHandler(async (req, res) => {
 });
 
 const updateBidding = expressAsyncHandler(async (req, res) => {
-  const { userId, bids } = req.body;
+  const { userId, bids, terms, deliveryTime } = req.body;
   const { id } = req.params;
 
   const existUser = await supplierModel.findById(userId);
@@ -395,7 +395,16 @@ const updateBidding = expressAsyncHandler(async (req, res) => {
   const updated = await biddingModel.findByIdAndUpdate(
     id,
     {
-      $set: { bids: [{ vendor: userId, bidAmount: bids }] }, // Using $set to ensure only bids field is updated
+      $set: {
+        bids: [
+          {
+            vendor: userId,
+            bidAmount: bids,
+            terms: terms,
+            deliveryTime: deliveryTime,
+          },
+        ],
+      }, // Using $set to ensure only bids field is updated
     },
     { new: true, upsert: true } // Enables upsert
   );

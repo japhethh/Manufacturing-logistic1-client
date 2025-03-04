@@ -9,6 +9,8 @@ const bidSchema = new mongoose.Schema(
     },
     bidAmount: { type: Number, required: true }, // Vendor's bid price
     bidDate: { type: Date, default: Date.now }, // Timestamp of bid placement
+    terms: { type: String },
+    deliveryTime: { type: String },
   },
   { timestamps: true }
 );
