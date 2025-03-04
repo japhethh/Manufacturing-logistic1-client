@@ -49,6 +49,7 @@ import TrackingOrdersDelivered from "./Components/TrackingOrders/TrackingOrdersD
 import ProfileVendor from "./Components/ProfileVendor/ProfileVendor.jsx";
 import AuditLogVendor from "./Components/AuditLog/AuditLogVendor.jsx";
 import ReturnRequest from "./pages/Return/ReturnRequest.jsx";
+import BiddingVendor from "./Components/Bidding/Bidding.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -132,115 +133,125 @@ const App = () => {
   }
 
   return (
-    <div className="flex">
-      <ToastContainer />
-      {location.pathname !== "/login" &&
-      location.pathname !== "/verify" &&
-      location.pathname !== "/sendemail" ? (
-        <SidebarVendor />
-      ) : null}
-      <div className="flex-col flex-grow">
+    <>
+      <div className="flex">
+        <ToastContainer />
         {location.pathname !== "/login" &&
         location.pathname !== "/verify" &&
         location.pathname !== "/sendemail" ? (
-          <NavbarVendor />
+          <SidebarVendor />
         ) : null}
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+        <div className="flex-col flex-grow">
+          {location.pathname !== "/login" &&
+          location.pathname !== "/verify" &&
+          location.pathname !== "/sendemail" ? (
+            <NavbarVendor />
+          ) : null}
+          <div className="flex-grow">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-            {/* Orders */}
-            <Route path="/ordersvendor" element={<OrdersVendor />}>
-              <Route index element={<PendingOrdersVendor />} />
+              {/* Orders */}
+              <Route path="/ordersvendor" element={<OrdersVendor />}>
+                <Route index element={<PendingOrdersVendor />} />
+                <Route
+                  path="PendingOrdersVendor"
+                  element={<PendingOrdersVendor />}
+                />
+                <Route
+                  path="ReceivingOrdersVendor"
+                  element={<ReceivingOrdersVendor />}
+                />
+                <Route
+                  path="CompleteOrdersVendor"
+                  element={<CompleteOrdersVendor />}
+                />
+                <Route
+                  path="RejectedOrdersVendor"
+                  element={<RejectedOrdersVendor />}
+                />
+              </Route>
+
+              {/* Products */}
+              <Route path="/createproduct" element={<CreateProduct />}>
+                <Route path="category" element={<Category />} />
+                <Route path="products" element={<Products />} />
+                <Route path="allproducts" element={<AllProducts />} />
+                <Route path="printproducts" element={<PrintProducts />} />
+              </Route>
+              <Route path="/products/:id/edit" element={<EditProducts />} />
+
+              <Route path="/dashboardvendor" element={<DashboardVendor />} />
+
               <Route
-                path="PendingOrdersVendor"
-                element={<PendingOrdersVendor />}
+                path="/inventorymanagement"
+                element={<InvetoryManagement />}
+              />
+
+              <Route path="/shipmentvendor" element={<ShipmentVendor />} />
+              <Route
+                path="/communicationvendor"
+                element={<CommunicationVendor />}
               />
               <Route
-                path="ReceivingOrdersVendor"
-                element={<ReceivingOrdersVendor />}
+                path="/accountmanagementvendor"
+                element={<AccountManagementVendor />}
+              />
+              <Route path="/verify" element={<Verify />} />
+              <Route path="/sendemail" element={<SendEmail />} />
+              <Route path="/socketTest" element={<Socket />} />
+
+              {/* INVOICE */}
+              <Route
+                path="/createinvoicevendor/:orderId"
+                element={<CreateInvoiceVendor />}
+              />
+              <Route path="/invoicesvendor" element={<InvoicesVendor />} />
+              <Route path="/createInvoice" element={<CreateInvoice />} />
+              {/* END */}
+
+              <Route path="/datatable" element={<DataTableTesting />} />
+              <Route path="/adjustments" element={<Adjustment />} />
+              <Route
+                path="/adjustments/create"
+                element={<CreateAdjustment />}
               />
               <Route
-                path="CompleteOrdersVendor"
-                element={<CompleteOrdersVendor />}
+                path="/adjustments/:id/edit"
+                element={<EditAdjustment />}
+              />
+              <Route path="/trackingOrders" element={<AllTrackingOrders />} />
+              <Route
+                path="/trackingOrders/dispatch"
+                element={<TrackingOrdersDispatch />}
               />
               <Route
-                path="RejectedOrdersVendor"
-                element={<RejectedOrdersVendor />}
+                path="/trackingOrders/In_Transit"
+                element={<TrackingOrdersInTransit />}
               />
-            </Route>
+              <Route
+                path="/trackingOrders/pending"
+                element={<TrackingOrdersPending />}
+              />
+              <Route
+                path="/trackingOrders/delivered"
+                element={<TrackingOrdersDelivered />}
+              />
+              <Route
+                path="/order-details/:orderId"
+                element={<OrderDetailPage />}
+              />
+              <Route path="/ProfileVendor" element={<ProfileVendor />} />
+              <Route path="/AuditLogs" element={<AuditLogVendor />} />
+              <Route path="/returnRequest" element={<ReturnRequest />} />
 
-            {/* Products */}
-            <Route path="/createproduct" element={<CreateProduct />}>
-              <Route path="category" element={<Category />} />
-              <Route path="products" element={<Products />} />
-              <Route path="allproducts" element={<AllProducts />} />
-              <Route path="printproducts" element={<PrintProducts />} />
-            </Route>
-            <Route path="/products/:id/edit" element={<EditProducts />} />
-
-            <Route path="/dashboardvendor" element={<DashboardVendor />} />
-
-            <Route
-              path="/inventorymanagement"
-              element={<InvetoryManagement />}
-            />
-
-            <Route path="/shipmentvendor" element={<ShipmentVendor />} />
-            <Route
-              path="/communicationvendor"
-              element={<CommunicationVendor />}
-            />
-            <Route
-              path="/accountmanagementvendor"
-              element={<AccountManagementVendor />}
-            />
-            <Route path="/verify" element={<Verify />} />
-            <Route path="/sendemail" element={<SendEmail />} />
-            <Route path="/socketTest" element={<Socket />} />
-
-            {/* INVOICE */}
-            <Route
-              path="/createinvoicevendor/:orderId"
-              element={<CreateInvoiceVendor />}
-            />
-            <Route path="/invoicesvendor" element={<InvoicesVendor />} />
-            <Route path="/createInvoice" element={<CreateInvoice />} />
-            {/* END */}
-
-            <Route path="/datatable" element={<DataTableTesting />} />
-            <Route path="/adjustments" element={<Adjustment />} />
-            <Route path="/adjustments/create" element={<CreateAdjustment />} />
-            <Route path="/adjustments/:id/edit" element={<EditAdjustment />} />
-            <Route path="/trackingOrders" element={<AllTrackingOrders />} />
-            <Route
-              path="/trackingOrders/dispatch"
-              element={<TrackingOrdersDispatch />}
-            />
-            <Route
-              path="/trackingOrders/In_Transit"
-              element={<TrackingOrdersInTransit />}
-            />
-            <Route
-              path="/trackingOrders/pending"
-              element={<TrackingOrdersPending />}
-            />
-            <Route
-              path="/trackingOrders/delivered"
-              element={<TrackingOrdersDelivered />}
-            />
-            <Route
-              path="/order-details/:orderId"
-              element={<OrderDetailPage />}
-            />
-            <Route path="/ProfileVendor" element={<ProfileVendor />} />
-            <Route path="/AuditLogs" element={<AuditLogVendor />} />
-            <Route path="/returnRequest" element={<ReturnRequest />} />
-          </Routes>
+              <Route path="/biddingVendor" element={<BiddingVendor />} />
+            </Routes>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
