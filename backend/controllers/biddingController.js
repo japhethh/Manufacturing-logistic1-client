@@ -119,7 +119,7 @@ const getAllBidding = expressAsyncHandler(async (req, res) => {
       .find({})
       .populate(
         "bids.vendor",
-        "supplierName supplierCode contactPhone contactEmail address rating"
+        "_id supplierName supplierCode contactPhone contactEmail address rating"
       );
 
     // Check if products exist

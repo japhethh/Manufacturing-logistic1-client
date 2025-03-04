@@ -13,6 +13,7 @@ const BiddingProduct = () => {
   const [showModal, setShowModal] = useState(false);
   const { token, fetchUserData, userData } = Store();
   const [fetchAdjustment, setFetchAdjustment] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchBiddingProduct();
@@ -28,6 +29,26 @@ const BiddingProduct = () => {
       console.log(response.data);
       setProduct(response.data);
     } catch (error) {
+      console.log(error?.response.data.message);
+    }
+  };
+
+  const handleUpdate = async ({ biddingId, winnerId }) => {
+    setLoading(true);
+    console.log(biddingId);
+    console.log(winnerId);
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/bidding/bidding-selectBiddingWinner`,
+        { biddingId: biddingId, winnerId: winnerId },
+        { headers: { token: token } }
+      );
+      toast.success(response.data.message);
+      fetchBiddingProduct();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+
       console.log(error?.response.data.message);
     }
   };
@@ -181,99 +202,115 @@ const BiddingProduct = () => {
         </div>
       )}
 
-{showModal &&
-  modalType === "detail" &&
-  selectedData &&
-  fetchAdjustment && (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white rounded-lg p-8 w-full max-w-4xl shadow-lg overflow-hidden">
-        {/* Title */}
-        <h1 className="text-3xl font-semibold py-4 font-Roboto text-gray-800 text-center">
-          Bid Details
-        </h1>
+      {showModal &&
+        modalType === "detail" &&
+        selectedData &&
+        fetchAdjustment && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+            <div className="bg-white rounded-lg p-8 w-full max-w-4xl shadow-lg overflow-hidden">
+              {/* Title */}
+              <h1 className="text-3xl font-semibold py-4 font-Roboto text-gray-800 text-center">
+                Bid Details
+              </h1>
 
-        {/* Details Section */}
-        <div className="grid grid-cols-2 gap-6">
-          {selectedData.bids.length > 0 ? (
-            selectedData.bids.map((bid, index) => (
-              <div key={index} className="space-y-4 border p-4 rounded-lg shadow-sm">
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                    Supplier Name
-                  </div>
-                  <div className="w-1/2 p-3">{bid.vendor.supplierName}</div>
-                </div>
+              {/* Details Section */}
+              <div className="grid grid-cols-2 gap-6">
+                {selectedData.bids.length > 0 ? (
+                  selectedData.bids.map((bid, index) => (
+                    <div
+                      key={index}
+                      className="space-y-4 border p-4 rounded-lg shadow-sm"
+                    >
+                      <div className="flex border rounded-lg overflow-hidden">
+                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                          Supplier Name
+                        </div>
+                        <div className="w-1/2 p-3">
+                          {bid.vendor.supplierName}
+                        </div>
+                      </div>
 
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                    Bid Amount
-                  </div>
-                  <div className="w-1/2 p-3">{bid.bidAmount}</div>
-                </div>
+                      <div className="flex border rounded-lg overflow-hidden">
+                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                          Bid Amount
+                        </div>
+                        <div className="w-1/2 p-3">{bid.bidAmount}</div>
+                      </div>
 
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                    Delivery Time
-                  </div>
-                  <div className="w-1/2 p-3">{bid.deliveryTime}</div>
-                </div>
+                      <div className="flex border rounded-lg overflow-hidden">
+                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                          Delivery Time
+                        </div>
+                        <div className="w-1/2 p-3">{bid.deliveryTime}</div>
+                      </div>
 
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                    Terms
-                  </div>
-                  <div className="w-1/2 p-3">{bid.terms}</div>
-                </div>
+                      <div className="flex border rounded-lg overflow-hidden">
+                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                          Terms
+                        </div>
+                        <div className="w-1/2 p-3">{bid.terms}</div>
+                      </div>
+                      <div className="flex border rounded-lg overflow-hidden">
+                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                          Winner
+                        </div>
+                        <div className="w-1/2 p-3">
+                          {selectedData?.winner ? "Winner 🎉" : ""}
+                        </div>
+                      </div>
 
-                {/* Approve & Reject Buttons */}
-                <div className="flex gap-4 justify-center mt-6">
-                  <button
-                    className="btn btn-primary text-white px-4 py-2"
-                    onClick={() => {
-                      setSelectedData(null);
-                      setShowModal(false);
-                      setFetchAdjustment(null);
-                    }}
-                  >
-                    Winner
-                  </button>
-                  <button
-                    className="btn btn-error text-white px-4 py-2"
-                    onClick={() => {
-                      setSelectedData(null);
-                      setShowModal(false);
-                      setFetchAdjustment(null);
-                    }}
-                  >
-                    Reject
-                  </button>
-                </div>
+                      {/* Approve & Reject Buttons */}
+                      <div className="flex gap-4 justify-center mt-6">
+                        <button
+                          className="btn btn-primary text-white px-4 py-2"
+                          onClick={() => {
+                            setSelectedData(null);
+                            handleUpdate({
+                              winnerId: bid?.vendor?._id,
+                              biddingId: selectedData?._id,
+                            });
+                            setShowModal(false);
+                            setFetchAdjustment(null);
+                          }}
+                        >
+                          Winner
+                        </button>
+                        <button
+                          className="btn btn-error text-white px-4 py-2"
+                          onClick={() => {
+                            setSelectedData(null);
+                            setShowModal(false);
+                            setFetchAdjustment(null);
+                          }}
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500 py-6 col-span-2">
+                    No bids available
+                  </p>
+                )}
               </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-500 py-6 col-span-2">
-              No bids available
-            </p>
-          )}
-        </div>
 
-        {/* Close Button */}
-        <div className="flex justify-end mt-6">
-          <button
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-Roboto hover:opacity-80 transition"
-            onClick={() => {
-              setSelectedData(null);
-              setShowModal(false);
-              setFetchAdjustment(null);
-            }}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  )}
-
+              {/* Close Button */}
+              <div className="flex justify-end mt-6">
+                <button
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-Roboto hover:opacity-80 transition"
+                  onClick={() => {
+                    setSelectedData(null);
+                    setShowModal(false);
+                    setFetchAdjustment(null);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
