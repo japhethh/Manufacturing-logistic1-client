@@ -115,7 +115,12 @@ const createdBidding = expressAsyncHandler(async (req, res) => {
 const getAllBidding = expressAsyncHandler(async (req, res) => {
   try {
     // Fetch all bidding products from the database
-    const products = await biddingModel.find({});
+    const products = await biddingModel
+      .find({})
+      .populate(
+        "bids.vendor",
+        "supplierName supplierCode contactPhone contactEmail address rating"
+      );
 
     // Check if products exist
     if (!products || products.length === 0) {
@@ -392,27 +397,59 @@ const updateBidding = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Supplier ID not found!" });
   }
 
-  const updated = await biddingModel.findByIdAndUpdate(
-    id,
-    {
-      $set: {
-        bids: [
-          {
+  const existingBidding = await biddingModel.findById(id);
+
+  if (!existingBidding) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Bidding not found!" });
+  }
+
+  // Check if the user already placed a bid
+  const existingBidIndex = existingBidding.bids.findIndex(
+    (bid) => bid.vendor.toString() === userId
+  );
+
+  let updatedBidding;
+
+  if (existingBidIndex !== -1) {
+    // If the bidder already exists, update their bid
+    updatedBidding = await biddingModel.findOneAndUpdate(
+      { _id: id, "bids.vendor": userId },
+      {
+        $set: {
+          "bids.$.bidAmount": bids,
+          "bids.$.terms": terms,
+          "bids.$.deliveryTime": deliveryTime,
+        },
+      },
+      { new: true }
+    );
+  } else {
+    // If it's a new bidder, push a new bid
+    updatedBidding = await biddingModel.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          bids: {
             vendor: userId,
             bidAmount: bids,
             terms: terms,
             deliveryTime: deliveryTime,
           },
-        ],
-      }, // Using $set to ensure only bids field is updated
-    },
-    { new: true, upsert: true } // Enables upsert
-  );
+        },
+      },
+      { new: true }
+    );
+  }
 
   res.status(200).json({
     success: true,
-    message: updated ? "Updated Successfully" : "Created Successfully",
-    data: updated,
+    message:
+      existingBidIndex !== -1
+        ? "Bid updated successfully"
+        : "Bid added successfully",
+    data: updatedBidding,
   });
 });
 

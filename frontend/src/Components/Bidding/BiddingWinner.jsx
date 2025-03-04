@@ -1,6 +1,8 @@
 import DataTable from "datatables.net-dt";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { apiURL } from "../../context/Store";
 
 const BiddingWinner = () => {
   const [biddingWinner, setBiddingWinner] = useState([]);
@@ -34,6 +36,8 @@ const BiddingWinner = () => {
       _id: 4,
     },
   ];
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const table = new DataTable("#myTable", {
