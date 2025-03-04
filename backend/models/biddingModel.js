@@ -28,7 +28,7 @@ const biddingSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["open", "closed"],
+      enum: ["open", "closed", "awarded"],
       default: "open",
     }, // Open when bidding is active, Closed when finished
     requestedBy: {
@@ -37,7 +37,11 @@ const biddingSchema = new mongoose.Schema(
       required: true,
     }, // Who created the bid (logistics team)
     bids: [bidSchema], // Array of bids placed by vendors
-
+    winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Supplier",
+      default: null,
+    }, // Store the winning vendor
   },
   { timestamps: true }
 );

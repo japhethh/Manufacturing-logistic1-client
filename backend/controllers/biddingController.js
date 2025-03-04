@@ -8,6 +8,8 @@ import biddingModel from "../models/biddingModel.js";
 import Counter from "../models/Counter.js";
 import cloudinary from "../utils/cloudinary.js";
 import fs from "fs";
+import supplierModel from "../models/supplierModel.js";
+import NotificationVendorModel from "../models/notificationVendorModel.js";
 
 const createdBidding = expressAsyncHandler(async (req, res) => {
   console.log(req.body);
@@ -378,16 +380,102 @@ const deleteCategoryBidding = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ success: true, message: "Deleted" });
 });
 
+const updateBidding = expressAsyncHandler(async (req, res) => {
+  const { userId, bids } = req.body;
+  const { id } = req.params;
+
+  const existUser = await supplierModel.findById(userId);
+
+  if (!existUser) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Supplier ID not found!" });
+  }
+
+  const updated = await biddingModel.findByIdAndUpdate(
+    id,
+    {
+      $set: { bids: [{ vendor: userId, bidAmount: bids }] }, // Using $set to ensure only bids field is updated
+    },
+    { new: true, upsert: true } // Enables upsert
+  );
+
+  res.status(200).json({
+    success: true,
+    message: updated ? "Updated Successfully" : "Created Successfully",
+    data: updated,
+  });
+});
+
+const selectBiddingWinner = expressAsyncHandler(async (req, res) => {
+  const { biddingId, winnerId } = req.body;
+
+  // Check if the bidding exists
+  const bidding = await biddingModel
+    .findById(biddingId)
+    .populate("bids.vendor");
+  if (!bidding) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Bidding not found!" });
+  }
+
+  // Check if the supplier exists
+  const supplier = await supplierModel.findById(winnerId);
+  if (!supplier) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Supplier not found!" });
+  }
+
+  // Check if the winner is in the bid list
+  const isValidWinner = bidding.bids.some(
+    (bid) => bid.vendor._id.toString() === winnerId
+  );
+  if (!isValidWinner) {
+    return res.status(400).json({
+      success: false,
+      message: "Supplier did not participate in this bid!",
+    });
+  }
+
+  // Update the bidding with the winner
+  bidding.winner = winnerId;
+  bidding.status = "awarded"; // Mark as awarded
+  await bidding.save();
+
+  // Create a winner notification message
+  const notificationMessage = `🎉 Congratulations, ${supplier.supplierName}! 🎉\n\nYou have been selected as the winning supplier for the bid on **${bidding.item}**. Please review the details and proceed with the next steps.`;
+
+  // Save notification for the winning supplier
+  const newNotification = new NotificationVendorModel({
+    supplierWinner: winnerId,
+    // user: newTrackingOrder.purchaseOrderId.createdBy,
+    supplier: winnerId,
+    message: notificationMessage,
+    type: "awarded",
+    // invoiceId: invoiced._id,
+  });
+  await newNotification.save();
+
+  res.status(200).json({
+    success: true,
+    message: `Winner selected successfully! 🎉 ${supplier.supplierName} has won the bid for ${bidding.item}.`,
+    data: bidding,
+  });
+});
+
 export {
   getAllBidding,
   createdBidding,
   // getSpecificId,
   deleteBidding,
-  // updateBidding,
+  updateBidding,
   // Category
   createCategoryBidding,
   getAllCategoryBidding,
   updateCategoryBidding,
   deleteCategoryBidding,
   getAllCategoryBiddings,
+  selectBiddingWinner,
 };
