@@ -112,7 +112,7 @@ const QCInspection = () => {
   return (
     <div className="p-16 max-w-6xl mx-auto bg-white rounded-lg shadow-2xl transform transition-all duration-300 hover:shadow-3xl">
       <h1 className="text-4xl font-bold mb-8 text-gray-800 text-center border-b-2 pb-4 border-gray-200">
-        Quality Control Inspection for Invoice #{invoiceId}
+        Quality Control Inspection for Invoices #{invoiceId}
       </h1>
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid grid-cols-2 gap-8">
@@ -149,7 +149,7 @@ const QCInspection = () => {
               value={inspectionData.status}
               required
             >
-              <option value="">Select Status</option>
+              <option value="">Selected Status</option>
               <option value="Pass">Pass</option>
               <option value="Fail">Fail</option>
             </select>
