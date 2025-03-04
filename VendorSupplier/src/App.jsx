@@ -49,7 +49,7 @@ import TrackingOrdersDelivered from "./Components/TrackingOrders/TrackingOrdersD
 import ProfileVendor from "./Components/ProfileVendor/ProfileVendor.jsx";
 import AuditLogVendor from "./Components/AuditLog/AuditLogVendor.jsx";
 import ReturnRequest from "./pages/Return/ReturnRequest.jsx";
-import BiddingVendor from "./Components/Bidding/Bidding.jsx";
+import BidVendor from "./Components/BiddingVendor/BidVendor.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -246,7 +246,7 @@ const App = () => {
               <Route path="/AuditLogs" element={<AuditLogVendor />} />
               <Route path="/returnRequest" element={<ReturnRequest />} />
 
-              <Route path="/biddingVendor" element={<BiddingVendor />} />
+              <Route path="/BidVendor" element={<BidVendor />} />
             </Routes>
           </div>
         </div>
