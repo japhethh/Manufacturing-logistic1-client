@@ -1,4 +1,3 @@
-// controllers/qcInspectionController.js
 import QCInspectionModel from "../models/QCInspectionModel.js";
 import DefectModel from "../models/DefectModel.js";
 import expressAsyncHandler from "express-async-handler";
