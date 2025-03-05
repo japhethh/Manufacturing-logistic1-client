@@ -138,6 +138,32 @@ const getAllBidding = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Failed to fetch bidding data" });
   }
 });
+const getAllOpenBidding = expressAsyncHandler(async (req, res) => {
+  try {
+    // Fetch all bidding products from the database
+    const products = await biddingModel
+      .find({ status: "open" })
+      .populate(
+        "bids.vendor",
+        "_id supplierName supplierCode contactPhone contactEmail address rating"
+      );
+
+    // Check if products exist
+    if (!products || products.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No bidding products found!" });
+    }
+
+    // Return the products
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching bidding data:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch bidding data" });
+  }
+});
 
 // const getSpecificId = expressAsyncHandler(async (req, res) => {
 //   const { userId } = req.body;
@@ -542,4 +568,5 @@ export {
   deleteCategoryBidding,
   getAllCategoryBiddings,
   selectBiddingWinner,
+  getAllOpenBidding,
 };

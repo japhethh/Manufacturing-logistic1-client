@@ -97,6 +97,11 @@ const BiddingProduct = () => {
           render: (data) => data || "N/A",
         },
         {
+          title: "Status",
+          data: "status",
+          render: (data) => data || "N/A",
+        },
+        {
           title: "Name",
           data: null,
           render: (data) => {

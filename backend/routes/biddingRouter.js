@@ -10,6 +10,7 @@ import {
   deleteCategoryBidding,
   updateBidding,
   selectBiddingWinner,
+  getAllOpenBidding,
 } from "../controllers/biddingController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
@@ -25,7 +26,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Allow unauthenticated access to fetch bidding data
-biddingRouter.get("/", getAllBidding); // Removed authMiddleware
+biddingRouter.get("/", getAllBidding);
+biddingRouter.get("/getOpenBidding", getAllOpenBidding);
 
 // Allow unauthenticated access to fetch categories
 biddingRouter.get("/category", getAllCategoryBiddings); // Removed authMiddleware
