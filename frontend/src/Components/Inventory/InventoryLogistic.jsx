@@ -4,9 +4,31 @@ import axios from "axios";
 import { apiURL } from "../../context/Store";
 import { useState } from "react";
 import Store from "../../context/Store";
+import { toast } from "react-toastify";
 const InventoryLogistic = () => {
   const [inventoryData, setInventoryData] = useState([]);
-  const { token } = Store();
+  const [selectedData, setSelectedData] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const { fetchUserData, token, userData } = Store();
+  const [fetchAdjustment, setFetchAdjustment] = useState();
+  const [loading, setLoading] = useState(false);
+
+  // Handle deleting a bidding product
+  const handleDelete = async ({ id }) => {
+    try {
+      await axios.delete(`${apiURL}/api/inventory/${id}`, {
+        headers: { token: token },
+      });
+      fetchInventoryData(); // Refresh the product list
+      toast.info("Product deleted successfully!");
+      setSelectedData(null); // Reset selected data
+      setShowModal(false); // Close the modal
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Delete failed.");
+    }
+  };
+
   const fetchInventoryData = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/inventory/`, {
@@ -35,7 +57,40 @@ const InventoryLogistic = () => {
         { title: "Last Supplier Name", data: "lastSupplierName" },
         { title: "Unit", data: "unit" },
         { title: "Warehouse", data: "warehouseLocation" },
+        {
+          title: "Action",
+          data: null,
+          render: (data, row) => {
+            return `
+            <div>
+              <button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="detailBtn_${data._id}">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>`;
+          },
+        },
       ],
+      rowCallback: (row, data) => {
+        const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
+        deleteBtn.addEventListener("click", () => {
+          setSelectedData(data);
+          setModalType("delete");
+          setShowModal(true);
+        });
+
+        const detailBtn = row.querySelector(`#detailBtn_${data?._id}`);
+        if (detailBtn) {
+          detailBtn.addEventListener("click", () => {
+            setSelectedData(data);
+            setModalType("detail");
+            setShowModal(true);
+            setFetchAdjustment(data);
+          });
+        }
+      },
     });
 
     return () => {
@@ -46,6 +101,46 @@ const InventoryLogistic = () => {
     <div className="p-4">
       <h2 className="text-gray-800 font-semibold text-2xl">Payment Details</h2>
       <table id="myTable"></table>
+
+      {/* Delete Modal */}
+      {showModal && modalType === "delete" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-5 w-1/3">
+            <h3 className="text-lg font-bold font-Roboto">Inventory</h3>
+            <p className="py-4 font-Roboto">
+              Are you sure you want to{" "}
+              <span className="text-red-500 font-bold font-Roboto">delete</span>{" "}
+              the item{" "}
+              <span className="font-bold font-Roboto">
+                {selectedData?.materialName}
+              </span>
+              ? This action cannot be undone and will permanently remove the
+              item product from the system.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() =>
+                  handleDelete({
+                    id: selectedData._id,
+                  })
+                }
+                className="btn btn-error btn-md text-white font-Roboto"
+              >
+                Confirm
+              </button>
+              <button
+                className="btn btn-outline btn-error btn-md text-white font-Roboto"
+                onClick={() => {
+                  setSelectedData(null);
+                  setShowModal(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

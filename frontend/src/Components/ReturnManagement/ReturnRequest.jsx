@@ -13,7 +13,7 @@ const ReturnRequest = () => {
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [selectImage, setSelectImage] = useState(null);
   const [modalType, setModalType] = useState("");
-  const [showImageModal, setShowImageModal] = useState(false); 
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const { token } = Store();
 
