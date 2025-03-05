@@ -11,6 +11,7 @@ import Invoice from "../models/invoiceVendorModel.js";
 import generateServiceToken from "../middleware/gatewayGenerator.js";
 import axios from "axios";
 import ReturnRequestModel from "../models/ReturnModel.js";
+import inventoryModel from "../models/inventoryLogisticModel.js";
 
 const qcCreate = expressAsyncHandler(async (req, res) => {
   try {
@@ -103,6 +104,12 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
 
       await newInventoryRecord.save();
 
+      const inventoryLogisticRes = await axios.post(
+        "https://manufacturing-logistic1-client-api.onrender.com/api/inventory/",
+        newInventoryRecord
+      );
+
+      console.log(inventoryLogisticRes?.response.data);
       // const serviceToken = generateServiceToken();
       // const sendLogistic2 = await axios.post(
       //   `${process.env.API_GATEWAY_URL}/logistic2/receive-inventory-records`,
