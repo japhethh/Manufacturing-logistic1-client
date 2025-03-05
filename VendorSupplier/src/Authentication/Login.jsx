@@ -38,13 +38,17 @@ const Login = ({ isBiddingLogin = false }) => {
   const [categories, setCategories] = useState([]); // State to store categories
   const [loading, setLoading] = useState(true); // Loading state
   const [selectedCategory, setSelectedCategory] = useState("All"); // Selected category for filtering
+  const [productId, setProductId] = useState(null);
 
+  console.log(productId);
   // Fetch bidding data and categories from the backend
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch bidding data
-        const biddingResponse = await axios.get(`${apiURL}/api/bidding`);
+        const biddingResponse = await axios.get(
+          `${apiURL}/api/bidding/getOpenBidding`
+        );
         setBiddingData(biddingResponse.data);
 
         // Fetch categories
@@ -77,10 +81,11 @@ const Login = ({ isBiddingLogin = false }) => {
       setToken(response.data.token); // Update token in context
 
       // Conditionally navigate based on the prop
-      if (isBiddingLogin) {
-        navigate("/biddingVendor"); // Navigate to bidding vendor page
+      if (productId) {
+        navigate("/BidVendor"); // Navigate to bidding vendor page
       } else {
         navigate("/dashboardvendor"); // Default navigation for navbar login
+        window.location.reload();
       }
     } catch (error) {
       reset();
@@ -272,6 +277,7 @@ const Login = ({ isBiddingLogin = false }) => {
                           document
                             .getElementById(`my_modal_${product._id}`)
                             .showModal();
+                          setProductId(product._id);
                         }}
                       >
                         View Details
