@@ -624,6 +624,35 @@ const Sidebar = () => {
                 )}
               </NavLink>
             </li>
+            {/* Inventory SECTION */}
+            <li
+              className={`menu-item transition-all duration-300 ${
+                isCollapsed ? "hidden" : ""
+              }`}
+            >
+              <NavLink
+                to="/inventoryLogistic"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 mt-1  rounded-md transition-colors duration-200 ease-in-out 
+        ${
+          isActive
+            ? "text-base-200 bg-blue-500 font-bold"
+            : "text-black hover:bg-gray-100"
+        }`
+                }
+              >
+                <MdInventory
+                  className={`transition-all duration-300 ${
+                    isCollapsed ? "w-7 h-7" : "w-5 h-5"
+                  }`}
+                />
+                {!isCollapsed && (
+                  <span className="text-base font-semibold font-Roboto">
+                    Inventory
+                  </span>
+                )}
+              </NavLink>
+            </li>
           </ul>
           {userData && userData.role === "admin" && (
             <div>

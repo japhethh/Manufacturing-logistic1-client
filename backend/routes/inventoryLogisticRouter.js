@@ -10,7 +10,7 @@ import {
 const invoiceLogisticRouter = express.Router();
 
 invoiceLogisticRouter.get("/", authMiddleware, getAllInventory);
-invoiceLogisticRouter.post("/", authMiddleware, addOrUpdateInventory);
+invoiceLogisticRouter.post("/", addOrUpdateInventory);
 invoiceLogisticRouter.get("/:id", authMiddleware, getInventoryById);
 invoiceLogisticRouter.delete("/:id", authMiddleware, deleteInventory);
 
