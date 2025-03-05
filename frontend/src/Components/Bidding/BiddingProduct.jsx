@@ -3,9 +3,9 @@ import BiddingItems from "./BiddingItems";
 import axios from "axios";
 import Store from "../../context/Store";
 import DataTable from "datatables.net-dt";
-
 import { apiURL } from "../../context/Store";
 import { toast } from "react-toastify";
+
 const BiddingProduct = () => {
   const [product, setProduct] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
@@ -15,27 +15,28 @@ const BiddingProduct = () => {
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [loading, setLoading] = useState(false);
 
+  // Fetch bidding products and user data on component mount
   useEffect(() => {
     fetchBiddingProduct();
     fetchUserData();
   }, []);
 
+  // Fetch bidding products from the backend
   const fetchBiddingProduct = async () => {
     try {
       const response = await axios.get(`${apiURL}/api/bidding`, {
         headers: { token: token },
       });
-
-      console.log(response.data);
       setProduct(response.data);
     } catch (error) {
       console.log(error?.response.data.message);
+      toast.error("Failed to fetch bidding products.");
     }
   };
 
+  // Handle selecting a bidding winner
   const handleUpdate = async ({ biddingId, winnerId }) => {
     setLoading(true);
-
     try {
       const response = await axios.post(
         `${apiURL}/api/bidding/bidding-selectBiddingWinner`,
@@ -43,35 +44,33 @@ const BiddingProduct = () => {
         { headers: { token: token } }
       );
       toast.success(response.data.message);
-      fetchBiddingProduct();
+      fetchBiddingProduct(); // Refresh the product list
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
       console.log(error?.response.data.message);
+      toast.error("Failed to select winner.");
     }
   };
 
+  // Handle deleting a bidding product
   const handleDelete = async ({ id, winnerId }) => {
-    console.log(winnerId);
-    console.log(id);
     try {
       await axios.post(
         `${apiURL}/api/bidding/delete/${id}`,
         { winnerId },
-        {
-          headers: { token: token },
-        }
+        { headers: { token: token } }
       );
-      fetchBiddingProduct();
+      fetchBiddingProduct(); // Refresh the product list
       toast.info("Product deleted successfully!");
-      setSelectedData(null); // Reset selectedData
+      setSelectedData(null); // Reset selected data
       setShowModal(false); // Close the modal
     } catch (error) {
       toast.error(error?.response?.data?.message || "Delete failed.");
     }
   };
 
+  // Initialize DataTable
   useEffect(() => {
     let table = new DataTable("#myTable", {
       destroy: true,
@@ -115,41 +114,41 @@ const BiddingProduct = () => {
                     ? new Date(data?.biddingEndDate).toLocaleDateString()
                     : "N/A"
                 }</span></h1>
-                <h1>Highest Bid: <span>15,000</span></h1>
-                <h1>Total Bids: <span>1 user/s</span></h1>
+                <h1>Highest Bid: <span>${
+                  data.bids.length > 0
+                    ? Math.max(...data.bids.map((bid) => bid.bidAmount))
+                    : "No bids yet"
+                }</span></h1>
+                <h1>Total Bids: <span>${data.bids.length} user/s</span></h1>
               </div>
             </div>`;
           },
         },
-        // { title: "Id", data: "_id", render: (data) => data || "N/A" },
         {
           title: `${userData?.role === "superAdmin" ? "Action" : ""}`,
           data: null,
           render: (data, row) => {
             return `
             <div>
-           <button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
-            <i class="fas fa-trash-alt"></i>
+              <button class="bg-red-500 text-xs text-white font-Roboto px-2 py-1 rounded-lg mx-1 cursor-pointer" id="deleteBtn_${data?._id}">
+                <i class="fas fa-trash-alt"></i>
               </button>
-         <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="detailBtn_${data._id}">
-              <i class="fas fa-eye"></i>
-            </button>
-              </div>
-              `;
+              <button class="bg-blue-700 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="detailBtn_${data._id}">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>`;
           },
         },
       ],
       rowCallback: (row, data) => {
         const deleteBtn = row.querySelector(`#deleteBtn_${data?._id}`);
-
         deleteBtn.addEventListener("click", () => {
           setSelectedData(data);
-          setModalType("delete"); // Set modal for delete
-          setShowModal(true); // Show the modal
+          setModalType("delete");
+          setShowModal(true);
         });
 
         const detailBtn = row.querySelector(`#detailBtn_${data?._id}`);
-
         if (detailBtn) {
           detailBtn.addEventListener("click", () => {
             setSelectedData(data);
@@ -206,8 +205,8 @@ const BiddingProduct = () => {
               <button
                 className="btn btn-outline btn-error btn-md text-white font-Roboto"
                 onClick={() => {
-                  setSelectedData(null); // Reset selectedData on cancel
-                  setShowModal(false); // Close modal
+                  setSelectedData(null);
+                  setShowModal(false);
                 }}
               >
                 Cancel
@@ -217,115 +216,108 @@ const BiddingProduct = () => {
         </div>
       )}
 
-      {showModal &&
-        modalType === "detail" &&
-        selectedData &&
-        fetchAdjustment && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div className="bg-white rounded-lg p-8 w-full max-w-4xl shadow-lg overflow-hidden">
-              {/* Title */}
-              <h1 className="text-3xl font-semibold py-4 font-Roboto text-gray-800 text-center">
-                Bid Details
-              </h1>
+      {/* Bid Details Modal */}
+      {showModal && modalType === "detail" && selectedData && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-lg p-8 w-full max-w-4xl shadow-lg overflow-hidden">
+            <h1 className="text-3xl font-semibold py-4 font-Roboto text-gray-800 text-center">
+              Bid Details
+            </h1>
 
-              {/* Details Section */}
-              <div className="grid grid-cols-2 gap-6">
-                {selectedData.bids.length > 0 ? (
-                  selectedData.bids.map((bid, index) => (
-                    <div
-                      key={index}
-                      className="space-y-4 border p-4 rounded-lg shadow-sm"
-                    >
-                      <div className="flex border rounded-lg overflow-hidden">
-                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                          Supplier Name
-                        </div>
-                        <div className="w-1/2 p-3">
-                          {bid.vendor.supplierName}
-                        </div>
+            <div className="grid grid-cols-2 gap-6">
+              {selectedData.bids.length > 0 ? (
+                selectedData.bids.map((bid, index) => (
+                  <div
+                    key={index}
+                    className="space-y-4 border p-4 rounded-lg shadow-sm"
+                  >
+                    <div className="flex border rounded-lg overflow-hidden">
+                      <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                        Supplier Name
                       </div>
+                      <div className="w-1/2 p-3">{bid.vendor.supplierName}</div>
+                    </div>
 
-                      <div className="flex border rounded-lg overflow-hidden">
-                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                          Bid Amount
-                        </div>
-                        <div className="w-1/2 p-3">{bid.bidAmount}</div>
+                    <div className="flex border rounded-lg overflow-hidden">
+                      <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                        Bid Amount
                       </div>
+                      <div className="w-1/2 p-3">{bid.bidAmount}</div>
+                    </div>
 
-                      <div className="flex border rounded-lg overflow-hidden">
-                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                          Delivery Time
-                        </div>
-                        <div className="w-1/2 p-3">{bid.deliveryTime}</div>
+                    <div className="flex border rounded-lg overflow-hidden">
+                      <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                        Delivery Time
                       </div>
+                      <div className="w-1/2 p-3">{bid.deliveryTime}</div>
+                    </div>
 
-                      <div className="flex border rounded-lg overflow-hidden">
-                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                          Terms
-                        </div>
-                        <div className="w-1/2 p-3">{bid.terms}</div>
+                    <div className="flex border rounded-lg overflow-hidden">
+                      <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                        Terms
                       </div>
-                      <div className="flex border rounded-lg overflow-hidden">
-                        <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
-                          Winner
-                        </div>
-                        <div className="w-1/2 p-3">
-                          {selectedData?.winner ? "Winner 🎉" : ""}
-                        </div>
-                      </div>
+                      <div className="w-1/2 p-3">{bid.terms}</div>
+                    </div>
 
-                      {/* Approve & Reject Buttons */}
-                      <div className="flex gap-4 justify-center mt-6">
-                        <button
-                          className="btn btn-primary text-white px-4 py-2"
-                          onClick={() => {
-                            setSelectedData(null);
-                            handleUpdate({
-                              winnerId: bid?.vendor?._id,
-                              biddingId: selectedData?._id,
-                            });
-                            setShowModal(false);
-                            setFetchAdjustment(null);
-                          }}
-                        >
-                          Winner
-                        </button>
-                        <button
-                          className="btn btn-error text-white px-4 py-2"
-                          onClick={() => {
-                            setSelectedData(null);
-                            setShowModal(false);
-                            setFetchAdjustment(null);
-                          }}
-                        >
-                          Reject
-                        </button>
+                    <div className="flex border rounded-lg overflow-hidden">
+                      <div className="w-1/2 bg-gray-100 p-3 font-Roboto font-medium">
+                        Winner
+                      </div>
+                      <div className="w-1/2 p-3">
+                        {selectedData?.winner ? "Winner 🎉" : ""}
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <p className="text-center text-gray-500 py-6 col-span-2">
-                    No bids available
-                  </p>
-                )}
-              </div>
 
-              {/* Close Button */}
-              <div className="flex justify-end mt-6">
-                <button
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-Roboto hover:opacity-80 transition"
-                  onClick={() => {
-                    setSelectedData(null);
-                    setShowModal(false);
-                    setFetchAdjustment(null);
-                  }}
-                >
-                  Close
-                </button>
-              </div>
+                    <div className="flex gap-4 justify-center mt-6">
+                      <button
+                        className="btn btn-primary text-white px-4 py-2"
+                        onClick={() => {
+                          setSelectedData(null);
+                          handleUpdate({
+                            winnerId: bid?.vendor?._id,
+                            biddingId: selectedData?._id,
+                          });
+                          setShowModal(false);
+                          setFetchAdjustment(null);
+                        }}
+                      >
+                        Winner
+                      </button>
+                      <button
+                        className="btn btn-error text-white px-4 py-2"
+                        onClick={() => {
+                          setSelectedData(null);
+                          setShowModal(false);
+                          setFetchAdjustment(null);
+                        }}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-6 col-span-2">
+                  No bids available
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <button
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-Roboto hover:opacity-80 transition"
+                onClick={() => {
+                  setSelectedData(null);
+                  setShowModal(false);
+                  setFetchAdjustment(null);
+                }}
+              >
+                Close
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

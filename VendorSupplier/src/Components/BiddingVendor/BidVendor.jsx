@@ -7,7 +7,7 @@ import { TbCurrencyPeso } from "react-icons/tb";
 
 const apiURL = "http://localhost:7681"; // Update this to match your backend URL
 
-const BidVendor = () => {
+const BidVendor = ({ fetchBiddingProduct }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [biddingData, setBiddingData] = useState([]);
@@ -18,6 +18,7 @@ const BidVendor = () => {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [showBidModal, setShowBidModal] = useState(false);
 
+  // Fetch bidding data and categories on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,11 +52,13 @@ const BidVendor = () => {
     fetchData();
   }, []);
 
+  // Filter products based on selected category
   const filteredProducts =
     selectedCategory === "All"
       ? biddingData
       : biddingData.filter((product) => product.category === selectedCategory);
 
+  // Handle placing a bid
   const handlePlaceBid = async () => {
     if (!bidAmount || !terms || !deliveryDate) {
       toast.error("Please fill out all fields.");
@@ -67,7 +70,7 @@ const BidVendor = () => {
         productId: selectedProduct._id,
         bidAmount: parseFloat(bidAmount),
         terms,
-        deliveryDate,
+        deliveryTime: deliveryDate, // Ensure this matches the backend field name
       });
 
       if (response.data.success) {
@@ -77,19 +80,8 @@ const BidVendor = () => {
         setTerms("");
         setDeliveryDate("");
 
-        // Update the bidding data to reflect the new bid
-        const updatedBiddingData = biddingData.map((product) =>
-          product._id === selectedProduct._id
-            ? {
-                ...product,
-                bids: [
-                  ...product.bids,
-                  { bidAmount: parseFloat(bidAmount), terms, deliveryDate },
-                ],
-              }
-            : product
-        );
-        setBiddingData(updatedBiddingData);
+        // Refresh the bidding product list
+        fetchBiddingProduct();
       } else {
         toast.error(response.data.message || "Failed to place bid.");
       }
