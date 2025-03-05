@@ -59,7 +59,6 @@ const App = () => {
   const { fetchUserData, userData } = verifyStore();
 
   useEffect(() => {
-    // console.log(localStorage.getItem("token"))
     const verifyToken = async () => {
       const storedToken = localStorage.getItem("token");
 
@@ -132,21 +131,36 @@ const App = () => {
     );
   }
 
+  // Define routes where SidebarVendor should not be displayed
+  const sidebarExcludedRoutes = [
+    "/login",
+    "/verify",
+    "/sendemail",
+    "/BidVendor", // Add the BidVendor route here
+  ];
+
+  // Define routes where NavbarVendor should not be displayed
+  const navbarExcludedRoutes = [
+    "/login",
+    "/verify",
+    "/sendemail",
+  ];
+
+  const shouldDisplaySidebar = !sidebarExcludedRoutes.includes(
+    location.pathname
+  );
+
+  const shouldDisplayNavbar = !navbarExcludedRoutes.includes(
+    location.pathname
+  );
+
   return (
     <>
       <div className="flex">
         <ToastContainer />
-        {location.pathname !== "/login" &&
-        location.pathname !== "/verify" &&
-        location.pathname !== "/sendemail" ? (
-          <SidebarVendor />
-        ) : null}
+        {shouldDisplaySidebar && <SidebarVendor />}
         <div className="flex-col flex-grow">
-          {location.pathname !== "/login" &&
-          location.pathname !== "/verify" &&
-          location.pathname !== "/sendemail" ? (
-            <NavbarVendor />
-          ) : null}
+          {shouldDisplayNavbar && <NavbarVendor />}
           <div className="flex-grow">
             <Routes>
               <Route path="/login" element={<Login />} />

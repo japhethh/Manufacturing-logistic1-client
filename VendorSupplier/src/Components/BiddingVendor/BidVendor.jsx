@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { IoClose } from "react-icons/io5";
+import { FaCalendarAlt, FaFileContract } from "react-icons/fa";
+import { TbCurrencyPeso } from "react-icons/tb";
 
 const apiURL = "http://localhost:7681"; // Update this to match your backend URL
 
@@ -12,6 +14,8 @@ const BidVendor = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [bidAmount, setBidAmount] = useState("");
+  const [terms, setTerms] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
   const [showBidModal, setShowBidModal] = useState(false);
 
   useEffect(() => {
@@ -53,8 +57,8 @@ const BidVendor = () => {
       : biddingData.filter((product) => product.category === selectedCategory);
 
   const handlePlaceBid = async () => {
-    if (!bidAmount) {
-      toast.error("Please enter a bid amount.");
+    if (!bidAmount || !terms || !deliveryDate) {
+      toast.error("Please fill out all fields.");
       return;
     }
 
@@ -62,17 +66,27 @@ const BidVendor = () => {
       const response = await axios.post(`${apiURL}/api/bidding/bid`, {
         productId: selectedProduct._id,
         bidAmount: parseFloat(bidAmount),
+        terms,
+        deliveryDate,
       });
 
       if (response.data.success) {
         toast.success("Bid placed successfully!");
         setShowBidModal(false);
         setBidAmount("");
+        setTerms("");
+        setDeliveryDate("");
 
         // Update the bidding data to reflect the new bid
         const updatedBiddingData = biddingData.map((product) =>
           product._id === selectedProduct._id
-            ? { ...product, bids: [...product.bids, { bidAmount: parseFloat(bidAmount) }] }
+            ? {
+                ...product,
+                bids: [
+                  ...product.bids,
+                  { bidAmount: parseFloat(bidAmount), terms, deliveryDate },
+                ],
+              }
             : product
         );
         setBiddingData(updatedBiddingData);
@@ -81,7 +95,9 @@ const BidVendor = () => {
       }
     } catch (error) {
       console.error("Error placing bid:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "Failed to place bid. Please try again later.");
+      toast.error(
+        error.response?.data?.message || "Failed to place bid. Please try again later."
+      );
     }
   };
 
@@ -252,16 +268,43 @@ const BidVendor = () => {
 
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Place a Bid</h3>
             <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Bid Amount
-              </label>
-              <input
-                type="number"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={bidAmount}
-                onChange={(e) => setBidAmount(e.target.value)}
-                placeholder="Enter your bid amount"
-              />
+              {/* Bid Amount Field */}
+              <div className="relative">
+                <TbCurrencyPeso className="absolute left-3 top-3 text-gray-400" />
+                <input
+                  type="number"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={bidAmount}
+                  onChange={(e) => setBidAmount(e.target.value)}
+                  placeholder="Enter bid amount"
+                  required
+                />
+              </div>
+
+              {/* Terms Field */}
+              <div className="relative">
+                <FaFileContract className="absolute left-3 top-3 text-gray-400" />
+                <textarea
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={terms}
+                  onChange={(e) => setTerms(e.target.value)}
+                  placeholder="Enter terms and conditions"
+                  rows={4}
+                  required
+                />
+              </div>
+
+              {/* Delivery Date Field */}
+              <div className="relative">
+                <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
+                <input
+                  type="date"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
             <button
