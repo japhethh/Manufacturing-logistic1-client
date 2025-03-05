@@ -13,7 +13,7 @@ const InventoryLogistic = () => {
   const { fetchUserData, token, userData } = Store();
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [loading, setLoading] = useState(false);
-
+  const [quantity, setQuantity] = useState(0);
   // Handle deleting a bidding product
   const handleDelete = async ({ id }) => {
     try {
@@ -38,6 +38,26 @@ const InventoryLogistic = () => {
       setInventoryData(response.data);
 
       console.log(response.data);
+    } catch (error) {
+      console.log(error?.response.data.message);
+    }
+  };
+
+  const handleUpdate = async ({ inventoryId }) => {
+    try {
+      const response = await axios.post(
+        `${apiURL}/api/inventory/update`,
+        {
+          quantity,
+          inventoryId,
+        },
+        { headers: { token: token } }
+      );
+      setQuantity(0);
+      setSelectedData(null);
+      setShowModal(false);
+      fetchInventoryData();
+      toast.success(response.data.message);
     } catch (error) {
       console.log(error?.response.data.message);
     }
@@ -99,7 +119,7 @@ const InventoryLogistic = () => {
   }, [inventoryData]);
   return (
     <div className="p-4">
-      <h2 className="text-gray-800 font-semibold text-2xl">Payment Details</h2>
+      <h2 className="text-gray-800 font-semibold text-4xl">Inventory</h2>
       <table id="myTable"></table>
 
       {/* Delete Modal */}
@@ -141,6 +161,73 @@ const InventoryLogistic = () => {
           </div>
         </div>
       )}
+
+      {/* Detail Modal */}
+      {showModal &&
+        modalType === "detail" &&
+        selectedData &&
+        fetchAdjustment && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+            <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg overflow-hidden">
+              {/* Title */}
+              <h1 className="text-2xl font-semibold py-2 font-Roboto text-gray-800">
+                Details
+              </h1>
+
+              {/* Details Section */}
+              <div className="space-y-3">
+                <div className="flex border rounded-lg overflow-hidden">
+                  <div className="w-1/2 bg-gray-100 p-2 flex justify-center items-center font-Roboto font-medium">
+                    <label htmlFor="availableStock" className="label">
+                      Available Stock
+                    </label>
+                  </div>
+                  <div className="w-1/2 p-4 flex font-semibold text-xl justify-center items-center">
+                    {selectedData?.availableStock}
+                  </div>
+                </div>
+                <div className="flex border rounded-lg overflow-hidden">
+                  <div className="w-1/2 bg-gray-100 p-2 flex justify-center items-center font-Roboto font-medium">
+                    <label htmlFor="quantity" className="label">
+                      Quantity
+                    </label>
+                  </div>
+                  <div className="w-1/2 p-2">
+                    <input
+                      type="text"
+                      className="input input-bordered"
+                      onChange={(e) => setQuantity(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center items-center my-3">
+                <button
+                  onClick={() => {
+                    handleUpdate({ inventoryId: selectedData?._id });
+                  }}
+                  className="btn btn-success btn-md text-white font-Roboto"
+                >
+                  Confirm
+                </button>
+              </div>
+
+              {/* Button Section */}
+              <div className="flex justify-end ">
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-Roboto hover:opacity-80 transition"
+                  onClick={() => {
+                    setSelectedData(null);
+                    setShowModal(false);
+                    setFetchAdjustment(null);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 };

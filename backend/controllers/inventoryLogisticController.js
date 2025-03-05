@@ -180,9 +180,48 @@ const deleteInventory = expressAsyncHandler(async (req, res) => {
   });
 });
 
+const sendRequest = expressAsyncHandler(async (req, res) => {
+  const { inventoryId, quantity } = req.body;
+
+  const existInventory = await inventoryModel.findById(inventoryId);
+
+  if (!existInventory) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Inventory id not found!" });
+  }
+
+  if (existInventory.availableStock < quantity) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Not enough stock available!" });
+  }
+
+  const updatedInventory = await inventoryModel.findByIdAndUpdate(
+    inventoryId,
+    {
+      $inc: { availableStock: -quantity, totalStock: -quantity },
+    },
+    { new: true }
+  );
+
+  if (!updatedInventory) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Inventory id not found!" });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Updated Successfully!",
+    data: updatedInventory,
+  });
+});
+
 export {
   getAllInventory,
   addOrUpdateInventory,
   getInventoryById,
   deleteInventory,
+  sendRequest,
 };
