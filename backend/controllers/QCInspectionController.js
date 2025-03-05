@@ -22,22 +22,6 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
     console.log(discrepancies);
     const warehouseLocation = "Warehouse A - Shelf B3";
 
-    // const serviceToken = generateServiceToken();
-
-    // const response = await axios.get(
-    //   `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
-    //   { headers: { Authorization: `Bearer ${serviceToken}` } }
-    // );
-
-    // const accountData = response.data;
-
-    // const userExist = accountData.find((a) => a._id === userId);
-
-    // if (!userExist) {
-    //   return res
-    //     .status(400)
-    //     .json({ success: false, message: "User id not found!" });
-    // }
     // Fetch Invoice and Populate Supplier & Items
     const getInvoice = await Invoice.findById(invoiceId)
       .populate("items.product") // Get product details
@@ -104,20 +88,57 @@ const qcCreate = expressAsyncHandler(async (req, res) => {
 
       await newInventoryRecord.save();
 
-      const inventoryLogisticRes = await axios.post(
-        "https://manufacturing-logistic1-client-api.onrender.com/api/inventory/",
-        newInventoryRecord
-      );
+      // Start
 
-      console.log(inventoryLogisticRes?.response.data);
-      // const serviceToken = generateServiceToken();
-      // const sendLogistic2 = await axios.post(
-      //   `${process.env.API_GATEWAY_URL}/logistic2/receive-inventory-records`,
-      //   newInventoryRecord,
-      //   { headers: { Authorization: `Bearer ${serviceToken}` } }
-      // );
+      // Check if product exists in inventory
+      let existingInventory = await inventoryModel.findOne({
+        productId: newInventoryRecord?.productId,
+      });
 
-      // console.log(sendLogistic2);
+      if (existingInventory) {
+        // Update stock values
+        existingInventory.totalStock += newInventoryRecord?.quantityReceived;
+        existingInventory.availableStock +=
+          newInventoryRecord?.quantityReceived;
+
+        // Append new batch numbers and expiry dates
+        if (batchNumber) existingInventory.batchNumbers.push(batchNumber);
+        if (newInventoryRecord?.expiryDate)
+          existingInventory.expiryDates.push(newInventoryRecord?.expiryDate);
+
+        existingInventory.lastSupplierId = newInventoryRecord?.supplierId;
+        existingInventory.lastSupplierName = newInventoryRecord?.supplierName;
+        existingInventory.lastReceivedDate = new Date();
+        existingInventory.lastUpdatedBy = newInventoryRecord?.loggedBy;
+
+        await existingInventory.save();
+      } else {
+        // Create new inventory entry if product does not exist
+        existingInventory = new inventoryModel({
+          productId: newInventoryRecord?.productId,
+          inspector: newInventoryRecord?.inspector,
+          productName: newInventoryRecord?.productName,
+          category: "Unknown", // Assuming category is required
+          warehouseLocation: newInventoryRecord?.warehouseLocation,
+          totalStock: newInventoryRecord?.quantityReceived,
+          availableStock: newInventoryRecord?.quantityReceived,
+          unit: newInventoryRecord?.unit,
+          batchNumbers: newInventoryRecord?.batchNumber
+            ? [newInventoryRecord?.batchNumber]
+            : [],
+          expiryDates: newInventoryRecord?.expiryDate
+            ? [newInventoryRecord?.expiryDate]
+            : [],
+          lastSupplierId: newInventoryRecord?.supplierId,
+          lastSupplierName: newInventoryRecord?.supplierName,
+          lastReceivedDate: new Date(),
+          lastUpdatedBy: newInventoryRecord?.loggedBy,
+        });
+
+        await existingInventory.save();
+      }
+
+      // End
     }
 
     res.status(201).json({
