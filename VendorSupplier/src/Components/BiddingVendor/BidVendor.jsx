@@ -4,54 +4,57 @@ import { toast } from "react-toastify";
 import { IoClose } from "react-icons/io5";
 import { FaCalendarAlt, FaFileContract } from "react-icons/fa";
 import { TbCurrencyPeso } from "react-icons/tb";
-
+import Store from "../../context/verifyStore";
 const apiURL = "http://localhost:7681"; // Update this to match your backend URL
 
-const BidVendor = ({ fetchBiddingProduct }) => {
+const BidVendor = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [biddingData, setBiddingData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  selectedProduct;
   const [bidAmount, setBidAmount] = useState("");
   const [terms, setTerms] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
   const [showBidModal, setShowBidModal] = useState(false);
+  const { token } = Store();
 
   // Fetch bidding data and categories on component mount
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch all bidding data
-        const biddingResponse = await axios.get(`${apiURL}/api/bidding`);
-        setBiddingData(biddingResponse.data);
-
-        // Fetch all categories
-        const categoryResponse = await axios.get(
-          `${apiURL}/api/bidding/category`
-        );
-        setCategories([
-          "All",
-          ...categoryResponse.data.map((cat) => cat.category),
-        ]);
-
-        setLoading(false);
-      } catch (error) {
-        console.error(
-          "Error fetching data:",
-          error.response?.data || error.message
-        );
-        toast.error(
-          error.response?.data?.message ||
-            "Failed to fetch data. Please try again later."
-        );
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      // Fetch all bidding data
+      const biddingResponse = await axios.get(
+        `${apiURL}/api/bidding/getOpenBidding`
+      );
+      setBiddingData(biddingResponse.data);
+
+      // Fetch all categories
+      const categoryResponse = await axios.get(
+        `${apiURL}/api/bidding/category`
+      );
+      setCategories([
+        "All",
+        ...categoryResponse.data.map((cat) => cat.category),
+      ]);
+
+      setLoading(false);
+    } catch (error) {
+      console.error(
+        "Error fetching data:",
+        error.response?.data || error.message
+      );
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to fetch data. Please try again later."
+      );
+      setLoading(false);
+    }
+  };
   // Filter products based on selected category
   const filteredProducts =
     selectedCategory === "All"
@@ -66,12 +69,16 @@ const BidVendor = ({ fetchBiddingProduct }) => {
     }
 
     try {
-      const response = await axios.post(`${apiURL}/api/bidding/bid`, {
-        productId: selectedProduct._id,
-        bidAmount: parseFloat(bidAmount),
-        terms,
-        deliveryTime: deliveryDate, // Ensure this matches the backend field name
-      });
+      const response = await axios.put(
+        `${apiURL}/api/bidding/bidding-product/${selectedProduct?._id}`,
+        {
+          productId: selectedProduct._id,
+          bids: bidAmount,
+          terms,
+          deliveryTime: deliveryDate,
+        },
+        { headers: { token: token } }
+      );
 
       if (response.data.success) {
         toast.success("Bid placed successfully!");
@@ -80,15 +87,17 @@ const BidVendor = ({ fetchBiddingProduct }) => {
         setTerms("");
         setDeliveryDate("");
 
+        window.location.reload();
+
         // Refresh the bidding product list
-        fetchBiddingProduct();
+        fetchData();
       } else {
         toast.error(response.data.message || "Failed to place bid.");
       }
     } catch (error) {
-      console.error("Error placing bid:", error.response?.data || error.message);
-      toast.error(
-        error.response?.data?.message || "Failed to place bid. Please try again later."
+      console.error(
+        "Error placing bid:",
+        error.response?.data || error.message
       );
     }
   };
@@ -258,7 +267,9 @@ const BidVendor = ({ fetchBiddingProduct }) => {
               </button>
             </form>
 
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Place a Bid</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+              Place a Bid
+            </h3>
             <div className="space-y-4">
               {/* Bid Amount Field */}
               <div className="relative">
@@ -290,7 +301,7 @@ const BidVendor = ({ fetchBiddingProduct }) => {
               <div className="relative">
                 <FaCalendarAlt className="absolute left-3 top-3 text-gray-400" />
                 <input
-                  type="date"
+                  type="text"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={deliveryDate}
                   onChange={(e) => setDeliveryDate(e.target.value)}

@@ -83,6 +83,7 @@ const Login = ({ isBiddingLogin = false }) => {
       // Conditionally navigate based on the prop
       if (productId) {
         navigate("/BidVendor"); // Navigate to bidding vendor page
+        window.location.reload();
       } else {
         navigate("/dashboardvendor"); // Default navigation for navbar login
         window.location.reload();

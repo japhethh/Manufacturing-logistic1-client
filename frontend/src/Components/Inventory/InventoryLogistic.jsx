@@ -195,6 +195,7 @@ const InventoryLogistic = () => {
                   <div className="w-1/2 p-2">
                     <input
                       type="text"
+                      value={quantity}
                       className="input input-bordered"
                       onChange={(e) => setQuantity(e.target.value)}
                     />
