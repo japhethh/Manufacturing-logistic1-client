@@ -26,7 +26,7 @@ const CreatePurchaseOrder = () => {
 
   useEffect(() => {
     const fetchSuppliers = async () => {
-      const response = await axios.get(`${apiURL}/api/supplier/suppliers`);
+      const response = await axios.get(`${apiURL}/api/supplier/supplierWinner`);
       setSuppliers(response.data);
     };
     fetchSuppliers();

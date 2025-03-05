@@ -175,6 +175,7 @@ const supplierSchema = mongoose.Schema(
     logo: { type: String, default: "" },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
     role: { type: String, default: "supplier" },
+    winner: { type: String, enum: ["winner", "pending"] },
   },
   { timestamps: true }
 );

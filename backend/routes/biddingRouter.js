@@ -37,7 +37,7 @@ biddingRouter.post(
   authMiddleware,
   createdBidding
 );
-biddingRouter.delete("/:id", authMiddleware, deleteBidding);
+biddingRouter.post("/delete/:id", authMiddleware, deleteBidding);
 
 // Category routes (require authentication)
 biddingRouter.post("/category", authMiddleware, createCategoryBidding);

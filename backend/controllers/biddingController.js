@@ -165,7 +165,7 @@ const getAllBidding = expressAsyncHandler(async (req, res) => {
 // Delete Bidding
 const deleteBidding = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.body;
+  const { userId, winnerId } = req.body;
 
   const existBidding = await biddingModel.findById(id);
 
@@ -173,6 +173,20 @@ const deleteBidding = expressAsyncHandler(async (req, res) => {
     return res
       .status(404)
       .json({ success: false, message: "Bidding Id not found!" });
+  }
+
+  if (winnerId) {
+    const existSupplier = await supplierModel.findByIdAndUpdate(
+      winnerId,
+      { winner: "pending" },
+      { new: true }
+    );
+
+    if (!existSupplier) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Supplier id not found!" });
+    }
   }
 
   const deletedBidding = await biddingModel.findByIdAndDelete(id);
@@ -489,6 +503,10 @@ const selectBiddingWinner = expressAsyncHandler(async (req, res) => {
   bidding.winner = winnerId;
   bidding.status = "awarded"; // Mark as awarded
   await bidding.save();
+
+  supplier.winner = "winner";
+
+  await supplier.save();
 
   // Create a winner notification message
   const notificationMessage = `🎉 Congratulations, ${supplier.supplierName}! 🎉\n\nYou have been selected as the winning supplier for the bid on **${bidding.item}**. Please review the details and proceed with the next steps.`;

@@ -35,8 +35,7 @@ const BiddingProduct = () => {
 
   const handleUpdate = async ({ biddingId, winnerId }) => {
     setLoading(true);
-    console.log(biddingId);
-    console.log(winnerId);
+
     try {
       const response = await axios.post(
         `${apiURL}/api/bidding/bidding-selectBiddingWinner`,
@@ -53,11 +52,17 @@ const BiddingProduct = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async ({ id, winnerId }) => {
+    console.log(winnerId);
+    console.log(id);
     try {
-      await axios.delete(`${apiURL}/api/bidding/${id}`, {
-        headers: { token: token },
-      });
+      await axios.post(
+        `${apiURL}/api/bidding/delete/${id}`,
+        { winnerId },
+        {
+          headers: { token: token },
+        }
+      );
       fetchBiddingProduct();
       toast.info("Product deleted successfully!");
       setSelectedData(null); // Reset selectedData
@@ -183,7 +188,12 @@ const BiddingProduct = () => {
             </p>
             <div className="flex justify-end gap-4">
               <button
-                onClick={() => handleDelete(selectedData._id)}
+                onClick={() =>
+                  handleDelete({
+                    id: selectedData._id,
+                    winnerId: selectedData?.winner,
+                  })
+                }
                 className="btn btn-error btn-md text-white font-Roboto"
               >
                 Confirm

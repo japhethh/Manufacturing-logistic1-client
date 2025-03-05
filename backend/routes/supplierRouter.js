@@ -12,12 +12,14 @@ import {
   updateSupplier,
   getSupplierData,
   changePassword,
+  getSupplierWinner,
 } from "../controllers/supplierController.js";
 import { authMiddleware } from "../middleware/Auth.js";
 
 const supplierRouter = express.Router();
 
 supplierRouter.get("/suppliers", getAllSupplier);
+supplierRouter.get("/supplierWinner", getSupplierWinner);
 supplierRouter.post("/addsuppliers", createSupplier);
 supplierRouter.get("/suppliers/:id", getSupplierById);
 

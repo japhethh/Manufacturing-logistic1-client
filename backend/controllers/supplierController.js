@@ -20,6 +20,22 @@ const getAllSupplier = asyncHandler(async (req, res) => {
   }
 });
 
+const getSupplierWinner = asyncHandler(async (req, res) => {
+  try {
+    const suppliers = await supplierModel
+      .find({ winner: "winner" })
+      .populate("materialSupplied")
+      .populate({
+        path: "purchaseOrders",
+        select: "purchaseOrderNumber items totalAmount paymentTerm",
+      });
+
+    res.json(suppliers);
+  } catch (error) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const getSupplierById = asyncHandler(async (req, res) => {
   try {
     const supplier = await supplierModel.findById(req.params.id);
@@ -385,4 +401,5 @@ export {
   getSearch,
   getSupplierData,
   changePassword,
+  getSupplierWinner,
 };
