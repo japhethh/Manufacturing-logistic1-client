@@ -11,6 +11,8 @@ const BidVendor = () => {
   const [biddingData, setBiddingData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [bidAmount, setBidAmount] = useState("");
+  const [showBidModal, setShowBidModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +51,39 @@ const BidVendor = () => {
     selectedCategory === "All"
       ? biddingData
       : biddingData.filter((product) => product.category === selectedCategory);
+
+  const handlePlaceBid = async () => {
+    if (!bidAmount) {
+      toast.error("Please enter a bid amount.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${apiURL}/api/bidding/bid`, {
+        productId: selectedProduct._id,
+        bidAmount: parseFloat(bidAmount),
+      });
+
+      if (response.data.success) {
+        toast.success("Bid placed successfully!");
+        setShowBidModal(false);
+        setBidAmount("");
+
+        // Update the bidding data to reflect the new bid
+        const updatedBiddingData = biddingData.map((product) =>
+          product._id === selectedProduct._id
+            ? { ...product, bids: [...product.bids, { bidAmount: parseFloat(bidAmount) }] }
+            : product
+        );
+        setBiddingData(updatedBiddingData);
+      } else {
+        toast.error(response.data.message || "Failed to place bid.");
+      }
+    } catch (error) {
+      console.error("Error placing bid:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Failed to place bid. Please try again later.");
+    }
+  };
 
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;
@@ -194,11 +229,46 @@ const BidVendor = () => {
 
             <button
               className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 w-full mt-6 py-3 text-lg rounded-lg shadow-md transition-all transform hover:scale-105"
-              onClick={() => {
-                document.getElementById("login_modal").showModal();
-              }}
+              onClick={() => setShowBidModal(true)}
             >
-              Login for place a bid
+              Place bid
+            </button>
+          </div>
+        </dialog>
+      )}
+
+      {/* Place Bid Modal */}
+      {showBidModal && (
+        <dialog id="bid_modal" className="modal modal-open">
+          <div className="modal-box bg-white rounded-xl shadow-lg p-8 relative max-w-md">
+            <form method="dialog">
+              <button
+                className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-gray-600 hover:bg-gray-200 z-10"
+                onClick={() => setShowBidModal(false)}
+              >
+                <IoClose className="text-2xl" />
+              </button>
+            </form>
+
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Place a Bid</h3>
+            <div className="space-y-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Bid Amount
+              </label>
+              <input
+                type="number"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={bidAmount}
+                onChange={(e) => setBidAmount(e.target.value)}
+                placeholder="Enter your bid amount"
+              />
+            </div>
+
+            <button
+              className="btn bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 w-full mt-6 py-3 text-lg rounded-lg shadow-md transition-all transform hover:scale-105"
+              onClick={handlePlaceBid}
+            >
+              Submit Bid
             </button>
           </div>
         </dialog>
