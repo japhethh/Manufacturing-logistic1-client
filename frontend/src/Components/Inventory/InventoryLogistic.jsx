@@ -43,6 +43,8 @@ const InventoryLogistic = () => {
     }
   };
 
+  console.log(selectedData);
+
   const handleUpdate = async ({ inventoryId }) => {
     try {
       const response = await axios.post(
@@ -50,6 +52,8 @@ const InventoryLogistic = () => {
         {
           quantity,
           inventoryId,
+          itemName: selectedData?.productName,
+          unit: selectedData?.unit,
         },
         { headers: { token: token } }
       );

@@ -3,8 +3,9 @@ import multer from "multer";
 import {
   defectCreate,
   qcCreate,
+  defectCreated,
 } from "../controllers/QCInspectionController.js";
-import { authMiddleware } from "../middleware/Auth.js";
+import { authMiddleware, serviceVerifyToken } from "../middleware/Auth.js";
 const QCInspectionRouter = express.Router();
 
 // Multer configuration for file uploads (if needed)
@@ -27,5 +28,11 @@ QCInspectionRouter.post(
   upload.array("images", 10),
   authMiddleware,
   defectCreate
+);
+QCInspectionRouter.post(
+  "/defected",
+  upload.array("images", 10),
+  serviceVerifyToken,
+  defectCreated
 );
 export default QCInspectionRouter;

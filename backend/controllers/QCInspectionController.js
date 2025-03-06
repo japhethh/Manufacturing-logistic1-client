@@ -333,4 +333,135 @@ const defectCreate = expressAsyncHandler(async (req, res) => {
       .json({ message: "Error reporting defect: " + error.message });
   }
 });
-export { qcCreate, defectCreate };
+
+const defectCreated = expressAsyncHandler(async (req, res) => {
+  try {
+    const {
+      defectDescription,
+      invoiceId,
+      inspector,
+      severity,
+      department,
+      reportedBy,
+    } = req.body;
+
+    // Generate defect code
+    const counter = await Counter.findByIdAndUpdate(
+      { _id: "defectCode" },
+      { $inc: { sequence_value: 1 } },
+      { new: true, upsert: true }
+    );
+    const defectNumber = counter.sequence_value.toString().padStart(3, "0");
+    const defectCode = `DEF-${defectNumber}`;
+
+    const uploadedImages = [];
+
+    // Upload images to Cloudinary, each file individually
+
+    if (req.files) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "defect_images", // Specify the Cloudinary folder
+        });
+        uploadedImages.push(result.secure_url); // Add Cloudinary URL to the array
+
+        // Optionally delete the local file after upload
+        fs.unlinkSync(file.path);
+      }
+    }
+
+    // Create the defect with the uploaded image URLs
+    const defect = new DefectModel({
+      defectDescription,
+      inspector,
+      invoiceId,
+      severity,
+      defectCode,
+      department,
+      images: uploadedImages,
+    });
+
+    const savedDefect = await defect.save();
+
+    let returnRequest = null;
+
+    const existInvoice = await Invoice.findById(invoiceId);
+
+    if (!existInvoice) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invoice id not found!" });
+    }
+
+    const returnCounter = await Counter.findByIdAndUpdate(
+      {
+        _id: "returnRequestNumber",
+      },
+      {
+        $inc: { sequence_value: 1 },
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    );
+
+    const returnRequestNumber = returnCounter.sequence_value
+      .toString()
+      .padStart(3, "0");
+
+    const returnReference = `R-${returnRequestNumber}`;
+
+    const serviceToken = generateServiceToken();
+
+    const response = await axios.get(
+      `${process.env.API_GATEWAY_URL}/admin/get-accounts`,
+      { headers: { Authorization: `Bearer ${serviceToken}` } }
+    );
+
+    const accountData = response.data;
+
+    // const userExist = accountData.find((a) => a._id === userId);
+
+    // if (!userExist) {
+    //   return res
+    //     .status(400)
+    //     .json({ success: false, message: "User id not found!" });
+    // }
+
+    // 🔹 Auto-create a return request for **Major or Critical** defects
+    if (severity === "Major" || severity === "Critical") {
+      returnRequest = new ReturnRequestModel({
+        defects: defect?._id,
+        returnRequestNumber: returnReference,
+        purchaseOrderId: existInvoice?.purchaseOrder, // Assuming invoice links to PO
+        supplierId: existInvoice?.vendor, // Get supplier ID dynamically
+        reportedBy: reportedBy,
+        reason: `${defectDescription}`,
+        notes: "Auto-generated return request due to defect severity",
+        severity,
+        attachments: uploadedImages,
+        status: "Pending",
+      });
+
+      await returnRequest.save();
+
+      await defect.save();
+
+      // 🔹 Link defect to return request
+      // defect.returnRequest = returnRequest._id;
+    }
+
+    // NEEDED TO PUT A NOTIFICATION HERE ---------------------------------->
+
+    res.status(201).json({
+      message: "Defect reported successfully!",
+      defectId: savedDefect._id,
+    });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error reporting defect: " + error.message });
+  }
+});
+export { qcCreate, defectCreate, defectCreated };

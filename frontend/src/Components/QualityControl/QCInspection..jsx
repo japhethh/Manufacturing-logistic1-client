@@ -74,12 +74,13 @@ const QCInspection = () => {
         });
 
         const defectResponse = await axios.post(
-          `${apiURL}/api/qualityControl/defects`,
+          `${apiURL}/api/qualityControl/defected`,
           formData,
           {
             headers: {
               "Content-Type": "multipart/form-data",
               token: token,
+
             },
           }
         );

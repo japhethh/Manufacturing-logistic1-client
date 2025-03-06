@@ -8,7 +8,7 @@ const DefectSchema = new mongoose.Schema(
     inspectionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "QCInspection",
-      required: true,
+      required: false,
     },
     defectDescription: { type: String, required: true },
     severity: {
@@ -17,6 +17,7 @@ const DefectSchema = new mongoose.Schema(
       required: true,
     },
     actionTaken: { type: String },
+    department: { type: String },
     inspector: { type: String },
     resolved: { type: Boolean, default: false },
     images: [{ type: String }],

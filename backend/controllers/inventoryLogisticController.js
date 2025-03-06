@@ -3,6 +3,7 @@ import inventoryModel from "../models/inventoryLogisticModel.js";
 import inventoryRecordModel from "../models/inventoryRecordModel.js";
 import expressAsyncHandler from "express-async-handler";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 /**
  * @desc Get all inventory items
@@ -181,7 +182,7 @@ const deleteInventory = expressAsyncHandler(async (req, res) => {
 });
 
 const sendRequest = expressAsyncHandler(async (req, res) => {
-  const { inventoryId, quantity } = req.body;
+  const { inventoryId, quantity, unit, itemName } = req.body;
 
   const existInventory = await inventoryModel.findById(inventoryId);
 
@@ -197,6 +198,37 @@ const sendRequest = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Not enough stock available!" });
   }
 
+  const sender = "Logistic 1";
+  const rawMaterial = [
+    {
+      itemName,
+      quantity,
+      unit,
+    },
+  ];
+
+  console.log(rawMaterial);
+  console.log(sender);
+
+  const generateServiceTokens = () => {
+    const payload = { service: "Logistics 1" };
+    return jwt.sign(payload, process.env.GATEWAY_JWT_SECRET, {
+      expiresIn: "1h",
+    });
+  };
+
+  const postRequest = async () => {
+    const core2 = generateServiceTokens();
+
+    const response = await axios.post(
+      `https://gateway.jjm-manufacturing.com/core2/send-raw-materials`,
+      { sender, rawMaterial },
+      { headers: { Authorization: `Bearer ${core2}` } }
+    );
+    console.log(response.data);
+  };
+
+  postRequest();
   const updatedInventory = await inventoryModel.findByIdAndUpdate(
     inventoryId,
     {
