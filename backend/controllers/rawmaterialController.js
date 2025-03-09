@@ -44,6 +44,7 @@ const newRequested = asyncHandler(async (req, res) => {
     department,
     approvalId,
     rawmaterialId,
+    coreId,
   } = req.body;
 
   // Check for required fields
@@ -78,6 +79,7 @@ const newRequested = asyncHandler(async (req, res) => {
     department,
     approvalId,
     rawmaterialId,
+    coreId,
   });
 
   try {

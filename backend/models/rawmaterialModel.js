@@ -45,6 +45,7 @@ const rawmaterialSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  coreId: { type: String },
 });
 
 const rawmaterialModel = mongoose.model(

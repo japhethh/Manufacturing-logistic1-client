@@ -217,7 +217,7 @@ const updateUserPassword = asyncHandler(async (req, res) => {
   if (pass !== confirmPass) {
     return res.status(400).json({
       success: false,
-      message: "New password and confirm password do not match",
+      message: "New password and confirm password do not match!",
     });
   }
 
@@ -405,7 +405,7 @@ const testingLogin = asyncHandler(async (req, res) => {
 
   // Define endpoints based on LogisticLevel
   const logisticEndpoints = {
-    1: "http://localhost:7681/api/user/login",
+    1: "https://backend-logistic1.jjm-manufacturing.com/api/user/login",
     2: "https://backend-logistic2.jjm-manufacturing.com/api/auth/login",
   };
   // const logisticEndpoints = {
@@ -418,7 +418,7 @@ const testingLogin = asyncHandler(async (req, res) => {
   // };
 
   const redirectUrls = {
-    1: "http://localhost:5173", // Change to production URL
+    1: "https://logistic1.jjm-manufacturing.com", // Change to production URL
     2: "https://logistic2.jjm-manufacturing.com/MainUser",
   };
   // const redirectUrls = {
