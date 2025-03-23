@@ -61,6 +61,8 @@ import biddingRouter from "./routes/biddingRouter.js";
 import inventoryLogisticRouter from "./routes/inventoryLogisticRouter.js";
 import returnManagementRouter from "./routes/returnManagementRouter.js";
 import returnVendorManagementRouter from "./routes/returnVendorManagementRouter.js";
+import historyInventoryRouter from "./routes/historyInventoryRouter.js";
+import geminiRouter from "./routes/geminiRouter.js";
 
 const port = process.env.PORT || 7681;
 
@@ -144,6 +146,8 @@ app.use("/api/inventory", inventoryLogisticRouter);
 app.use("/api/discrepanciesTest", discrepancyTest);
 app.use("/api/returnManagement", returnManagementRouter);
 app.use("/api/vendor_return", returnVendorManagementRouter);
+app.use("/api/historyInventory", historyInventoryRouter);
+app.use("/api/testGemini", geminiRouter);
 
 const server = app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);

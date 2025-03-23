@@ -4,6 +4,7 @@ import inventoryRecordModel from "../models/inventoryRecordModel.js";
 import expressAsyncHandler from "express-async-handler";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import historyInventoryModel from "../models/historyInventoryModel.js";
 
 /**
  * @desc Get all inventory items
@@ -181,6 +182,7 @@ const deleteInventory = expressAsyncHandler(async (req, res) => {
   });
 });
 
+// Integration
 const sendRequest = expressAsyncHandler(async (req, res) => {
   const { inventoryId, quantity, unit, itemName } = req.body;
 
@@ -229,6 +231,16 @@ const sendRequest = expressAsyncHandler(async (req, res) => {
   };
 
   postRequest();
+
+  // History Logs
+  const historyInventory = new historyInventoryModel({
+    itemName: itemName,
+    quantity: quantity,
+    unit: unit,
+  });
+
+  await historyInventory.save();
+
   const updatedInventory = await inventoryModel.findByIdAndUpdate(
     inventoryId,
     {

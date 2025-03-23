@@ -6,17 +6,13 @@ import {
   MdOutlineYoutubeSearchedFor,
 } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
-
 import { MdOutlineChat } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { FaBoxes } from "react-icons/fa";
-
 import { UserContext } from "../context/userContext";
 import { useContext } from "react";
 import axios from "axios";
 import {
-  AreaChart,
-  Area,
   LineChart,
   Line,
   XAxis,
@@ -26,38 +22,15 @@ import {
   Legend,
   BarChart,
   Bar,
-  Rectangle,
   ResponsiveContainer,
 } from "recharts";
-// import { BsEye } from "react-icons/bs";
-
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-];
 
 const Dashboard = () => {
   const [supplier, setSupplier] = useState(null);
-
   const { apiURL } = useContext(UserContext);
   const [historicalData, setHistoricalData] = useState([]);
   const [predictedData, setPredictedData] = useState(null);
+  const [futurePrediction, setFuturePrediction] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -65,7 +38,6 @@ const Dashboard = () => {
       setSupplier(response.data);
     };
     loadData();
-    console.log(supplier);
   }, []);
 
   useEffect(() => {
@@ -90,9 +62,35 @@ const Dashboard = () => {
         }
       })
       .catch((error) => console.error("Error fetching predicted data:", error));
+
+    // Fetch future prediction data from the '/api/testGemini/demand-forecast' endpoint
+    axios
+      .get(`${apiURL}/api/testGemini/demand-forecast`)
+      .then((response) => {
+        if (response.data.futurePrediction) {
+          // Parse the futurePrediction string into an array of objects
+          const parsedPrediction = response.data.futurePrediction
+            .split("\n")
+            .filter((line) => line.startsWith("Item:"))
+            .map((line) => {
+              const [item, quantity, unit] = line.split(",");
+              return {
+                itemName: item.replace("Item: ", "").trim(),
+                forecastedQuantity: parseInt(
+                  quantity.replace("Forecasted Quantity: ", "").trim()
+                ),
+                unit: unit.replace("Unit: ", "").trim(),
+              };
+            });
+          setFuturePrediction(parsedPrediction);
+        }
+      })
+      .catch((error) =>
+        console.error("Error fetching future prediction data:", error)
+      );
   }, []);
 
-  // Combine the data for charting
+  // Combine the data for the Line Chart
   const combinedData = [
     ...historicalData.map((d) => ({
       ...d,
@@ -216,6 +214,30 @@ const Dashboard = () => {
                 strokeDasharray="5 5"
               />
             </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Additional Demand Forecasting Section (Bar Chart) */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold text-black/80 font-Roboto mb-4">
+            Forecasted Demand by Item
+          </h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={futurePrediction}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="itemName" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar
+                dataKey="forecastedQuantity"
+                fill="#8884d8"
+                name="Forecasted Quantity"
+              />
+            </BarChart>
           </ResponsiveContainer>
         </div>
       </div>

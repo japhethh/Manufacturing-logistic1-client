@@ -5,6 +5,7 @@ import { apiURL } from "../../context/Store";
 import { useState } from "react";
 import Store from "../../context/Store";
 import { toast } from "react-toastify";
+
 const InventoryLogistic = () => {
   const [inventoryData, setInventoryData] = useState([]);
   const [selectedData, setSelectedData] = useState(null);
@@ -14,6 +15,7 @@ const InventoryLogistic = () => {
   const [fetchAdjustment, setFetchAdjustment] = useState();
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(0);
+
   // Handle deleting a bidding product
   const handleDelete = async ({ id }) => {
     try {
@@ -34,16 +36,11 @@ const InventoryLogistic = () => {
       const response = await axios.get(`${apiURL}/api/inventory/`, {
         headers: { token: token },
       });
-
       setInventoryData(response.data);
-
-      console.log(response.data);
     } catch (error) {
       console.log(error?.response.data.message);
     }
   };
-
-  console.log(selectedData);
 
   const handleUpdate = async ({ inventoryId }) => {
     try {
@@ -66,16 +63,27 @@ const InventoryLogistic = () => {
       console.log(error?.response.data.message);
     }
   };
+
   useEffect(() => {
     fetchInventoryData();
   }, []);
+
   useEffect(() => {
     const table = new DataTable("#myTable", {
       data: inventoryData,
       columns: [
         { title: "ID", data: "_id" },
         { title: "Product Name", data: "productName" },
-        { title: "Available Stock", data: "availableStock" },
+        {
+          title: "Available Stock",
+          data: "availableStock",
+          render: (data) => {
+            // Apply red highlight if availableStock is below 50
+            return `<span class="${
+              data < 50 ? "highlight-red" : ""
+            }">${data}</span>`;
+          },
+        },
         { title: "Total Stock", data: "totalStock" },
         { title: "Category", data: "category" },
         { title: "Last Supplier Name", data: "lastSupplierName" },
@@ -121,9 +129,18 @@ const InventoryLogistic = () => {
       table.destroy();
     };
   }, [inventoryData]);
+
   return (
     <div className="p-4">
       <h2 className="text-gray-800 font-semibold text-4xl">Inventory</h2>
+      <style>
+        {`
+          .highlight-red {
+            color: red;
+            font-weight: bold;
+          }
+        `}
+      </style>
       <table id="myTable"></table>
 
       {/* Delete Modal */}
@@ -211,7 +228,10 @@ const InventoryLogistic = () => {
                   onClick={() => {
                     handleUpdate({ inventoryId: selectedData?._id });
                   }}
-                  className="btn btn-success btn-md text-white font-Roboto"
+                  className={`btn btn-success btn-md text-white font-Roboto ${
+                    selectedData?.availableStock < 50 ? "btn-disabled" : ""
+                  }`}
+                  disabled={selectedData?.availableStock < 50}
                 >
                   Confirm
                 </button>
