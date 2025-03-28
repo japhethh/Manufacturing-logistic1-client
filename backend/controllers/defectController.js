@@ -54,11 +54,6 @@ const deleteDefect = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { userId } = req.body;
 
-  const existing = await userModel.findById(userId);
-  if (!existing) {
-    return res.status(400).json({ success: false, message: "User not found!" });
-  }
-
   const getSupplierId = await DefectModel.findById(id).populate({
     path: "invoiceId",
     populate: {

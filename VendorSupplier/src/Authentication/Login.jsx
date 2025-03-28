@@ -63,7 +63,7 @@ const Login = ({ isBiddingLogin = false }) => {
         setLoading(false); // Set loading to false
       } catch (error) {
         console.error("Error fetching data:", error);
-        toast.error("Failed to fetch data. Please try again later.");
+        // toast.error("Failed to fetch data. Please try again later.");
         setLoading(false); // Stop loading
       }
     };

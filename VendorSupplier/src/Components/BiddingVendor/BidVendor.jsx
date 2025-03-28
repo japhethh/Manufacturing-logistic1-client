@@ -48,10 +48,11 @@ const BidVendor = () => {
         "Error fetching data:",
         error.response?.data || error.message
       );
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to fetch data. Please try again later."
-      );
+      // toast.error(
+      //   error.response?.data?.message ||
+      //     "Failed to fetch data. Please try again later."
+      // );
+      console.log("Failed to fetch data. Please try again later.");
       setLoading(false);
     }
   };

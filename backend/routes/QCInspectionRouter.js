@@ -32,7 +32,7 @@ QCInspectionRouter.post(
 QCInspectionRouter.post(
   "/defected",
   upload.array("images", 10),
-  serviceVerifyToken,
+  // serviceVerifyToken,
   defectCreated
 );
 export default QCInspectionRouter;
