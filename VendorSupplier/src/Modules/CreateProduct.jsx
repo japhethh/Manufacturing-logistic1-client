@@ -70,7 +70,7 @@ const CreateProduct = () => {
           </div>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to="printproducts"
           className="w-full md:w-1/3 lg:w-1/4"
           aria-label="Print Barcode"
@@ -81,7 +81,7 @@ const CreateProduct = () => {
             </h2>
             <FaPrint className="text-4xl text-fuchsia-700 self-end" />
           </div>
-        </NavLink>
+        </NavLink> */}
       </div>
 
       {/* Display Selected Component */}
