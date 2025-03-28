@@ -69,7 +69,7 @@ const DiscrepancyReport = () => {
             </button>
             ${
               isSuperAdmin
-                ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="deleteBtn_${row._id}">
+                ? `<button class="bg-red-500 text-xs text-white px-2 py-1 rounded-lg cursor-pointer" id="deleteBtn_${data._id}">
             <i class="fas fa-trash-alt"></i>
           </button>`
                 : ""
@@ -123,13 +123,13 @@ const DiscrepancyReport = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-full w-full">
-        <span className="loading loading-dots loading-lg"></span>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-full w-full">
+  //       <span className="loading loading-dots loading-lg"></span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-base-200 h-auto w-full p-5">
@@ -170,9 +170,14 @@ const DiscrepancyReport = () => {
               <h3 className="text-lg font-bold font-Roboto">Adjustment</h3>
               <p className="py-4 font-Roboto">
                 Are you sure you want to{" "}
-                <span className="text-red-500 font-bold font-Roboto">delete</span> the
-                category{" "}
-                <span className="font-bold font-Roboto">{selectedData?.defectCode}</span>?
+                <span className="text-red-500 font-bold font-Roboto">
+                  delete
+                </span>{" "}
+                the category{" "}
+                <span className="font-bold font-Roboto">
+                  {selectedData?.defectCode}
+                </span>
+                ?
               </p>
               <div className="flex justify-end gap-4">
                 <button
@@ -201,67 +206,68 @@ const DiscrepancyReport = () => {
           selectedData &&
           fetchAdjustment && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
-            <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg overflow-hidden">
-              {/* Image Grid */}
-              <div className="grid grid-cols-2 gap-3 overflow-auto max-h-60 mb-4 p-2">
-                {selectedData?.images.map((item, index) => (
-                  <div key={index} className="flex justify-center">
-                    <img
-                      className="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75 transition"
-                      onClick={() => handleImage(item)}
-                      src={item}
-                      alt="Defect Image"
-                    />
-                  </div>
-                ))}
-              </div>
-          
-              {/* Title */}
-              <h1 className="text-2xl font-semibold py-2 font-Roboto text-gray-800">
-                Details
-              </h1>
-          
-              {/* Details Section */}
-              <div className="space-y-3">
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
-                    Reference
-                  </div>
-                  <div className="w-1/2 p-2">{selectedData?.defectCode}</div>
+              <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg overflow-hidden">
+                {/* Image Grid */}
+                <div className="grid grid-cols-2 gap-3 overflow-auto max-h-60 mb-4 p-2">
+                  {selectedData?.images.map((item, index) => (
+                    <div key={index} className="flex justify-center">
+                      <img
+                        className="w-24 h-24 object-cover rounded-md cursor-pointer hover:opacity-75 transition"
+                        onClick={() => handleImage(item)}
+                        src={item}
+                        alt="Defect Image"
+                      />
+                    </div>
+                  ))}
                 </div>
-          
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
-                    Defect Description
+
+                {/* Title */}
+                <h1 className="text-2xl font-semibold py-2 font-Roboto text-gray-800">
+                  Details
+                </h1>
+
+                {/* Details Section */}
+                <div className="space-y-3">
+                  <div className="flex border rounded-lg overflow-hidden">
+                    <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
+                      Reference
+                    </div>
+                    <div className="w-1/2 p-2">{selectedData?.defectCode}</div>
                   </div>
-                  <div className="w-1/2 p-2">{selectedData?.defectDescription}</div>
-                </div>
-          
-                <div className="flex border rounded-lg overflow-hidden">
-                  <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
-                    Severity
+
+                  <div className="flex border rounded-lg overflow-hidden">
+                    <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
+                      Defect Description
+                    </div>
+                    <div className="w-1/2 p-2">
+                      {selectedData?.defectDescription}
+                    </div>
                   </div>
-                  <div className="w-1/2 p-2">{selectedData?.severity}</div>
+
+                  <div className="flex border rounded-lg overflow-hidden">
+                    <div className="w-1/2 bg-gray-100 p-2 font-Roboto font-medium">
+                      Severity
+                    </div>
+                    <div className="w-1/2 p-2">{selectedData?.severity}</div>
+                  </div>
                 </div>
-              </div>
-          
-              {/* Button Section */}
-              <div className="flex justify-end mt-4">
-                <button
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-Roboto hover:opacity-80 transition"
-                  onClick={() => {
-                    setSelectedData(null);
-                    setShowModal(false);
-                    setFetchAdjustment(null);
-                    setSelectImage(null);
-                  }}
-                >
-                  Close
-                </button>
+
+                {/* Button Section */}
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg font-Roboto hover:opacity-80 transition"
+                    onClick={() => {
+                      setSelectedData(null);
+                      setShowModal(false);
+                      setFetchAdjustment(null);
+                      setSelectImage(null);
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          
           )}
 
         {/* Full-Screen Image Modal */}

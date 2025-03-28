@@ -67,6 +67,7 @@ import BiddingProduct from "./Components/Bidding/BiddingProduct.jsx";
 import ReturnRequest from "./Components/ReturnManagement/ReturnRequest.jsx";
 import BiddingWinner from "./Components/Bidding/BiddingWinner.jsx";
 import InventoryLogistic from "./Components/Inventory/InventoryLogistic.jsx";
+import Core2Audit from "./Components/Core2/Core2Audit.jsx";
 
 const App = () => {
   const { token, apiURL, setToken } = useContext(UserContext); // Get token from context
@@ -267,7 +268,11 @@ const App = () => {
           <Route path="/bidding" element={<Bidding />}></Route>
           <Route path="/bidding-products" element={<BiddingProduct />}></Route>
           <Route path="/biddingWinner" element={<BiddingWinner />}></Route>
-          <Route path="/inventoryLogistic" element={<InventoryLogistic />}></Route>
+          <Route
+            path="/inventoryLogistic"
+            element={<InventoryLogistic />}
+          ></Route>
+          <Route path="/core2-audit" element={<Core2Audit />}></Route>
         </Routes>
       </div>
     </div>
