@@ -244,7 +244,8 @@ const App = () => {
           <Route path="/trackorders/pendings" element={<TrackOrderPending />} />
 
           {/* WAREHOUSE */}
-          <Route path="/warehouse" element={<WareHouse />} />
+          <Route path="/warehouse" element={<Receiving />} />
+          {/* <Route path="/warehouse" element={<WareHouse />} /> */}
           <Route path="/fulfillorders" element={<FulFillOrders />} />
           <Route path="/dispatches" element={<Dispatches />} />
           <Route path="/report" element={<Report />} />
