@@ -13,6 +13,8 @@ import { MdOutlineReportProblem } from "react-icons/md";
 import { IoMdReturnLeft } from "react-icons/io";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { BsChatRightText } from "react-icons/bs";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { AiOutlineAudit } from "react-icons/ai";
 
 const MobileSidebar = () => {
   return (
@@ -67,6 +69,16 @@ const MobileSidebar = () => {
             <div className="flex items-center cursor-pointer">
               <MdOutlineStore />
               <span className="text-base font-semibold">Vendor Management</span>
+            </div>
+          </li>
+        </NavLink>
+
+        {/* BIDDING */}
+        <NavLink to="/bidding-category">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <FaRegMoneyBillAlt />
+              <span className="text-base font-semibold">Bidding</span>
             </div>
           </li>
         </NavLink>
@@ -166,15 +178,49 @@ const MobileSidebar = () => {
             </div>
           </li>
         </NavLink>
+
+        {/* Inventory */}
+        <NavLink to="/inventoryLogistic">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <FaMoneyCheckDollar />
+              <span className="text-base font-semibold">Inventory</span>
+            </div>
+          </li>
+        </NavLink>
       </ul>
 
-      {/* ACCOUNT MANAGEMENT */}
+      {/* RETURN MANAGEMENT */}
       <p className="text-gray-500 font-semibold text-base mr-auto">
-        Account Management
+        Return Manegement
       </p>
       <ul className="w-full menu rounded-box">
+        {/* Inventory */}
+        <NavLink to="/discrepancy_report">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <MdOutlineReportProblem />
+              <span className="text-base font-semibold">
+                Discrepancy Reports
+              </span>
+            </div>
+          </li>
+        </NavLink>
+
+        {/* Return Authorization */}
+        <NavLink to="/return-requests">
+          <li className="menu-item">
+            <div className="flex items-center cursor-pointer">
+              <IoMdReturnLeft />
+              <span className="text-base font-semibold">
+                Return Authorization
+              </span>
+            </div>
+          </li>
+        </NavLink>
+
         {/* USER MANAGEMENT */}
-        <li>
+        {/* <li>
           <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
               <IoPeopleSharp className="transition-all duration-300 w-5 h-5" />
@@ -216,9 +262,9 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
         {/* SETTINGS */}
-        <li>
+        {/* <li>
           <details className="menu-item transition-all duration-300">
             <summary className="flex items-center gap-2 cursor-pointer">
               <IoSettingsOutline className="transition-all duration-300 w-5 h-5" />
@@ -245,7 +291,7 @@ const MobileSidebar = () => {
               </li>
             </ul>
           </details>
-        </li>
+        </li> */}
 
         {/* Return Authorization (RMA) CLOSED*/}
         {/* <li>
@@ -411,8 +457,8 @@ const MobileSidebar = () => {
       </ul>
 
       {/* RETURN MANAGEMENT */}
-      <p className="text-gray-500 font-semibold text-base mr-auto">
-        Return Management
+      {/* <p className="text-gray-500 font-semibold text-base mr-auto">
+        Return 
       </p>
       <NavLink to="/discrepancy_report">
         <li className="menu-item">
@@ -421,30 +467,28 @@ const MobileSidebar = () => {
             <span className="text-base font-semibold">Discrepancy Reports</span>
           </div>
         </li>
-      </NavLink>
+      </NavLink> */}
 
       {/* AUDIT MANAGEMENT */}
       <p className="text-gray-500 font-semibold text-base mr-auto mt-1">
         Audit Management
       </p>
       {/* DISCREPANCY REPORTS */}
-      <NavLink to="/discrepancy_report">
+      <NavLink to="/auditLog-logistic">
         <li className="menu-item">
           <div className="flex items-center cursor-pointer">
-            <MdOutlineReportProblem />
-            <span className="text-base font-semibold">Discrepancy Reports</span>
+            <AiOutlineAudit />
+            <span className="text-base font-semibold">Audit Logs</span>
           </div>
         </li>
       </NavLink>
-      
+
       {/* RETURN AUTHORIZATION */}
-      <NavLink to="/vendormanagement">
+      <NavLink to="/core2-audit">
         <li className="menu-item">
           <div className="flex items-center cursor-pointer">
-            <IoMdReturnLeft />
-            <span className="text-base font-semibold">
-              Return Authorization
-            </span>
+            <AiOutlineAudit />
+            <span className="text-base font-semibold">Core</span>
           </div>
         </li>
       </NavLink>
